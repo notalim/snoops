@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
+
+/* Reset styles for elements */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #fff1dc;
+	text-decoration: none;
+}
+
+/* colors:
+#3A98B9
+#FFF1DC
+#E8D5C4
+#EEEEEE
+*/
+
+/* Default font and color styles */
+body {
+    font-family: "Lora", serif;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Header styles */
+header {
+    background-color: #fff1dc;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+	border-bottom: solid 1px #333;
+}
+
+header h1 {
+    font-weight: bold;
+    margin-left: 3%;
+	transition: color 0.3s ease-in-out;
+}
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+header nav a{
+	color: #333;
+    margin: 0 10px;
+    transition: color 0.3s ease-in-out;
+}
+header nav a:hover {
+    color: #3a98b9;
+}
+	
+/* Hero Section styles */
+.hero {
+    position: relative;
+}
+.hero img {
+    width: 100%;
+    height: auto;
+}
+.hero-content {
+    background: transparent;
+    position: absolute;
+    top: 30%;
+    margin-left: 5%;
+
+    color: #eeeeee;
+    display: flex;
+    flex-direction: column;
+}
+.hero h2 {
+    background: inherit;
+    font-size: 46px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    background: inherit;
+    margin-bottom: 20px;
+    display: flex;
+}
+.hero-buttons {
+    background: inherit;
+    display: flex;
+}
+.hero-buttons a {
+    display: inline-block;
+    padding: 10px 50px;
+    background-color: #3a98b9;
+    color: #eeeeee;
+    border-radius: 5px;
+    margin-right: 40px;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+}
+.hero-buttons a:hover {
+    background-color: #2b748e;
+}
+.hero-buttons a:last-child {
+    margin-right: 0;
+}
+
+/* Footer styles */
+footer {
+    background-color: #e8d5c4;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+footer p {
+    background-color: #e8d5c4;
+}
