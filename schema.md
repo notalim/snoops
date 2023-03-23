@@ -33,6 +33,12 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
 ```
 > //pull more from https://www.akc.org/breed-selector-tool/#/question/1
 
+| Field Name  | Field Type  | Description |
+| ----------- | ----------- |-------------|
+| `_id`       | string      | A globally unique identifier to represent the adoption center. |
+| `contactFirstName` / `contactFirstName` | string | The name of the person user would speak to in case of contacting the adoption center.
+|`companyName`| string      | Company name of the adoption center.
+|`dogList`    | array       | Listed dogs and their relevant information for the adoption center.
 ---
 ### Dogs
 
@@ -49,6 +55,13 @@ Object that stores the dog data.
 }
 ```
 
+| Field Name  | Field Type  | Description |
+| ----------- | ----------- |-------------|
+| `_id`       | string      | A globally unique identifier to represent the dog. |
+| `breeds`    | array       | Breeds of the dog listed.|
+| `gender`    | string      | Can be either `M` or `F`|
+| `size`      | number      | Weight of the dog in pounds.|
+
 ---
 ### Users
 
@@ -59,15 +72,13 @@ A collection of users. It has basic user features and it stores relevant informa
     "id": ObjectId
     "email"
     "password"
-    "contactFirstName"
-    "contactLastName"
+    "firstName"
+    "lastName"
     "age"
     "phone"
     "address"
     "img"
-    "dogPreferences": {
-        /* we can fix it later */
-        /* every preference can have no preference as a choice */
+    "dogPreferences": { 
         "sizePreferences": <weight>
         "breedsPreferences": [...]
         "agePreferencesLowerBound":
@@ -77,6 +88,12 @@ A collection of users. It has basic user features and it stores relevant informa
     "likedDogsIds": [...]
 }
 ```
+| Field Name  | Field Type  | Description |
+| ----------- | ----------- |-------------|
+| `_id`       | string      | A globally unique identifier to represent the user. 
+| `address`   | string      | The address of the user.
+|`companyName`| string      | Company name of the adoption center.
+|`dogPreferences`    | array       | It stores dog preferences of the users. Every preference can have "no preference" as a choice.
 
 ---
 ### Users Dogs Preferences
@@ -92,6 +109,10 @@ Object that stores the preference data for users.
     "genderPreferences": <M or F>
 }
 ```
+| Field Name  | Field Type  | Description |
+| ----------- | ----------- |-------------|
+| `sizePreferences`       | number     | User preferred size of the dog (weight in lbs). 
+| `agePreferencesLowerBound` , `agePreferencesUpperBound` | number    | Lower and Upper bound for user preferred age of the dog.
 ---
 ### Chat
 
@@ -108,7 +129,10 @@ A collection that stores the existing coversations between users and adoption ce
     ...
 ]}
 ```
-
+| Field Name  | Field Type  | Description |
+| ----------- | ----------- |-------------|
+| `userId`    |  ObjectId   | A globally unique identifier to represent the user. 
+| `centerId`  |  ObjectId   | A globally unique identifier to represent the center.
 ---
 ### Message
 
@@ -120,3 +144,8 @@ A message is a subdocument in an array of messages that shows who sent what and 
     "messageTime": <timestamp>
 }
 ```
+| Field Name  | Field Type  | Description |
+| ----------- | ----------- |-------------|
+| `senderId`  |  ObjectId   | Identifier to represent who sent the message.
+| `messageContent`  |  string   | Contents of the message.
+| `messageTime` | Date | The time the message was sent.;
