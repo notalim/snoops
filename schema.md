@@ -1,45 +1,67 @@
-Adoption Centers
+# Schema
+---
+### Adoption Centers
+```
 {
-    ContactFirstName
-    ContactLastName
-    Phone Number
-    Website
+    id
+    email
+    password
+    contactFirstName
+    contactLastName
+    phone
+    address
     workingHours
-    UserName
-    CompanyName
-    Email
-    Password
-    Dogs [
-        Dogs subdoc
+    website
+    userName
+    companyName
+    dogList [ 
         {
-            Name
-            Gender
-            Breed
-            Size
-            Age
-            //pull more from https://www.akc.org/breed-selector-tool/#/question/1
-        }
+            name
+            breeds
+            age
+            gender
+            size
+        },...
     ]
-    Address
 }
 
-Users
+```
+> //pull more from https://www.akc.org/breed-selector-tool/#/question/1
+
+---
+### Users
+```
 {
-    firstName
-    LastName 
-    UserName
-    Email
-    Password
-    Age
-    Preferences
-    likedDogs
+    id
+    email
+    password
+    contactFirstName
+    contactLastName
+    age
+    phone
+    address
+    dogPreferences = {
+        /* we can fix it later */
+        /* every preference ca have no preference as a choice */
+        sizePreferences: <weight>
+        breedsPreferences = [...],
+        agePreferencesLowerBound,
+        agePreferencesUpperBound, 
+        genderPreferences: <M or F>
+    }
+    likedDogs = [{..},{..}...]
 }
-
-Messages
+```
+---
+### Messages
+```
+[
 {
-    to: id
-    from: id
-    message: []
-}
+    toId: id
+    fromId: id
+    messageContent: <contents>
+},...
+]
+```
 
-Animate css for animation
+> Animate css for animation
