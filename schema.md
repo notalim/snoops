@@ -21,6 +21,7 @@
             age
             gender
             size
+            image
         },...
     ]
 }
@@ -37,6 +38,7 @@
     password
     contactFirstName
     contactLastName
+    image
     age
     phone
     address
