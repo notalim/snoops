@@ -30,7 +30,7 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
     ]
 }
 ```
-> //pull more from https://www.akc.org/breed-selector-tool/#/question/1
+> pull more from https://www.akc.org/breed-selector-tool/#/question/1
 
 | Field Name  | Field Type  | Description |
 | ----------- | ----------- |-------------|
@@ -60,7 +60,7 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
         {
             "id": ObjectId,
             "name": "Louis",
-            "breeds": ["Chocolate Labrador", "Retriever"],
+            "breeds": ["Chocolate Labrador Retriever"],
             "age": 1,
             "gender": "M",
             "size": 30
@@ -72,7 +72,7 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
 ---
 ### Dogs
 
-Object that stores the dog data.
+Object subdocument that stores the dog data.
 
 ```
 {
@@ -153,7 +153,7 @@ A collection of users. It has basic user features and it stores relevant informa
 ---
 ### Users Dogs Preferences
 
-Object that stores the preference data for users.
+Object that stores the dog preference data for users.
 
 ```
 {
@@ -189,26 +189,29 @@ A collection that stores the existing coversations between users and adoption ce
 | `userId`    |  ObjectId   | A globally unique identifier to represent the user. 
 | `centerId`  |  ObjectId   | A globally unique identifier to represent the center.
 | `message`   | array       | An array of message subdocuments in the chat.
+
 ---
+
 #### Example of a chat document:
 
 ```
 { 
     "userId": ObjectId1,
     "centerId": ObjectId2,
-    "messages": [{
-    "senderId": ObjectId1,
-    "messageContent": "Hey, I'm interested in Louis! Is there any time we could arrange a meeting?",
-    "messageTime": Date()
-    }, {
-    "senderId": ObjectId2,
-    "messageContent": "Sure, how about Monday at 3PM?",
-    "messageTime": Date()
-    }, {
-    "senderId": ObjectId1,
-    "messageContent": "Alright, see you then!",
-    "messageTime": Date()
-    }]
+    "messages": 
+        [{
+            "senderId": ObjectId1,
+            "messageContent": "Hey, I'm interested in Louis! Is there any time we could arrange a meeting?",
+            "messageTime": Date()
+        }, {
+            "senderId": ObjectId2,
+            "messageContent": "Sure, how about Monday at 3PM?",
+            "messageTime": Date()
+        }, {
+            "senderId": ObjectId1,
+            "messageContent": "Alright, see you then!",
+            "messageTime": Date()
+        }]
 }
 ```
 
