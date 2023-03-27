@@ -19,10 +19,6 @@
     min-height: 25vw;
 }
 
-.signin-buttons{
-    
-}
-
 .signin-input-container{
     display: flex;
     flex-direction: column;
