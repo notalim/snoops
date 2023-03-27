@@ -124,7 +124,7 @@ A collection of users. It has basic user features and it stores relevant informa
 | `_id`       | string      | A globally unique identifier to represent the user. 
 | `address`   | string      | The address of the user.
 |`companyName`| string      | Company name of the adoption center.
-|`dogPreferences`    | array       | It stores dog preferences of the users. Every preference can have "no preference" as a choice.
+|`dogPreferences`    | Object       | It stores dog preferences of the users. Every preference can have "no preference" as a choice.
 
 #### Example of a user document:
 
@@ -188,6 +188,7 @@ A collection that stores the existing coversations between users and adoption ce
 | ----------- | ----------- |-------------|
 | `userId`    |  ObjectId   | A globally unique identifier to represent the user. 
 | `centerId`  |  ObjectId   | A globally unique identifier to represent the center.
+| `message`   | array       | An array of message subdocuments in the chat.
 ---
 #### Example of a chat document:
 
