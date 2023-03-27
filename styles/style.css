@@ -7,6 +7,7 @@
     padding: 0;
     background-color: #fff1dc;
 	text-decoration: none;
+    
 }
 
 /* colors:
@@ -21,7 +22,10 @@ body {
     font-family: "Lora", serif;
     font-size: 16px;
     color: #333;
+    height: 100vh;
 }
+
+
 
 /* Header styles */
 header {
@@ -31,6 +35,7 @@ header {
     justify-content: space-between;
     align-items: center;
 	border-bottom: solid 1px #333;
+    width: 100vw;
 }
 
 header h1 {
@@ -54,9 +59,11 @@ header nav a:hover {
 /* Hero Section styles */
 .hero {
     position: relative;
+    min-height: fit-content;
 }
 .hero img {
     width: 100%;
+    min-width: 1000px;
     height: auto;
 }
 .hero-content {
@@ -107,7 +114,7 @@ footer {
     background-color: #e8d5c4;
     text-align: center;
     padding: 10px;
-    margin-top: 20px;
+    width: 100vw;
 }
 
 footer p {
