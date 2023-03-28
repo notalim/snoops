@@ -1,0 +1,26 @@
+{
+  "name": "snoops",
+  "version": "1.0.0",
+  "description": "A web-application project done as a part of CS 546 coursework @ Stevens.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notalim/snoops.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/notalim/snoops/issues"
+  },
+  "homepage": "https://github.com/notalim/snoops#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.0.4",
+    "mongodb": "^5.1.0"
+  }
+}
