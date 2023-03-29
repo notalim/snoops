@@ -9,6 +9,7 @@ export function checkString(str, strName){
     if(str.trim().length === 0){
       throw `${strName} can not be an empty string or a string with just spaces`
     }
+    str = str.trim();
   }
 export function checkNumber(num, numName){
     if(!num){
@@ -16,6 +17,9 @@ export function checkNumber(num, numName){
     }
     if(typeof num !== 'number'){
       throw `${numName} must be a number`;
+    }
+    if (isNaN(num)){
+      throw `${numName} cannot be NaN`
     }
   }
 export function checkStringArray(arr, arrName){
@@ -43,14 +47,20 @@ export function checkId(id, varName) {
 }
 
 export function checkWebsite(website, elmName){
+  //Check NPM packages for this (imma take a look too) - Kyle
 
 }
 
 export function checkEmail(email, elmName){
+  //Check NPM packages for this (imma take a look too) - Kyle
 
 }
 
 export function checkGender(gender, elmName){
+  checkString(gender, elmName);
+  if (!(gender === "M" || gender === "F")){
+    throw `Invalid value for ${elmName}`
+  }
 
 }
 
