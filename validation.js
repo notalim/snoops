@@ -68,3 +68,9 @@ export function checkWorkingHours(workingHours, elmName){
 
 }
 
+export function isVariableThere(variable, varName){
+  if (!variable){
+    throw `${varName} was not provided`
+  }
+}
+
