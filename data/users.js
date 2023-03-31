@@ -11,46 +11,46 @@ let exportedMethods = {
     },
     async addUser(email, password, firstName, lastName, age, phone, address, img) {
         //CHECKING IF VARS PRESENT
-        validation.isVariableThere(email, 'email');
-        validation.isVariableThere(password, 'password');
-        validation.isVariableThere(firstName, 'firstName');
-        validation.isVariableThere(lastName, 'lastName');
-        validation.isVariableThere(age, 'age');
-        validation.isVariableThere(phone, 'phone');
-        validation.isVariableThere(address, 'address');
+        email = validation.isVariableThere(email, 'email');
+        password = validation.isVariableThere(password, 'password');
+        firstName = validation.isVariableThere(firstName, 'firstName');
+        lastName = validation.isVariableThere(lastName, 'lastName');
+        age = validation.isVariableThere(age, 'age');
+        phone = validation.isVariableThere(phone, 'phone');
+        address = validation.isVariableThere(address, 'address');
 
         //CHECK EMAIL
-        validation.checkString(email, 'email');
-        validation.checkEmail(email, 'email');
+        email = validation.checkString(email, 'email');
+        email = validation.checkEmail(email, 'email');
 
         //CHECK PASSWORD
-        validation.checkString(password, 'password');
+        password = validation.checkString(password, 'password');
         //WHAT CRITERIA FOR PASSWORD?
 
         //CHECK FIRSTNAME
-        validation.checkString(firstName, 'firstName');
+        firstName = validation.checkString(firstName, 'firstName');
         //ANY OTHER CHECKS HERE?
 
         //CHECK LASTNAME
-        validation.checkString(lastName, 'lastName');
+        lastName = validation.checkString(lastName, 'lastName');
         //SAME HERE
 
         //CHECK AGE
-        validation.checkNumber(age, 'age');
+        age = validation.checkNumber(age, 'age');
         if (age < 18){
             throw `User must be at least 18 years old`
         }
 
         //CHECK PHONE NUMBER
         //Have to check to see if NPM works here
-        validation.checkString(phone, "phone number")
+        phone = validation.checkString(phone, "phone number")
         let phoneCheck = phone(phone);
         if (phoneCheck.isValid === false){
             throw `Invalid phone number`
         }
 
         //CHECK ADDRESS
-        validation.checkString(address, 'address');
+        address = validation.checkString(address, 'address');
         //What criteria for this
 
         //SHOULD WE CHECK IMG OR INITIALIZE TO NULL
@@ -87,6 +87,17 @@ let exportedMethods = {
             throw 'User not found'
         }
         return user;
+    },
+    async removeUser(id){
+        id = validation.checkId(id, "User ID");
+        const userCollection = await users();
+        const deletionInfo = await userCollection.findOneAndDelete({
+            _id: ObjectId(id)
+        });
+        if (deletionInfo.lastErrorObject.n === 0){
+            throw [404, `Error: Could not delete user with id of ${id}`];
+        }
+        return {id, deleted: true};
     }
 };
 
