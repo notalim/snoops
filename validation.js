@@ -10,6 +10,7 @@ export function checkString(str, strName){
       throw `${strName} can not be an empty string or a string with just spaces`
     }
     str = str.trim();
+    return str;
   }
 export function checkNumber(num, numName){
     if(!num){
@@ -21,6 +22,7 @@ export function checkNumber(num, numName){
     if (isNaN(num)){
       throw `${numName} cannot be NaN`
     }
+    return num;
   }
 export function checkStringArray(arr, arrName){
     if(!arr){
@@ -32,6 +34,7 @@ export function checkStringArray(arr, arrName){
     for(let elm of arr){
       checkString(elm, arrName + " element");
     }
+    return arr;
   }
 
 export function checkId(id, varName) {
@@ -61,6 +64,7 @@ export function checkGender(gender, elmName){
   if (!(gender === "M" || gender === "F")){
     throw `Invalid value for ${elmName}`
   }
+  return gender;
 
 }
 
@@ -72,5 +76,6 @@ export function isVariableThere(variable, varName){
   if (!variable){
     throw `${varName} was not provided`
   }
+  return variable;
 }
 
