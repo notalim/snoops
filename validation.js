@@ -1,4 +1,8 @@
 import {ObjectId} from 'mongodb';
+import * as Validator from 'email-validator'//Yousaf - Url: https://www.npmjs.com/package/email-validator
+import validator from 'validator' //Yousaf - Url: https://www.npmjs.com/package/validator
+//Yousaf - We can prolly just use validator to handle both email and website
+
 export function checkString(str, strName){
     if(!str){
       throw `You must provide a ${strName}`;
@@ -49,14 +53,29 @@ export function checkId(id, varName) {
   return id;
 }
 
-export function checkWebsite(website, elmName){
-  //Check NPM packages for this (imma take a look too) - Kyle
+export function checkPassword(password, elmName){
+  password = checkString(password, elmName);
+  //Yousaf - Find password validating function in validator (NPM link at the top)
+}
 
+export function checkWebsite(website, elmName){
+  //Yousaf - Found validator on NPM
+  website = checkString(website, elmName);
+  if(!validator.isURL(website)){
+    throw `${elmName} must be a valid URL`;
+  }
+  return website.trim();
 }
 
 export function checkEmail(email, elmName){
-  //Check NPM packages for this (imma take a look too) - Kyle
-
+  //Yousaf - Found package email-validator on npm, has like 600k downloads a week.
+  //         I can do some testing with it later tho to check if it actually works 
+  //         If yall find anything else cool lmk
+  email = checkString(email, elmName);
+  if(!Validator.validate(email)){
+    throw `You must provide a valid email`
+  }
+  return email.trim();
 }
 
 export function checkGender(gender, elmName){
@@ -71,7 +90,9 @@ export function checkGender(gender, elmName){
 export function checkWorkingHours(workingHours, elmName){
 
 }
-
+/*Yousaf - I dont think we need this cuz we check if the var exists in each 
+           validation function since a lot of the functions use checkString,
+           checkNumber, etc. to validate the proper input type first.*/
 export function isVariableThere(variable, varName){
   if (!variable){
     throw `${varName} was not provided`
@@ -79,3 +100,39 @@ export function isVariableThere(variable, varName){
   return variable;
 }
 
+export function checkUserAge(_var, varName){
+  checkNumber(_var, varName);
+  //Yousaf - Not sure if the age should be more than 13 or 18 but imma do 18 for now
+  //Chose 122 because the older person in the world reach 122 but we can change this later
+  //if need be
+  if(_var < 18 || _var > 122){
+    throw `${varName} must be a valid age`;
+  }
+}
+
+export function checkPhoneNumber(_var, varName){
+  _var = checkString(_var, varName);
+  if(_var.length() !== 10){
+    throw `${varName} must be a valid phone number with the proper length`;
+  }
+  if(_var.replace(/[^0-9.]/g, '').length() !== 10){
+    throw `${varName} must be a valid phone number`
+  }
+  return _var.trim();
+}
+
+export function checkPetWeight(_var, varName){
+  checkNumber(_var, varName);
+  //Yousaf - Gimme your opinions on this too
+  if(_var < 1 || _var > 180){
+    `${varName} must be a valid weight`;
+  }
+  return _var;
+}
+
+export function checkAgePreferences(_var, varName){
+  checkNumber(_var, varName);
+  if(_var <= 0 || _var > 20){
+    `${varName} must be a valid age preference between 0 exclusive and 20 inclusive`
+  }
+}
