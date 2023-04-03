@@ -20,38 +20,31 @@ let exportedMethods = {
         address = validation.isVariableThere(address, 'address');
 
         //CHECK EMAIL
-        email = validation.checkString(email, 'email');
         email = validation.checkEmail(email, 'email');
 
         //CHECK PASSWORD
-        password = validation.checkString(password, 'password');
+        password = validation.checkPassword(password, 'password');
         //WHAT CRITERIA FOR PASSWORD?
 
         //CHECK FIRSTNAME
         firstName = validation.checkString(firstName, 'firstName');
-        //ANY OTHER CHECKS HERE?
+        //MAKE A CHECK FIRST NAME FUNCTION
 
         //CHECK LASTNAME
         lastName = validation.checkString(lastName, 'lastName');
-        //SAME HERE
+        //MAKE A CHECK LAST NAME FUNCTION
 
         //CHECK AGE
-        age = validation.checkNumber(age, 'age');
-        if (age < 18){
-            throw `User must be at least 18 years old`
-        }
+        age = validation.checkUserAge(age, "age");
 
         //CHECK PHONE NUMBER
+        phone = validation.checkPhoneNumber(phone, "phone");
         //Have to check to see if NPM works here
-        phone = validation.checkString(phone, "phone number")
-        let phoneCheck = phone(phone);
-        if (phoneCheck.isValid === false){
-            throw `Invalid phone number`
-        }
+        
 
         //CHECK ADDRESS
         address = validation.checkString(address, 'address');
-        //What criteria for this
+        //What criteria for this!!
 
         //SHOULD WE CHECK IMG OR INITIALIZE TO NULL
 

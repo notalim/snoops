@@ -117,14 +117,24 @@ export function checkUserAge(_var, varName) {
 }
 
 export function checkPhoneNumber(_var, varName) {
-    _var = checkString(_var, varName);
-    if (_var.length() !== 10) {
-        throw `${varName} must be a valid phone number with the proper length`;
+    let phone = checkString(_var, varName);
+    let phoneCheck = phone(phone);
+    if (phoneCheck.isValid === false){
+        throw `Invalid phone number`
+    
     }
-    if (_var.replace(/[^0-9.]/g, "").length() !== 10) {
-        throw `${varName} must be a valid phone number`;
-    }
-    return _var.trim();
+
+    return phone;
+
+
+    // _var = checkString(_var, varName);
+    // if (_var.length() !== 10) {
+    //     throw `${varName} must be a valid phone number with the proper length`;
+    // }
+    // if (_var.replace(/[^0-9.]/g, "").length() !== 10) {
+    //     throw `${varName} must be a valid phone number`;
+    // }
+    // return _var.trim();
 }
 
 export function checkPetWeight(_var, varName) {
