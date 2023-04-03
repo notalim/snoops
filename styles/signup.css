@@ -1,0 +1,86 @@
+/* Reset styles for elements */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+/* Default font and color styles */
+body {
+	font-family: 'Questrial', sans-serif;
+	font-size: 16px;
+	color: #3a2412;
+	height: 100vh;
+}
+
+/* Sign-up page specific styles */
+.sign-up-page {
+	background-color: #fff1dc;
+}
+
+main {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	padding-top: 80px;
+	padding-bottom: 40px;
+}
+
+.graphic-image {
+	flex: 1;
+	height: 400px;
+	background-image: url(../../images/dog-image.jpg);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.form-container {
+	flex: 1;
+	max-width: 600px;
+	padding: 40px;
+}
+.signup-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.signup-form label {
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.signup-form input[type="email"],
+.signup-form input[type="password"],
+.signup-form input[type="text"],
+.signup-form input[type="tel"] {
+  font-size: 16px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: none;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form input[type="submit"] {
+  background-color: #3a98b9;
+  color: #fff;
+  font-size: 20px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.signup-form input[type="submit"]:hover {
+  background-color: #2b748e;
+}
