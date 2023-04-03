@@ -1,122 +1,142 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
-
-/* Reset styles for elements */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    background-color: #fff1dc;
-	text-decoration: none;
-    
-}
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
 
 /* colors:
 #3A98B9
 #FFF1DC
 #E8D5C4
 #EEEEEE
+#3a2412;
 */
+
+/* Reset styles for elements */
+:root {
+  /* Define base font size */
+  font-size: 16px;
+}
+
+/* Reset styles for elements */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #fff1dc;
+  text-decoration: none;
+  font-family: 'Questrial', sans-serif;
+  font-size: 1rem;
+}
 
 /* Default font and color styles */
 body {
-    font-family: "Lora", serif;
-    font-size: 16px;
-    color: #333;
-    height: 100vh;
+  font-family: "Lora", serif;
+  color: #3a2412;
+  height: 100vh;
 }
-
-
 
 /* Header styles */
 header {
-    background-color: #fff1dc;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-	border-bottom: solid 1px #333;
-    width: 100vw;
+  background-color: #fff1dc;
+  padding: 0.625rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 0.03125rem #3a2412;;
+  width: 100vw;
 }
 
 header h1 {
-    font-weight: bold;
-    margin-left: 3%;
-	transition: color 0.3s ease-in-out;
+  font-weight: bold;
+  margin-left: 1.875rem;
+  transition: color 0.3s ease-in-out;
+  font-family: 'Abril Fatface', cursive;
+  font-size: 2rem;
 }
+
 header nav ul {
-    list-style: none;
-    display: flex;
+  list-style: none;
+  display: flex;
 }
-header nav a{
-	color: #333;
-    margin: 0 10px;
-    transition: color 0.3s ease-in-out;
+
+header nav a {
+  color: #3a2412;;
+  margin: 0 0.625rem;
+  transition: color 0.3s ease-in-out;
 }
+
 header nav a:hover {
-    color: #3a98b9;
+  color: #3a98b9;
 }
-	
+
 /* Hero Section styles */
 .hero {
-    position: relative;
-    min-height: fit-content;
+  position: relative;
+  min-height: fit-content;
 }
-.hero img {
-    width: 100%;
-    min-width: 1000px;
-    height: auto;
-}
-.hero-content {
-    background: transparent;
-    position: absolute;
-    top: 30%;
-    margin-left: 5%;
 
-    color: #eeeeee;
-    display: flex;
-    flex-direction: column;
+.hero img {
+  width: 100%;
+  min-width: 62.5rem;
+  height: auto;
 }
+
+.hero-content {
+  background: transparent;
+  position: absolute;
+  top: 30%;
+  margin-left: 5%;
+
+  color: #eeeeee;
+  display: flex;
+  flex-direction: column;
+}
+
 .hero h2 {
-    background: inherit;
-    font-size: 46px;
-    font-weight: bold;
-    margin-bottom: 20px;
+  background: inherit;
+  font-size: 2.875rem;
+  font-weight: bold;
+  margin-bottom: 1.25rem;
 }
 
 .hero p {
-    background: inherit;
-    margin-bottom: 20px;
-    display: flex;
+  background: inherit;
+  margin-bottom: 1.25rem;
+  display: flex;
 }
+
 .hero-buttons {
-    background: inherit;
-    display: flex;
+  background: inherit;
+  display: flex;
 }
+
 .hero-buttons a {
-    display: inline-block;
-    padding: 10px 50px;
-    background-color: #3a98b9;
-    color: #eeeeee;
-    border-radius: 5px;
-    margin-right: 40px;
-    text-decoration: none;
-    transition: background-color 0.3s ease-in-out;
+  display: inline-block;
+  padding: 0.625rem 3.125rem;
+  background-color: #3a98b9;
+  color: #eeeeee;
+  border-radius: 0.3125rem;
+  margin-right: 2.5rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out;
 }
+
 .hero-buttons a:hover {
-    background-color: #2b748e;
+  background-color: #2b748e;
 }
+
 .hero-buttons a:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 /* Footer styles */
 footer {
-    background-color: #e8d5c4;
-    text-align: center;
-    padding: 10px;
-    width: 100vw;
+  background-color: #e8d5c4;
+  text-align: center;
+  padding: 2rem;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 footer p {
-    background-color: #e8d5c4;
+  background-color: #e8d5c4;
 }
