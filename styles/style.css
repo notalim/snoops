@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600;700&display=swap');
 
 /* colors:
 #3A98B9
@@ -22,7 +22,7 @@
   padding: 0;
   background-color: #fff1dc;
   text-decoration: none;
-  font-family: 'Questrial', sans-serif;
+  font-family: 'IBM Plex Serif', serif;
   font-size: 1rem;
 }
 
