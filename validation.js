@@ -56,6 +56,14 @@ export function checkId(id, varName) {
 export function checkPassword(password, elmName) {
     password = checkString(password, elmName);
     //Yousaf - Find password validating function in validator (NPM link at the top)
+    //Change this to check if theres any spaces at all.
+    if(password.length() != password.replace(" ", "").length()){
+        throw `${elmName} can not contain spaces`;
+    }
+    if(!validator.isStrongPassword(password)){
+        throw `${elmName} must be a strong password`;
+    }
+    return password;
 }
 
 export function checkWebsite(website, elmName) {
