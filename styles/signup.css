@@ -1,0 +1,106 @@
+/* Reset styles for elements */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Default font and color styles */
+body {
+    font-family: "Questrial", sans-serif;
+    font-size: 16px;
+    color: #3a2412;
+    height: 100vh;
+}
+
+/* Sign-up page specific styles */
+.sign-up-page {
+    background-color: #fff1dc;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+
+.graphic-image img {
+    flex: 1;
+    height: 400px;
+    background-image: url(../../images/dog-image.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.form-container {
+	flex: 1;
+	max-width: 600px;
+	padding: 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #fff1dc;
+	border-radius: 10px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.signup-form label {
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+}
+
+.signup-form input[type="email"],
+.signup-form input[type="password"],
+.signup-form input[type="text"],
+.signup-form input[type="tel"] {
+  font-size: 16px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+  background-color: #f6f6f6;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form input[type="date"] {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+  background-color: #f6f6f6;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.signup-form input[type="submit"] {
+  background-color: #3a98b9;
+  color: #fff;
+  font-size: 20px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.signup-form input[type="submit"]:hover {
+  background-color: #2b748e;
+}
