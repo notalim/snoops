@@ -18,42 +18,36 @@ const addUser = async (
     phone,
     address
 ) => {
-
-    //CHECK EMAIL
-    email = validation.checkString(email, "email");
+    // Check email
+    // ! check if an email already exists
     email = validation.checkEmail(email, "email");
 
-    //CHECK PASSWORD
+    // Check password
+    // ! Validate password criteria
     password = validation.checkString(password, "password");
-    //WHAT CRITERIA FOR PASSWORD?
 
-    //CHECK FIRSTNAME
-    firstName = validation.checkString(firstName, "firstName");
-    //ANY OTHER CHECKS HERE?
+    // Check first name
+    firstName = validation.checkName(firstName, "firstName");
 
-    //CHECK LASTNAME
-    lastName = validation.checkString(lastName, "lastName");
-    //SAME HERE
+    // Check last name
+    lastName = validation.checkName(lastName, "lastName");
 
-    //CHECK AGE
-    age = validation.checkNumber(age, "age");
-    if (age < 18) {
-        throw `User must be at least 18 years old`;
-    }
+    // Check age
+    age = validation.checkLegalAge(age, "age");
 
-    //CHECK PHONE NUMBER
-    //Have to check to see if NPM works here
+    // Check phone number
+    // ! Validate phone number criteria
+    // Have to check to see if NPM works here
     phone = validation.checkString(phone, "phone number");
     let phoneCheck = phone(phone);
     if (phoneCheck.isValid === false) {
         throw `Invalid phone number`;
     }
 
-    //CHECK ADDRESS
+    // Check address
     address = validation.checkString(address, "address");
-    //What criteria for this
 
-    //SHOULD WE CHECK IMG OR INITIALIZE TO NULL
+    // Initialize image to null, dogPreferences to empty object, likedDogsIds to empty array
 
     let newUser = {
         email: email,
@@ -67,17 +61,18 @@ const addUser = async (
         dogPreferences: {},
         likedDogsIds: [],
     };
-    //SHOULD WE CHECK IF THERE ARE DUP USERS, EX: SAME FIRST AND LAST
+    
     const userCollection = await users();
     const newInsertInformation = await userCollection.insertOne(newUser);
     if (!newInsertInformation.insertedId) {
         throw `Insert failed!`;
     }
 
-    //Want to return the get method just to check if its there so have to implement
+    return await getUser(newInsertInformation.insertedId);
 };
-const getUserById = async (id) => {
+const getUser = async (id) => {
     id = validation.checkId(id, "User ID");
+
     const userCollection = await users();
     const user = await userCollection.findOne({ _id: ObjectId(id) });
     if (!user) {
@@ -98,6 +93,6 @@ const removeUser = async (id) => {
     return { id, deleted: true };
 };
 
-const exportedMethods = { getAllUsers, addUser, getUserById, removeUser };
+const exportedMethods = { getAllUsers, addUser, getUser, removeUser };
 
 export default exportedMethods;

@@ -30,65 +30,108 @@ let adoptionCenterTest2 = {
 
 // ********** TESTS FOR ADOPTION CENTERS **********
 
+let acenter, acenter2, acenter3, acenter4, acenter5;
+let acenterList, acenterList2;
+
 console.log("Testing adoption centers");
 
 console.log("Creating adoption center");
 
-let acenter = await acenterDataFunctions.createAdoptionCenter(
-    adoptionCenterTest.email,
-    adoptionCenterTest.name,
-    adoptionCenterTest.password,
-    adoptionCenterTest.contactFirstName,
-    adoptionCenterTest.contactLastName,
-    adoptionCenterTest.phone,
-    adoptionCenterTest.address
-);
+try {
+    acenter = await acenterDataFunctions.createAdoptionCenter(
+        adoptionCenterTest.email,
+        adoptionCenterTest.name,
+        adoptionCenterTest.password,
+        adoptionCenterTest.contactFirstName,
+        adoptionCenterTest.contactLastName,
+        adoptionCenterTest.phone,
+        adoptionCenterTest.address
+    );
+} catch (e) {
+    console.log(e);
+}
 
-let acenter2 = await acenterDataFunctions.createAdoptionCenter(
-    adoptionCenterTest2.email,
-    adoptionCenterTest2.name,
-    adoptionCenterTest2.password,
-    adoptionCenterTest2.contactFirstName,
-    adoptionCenterTest2.contactLastName,
-    adoptionCenterTest2.phone,
-    adoptionCenterTest2.address
-);
+try {
+    acenter2 = await acenterDataFunctions.createAdoptionCenter(
+        adoptionCenterTest2.email,
+        adoptionCenterTest2.name,
+        adoptionCenterTest2.password,
+        adoptionCenterTest2.contactFirstName,
+        adoptionCenterTest2.contactLastName,
+        adoptionCenterTest2.phone,
+        adoptionCenterTest2.address
+    );
+} catch (e) {
+    console.log(e);
+};
 
 console.log("Getting adoption center");
 
-let testId = acenter._id;
-// why doesn't this work?
-// let testId = acenter.id;
-
-
-let acenter3 = await acenterDataFunctions.getAdoptionCenter(testId.toString());
+try {
+    let testId = acenter._id;
+    acenter3 = await acenterDataFunctions.getAdoptionCenter(testId.toString());
+} catch (e) {
+    console.log(e);
+}
 
 console.log("This should be the same as the first adoption center: ");
 console.log(acenter3);
 
 console.log("Getting all adoption centers, this should be 2:");
 
-let acenterList = await acenterDataFunctions.getAllAdoptionCenters();
-
-console.log(acenterList);
+try {
+    let acenterList = await acenterDataFunctions.getAllAdoptionCenters();
+    console.log(acenterList.length);
+} catch (e) {
+    console.log(e);
+}
 
 console.log("Updating adoption center");
 
-let acenter4 = await acenterDataFunctions.updateAdoptionCenter(
-    testId.toString(),
-    adoptionCenterTest.email,
-    adoptionCenterTest.name,
-    adoptionCenterTest.password,
-    "New First Name",
-    "New Last Name",
-    adoptionCenterTest.phone,
-    adoptionCenterTest.address
-);
+try {
+    let testId = acenter._id;
+    acenter4 = await acenterDataFunctions.updateAdoptionCenter(
+        testId.toString(),
+        adoptionCenterTest.email,
+        adoptionCenterTest.name,
+        adoptionCenterTest.password,
+        "New First Name",
+        "New Last Name",
+        adoptionCenterTest.phone,
+        adoptionCenterTest.address
+    );
+} catch (e) {
+    console.log(e);
+}
 
 console.log("This should be the same as the first adoption center, but changed the contact name: ");
-
 console.log(acenter4);
 
+console.log("Deleting adoption center");
+try {
+    let testId = acenter4._id;
+    await acenterDataFunctions.deleteAdoptionCenter(testId.toString());
+} catch (e) {
+    console.log(e);
+}
+console.log("This should be not found: ");
+
+try {
+    let testId = acenter4._id;
+    acenter5 = await acenterDataFunctions.getAdoptionCenter(testId.toString());
+    console.log(acenter5);
+} catch (e) {
+    console.log(e);
+}
+
+console.log("This should be 1: ");
+
+try {
+    let acenterList2 = await acenterDataFunctions.getAllAdoptionCenters();
+    console.log(acenterList2.length);
+} catch (e) {
+    console.log(e);
+}
 
 console.log("Done testing / seeding database");
 

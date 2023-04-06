@@ -53,6 +53,25 @@ export function checkId(id, varName) {
     return id;
 }
 
+export function checkName(name, varName) {
+    name = checkString(name, varName);
+    if (name.length < 2) {
+        throw `${varName} must be at least 2 characters`;
+    }
+    if (name.split(" ").length > 1) {
+        throw `${varName} must be a single word`;
+    }
+    return name;
+}
+
+export function checkLegalAge(age, elmName) {
+    age = checkNumber(age, elmName);
+    if (age < 18) {
+        throw `${elmName} must be at least 18 years old`;
+    }
+    return age;
+}
+
 export function checkPassword(password, elmName) {
     password = checkString(password, elmName);
     //Yousaf - Find password validating function in validator (NPM link at the top)

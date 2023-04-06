@@ -5,40 +5,59 @@ import { phone } from "phone";
 
 const acenterCollection = await acenters();
 
-const createAdoptionCenter = async (email, password, firstName, lastName, phone, address) => {
+const createAdoptionCenter = async (
+    email,
+    name,
+    password,
+    contactFirstName,
+    contactLastName,
+    phone,
+    address
+) => {
+    // Check email
+    // ! check if an email already exists
+    email = validation.checkEmail(email, "Email");
 
-    //CHECK EMAIL
-    email = validation.checkEmail(email, "email");
+    // Check name
+    name = validation.checkString(name, "Name");
 
-    //CHECK PASSWORD
-    password = validation.checkString(password, "password");
-    //WHAT CRITERIA FOR PASSWORD?
+    // Check password
+    // ! Validate password criteria
+    password = validation.checkString(password, "Password");
 
-    //CHECK FIRSTNAME
-    firstName = validation.checkString(firstName, "firstName");
+    // Check contact first name
+    contactFirstName = validation.checkName(
+        contactFirstName,
+        "Contact First Name"
+    );
 
-    //CHECK LASTNAME
-    lastName = validation.checkString(lastName, "lastName");
+    // Check contact last name
+    contactLastName = validation.checkName(
+        contactLastName,
+        "Contact Last Name"
+    );
 
-    //CHECK PHONE NUMBER
-    //Have to check to see if NPM works here
-    phone = validation.checkString(phone, "phone number");
+    // Check phone number
+    // ! check if a phone number already exists
+    // Have to check to see if NPM works here
+    phone = validation.checkString(phone, "Phone number");
     // let phoneCheck = phone(phone);
     // if (phoneCheck.isValid === false) {
     //     throw `Invalid phone number`;
     // }
 
-    //CHECK ADDRESS
-    address = validation.checkString(address, "address");
+    // Check address
+    address = validation.checkString(address, "Address");
 
     let newAcenter = {
         email: email,
+        name: name,
         password: password,
-        firstName: firstName,
-        lastName: lastName,
+        contactFirstName: contactFirstName,
+        contactLastName: contactLastName,
         phone: phone,
         address: address,
-        img: null
+        img: null,
     };
 
     const newInsertInformation = await acenterCollection.insertOne(newAcenter);
@@ -47,8 +66,7 @@ const createAdoptionCenter = async (email, password, firstName, lastName, phone,
     }
 
     return newAcenter;
-
-}
+};
 
 const getAllAdoptionCenters = async () => {
     const acenterList = await acenterCollection.find({}).toArray();
@@ -56,18 +74,100 @@ const getAllAdoptionCenters = async () => {
 };
 
 const getAdoptionCenter = async (id) => {
+    id = validation.checkId(id, "ID");
 
-    //CHECK ID
-    id = validation.checkId(id, "id");
-
-    const acenter = await acenterCollection.findOne({ _id: ObjectId(id) });
+    const acenter = await acenterCollection.findOne({ _id: new ObjectId(id) });
     if (acenter === null) {
-        throw `No adoption center with id ${id} found`;
+        throw `No adoption center with ID ${id} found`;
     }
 
     return acenter;
 };
 
-const exportedMethods = {getAllAdoptionCenters, getAdoptionCenter, createAdoptionCenter};
+const updateAdoptionCenter = async (
+    id,
+    email,
+    name,
+    password,
+    contactFirstName,
+    contactLastName,
+    phone,
+    address
+) => {
+    // Check id
+    id = validation.checkId(id, "ID");
+
+    // Check email
+    // ! check if an email already exists
+    email = validation.checkEmail(email, "Email");
+
+    // Check name
+    name = validation.checkString(name, "Name");
+
+    // Check password
+    // ! Validate password criteria
+    password = validation.checkString(password, "Password");
+
+    // Check contact first name
+    contactFirstName = validation.checkName(
+        contactFirstName,
+        "Contact First Name"
+    );
+
+    // Check contact last name
+    contactLastName = validation.checkName(
+        contactLastName,
+        "Contact Last Name"
+    );
+
+    // Check phone number
+    // ! check if a phone number already exists
+    // Have to check to see if NPM works here
+    phone = validation.checkString(phone, "Phone number");
+
+    // Check address
+    address = validation.checkString(address, "Address");
+
+    const updatedAcenter = {
+        email: email,
+        name: name,
+        password: password,
+        contactFirstName: contactFirstName,
+        contactLastName: contactLastName,
+        phone: phone,
+        address: address,
+        img: null,
+    };
+
+    const updatedInfo = await acenterCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: updatedAcenter }
+    );
+
+    if (updatedInfo.modifiedCount === 0) {
+        throw `Could not update adoption center with ID ${id}`;
+    }
+
+    return await getAdoptionCenter(id);
+};
+
+const deleteAdoptionCenter = async (id) => {
+    id = validation.checkId(id, "ID");
+
+    const deletionInfo = await acenterCollection.deleteOne({
+        _id: new ObjectId(id),
+    });
+    if (deletionInfo.deletedCount === 0) {
+        throw `Could not delete adoption center with ID ${id}`;
+    }
+};
+
+const exportedMethods = {
+    getAllAdoptionCenters,
+    getAdoptionCenter,
+    createAdoptionCenter,
+    updateAdoptionCenter,
+    deleteAdoptionCenter,
+};
 
 export default exportedMethods;
