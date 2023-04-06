@@ -28,7 +28,25 @@ let adoptionCenterTest2 = {
     address: "4321 Test Street",
 };
 
+let dogTest1 = {
+    name: "Dog 1",
+    dob: "2020-01-01",
+    breeds: ["breed1", "breed2"],
+    gender: "M",
+    size: 30,
+};
+
+let dogTest2 = {
+    name: "Dog 2",
+    dob: "2021-02-02",
+    breeds: ["breed3", "breed4"],
+    gender: "F",
+    size: 40,
+};
+
 // ********** TESTS FOR ADOPTION CENTERS **********
+
+console.log("********** TESTS FOR ADOPTION CENTERS **********");
 
 let acenter, acenter2, acenter3, acenter4, acenter5;
 let acenterList, acenterList2;
@@ -63,7 +81,7 @@ try {
     );
 } catch (e) {
     console.log(e);
-};
+}
 
 console.log("Getting adoption center");
 
@@ -104,7 +122,9 @@ try {
     console.log(e);
 }
 
-console.log("This should be the same as the first adoption center, but changed the contact name: ");
+console.log(
+    "This should be the same as the first adoption center, but changed the contact name: "
+);
 console.log(acenter4);
 
 console.log("Deleting adoption center");
@@ -114,8 +134,8 @@ try {
 } catch (e) {
     console.log(e);
 }
-console.log("This should be not found: ");
 
+console.log("This should be not found: ");
 try {
     let testId = acenter4._id;
     acenter5 = await acenterDataFunctions.getAdoptionCenter(testId.toString());
@@ -125,13 +145,53 @@ try {
 }
 
 console.log("This should be 1: ");
-
 try {
     let acenterList2 = await acenterDataFunctions.getAllAdoptionCenters();
     console.log(acenterList2.length);
 } catch (e) {
     console.log(e);
 }
+
+// ********** TESTS FOR DOGS IN ADOPTION CENTERS **********
+
+console.log("********** TESTS FOR DOGS IN ADOPTION CENTERS **********");
+
+console.log("Creating 2 dogs in adoption center");
+try {
+    let testId = acenter2._id;
+    await acenterDataFunctions.createDog(
+        testId.toString(),
+        dogTest1.name,
+        dogTest1.dob,
+        dogTest1.breeds,
+        dogTest1.gender,
+        dogTest1.size
+    );
+} catch (e) {
+    console.log(e);
+}
+
+try {
+    let testId = acenter2._id;
+    await acenterDataFunctions.createDog(
+        testId.toString(),
+        dogTest2.name,
+        dogTest2.dob,
+        dogTest2.breeds,
+        dogTest2.gender,
+        dogTest2.size
+    );
+} catch (e) {
+    console.log(e);
+}
+
+console.log("Logging the adoption center with the dogs:");
+try {
+    console.log(await acenterDataFunctions.getAdoptionCenter(acenter2._id.toString()));
+} catch (e) {
+    console.log(e);
+}
+
 
 console.log("Done testing / seeding database");
 

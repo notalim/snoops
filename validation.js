@@ -105,6 +105,14 @@ export function checkEmail(email, elmName) {
     return email.trim();
 }
 
+export function checkDate(date, elmName) {
+    date = checkString(date, elmName);
+    if (!validator.isDate(date)) {
+        throw `${elmName} must be a valid date`;
+    }
+    return date.trim();
+}
+
 export function checkGender(gender, elmName) {
     // gender = checkString(gender, elmName);
     if (!(gender === "M" || gender === "F")) {
@@ -145,7 +153,6 @@ export function checkPhoneNumber(_var, varName) {
     }
 
     return phone;
-
 
     // _var = checkString(_var, varName);
     // if (_var.length() !== 10) {
