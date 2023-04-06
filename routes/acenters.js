@@ -20,9 +20,10 @@ router.route("/").get(async (req, res) => {
 
 // TODO: POST /acenters - Create adoption center
 
-
 // TODO: PUT /acenters/:id - Update adoption center
+
 // TODO: DELETE /acenters/:id - Delete adoption center
+
 // TODO: GET /acenters/:id/pets - Get all pets from adoption center
 // TODO: GET /acenters/:id/pets/:petId - Get pet from adoption center by id
 // TODO: POST /acenters/:id/pets - Create pet for adoption center

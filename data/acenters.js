@@ -213,13 +213,25 @@ const createDog = async (acenterId, dogName, dogDOB, dogBreeds, dogGender, dogSi
     return await getAdoptionCenter(acenterId);
 }
 
+const getAllDogs= async (acenterId) => {
+    acenterId = validation.checkId(acenterId, "ID");
+
+    const acenter = await acenterCollection.findOne({ _id: new ObjectId(acenterId) });
+    if (acenter === null) {
+        throw `No adoption center with ID ${acenterId} found`;
+    }
+
+    return acenter.dogList;
+}
+
 const exportedMethods = {
     getAllAdoptionCenters,
     getAdoptionCenter,
     createAdoptionCenter,
     updateAdoptionCenter,
     deleteAdoptionCenter,
-    createDog
+    createDog,
+    getAllDogs,
 };
 
 export default exportedMethods;
