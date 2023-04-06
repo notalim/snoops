@@ -44,7 +44,7 @@ export function checkStringArray(arr, arrName) {
 export function checkId(id, varName) {
     if (!id) throw `Error: You must provide a ${varName}`;
     if (typeof id !== "string") {
-        throw `Error:${varName} must be a string`;
+        throw `Error: ${varName} must be a string`;
     }
     id = id.trim();
     if (id.length === 0)
@@ -91,12 +91,13 @@ export function checkWorkingHours(workingHours, elmName) {}
            validation function since a lot of the functions use checkString,
            checkNumber, etc. to validate the proper input type first.*/
 
-export function isVariableThere(variable, varName) {
-    if (!variable) {
-        throw `${varName} was not provided`;
-    }
-    return variable;
-}
+// ?????????
+// export function isVariableThere(variable, varName) {
+//     if (!variable) {
+//         throw `${varName} was not provided`;
+//     }
+//     return variable;
+// }
 
 export function checkUserAge(_var, varName) {
     _var = checkNumber(_var, varName);
@@ -133,4 +134,5 @@ export function checkAgePreferences(_var, varName) {
     if (_var <= 0 || _var > 20) {
         `${varName} must be a valid age preference between 0 exclusive and 20 inclusive`;
     }
+    return _var;
 }

@@ -17,6 +17,9 @@ router.route("/").get(async (req, res) => {
 });
 
 // TODO: GET /acenters/:id - Get adoption center by id
+
+
+
 // TODO: POST /acenters - Create adoption center
 // TODO: PUT /acenters/:id - Update adoption center
 // TODO: DELETE /acenters/:id - Delete adoption center
