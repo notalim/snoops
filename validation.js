@@ -75,6 +75,14 @@ export function checkLegalAge(age, elmName) {
 export function checkPassword(password, elmName) {
     password = checkString(password, elmName);
     //Yousaf - Find password validating function in validator (NPM link at the top)
+    //Change this to check if theres any spaces at all.
+    if(password.length() != password.replace(" ", "").length()){
+        throw `${elmName} can not contain spaces`;
+    }
+    if(!validator.isStrongPassword(password)){
+        throw `${elmName} must be a strong password`;
+    }
+    return password;
 }
 
 export function checkWebsite(website, elmName) {
@@ -129,14 +137,24 @@ export function checkUserAge(_var, varName) {
 }
 
 export function checkPhoneNumber(_var, varName) {
-    _var = checkString(_var, varName);
-    if (_var.length() !== 10) {
-        throw `${varName} must be a valid phone number with the proper length`;
+    let phone = checkString(_var, varName);
+    let phoneCheck = phone(phone);
+    if (phoneCheck.isValid === false){
+        throw `Invalid phone number`
+    
     }
-    if (_var.replace(/[^0-9.]/g, "").length() !== 10) {
-        throw `${varName} must be a valid phone number`;
-    }
-    return _var.trim();
+
+    return phone;
+
+
+    // _var = checkString(_var, varName);
+    // if (_var.length() !== 10) {
+    //     throw `${varName} must be a valid phone number with the proper length`;
+    // }
+    // if (_var.replace(/[^0-9.]/g, "").length() !== 10) {
+    //     throw `${varName} must be a valid phone number`;
+    // }
+    // return _var.trim();
 }
 
 export function checkPetWeight(_var, varName) {
