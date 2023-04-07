@@ -15,7 +15,14 @@ const createAdoptionCenter = async (
     address
 ) => {
     // Check email
-    // ! check if an email already exists
+
+    const acenter = await acenterCollection.findOne({ email: email });
+    if (acenter) {
+        throw `Adoption center with email ${email} already exists`;
+    }
+
+    // ? do we check the users collection too?
+
     email = validation.checkEmail(email, "Email");
 
     // Check name
