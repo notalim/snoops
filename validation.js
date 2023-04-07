@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import * as Validator from "email-validator"; //Yousaf - Url: https://www.npmjs.com/package/email-validator
+import { phone } from "phone";
 import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package/validator
 //Yousaf - We can prolly just use validator to handle both email and website
 
@@ -61,7 +62,16 @@ export function checkName(name, varName) {
     if (name.split(" ").length > 1) {
         throw `${varName} must be a single word`;
     }
+    var regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g
+    if(name.replace(regex, "").length() !== name.length()){
+        throw `${varName} must not consist of special characters`
+    }
     return name;
+}
+
+export function checkCompany(comp, varName){
+    comp = checkString();
+    return comp;
 }
 
 export function checkLegalAge(age, elmName) {
@@ -105,26 +115,39 @@ export function checkEmail(email, elmName) {
     return email.trim();
 }
 
+export function checkDate(date, elmName) {
+    date = checkString(date, elmName);
+    if (!validator.isDate(date)) {
+        throw `${elmName} must be a valid date`;
+    }
+    return date.trim();
+}
+
 export function checkGender(gender, elmName) {
-    // gender = checkString(gender, elmName);
+    gender = checkString(gender, elmName);
     if (!(gender === "M" || gender === "F")) {
         throw `Invalid value for ${elmName}`;
     }
     return gender;
 }
 
-export function checkWorkingHours(workingHours, elmName) {}
-/*Yousaf - I dont think we need this cuz we check if the var exists in each 
-           validation function since a lot of the functions use checkString,
-           checkNumber, etc. to validate the proper input type first.*/
+export function checkWorkingHours(workingHours, elmName) {
+    workingHours = checkString();
+    if(workingHours.length() !== 4){
+        throw `${elmName} must be in valid workingHour format HH(AM/PM)`;
+    }
+    if(isNan(Number(workingHours.substring(0, 2)) )){
+        throw `${elmName} invalid time`;
+    }
+    if(Number(workingHours.substring(0,2)) < 1 || Number(workingHours.substring(0,2)) > 12){
+        throw `${elmName} has an invalid time`
+    }
+    if(workingHours.substring(2) !== "AM" && workingHours.substring(2) !== "PM"){
+        throw `${elmName} must contain only AM or PM`
+    }
+    return workingHours.trim();
 
-// ?????????
-// export function isVariableThere(variable, varName) {
-//     if (!variable) {
-//         throw `${varName} was not provided`;
-//     }
-//     return variable;
-// }
+}
 
 export function checkUserAge(_var, varName) {
     _var = checkNumber(_var, varName);
@@ -137,24 +160,14 @@ export function checkUserAge(_var, varName) {
 }
 
 export function checkPhoneNumber(_var, varName) {
-    let phone = checkString(_var, varName);
-    let phoneCheck = phone(phone);
-    if (phoneCheck.isValid === false){
+    let Number = checkString(_var, varName);
+    if (phone(Number).isValid === false){
         throw `Invalid phone number`
     
     }
 
     return phone;
 
-
-    // _var = checkString(_var, varName);
-    // if (_var.length() !== 10) {
-    //     throw `${varName} must be a valid phone number with the proper length`;
-    // }
-    // if (_var.replace(/[^0-9.]/g, "").length() !== 10) {
-    //     throw `${varName} must be a valid phone number`;
-    // }
-    // return _var.trim();
 }
 
 export function checkPetWeight(_var, varName) {
@@ -173,3 +186,8 @@ export function checkAgePreferences(_var, varName) {
     }
     return _var;
 }
+
+export function checkAddress(adr, varName){
+    // Yousaf - Change address to a subdocument potentially for map API
+} 
+
