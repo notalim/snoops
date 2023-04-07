@@ -8,6 +8,7 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
 {
     "id": ObjectId
     "email":
+    "userName":
     "password":
     "contactFirstName":
     "contactLastName":
@@ -15,7 +16,6 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
     "address":
     "workingHours":
     "website":
-    "userName":
     "companyName":
     "img":
     "dogList": [ 
@@ -45,6 +45,7 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
 {
     "id": ObjectId,
     "email": "adoption@center.com",
+    "userName": "Adoption Center",
     "password": "password",
     "contactFirstName": "John",
     "contactLastName": "Doe",
@@ -53,7 +54,6 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
     "workingHoursStart": "10AM",
     "workingHoursEnd": "06PM",
     "website": "adoptioncenter.com",
-    "userName": "Adoption Center",
     "companyName": "Adoption Centers Hoboken",
     "img": "img1.link",
     "dogList": [ 
