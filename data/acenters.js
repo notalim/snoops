@@ -95,7 +95,7 @@ const updateAdoptionCenter = async (
     contactFirstName,
     contactLastName,
     phone,
-    address,
+    address
 ) => {
     // Check id
     id = validation.checkId(id, "ID");
@@ -168,7 +168,14 @@ const deleteAdoptionCenter = async (id) => {
     }
 };
 
-const createDog = async (acenterId, dogName, dogDOB, dogBreeds, dogGender, dogSize) => {
+const createDog = async (
+    acenterId,
+    dogName,
+    dogDOB,
+    dogBreeds,
+    dogGender,
+    dogSize
+) => {
     // Check acenterId
     acenterId = validation.checkId(acenterId, "ID");
 
@@ -191,6 +198,7 @@ const createDog = async (acenterId, dogName, dogDOB, dogBreeds, dogGender, dogSi
     dogSize = validation.checkPetWeight(dogSize, "Dog Size");
 
     let newDog = {
+        _id: new ObjectId(),
         name: dogName,
         dob: dogDOB,
         breeds: dogBreeds,
@@ -198,8 +206,8 @@ const createDog = async (acenterId, dogName, dogDOB, dogBreeds, dogGender, dogSi
         size: dogSize,
         img: null,
         description: null,
-        adoptionStatus: null
-    }
+        adoptionStatus: null,
+    };
 
     const updatedInfo = await acenterCollection.updateOne(
         { _id: new ObjectId(acenterId) },
@@ -210,19 +218,109 @@ const createDog = async (acenterId, dogName, dogDOB, dogBreeds, dogGender, dogSi
         throw `Could not add dog to adoption center with ID ${acenterId}`;
     }
 
-    return await getAdoptionCenter(acenterId);
-}
+    return await getDogFromAcenter(acenterId, newDog._id.toString());
+};
 
-const getAllDogs= async (acenterId) => {
+const getAllDogs = async (acenterId) => {
     acenterId = validation.checkId(acenterId, "ID");
 
-    const acenter = await acenterCollection.findOne({ _id: new ObjectId(acenterId) });
+    const acenter = await acenterCollection.findOne({
+        _id: new ObjectId(acenterId),
+    });
     if (acenter === null) {
         throw `No adoption center with ID ${acenterId} found`;
     }
 
     return acenter.dogList;
-}
+};
+
+const getDogFromAcenter = async (acenterId, dogId) => {
+    acenterId = validation.checkId(acenterId, "ID");
+    dogId = validation.checkId(dogId, "ID");
+
+    const acenter = await acenterCollection.findOne({
+        _id: new ObjectId(acenterId),
+    });
+
+    if (acenter === null) {
+        throw `No adoption center with ID ${acenterId} found`;
+    }
+
+    let dog = null;
+    for (let i = 0; i < acenter.dogList.length; i++) {
+        // console.log(acenter.dogList);
+        let curr_dog = acenter.dogList[i];
+        if (curr_dog["_id"].toString() === dogId) {
+            dog = acenter.dogList[i];
+            break;
+        }
+    }
+
+    if (dog === null) {
+        throw `No dog with ID ${dogId} found in adoption center ${acenter.name}`;
+    }
+
+    return dog;
+};
+
+const updateDog = async (
+    acenterId,
+    dogId,
+    dogName,
+    dogDOB,
+    dogBreeds,
+    dogGender,
+    dogSize
+) => {
+    acenterId = validation.checkId(acenterId, "ID");
+    dogId = validation.checkId(dogId, "ID");
+
+    // get the old dog info
+    let oldDog = await getDogFromAcenter(acenterId, dogId);
+
+    // console.log(oldDog);
+
+    // Check dogName
+    // ? Do we use Check Name or Check String?
+    dogName = validation.checkString(dogName, "Dog name");
+
+    // Check dogDOB
+    // ? Do we use Check Age or Check String?
+    // ? How do we store age?
+    dogDOB = validation.checkDate(dogDOB, "Dog Date of Birth");
+
+    // Check dogBreeds
+    dogBreeds = validation.checkStringArray(dogBreeds, "Dog breeds");
+
+    // Check dogGender
+    dogGender = validation.checkGender(dogGender, "Dog gender");
+
+    // Check dogSize
+    dogSize = validation.checkPetWeight(dogSize, "Dog size");
+
+    const updatedDog = {
+        _id: new ObjectId(dogId),
+        name: dogName,
+        dob: dogDOB,
+        breeds: dogBreeds,
+        gender: dogGender,
+        size: dogSize,
+        img: oldDog.img,
+        description: oldDog.description,
+        adoptionStatus: oldDog.adoptionStatus,
+    };
+
+    const updatedInfo = await acenterCollection.updateOne(
+        { _id: new ObjectId(acenterId), "dogList._id": new ObjectId(dogId) },
+        { $set: { "dogList.$": updatedDog } }
+    );
+
+    if (updatedInfo.modifiedCount === 0) {
+        throw `Could not update dog with ID ${dogId} in adoption center with ID ${acenterId}`;
+    }
+
+    return await getDogFromAcenter(acenterId, dogId);
+};
 
 const exportedMethods = {
     getAllAdoptionCenters,
@@ -232,6 +330,8 @@ const exportedMethods = {
     deleteAdoptionCenter,
     createDog,
     getAllDogs,
+    getDogFromAcenter,
+    updateDog,
 };
 
 export default exportedMethods;

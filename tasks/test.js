@@ -182,6 +182,7 @@ console.log(
 console.log(test_log("Creating 2 dogs in adoption center"));
 try {
     let testId = acenter2._id;
+    // console.log(testId.toString());
     await acenterDataFunctions.createDog(
         testId.toString(),
         dogTest1.name,
@@ -220,8 +221,6 @@ try {
 console.log(test_log("This should give an empty array:"));
 
 try {
-
-
     let acenter1Dogs = await acenterDataFunctions.getAllDogs(
         acenter1._id.toString()
     );
@@ -236,6 +235,66 @@ try {
     console.log(await acenterDataFunctions.getAllDogs(acenter2._id.toString()));
 } catch (e) {
     console.log(test_error(e));
+}
+
+console.log(
+    test_log(
+        "Getting a dog by ID in the adoption center, this should be the first dog:"
+    )
+);
+try {
+    let acenterTestId = acenter2._id.toString();
+
+    acenter2 = await acenterDataFunctions.getAdoptionCenter(acenterTestId);
+
+    let dogId = acenter2.dogList[0]._id.toString();
+
+    console.log(
+        await acenterDataFunctions.getDogFromAcenter(acenterTestId, dogId)
+    );
+} catch (e) {
+    console.log(test_error(e));
+}
+
+console.log(
+    test_log(
+        "Updating a dog in the adoption center, this should produce same results:"
+    )
+);
+
+let acenterTestId = acenter1._id.toString();
+let dogTest3 = await acenterDataFunctions.createDog(
+    acenterTestId,
+    dogTest1.name,
+    dogTest1.dob,
+    dogTest1.breeds,
+    dogTest1.gender,
+    dogTest1.size
+);
+
+let dogId = dogTest3._id.toString();
+
+
+try {
+    // ? Why doesn't this work?
+
+    let updatedDog = await acenterDataFunctions.updateDog(
+        acenterTestId,
+        dogId,
+        "NewName",
+        dogTest1.dob,
+        dogTest1.breeds,
+        dogTest1.gender,
+        dogTest1.size
+    );
+
+    console.log(updatedDog);
+
+    console.log(
+        await acenterDataFunctions.getDogFromAcenter(acenterTestId, dogId)
+    );
+} catch (e) {
+    console.log(test_error(`${e}`));
 }
 
 console.log(test_section("Done testing / seeding database"));
