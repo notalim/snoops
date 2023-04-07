@@ -15,7 +15,14 @@ const createAdoptionCenter = async (
     address
 ) => {
     // Check email
-    // ! check if an email already exists
+
+    const acenter = await acenterCollection.findOne({ email: email });
+    if (acenter) {
+        throw `Adoption center with email ${email} already exists`;
+    }
+
+    // ? do we check the users collection too?
+
     email = validation.checkEmail(email, "Email");
 
     // Check name
@@ -322,6 +329,20 @@ const updateDog = async (
     return await getDogFromAcenter(acenterId, dogId);
 };
 
+const deleteDog = async (acenterId, dogId) => {
+    acenterId = validation.checkId(acenterId, "ID");
+    dogId = validation.checkId(dogId, "ID");
+
+    const deletionInfo = await acenterCollection.updateOne(
+        { _id: new ObjectId(acenterId) },
+        { $pull: { dogList: { _id: new ObjectId(dogId) } } }
+    );
+
+    if (deletionInfo.modifiedCount === 0) {
+        throw `Could not delete dog with ID ${dogId} from adoption center with ID ${acenterId}`;
+    }
+};
+
 const exportedMethods = {
     getAllAdoptionCenters,
     getAdoptionCenter,
@@ -332,6 +353,7 @@ const exportedMethods = {
     getAllDogs,
     getDogFromAcenter,
     updateDog,
+    deleteDog,
 };
 
 export default exportedMethods;
