@@ -51,7 +51,7 @@ export function checkId(id, varName) {
     if (id.length === 0)
         throw `Error: ${varName} cannot be an empty string or just spaces`;
     if (!ObjectId.isValid(id)) throw `Error: ${varName} invalid object ID`;
-    return id;
+    return id.trim();
 }
 
 export function checkName(name, varName) {
@@ -62,16 +62,16 @@ export function checkName(name, varName) {
     if (name.split(" ").length > 1) {
         throw `${varName} must be a single word`;
     }
-    var regex = [/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g];
-    if (name.replace(regex, "").length !== name.length) {
-        throw `${varName} must not consist of special characters`;
+    var regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g
+    if(name.replace(regex, "").length !== name.length){
+        throw `${varName} must not consist of special characters`
     }
-    return name;
+    return name.trim();
 }
 
 export function checkCompany(comp, varName) {
     comp = checkString();
-    return comp;
+    return comp.trim();
 }
 
 export function checkLegalAge(age, elmName) {
@@ -83,10 +83,9 @@ export function checkLegalAge(age, elmName) {
 }
 
 export function checkPassword(password, elmName) {
+
     password = checkString(password, elmName);
-    //Yousaf - Find password validating function in validator (NPM link at the top)
-    //Change this to check if theres any spaces at all.
-    if (password.length() != password.replace(" ", "").length()) {
+    if(password.length != password.replace(" ", "").length){
         throw `${elmName} can not contain spaces`;
     }
     if (!validator.isStrongPassword(password)) {
@@ -128,12 +127,12 @@ export function checkGender(gender, elmName) {
     if (!(gender === "M" || gender === "F")) {
         throw `Invalid value for ${elmName}`;
     }
-    return gender;
+    return gender.trim();
 }
 
 export function checkWorkingHours(workingHours, elmName) {
     workingHours = checkString();
-    if (workingHours.length() !== 4) {
+    if(workingHours.length !== 4){
         throw `${elmName} must be in valid workingHour format HH(AM/PM)`;
     }
     if (isNan(Number(workingHours.substring(0, 2)))) {
