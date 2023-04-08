@@ -81,7 +81,7 @@ Object subdocument that stores the dog data.
     "id": ObjectId
     "name":
     "breeds": [...]
-    "images": [...]
+    "img": [...]
     "age":
     "gender":
     "size":

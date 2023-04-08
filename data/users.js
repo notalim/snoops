@@ -1,7 +1,6 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as validation from "../validation.js";
-import { phone } from "phone";
 
 const userCollection = await users();
 
@@ -9,7 +8,8 @@ const getAllUsers = async () => {
     const userList = await userCollection.find({}).toArray();
     return userList;
 };
-const addUser = async (
+
+const createUser = async (
     email,
     password,
     firstName,
@@ -18,13 +18,18 @@ const addUser = async (
     phone,
     address
 ) => {
+    const userCollection = await users();
+
     // Check email
-    // ! check if an email already exists
+    const user = await userCollection.findOne({ email: email });
+    if (user) {
+        throw `User with email ${email} already exists`;
+    }
     email = validation.checkEmail(email, "email");
 
     // Check password
     // ! Validate password criteria
-    password = validation.checkString(password, "password");
+    password = validation.checkPassword(password, "password");
 
     // Check first name
     firstName = validation.checkName(firstName, "firstName");
@@ -36,13 +41,7 @@ const addUser = async (
     age = validation.checkLegalAge(age, "age");
 
     // Check phone number
-    // ! Validate phone number criteria
-    // Have to check to see if NPM works here
-    phone = validation.checkString(phone, "phone number");
-    let phoneCheck = phone(phone);
-    if (phoneCheck.isValid === false) {
-        throw `Invalid phone number`;
-    }
+    phone = validation.checkPhone(phone, "phone number");
 
     // Check address
     address = validation.checkString(address, "address");
@@ -61,38 +60,108 @@ const addUser = async (
         dogPreferences: {},
         likedDogsIds: [],
     };
-    
-    const userCollection = await users();
+
     const newInsertInformation = await userCollection.insertOne(newUser);
-    if (!newInsertInformation.insertedId) {
-        throw `Insert failed!`;
+    if (newInsertInformation.insertedCount === 0) {
+        throw `Could not add adoption center`;
     }
 
-    return await getUser(newInsertInformation.insertedId);
+    return newUser;
 };
+
 const getUser = async (id) => {
     id = validation.checkId(id, "User ID");
 
     const userCollection = await users();
-    const user = await userCollection.findOne({ _id: ObjectId(id) });
+    const user = await userCollection.findOne({ _id: new ObjectId(id) });
     if (!user) {
-        throw "User not found";
+        throw `User not found with this Id ${id}`;
     }
     return user;
 };
 
-const removeUser = async (id) => {
+const deleteUser = async (id) => {
     id = validation.checkId(id, "User ID");
     const userCollection = await users();
     const deletionInfo = await userCollection.findOneAndDelete({
-        _id: ObjectId(id),
+        _id: new ObjectId(id),
     });
-    if (deletionInfo.lastErrorObject.n === 0) {
-        throw [404, `Error: Could not delete user with id of ${id}`];
+    if (deletionInfo.deletedCount === 0) {
+        throw `Could not delete adoption center with ID ${id}`;
     }
     return { id, deleted: true };
 };
 
-const exportedMethods = { getAllUsers, addUser, getUser, removeUser };
+const updateUser = async (
+    id,
+    email,
+    password,
+    firstName,
+    lastName,
+    age,
+    phone,
+    address
+) => {
+    let validatedId = validation.checkId(id, "User ID");
+
+    // Check email
+
+    email = validation.checkEmail(email, "email");
+
+    // Check password
+    password = validation.checkPassword(password, "password");
+
+    // Check first name
+    firstName = validation.checkName(firstName, "firstName");
+
+    // Check last name
+    lastName = validation.checkName(lastName, "lastName");
+
+    // Check age
+    age = validation.checkLegalAge(age, "age");
+
+    // Check phone number
+    phone = validation.checkPhone(phone, "phone number");
+
+    // Check address
+    address = validation.checkString(address, "address");
+
+    // Initialize image to null, dogPreferences to empty object, likedDogsIds to empty array
+
+    const oldUser = await getUser(validatedId);
+
+    const updatedUser = {
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        age: age,
+        phone: phone,
+        address: address,
+        img: oldUser.img,
+        dogPreferences: oldUser.dogPreferences,
+        likedDogsIds: oldUser.likedDogsIds,
+    };
+
+    const userCollection = await users();
+    const updateInfo = await userCollection.updateOne(
+        { _id: new ObjectId(validatedId) },
+        { $set: updatedUser }
+    );
+
+    if (updateInfo.modifiedCount === 0) {
+        throw `Could not update user with ID ${validatedId}`;
+    }
+
+    return await getUser(validatedId);
+};
+
+const exportedMethods = {
+    getAllUsers,
+    createUser,
+    getUser,
+    deleteUser,
+    updateUser,
+};
 
 export default exportedMethods;

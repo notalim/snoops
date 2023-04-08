@@ -19,7 +19,6 @@ const createAdoptionCenter = async (
     if (acenter) {
         throw `Adoption center with email ${email} already exists`;
     }
-
     // ? do we check the users collection too?
 
     email = validation.checkEmail(email, "Email");
@@ -175,6 +174,7 @@ const deleteAdoptionCenter = async (id) => {
     if (deletionInfo.deletedCount === 0) {
         throw `Could not delete adoption center with ID ${id}`;
     }
+    return { id, deleted: true };
 };
 
 const createDog = async (
@@ -344,7 +344,7 @@ const deleteDog = async (acenterId, dogId) => {
     if (deletionInfo.modifiedCount === 0) {
         throw `Could not delete dog with ID ${dogId} from adoption center with ID ${acenterId}`;
     }
-    return oldDog;
+    return {id: dogId, deleted: true};
 };
 
 const exportedMethods = {
