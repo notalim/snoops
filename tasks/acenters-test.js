@@ -1,3 +1,8 @@
+/*
+This file is for testing the data functions for adoption centers.
+*/
+
+
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import chalk from "chalk";
 

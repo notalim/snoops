@@ -1,3 +1,7 @@
+/*
+This file is for testing the data functions for users.
+*/
+
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import chalk from "chalk";
 
@@ -145,31 +149,32 @@ try {
     let newUser = await userDataFunctions.createUser(
         "test@login.com",
         "Password123!",
-        "Test",
+        "User3",
         "Login",
         20,
         "9295054335",
         "1234 Test Street"
     );
     console.log(test_log("User 3 created"));
-    let user = await userDataFunctions.loginUser(
-        "test@login.com",
-        "Password123!"
-    );
+    user3 = await userDataFunctions.loginUser("test@login.com", "Password123!");
     console.log(test_log("User 3 logged in"));
 } catch (e) {
     console.log(test_error("Error creating / logging user 3"));
     console.log(test_error(e));
 }
 
-console.log(test_log("Try to create a user 4, and login with user 4, this should throw wrong password:"));
+console.log(
+    test_log(
+        "Try to create a user 4, and login with user 4, this should throw wrong password:"
+    )
+);
 
 try {
     let newUser = await userDataFunctions.createUser(
         "fail@login.com",
         "Password123!",
-        "Fail",
-        "Login",
+        "User4",
+        "FailLogin",
         20,
         "9295054335",
         "1234 Test Street"
@@ -184,8 +189,6 @@ try {
     console.log(test_log("Error creating / logging user 4"));
     console.log(test_log(e));
 }
-
-
 
 console.log(test_section("Done testing / seeding database"));
 

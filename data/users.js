@@ -170,6 +170,30 @@ const loginUser = async (email, password) => {
     return { user, success: true };
 };
 
+const likeDog = async (userId, acenterId, dogId) => {
+
+    userId = validation.checkId(userId, "User ID");
+    acenterId = validation.checkId(acenterId, "Adoption Center ID");
+    dogId = validation.checkId(dogId, "Dog ID");
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({ _id: new ObjectId(userId) });
+    if (!user) {
+        throw `User not found with this Id ${userId}`;
+    }
+
+    // ? Is there a case where a dog is already liked?
+
+    user.likedDogsIds.push({ acenterId: new ObjectId(acenterId), dogId: new ObjectId(dogId)});
+
+    const updateInfo = await userCollection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $set: user }
+    );
+
+    return { user, success: true };
+}
+
 const exportedMethods = {
     getAllUsers,
     createUser,
@@ -177,6 +201,7 @@ const exportedMethods = {
     deleteUser,
     updateUser,
     loginUser,
+    likeDog,
 };
 
 export default exportedMethods;

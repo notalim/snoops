@@ -1,3 +1,8 @@
+/*
+    This file is used to seed the database with some initial data.
+    This is useful for testing and development purposes.
+*/
+
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import chalk from "chalk";
 

@@ -7,3 +7,5 @@
 // 6. If there are no dogs left to show, the user is shown a message saying that there are no more dogs to show, and asked if he wants to see his liked dogs or start over
 // 7. If the user wants to see his liked dogs, he is shown a list of his liked dogs
 // 8. If the user wants to start over, he is shown a list of dogs again
+
+
