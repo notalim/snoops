@@ -19,7 +19,7 @@ let adoptionCenterTest = {
     password: "password",
     contactFirstName: "Adoption",
     contactLastName: "Center",
-    phone: "1234567890",
+    phone: "9295054338",
     address: "1234 Test Street",
 };
 
@@ -29,7 +29,7 @@ let adoptionCenterTest2 = {
     password: "password",
     contactFirstName: "Another",
     contactLastName: "Center",
-    phone: "0987654321",
+    phone: "9295054339",
     address: "4321 Test Street",
 };
 
@@ -56,7 +56,7 @@ console.log(test_section("********** TESTS FOR ADOPTION CENTERS **********"));
 let acenter1, acenter2, acenter3, acenter4, acenter5;
 let acenterList, acenterList2;
 
-console.log(test_log("Creating adoption center"));
+console.log(test_log("Creating 2 adoption centers"));
 
 try {
     acenter1 = await acenterDataFunctions.createAdoptionCenter(

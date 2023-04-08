@@ -3,6 +3,7 @@ import * as Validator from "email-validator"; //Yousaf - Url: https://www.npmjs.
 import { phone } from "phone";
 import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package/validator
 //Yousaf - We can prolly just use validator to handle both email and website
+import hash from "password-hash"
 
 export function checkString(str, strName) {
     if (!str) {
@@ -51,7 +52,7 @@ export function checkId(id, varName) {
     if (id.length === 0)
         throw `Error: ${varName} cannot be an empty string or just spaces`;
     if (!ObjectId.isValid(id)) throw `Error: ${varName} invalid object ID`;
-    return id;
+    return id.trim();
 }
 
 export function checkName(name, varName) {
@@ -63,15 +64,15 @@ export function checkName(name, varName) {
         throw `${varName} must be a single word`;
     }
     var regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g
-    if(name.replace(regex, "").length() !== name.length()){
+    if(name.replace(regex, "").length !== name.length){
         throw `${varName} must not consist of special characters`
     }
-    return name;
+    return name.trim();
 }
 
-export function checkCompany(comp, varName){
+export function checkCompany(comp, varName) {
     comp = checkString();
-    return comp;
+    return comp.trim();
 }
 
 export function checkLegalAge(age, elmName) {
@@ -83,16 +84,15 @@ export function checkLegalAge(age, elmName) {
 }
 
 export function checkPassword(password, elmName) {
+
     password = checkString(password, elmName);
-    //Yousaf - Find password validating function in validator (NPM link at the top)
-    //Change this to check if theres any spaces at all.
-    if(password.length() != password.replace(" ", "").length()){
+    if(password.length != password.replace(" ", "").length){
         throw `${elmName} can not contain spaces`;
     }
-    if(!validator.isStrongPassword(password)){
+    if (!validator.isStrongPassword(password)) {
         throw `${elmName} must be a strong password`;
     }
-    return password;
+    return hash.generate(password);
 }
 
 export function checkWebsite(website, elmName) {
@@ -128,25 +128,30 @@ export function checkGender(gender, elmName) {
     if (!(gender === "M" || gender === "F")) {
         throw `Invalid value for ${elmName}`;
     }
-    return gender;
+    return gender.trim();
 }
 
 export function checkWorkingHours(workingHours, elmName) {
     workingHours = checkString();
-    if(workingHours.length() !== 4){
+    if(workingHours.length !== 4){
         throw `${elmName} must be in valid workingHour format HH(AM/PM)`;
     }
-    if(isNan(Number(workingHours.substring(0, 2)) )){
+    if (isNan(Number(workingHours.substring(0, 2)))) {
         throw `${elmName} invalid time`;
     }
-    if(Number(workingHours.substring(0,2)) < 1 || Number(workingHours.substring(0,2)) > 12){
-        throw `${elmName} has an invalid time`
+    if (
+        Number(workingHours.substring(0, 2)) < 1 ||
+        Number(workingHours.substring(0, 2)) > 12
+    ) {
+        throw `${elmName} has an invalid time`;
     }
-    if(workingHours.substring(2) !== "AM" && workingHours.substring(2) !== "PM"){
-        throw `${elmName} must contain only AM or PM`
+    if (
+        workingHours.substring(2) !== "AM" &&
+        workingHours.substring(2) !== "PM"
+    ) {
+        throw `${elmName} must contain only AM or PM`;
     }
     return workingHours.trim();
-
 }
 
 export function checkUserAge(_var, varName) {
@@ -159,15 +164,13 @@ export function checkUserAge(_var, varName) {
     }
 }
 
-export function checkPhoneNumber(_var, varName) {
+export function checkPhone(_var, varName) {
     let Number = checkString(_var, varName);
-    if (phone(Number).isValid === false){
-        throw `Invalid phone number`
-    
+    if (phone(Number).isValid === false) {
+        throw `Invalid phone number`;
     }
 
-    return phone;
-
+    return Number;
 }
 
 export function checkPetWeight(_var, varName) {
@@ -187,7 +190,12 @@ export function checkAgePreferences(_var, varName) {
     return _var;
 }
 
-export function checkAddress(adr, varName){
+export function checkAddress(adr, varName) {
     // Yousaf - Change address to a subdocument potentially for map API
 } 
+
+//Used to compare password to hash value, and will return a boolean
+export function verifyPassword(password, hash){
+    return hash.verify(password, hash)
+}
 
