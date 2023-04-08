@@ -115,11 +115,14 @@ A collection of users. It has basic user features and it stores relevant informa
     "dogPreferences": {
         "sizePreferences": <weight>
         "breedsPreferences": [...]
-        "agePreferencesLowerBound":
-        "agePreferencesUpperBound":
+        "agePreferences": [...]
         "genderPreferences": <M or F>
     }
-    "likedDogsIds": [{"acenterId": ...
+    "likedDogs": [{"acenterId": ...
+                        "dogsId": },
+                    {"acenterId": ...
+                        "dogsId": } ...]
+    "seenDogs": [{"acenterId": ...
                         "dogsId": },
                     {"acenterId": ...
                         "dogsId": } ...]
@@ -153,7 +156,8 @@ A collection of users. It has basic user features and it stores relevant informa
         "agePreferencesUpperBound": 0.4
         "genderPreferences": "F"
     }
-    "likedDogsIds": [ObjectId, ObjectId]
+    "likedDogs": [ObjectId, ObjectId],
+    "seenDogs": [ObjectId, ObjectId]
 }
 ```
 
@@ -167,8 +171,7 @@ Object that stores the dog preference data for users.
 {
     "sizePreferences": <weight>
     "breedsPreferences": [...]
-    "agePreferencesLowerBound":
-    "agePreferencesUpperBound":
+    "agePreferences": [...]
     "genderPreferences": <M or F>
 }
 ```
@@ -176,7 +179,7 @@ Object that stores the dog preference data for users.
 | Field Name                                              | Field Type | Description                                              |
 | ------------------------------------------------------- | ---------- | -------------------------------------------------------- |
 | `sizePreferences`                                       | number     | User preferred size of the dog (weight in lbs).          |
-| `agePreferencesLowerBound` , `agePreferencesUpperBound` | number     | Lower and Upper bound for user preferred age of the dog. |
+| `agePreferences`| array | User preferred ages of dogs |
 
 ---
 

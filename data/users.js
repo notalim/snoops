@@ -57,7 +57,8 @@ const createUser = async (
         address: address,
         img: null,
         dogPreferences: {},
-        likedDogsIds: [],
+        likedDogs: [],
+        seenDogs: []
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -139,7 +140,8 @@ const updateUser = async (
         address: address,
         img: oldUser.img,
         dogPreferences: oldUser.dogPreferences,
-        likedDogsIds: oldUser.likedDogsIds,
+        likedDogs: oldUser.likedDogs,
+        seenDogs: oldUser.seenDogs
     };
 
     const userCollection = await users();
