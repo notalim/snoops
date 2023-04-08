@@ -8,7 +8,7 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
 {
     "id": ObjectId
     "email":
-    "userName":
+    "name":
     "password":
     "contactFirstName":
     "contactLastName":
@@ -16,7 +16,6 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
     "address":
     "workingHours":
     "website":
-    "companyName":
     "img":
     "dogList": [ 
         {
@@ -45,7 +44,7 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
 {
     "id": ObjectId,
     "email": "adoption@center.com",
-    "userName": "Adoption Center",
+    "name": "Adoption Center",
     "password": "password",
     "contactFirstName": "John",
     "contactLastName": "Doe",
@@ -54,7 +53,6 @@ It has basic user features + business features (`"address"`, `"workingHours"`, `
     "workingHoursStart": "10AM",
     "workingHoursEnd": "06PM",
     "website": "adoptioncenter.com",
-    "companyName": "Adoption Centers Hoboken",
     "img": "img1.link",
     "dogList": [ 
         {
@@ -79,7 +77,7 @@ Object subdocument that stores the dog data.
     "id": ObjectId
     "name":
     "breeds": [...]
-    "images": [...]
+    "img": [...]
     "age":
     "gender":
     "size":
