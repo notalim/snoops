@@ -104,7 +104,7 @@ const updateAdoptionCenter = async (
     id = validation.checkId(id, "ID");
 
     // Check email
-    const acenter = await acenterCollection.findOne({ email: email });
+    const acenter = await acenterCollection.findOne({id: !id, email: email});
     if (acenter) {
         throw `Adoption center with email ${email} already exists`;
     }
@@ -129,7 +129,7 @@ const updateAdoptionCenter = async (
     );
 
     // Check phone number
-    const acenter2 = await acenterCollection.findOne({ phone: phone });
+    const acenter2 = await acenterCollection.findOne({ id: !id, phone: phone });
     if (acenter2) {
         throw `Adoption center with phone ${phone} already exists`;
     }
@@ -286,8 +286,6 @@ const updateDog = async (
     // get the old dog info
     let oldDog = await getDogFromAcenter(acenterId, dogId);
 
-    
-
     // Check dogName
     // ? Do we use Check Name or Check String?
     dogName = validation.checkString(dogName, "Dog name");
@@ -347,12 +345,29 @@ const deleteDog = async (acenterId, dogId) => {
     return {id: dogId, deleted: true};
 };
 
+const logInAdoptionCenter = async (acenterEmail, acenterPassword) => {
+
+    acenterEmail = validation.checkEmail(acenterEmail, "email");
+
+    const acenter = await acenterCollection.findOne({ email: acenterEmail });
+    if (!acenter) {
+        throw `Adoption center with email ${acenterEmail} does not exist`;
+    }
+
+    if (!validation.verifyPassword(acenterPassword, acenter.password)) {
+        throw `Incorrect password`;
+    }
+
+    return { acenter, success: true };
+};
+
 const exportedMethods = {
     getAllAdoptionCenters,
     getAdoptionCenter,
     createAdoptionCenter,
     updateAdoptionCenter,
     deleteAdoptionCenter,
+    logInAdoptionCenter,
     createDog,
     getAllDogs,
     getDogFromAcenter,

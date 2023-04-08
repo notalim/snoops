@@ -184,7 +184,7 @@ try {
         "fail@login.com",
         "Password123_"
     );
-    console.log(test_log("User 4 logged in"));
+    console.log(test_error("User 4 logged in"));
 } catch (e) {
     console.log(test_log("Error creating / logging user 4"));
     console.log(test_log(e));

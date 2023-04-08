@@ -105,7 +105,7 @@ const updateUser = async (
     let validatedId = validation.checkId(id, "User ID");
 
     // Check email
-
+    
     email = validation.checkEmail(email, "email");
 
     // Check password
