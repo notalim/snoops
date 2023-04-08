@@ -136,7 +136,9 @@ router.route("/:id").put(async (req, res) => {
             address
         );
 
-        return res.status(200).json(acenter);
+        return res
+            .status(200)
+            .json(acenter, { message: "Adoption Center updated" });
     } catch (e) {
         res.status(500).json({ error: e });
     }
@@ -151,7 +153,9 @@ router.route("/:id").delete(async (req, res) => {
 
     try {
         const acenter = await acenterData.deleteAdoptionCenter(req.params.id);
-        return res.status(200).json({ message: "Adoption Center deleted" });
+        return res
+            .status(200)
+            .json(acenter, { message: "Adoption Center deleted" });
     } catch (e) {
         res.status(500).json({ error: e });
     }
@@ -179,7 +183,14 @@ router.route("/:id/dogs").post(async (req, res) => {
     size = validation.checkPetWeight(size, "Weight");
 
     try {
-        const dog = await acenterData.createDog(id, name, dob, breeds, gender, size);
+        const dog = await acenterData.createDog(
+            id,
+            name,
+            dob,
+            breeds,
+            gender,
+            size
+        );
         return res.status(200).json(dog);
     } catch (e) {
         res.status(500).json({ error: e });
@@ -202,10 +213,80 @@ router.route("/:id/dogs").get(async (req, res) => {
     }
 });
 
-// TODO: GET /acenters/:id/pets/:petId - Get pet from adoption center by id
+// TODO: GET /acenters/:id/dogs/:dogId - Get dog from adoption center by id
 
-// TODO: PUT /acenters/:id/pets/:petId - Update pet for adoption center
+router.route("/:id/dogs/:dogId").get(async (req, res) => {
+    // Validate the id
+    let id = req.params.id;
+    id = validation.checkId(id, "Adoption center ID");
 
-// TODO: DELETE /acenters/:id/pets/:petId - Delete pet for adoption center
+    let dogId = req.params.dogId;
+    dogId = validation.checkId(dogId, "Dog ID");
+
+    try {
+        const dog = await acenterData.getDogFromAcenter(id, dogId);
+        return res.status(200).json(dog);
+    } catch (e) {
+        res.status(500).json({ error: e });
+    }
+});
+
+// TODO: PUT /acenters/:id/dogs/:dogId - Update dog for adoption center
+
+router.route("/:id/dogs/:dogId").put(async (req, res) => {
+    // Validate the id
+    let id = req.params.id;
+    id = validation.checkId(id, "Adoption center ID");
+
+    let dogId = req.params.dogId;
+    dogId = validation.checkId(dogId, "Dog ID");
+
+    // Decompose request body
+    let { name, dob, breeds, gender, size } = req.body;
+
+    // Validate request body
+    name = validation.checkString(name, "Name");
+
+    dob = validation.checkDate(dob, "Date of Birth");
+
+    breeds = validation.checkStringArray(breeds, "Breeds");
+
+    gender = validation.checkGender(gender, "Gender");
+
+    size = validation.checkPetWeight(size, "Weight");
+
+    try {
+        const dog = await acenterData.updateDog(
+            id,
+            dogId,
+            name,
+            dob,
+            breeds,
+            gender,
+            size
+        );
+        return res.status(200).json([dog, { message: "Dog updated" }]);
+    } catch (e) {
+        res.status(500).json({ error: e });
+    }
+});
+
+// TODO: DELETE /acenters/:id/dogs/:dogId - Delete dog for adoption center
+
+router.route("/:id/dogs/:dogId").delete(async (req, res) => {
+    // Validate the id
+    let id = req.params.id;
+    id = validation.checkId(id, "Adoption center ID");
+
+    let dogId = req.params.dogId;
+    dogId = validation.checkId(dogId, "Dog ID");
+
+    try {
+        const dog = await acenterData.deleteDog(id, dogId);
+        return res.status(200).json([dog, { message: "Dog deleted" }]);
+    } catch (e) {
+        res.status(500).json({ error: e });
+    }
+});
 
 export default router;

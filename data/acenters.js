@@ -286,7 +286,7 @@ const updateDog = async (
     // get the old dog info
     let oldDog = await getDogFromAcenter(acenterId, dogId);
 
-    // console.log(oldDog);
+    
 
     // Check dogName
     // ? Do we use Check Name or Check String?
@@ -334,6 +334,8 @@ const deleteDog = async (acenterId, dogId) => {
     acenterId = validation.checkId(acenterId, "ID");
     dogId = validation.checkId(dogId, "ID");
 
+    let oldDog = await getDogFromAcenter(acenterId, dogId);
+
     const deletionInfo = await acenterCollection.updateOne(
         { _id: new ObjectId(acenterId) },
         { $pull: { dogList: { _id: new ObjectId(dogId) } } }
@@ -342,6 +344,7 @@ const deleteDog = async (acenterId, dogId) => {
     if (deletionInfo.modifiedCount === 0) {
         throw `Could not delete dog with ID ${dogId} from adoption center with ID ${acenterId}`;
     }
+    return oldDog;
 };
 
 const exportedMethods = {
