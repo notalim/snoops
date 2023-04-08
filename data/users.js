@@ -155,12 +155,28 @@ const updateUser = async (
     return await getUser(validatedId);
 };
 
+const loginUser = async (email, password) => {
+    email = validation.checkEmail(email, "email");
+
+    const user = await userCollection.findOne({ email: email });
+    if (!user) {
+        throw `User with email ${email} does not exist`;
+    }
+
+    if (!validation.verifyPassword(password, user.password)) {
+        throw `Incorrect password`;
+    }
+
+    return { user, success: true };
+};
+
 const exportedMethods = {
     getAllUsers,
     createUser,
     getUser,
     deleteUser,
     updateUser,
+    loginUser,
 };
 
 export default exportedMethods;
