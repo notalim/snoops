@@ -1,7 +1,6 @@
 import { acenters } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as validation from "../validation.js";
-import { phone } from "phone";
 
 const acenterCollection = await acenters();
 
@@ -29,7 +28,7 @@ const createAdoptionCenter = async (
     name = validation.checkString(name, "Name");
 
     // Check password
-    password = validation.checkString(password, "Password");
+    password = validation.checkPassword(password, "Password");
 
     // Check contact first name
     contactFirstName = validation.checkName(
@@ -116,8 +115,7 @@ const updateAdoptionCenter = async (
     name = validation.checkString(name, "Name");
 
     // Check password
-    // ! Validate password criteria
-    password = validation.checkString(password, "Password");
+    password = validation.checkPassword(password, "Password");
 
     // Check contact first name
     contactFirstName = validation.checkName(
@@ -191,7 +189,6 @@ const createDog = async (
     acenterId = validation.checkId(acenterId, "ID");
 
     // Check dogName
-    // ? Do we use Check Name or Check String?
     dogName = validation.checkString(dogName, "Dog Name");
 
     // Check dogDOB

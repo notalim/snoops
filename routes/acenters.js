@@ -52,7 +52,7 @@ router.route("/").post(async (req, res) => {
 
     name = validation.checkString(name, "Name");
 
-    password = validation.checkString(password, "Password");
+    password = validation.checkPassword(password, "Password");
 
     contactFirstName = validation.checkName(
         contactFirstName,
@@ -108,7 +108,7 @@ router.route("/:id").put(async (req, res) => {
 
     name = validation.checkString(name, "Name");
 
-    password = validation.checkString(password, "Password");
+    password = validation.checkPassword(password, "Password");
 
     contactFirstName = validation.checkName(
         contactFirstName,
