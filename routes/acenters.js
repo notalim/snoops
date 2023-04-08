@@ -64,7 +64,7 @@ router.route("/").post(async (req, res) => {
         "Contact Last Name"
     );
 
-    // phone = validation.checkPhone(phone, "Phone");
+    phone = validation.checkPhone(phone, "Phone");
 
     address = validation.checkString(address, "Address");
 
@@ -120,7 +120,7 @@ router.route("/:id").put(async (req, res) => {
         "Contact Last Name"
     );
 
-    // phone = validation.checkPhone(phone, "Phone");
+    phone = validation.checkPhone(phone, "Phone");
 
     address = validation.checkString(address, "Address");
 
@@ -151,7 +151,7 @@ router.route("/:id").delete(async (req, res) => {
 
     try {
         const acenter = await acenterData.deleteAdoptionCenter(req.params.id);
-        return res.status(200).json({message: "Adoption Center deleted"});
+        return res.status(200).json({ message: "Adoption Center deleted" });
     } catch (e) {
         res.status(500).json({ error: e });
     }
