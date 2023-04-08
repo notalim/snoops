@@ -58,7 +58,7 @@ const createUser = async (
         img: null,
         dogPreferences: {},
         likedDogs: [],
-        seenDogs: []
+        seenDogs: [],
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -141,7 +141,7 @@ const updateUser = async (
         img: oldUser.img,
         dogPreferences: oldUser.dogPreferences,
         likedDogs: oldUser.likedDogs,
-        seenDogs: oldUser.seenDogs
+        seenDogs: oldUser.seenDogs,
     };
 
     const userCollection = await users();
@@ -173,7 +173,6 @@ const loginUser = async (email, password) => {
 };
 
 const likeDog = async (userId, acenterId, dogId) => {
-
     userId = validation.checkId(userId, "User ID");
     acenterId = validation.checkId(acenterId, "Adoption Center ID");
     dogId = validation.checkId(dogId, "Dog ID");
@@ -186,7 +185,15 @@ const likeDog = async (userId, acenterId, dogId) => {
 
     // ? Is there a case where a dog is already liked?
 
-    user.likedDogsIds.push({ acenterId: new ObjectId(acenterId), dogId: new ObjectId(dogId)});
+    user.likedDogs.push({
+        acenterId: new ObjectId(acenterId),
+        dogId: new ObjectId(dogId),
+    });
+
+    user.seenDogs.push({
+        acenterId: new ObjectId(acenterId),
+        dogId: new ObjectId(dogId),
+    });
 
     const updateInfo = await userCollection.updateOne(
         { _id: new ObjectId(userId) },
@@ -194,7 +201,7 @@ const likeDog = async (userId, acenterId, dogId) => {
     );
 
     return { user, success: true };
-}
+};
 
 const exportedMethods = {
     getAllUsers,
