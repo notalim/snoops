@@ -43,8 +43,6 @@ router.route("/").post(async (req, res) => {
 
     email = validation.checkEmail(email, "Email");
 
-    password = validation.checkPassword(password, "Password");
-
     firstName = validation.checkName(firstName, "First Name");
 
     lastName = validation.checkName(lastName, "Last Name");
@@ -80,59 +78,55 @@ router.route("/:id").delete(async (req, res) => {
 
     try {
         const user = await userData.deleteUser(req.params.id);
-        return res
-            .status(200)
-            .json([user, { message: "User deleted successfully" }]);
+        return res.status(200).json(user);
     } catch (e) {
         res.status(500).json({ error: e });
     }
+});
 
-    // TODO: PUT /users/:id - Update user by id
+// TODO: PUT /users/:id - Update user by id
 
-    router.route("/:id").put(async (req, res) => {
-        // Validate the id
-        let id = req.params.id;
-        id = validation.checkId(id, "ID");
+router.route("/:id").put(async (req, res) => {
+    // Validate the id
+    let id = req.params.id;
+    id = validation.checkId(id, "ID");
 
-        // Decompose request body
+    // Decompose request body
 
-        let { email, password, firstName, lastName, age, phone, address } =
-            req.body;
+    let { email, password, firstName, lastName, age, phone, address } =
+        req.body;
 
-        // Validate request body
+    // Validate request body
 
-        email = validation.checkEmail(email, "Email");
+    email = validation.checkEmail(email, "Email");
 
-        password = validation.checkPassword(password, "Password");
+    firstName = validation.checkName(firstName, "First Name");
 
-        firstName = validation.checkName(firstName, "First Name");
+    lastName = validation.checkName(lastName, "Last Name");
 
-        lastName = validation.checkName(lastName, "Last Name");
+    age = validation.checkLegalAge(age, "Age");
 
-        age = validation.checkLegalAge(age, "Age");
+    phone = validation.checkPhone(phone, "Phone Number");
 
-        phone = validation.checkPhone(phone, "Phone Number");
+    address = validation.checkString(address, "Address");
 
-        address = validation.checkString(address, "Address");
-
-        try {
-            const user = await userData.updateUser(
-                req.params.id,
-                email,
-                password,
-                firstName,
-                lastName,
-                age,
-                phone,
-                address
-            );
-            return res
-                .status(200)
-                .json([user, { message: "User updated successfully" }]);
-        } catch (e) {
-            res.status(500).json({ error: e });
-        }
-    });
+    try {
+        const user = await userData.updateUser(
+            req.params.id,
+            email,
+            password,
+            firstName,
+            lastName,
+            age,
+            phone,
+            address
+        );
+        return res
+            .status(200)
+            .json([user, { message: "User updated successfully" }]);
+    } catch (e) {
+        res.status(500).json({ error: e });
+    }
 });
 
 export default router;

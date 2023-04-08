@@ -52,8 +52,6 @@ router.route("/").post(async (req, res) => {
 
     name = validation.checkString(name, "Name");
 
-    password = validation.checkPassword(password, "Password");
-
     contactFirstName = validation.checkName(
         contactFirstName,
         "Contact First Name"
@@ -108,8 +106,6 @@ router.route("/:id").put(async (req, res) => {
 
     name = validation.checkString(name, "Name");
 
-    password = validation.checkPassword(password, "Password");
-
     contactFirstName = validation.checkName(
         contactFirstName,
         "Contact First Name"
@@ -155,7 +151,7 @@ router.route("/:id").delete(async (req, res) => {
         const acenter = await acenterData.deleteAdoptionCenter(req.params.id);
         return res
             .status(200)
-            .json(acenter, { message: "Adoption Center deleted" });
+            .json(acenter);
     } catch (e) {
         res.status(500).json({ error: e });
     }
@@ -283,7 +279,7 @@ router.route("/:id/dogs/:dogId").delete(async (req, res) => {
 
     try {
         const dog = await acenterData.deleteDog(id, dogId);
-        return res.status(200).json([dog, { message: "Dog deleted" }]);
+        return res.status(200).json(dog);
     } catch (e) {
         res.status(500).json({ error: e });
     }

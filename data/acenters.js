@@ -344,7 +344,7 @@ const deleteDog = async (acenterId, dogId) => {
     if (deletionInfo.modifiedCount === 0) {
         throw `Could not delete dog with ID ${dogId} from adoption center with ID ${acenterId}`;
     }
-    return oldDog;
+    return {id: dogId, deleted: true};
 };
 
 const exportedMethods = {
