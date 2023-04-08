@@ -157,9 +157,50 @@ router.route("/:id").delete(async (req, res) => {
     }
 });
 
-// TODO: POST /acenters/:id/pets - Create pet for adoption center
+// TODO: POST /acenters/:id/dogs - Create dog for adoption center
 
-// TODO: GET /acenters/:id/pets - Get all pets from adoption center
+router.route("/:id/dogs").post(async (req, res) => {
+    // Validate the id
+    let id = req.params.id;
+    id = validation.checkId(id, "Adoption center ID");
+
+    // Decompose request body
+    let { name, dob, breeds, gender, size } = req.body;
+
+    // Validate request body
+    name = validation.checkString(name, "Name");
+
+    dob = validation.checkDate(dob, "Date of Birth");
+
+    breeds = validation.checkStringArray(breeds, "Breeds");
+
+    gender = validation.checkGender(gender, "Gender");
+
+    size = validation.checkPetWeight(size, "Weight");
+
+    try {
+        const dog = await acenterData.createDog(id, name, dob, breeds, gender, size);
+        return res.status(200).json(dog);
+    } catch (e) {
+        res.status(500).json({ error: e });
+    }
+});
+
+// TODO: GET /acenters/:id/dogs - Get all dogs from adoption center
+
+router.route("/:id/dogs").get(async (req, res) => {
+    // Validate the id
+    let id = req.params.id;
+
+    id = validation.checkId(id, "Adoption center ID");
+
+    try {
+        const dogs = await acenterData.getAllDogs(id);
+        return res.status(200).json(dogs);
+    } catch (e) {
+        res.status(500).json({ error: e });
+    }
+});
 
 // TODO: GET /acenters/:id/pets/:petId - Get pet from adoption center by id
 
