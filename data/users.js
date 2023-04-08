@@ -1,7 +1,6 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as validation from "../validation.js";
-import { phone } from "phone";
 
 const userCollection = await users();
 
@@ -19,12 +18,15 @@ const addUser = async (
     address
 ) => {
     // Check email
-    // ! check if an email already exists
+    const user = await userCollection.findOne({ email: email });
+    if (user) {
+        throw `User with email ${email} already exists`;
+    }
     email = validation.checkEmail(email, "email");
 
     // Check password
     // ! Validate password criteria
-    password = validation.checkString(password, "password");
+    password = validation.checkPassword(password, "password");
 
     // Check first name
     firstName = validation.checkName(firstName, "firstName");
@@ -36,13 +38,7 @@ const addUser = async (
     age = validation.checkLegalAge(age, "age");
 
     // Check phone number
-    // ! Validate phone number criteria
-    // Have to check to see if NPM works here
-    phone = validation.checkString(phone, "phone number");
-    let phoneCheck = phone(phone);
-    if (phoneCheck.isValid === false) {
-        throw `Invalid phone number`;
-    }
+    phone = validation.checkPhone(phone, "phone number");
 
     // Check address
     address = validation.checkString(address, "address");
@@ -70,6 +66,7 @@ const addUser = async (
 
     return await getUser(newInsertInformation.insertedId);
 };
+
 const getUser = async (id) => {
     id = validation.checkId(id, "User ID");
 
@@ -93,6 +90,68 @@ const removeUser = async (id) => {
     return { id, deleted: true };
 };
 
-const exportedMethods = { getAllUsers, addUser, getUser, removeUser };
+const updateUser = async (id, email,
+    password,
+    firstName,
+    lastName,
+    age,
+    phone,
+    address) => {
+
+    id = validation.checkId(id, "User ID");
+
+    // Check email
+
+    email = validation.checkEmail(email, "email");
+
+    // Check password
+    password = validation.checkPassword(password, "password");
+
+    // Check first name
+    firstName = validation.checkName(firstName, "firstName");
+
+    // Check last name
+    lastName = validation.checkName(lastName, "lastName");
+
+    // Check age
+    age = validation.checkLegalAge(age, "age");
+
+    // Check phone number
+    phone = validation.checkPhone(phone, "phone number");
+
+    // Check address
+    address = validation.checkString(address, "address");
+
+    // Initialize image to null, dogPreferences to empty object, likedDogsIds to empty array
+
+    const oldUser = await getUser(id);
+
+    const updatedUser = {
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        age: age,
+        phone: phone,
+        address: address,
+        img: oldUser.img,
+        dogPreferences: oldUser.dogPreferences,
+        likedDogsIds: oldUser.likedDogsIds
+    };
+
+    const userCollection = await users();
+    const updateInfo = await userCollection.updateOne(
+        { _id: ObjectId(id) },
+        { $set: updatedUser }
+    );
+
+    if (!updateInfo.matchedCount && !updateInfo.modifiedCount) {
+        throw [404, `Error: Could not update user with id of ${id}`];
+    }
+
+    return await getUser(id);
+};
+
+const exportedMethods = { getAllUsers, addUser, getUser, removeUser, updateUser };
 
 export default exportedMethods;
