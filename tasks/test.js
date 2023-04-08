@@ -29,7 +29,7 @@ let adoptionCenterTest2 = {
     password: "password",
     contactFirstName: "Another",
     contactLastName: "Center",
-    phone: "9295054338",
+    phone: "9295054339",
     address: "4321 Test Street",
 };
 
