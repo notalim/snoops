@@ -28,7 +28,6 @@ const createUser = async (
     email = validation.checkEmail(email, "email");
 
     // Check password
-    // ! Validate password criteria
     password = validation.checkPassword(password, "password");
 
     // Check first name
