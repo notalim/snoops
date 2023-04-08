@@ -15,14 +15,20 @@ const createAdoptionCenter = async (
     address
 ) => {
     // Check email
-    // ! check if an email already exists
+
+    const acenter = await acenterCollection.findOne({ email: email });
+    if (acenter) {
+        throw `Adoption center with email ${email} already exists`;
+    }
+
+    // ? do we check the users collection too?
+
     email = validation.checkEmail(email, "Email");
 
     // Check name
     name = validation.checkString(name, "Name");
 
     // Check password
-    // ! Validate password criteria
     password = validation.checkString(password, "Password");
 
     // Check contact first name
@@ -38,13 +44,12 @@ const createAdoptionCenter = async (
     );
 
     // Check phone number
-    // ! check if a phone number already exists
-    // Have to check to see if NPM works here
-    phone = validation.checkString(phone, "Phone number");
-    // let phoneCheck = phone(phone);
-    // if (phoneCheck.isValid === false) {
-    //     throw `Invalid phone number`;
-    // }
+    const acenter2 = await acenterCollection.findOne({ phone: phone });
+    if (acenter2) {
+        throw `Adoption center with phone ${phone} already exists`;
+    }
+
+    phone = validation.checkPhone(phone, "Phone number");
 
     // Check address
     address = validation.checkString(address, "Address");
@@ -101,7 +106,10 @@ const updateAdoptionCenter = async (
     id = validation.checkId(id, "ID");
 
     // Check email
-    // ! check if an email already exists
+    const acenter = await acenterCollection.findOne({ email: email });
+    if (acenter) {
+        throw `Adoption center with email ${email} already exists`;
+    }
     email = validation.checkEmail(email, "Email");
 
     // Check name
@@ -124,9 +132,12 @@ const updateAdoptionCenter = async (
     );
 
     // Check phone number
-    // ! check if a phone number already exists
-    // Have to check to see if NPM works here
-    phone = validation.checkString(phone, "Phone number");
+    const acenter2 = await acenterCollection.findOne({ phone: phone });
+    if (acenter2) {
+        throw `Adoption center with phone ${phone} already exists`;
+    }
+
+    phone = validation.checkPhone(phone, "Phone number");
 
     // Check address
     address = validation.checkString(address, "Address");
@@ -322,6 +333,20 @@ const updateDog = async (
     return await getDogFromAcenter(acenterId, dogId);
 };
 
+const deleteDog = async (acenterId, dogId) => {
+    acenterId = validation.checkId(acenterId, "ID");
+    dogId = validation.checkId(dogId, "ID");
+
+    const deletionInfo = await acenterCollection.updateOne(
+        { _id: new ObjectId(acenterId) },
+        { $pull: { dogList: { _id: new ObjectId(dogId) } } }
+    );
+
+    if (deletionInfo.modifiedCount === 0) {
+        throw `Could not delete dog with ID ${dogId} from adoption center with ID ${acenterId}`;
+    }
+};
+
 const exportedMethods = {
     getAllAdoptionCenters,
     getAdoptionCenter,
@@ -332,6 +357,7 @@ const exportedMethods = {
     getAllDogs,
     getDogFromAcenter,
     updateDog,
+    deleteDog,
 };
 
 export default exportedMethods;
