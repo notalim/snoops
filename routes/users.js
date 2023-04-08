@@ -129,4 +129,23 @@ router.route("/:id").put(async (req, res) => {
     }
 });
 
+// TODO: Log In User
+
+router.route("/login").post(async (req, res) => {
+    // Decompose request body
+
+    let { email, password } = req.body;
+
+    // Validate request email
+
+    email = validation.checkEmail(email, "Email");
+
+    try {
+        const user = await userData.loginUser(email, hashedPassword);
+        return res.status(200).json(user);
+    } catch (e) {
+        res.status(500).json({ error: e });
+    }
+});
+
 export default router;

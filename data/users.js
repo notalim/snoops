@@ -57,7 +57,8 @@ const createUser = async (
         address: address,
         img: null,
         dogPreferences: {},
-        likedDogsIds: [],
+        likedDogs: [],
+        seenDogs: []
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -139,7 +140,8 @@ const updateUser = async (
         address: address,
         img: oldUser.img,
         dogPreferences: oldUser.dogPreferences,
-        likedDogsIds: oldUser.likedDogsIds,
+        likedDogs: oldUser.likedDogs,
+        seenDogs: oldUser.seenDogs
     };
 
     const userCollection = await users();
@@ -155,12 +157,53 @@ const updateUser = async (
     return await getUser(validatedId);
 };
 
+const loginUser = async (email, password) => {
+    email = validation.checkEmail(email, "email");
+
+    const user = await userCollection.findOne({ email: email });
+    if (!user) {
+        throw `User with email ${email} does not exist`;
+    }
+
+    if (!validation.verifyPassword(password, user.password)) {
+        throw `Incorrect password`;
+    }
+
+    return { user, success: true };
+};
+
+const likeDog = async (userId, acenterId, dogId) => {
+
+    userId = validation.checkId(userId, "User ID");
+    acenterId = validation.checkId(acenterId, "Adoption Center ID");
+    dogId = validation.checkId(dogId, "Dog ID");
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({ _id: new ObjectId(userId) });
+    if (!user) {
+        throw `User not found with this Id ${userId}`;
+    }
+
+    // ? Is there a case where a dog is already liked?
+
+    user.likedDogsIds.push({ acenterId: new ObjectId(acenterId), dogId: new ObjectId(dogId)});
+
+    const updateInfo = await userCollection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $set: user }
+    );
+
+    return { user, success: true };
+}
+
 const exportedMethods = {
     getAllUsers,
     createUser,
     getUser,
     deleteUser,
     updateUser,
+    loginUser,
+    likeDog,
 };
 
 export default exportedMethods;

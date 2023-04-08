@@ -3,7 +3,7 @@ import * as Validator from "email-validator"; //Yousaf - Url: https://www.npmjs.
 import { phone } from "phone";
 import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package/validator
 //Yousaf - We can prolly just use validator to handle both email and website
-import hash from "password-hash";
+import passwordHash from "password-hash";
 
 export function checkString(str, strName) {
     if (!str) {
@@ -83,6 +83,10 @@ export function checkLegalAge(age, elmName) {
     return age;
 }
 
+export function hashPassword(password) {
+    return passwordHash.generate(password);
+}
+
 export function checkPassword(password, elmName) {
     password = checkString(password, elmName);
     if (password.length != password.replace(" ", "").length) {
@@ -91,7 +95,7 @@ export function checkPassword(password, elmName) {
     if (!validator.isStrongPassword(password)) {
         throw `${elmName} must be a strong password`;
     }
-    return hash.generate(password);
+    return hashPassword(password);
 }
 
 export function checkWebsite(website, elmName) {
@@ -195,5 +199,5 @@ export function checkAddress(adr, varName) {
 
 //Used to compare password to hash value, and will return a boolean
 export function verifyPassword(password, hash) {
-    return hash.verify(password, hash);
+    return passwordHash.verify(password, hash);
 }
