@@ -105,7 +105,6 @@ router.route("/:id").put(async (req, res) => {
     email = validation.checkEmail(email, "Email");
 
     name = validation.checkString(name, "Name");
-
     contactFirstName = validation.checkName(
         contactFirstName,
         "Contact First Name"
