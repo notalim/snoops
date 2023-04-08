@@ -3,6 +3,7 @@ import * as Validator from "email-validator"; //Yousaf - Url: https://www.npmjs.
 import { phone } from "phone";
 import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package/validator
 //Yousaf - We can prolly just use validator to handle both email and website
+import hash from "password-hash"
 
 export function checkString(str, strName) {
     if (!str) {
@@ -91,7 +92,7 @@ export function checkPassword(password, elmName) {
     if(!validator.isStrongPassword(password)){
         throw `${elmName} must be a strong password`;
     }
-    return password;
+    return hash.generate(password);
 }
 
 export function checkWebsite(website, elmName) {
@@ -189,4 +190,9 @@ export function checkAgePreferences(_var, varName) {
 export function checkAddress(adr, varName){
     // Yousaf - Change address to a subdocument potentially for map API
 } 
+
+//Used to compare password to hash value, and will return a boolean
+export function verifyPassword(password, hash){
+    return hash.verify(password, hash)
+}
 
