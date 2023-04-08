@@ -183,21 +183,62 @@ const likeDog = async (userId, acenterId, dogId) => {
         throw `User not found with this Id ${userId}`;
     }
 
-    // ? Is there a case where a dog is already liked?
+    const alreadyLiked = user.likedDogs.some(
+        (entry) =>
+            entry.acenterId.toString() === acenterId &&
+            entry.dogId.toString() === dogId
+    );
 
-    user.likedDogs.push({
-        acenterId: new ObjectId(acenterId),
-        dogId: new ObjectId(dogId),
-    });
+    if (!alreadyLiked) {
+        const updateInfo = await userCollection.updateOne(
+            { _id: new ObjectId(userId) },
+            {
+                $push: {
+                    likedDogs: {
+                        acenterId: new ObjectId(acenterId),
+                        dogId: new ObjectId(dogId),
+                    },
+                    seenDogs: {
+                        acenterId: new ObjectId(acenterId),
+                        dogId: new ObjectId(dogId),
+                    },
+                },
+            }
+        );
+    } else {
+        throw "Dog is already liked.";
+    }
 
-    user.seenDogs.push({
-        acenterId: new ObjectId(acenterId),
-        dogId: new ObjectId(dogId),
-    });
+    return { user, success: true };
+};
+
+// Same as likeDog, but with different alias
+// This is to make the code more readable
+const swipeRight = async (userId, acenterId, dogId) => {
+    return likeDog(userId, acenterId, dogId);
+};
+
+const swipeLeft = async (userId, acenterId, dogId) => {
+    userId = validation.checkId(userId, "User ID");
+    acenterId = validation.checkId(acenterId, "Adoption Center ID");
+    dogId = validation.checkId(dogId, "Dog ID");
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({ _id: new ObjectId(userId) });
+    if (!user) {
+        throw `User not found with this Id ${userId}`;
+    }
 
     const updateInfo = await userCollection.updateOne(
         { _id: new ObjectId(userId) },
-        { $set: user }
+        {
+            $push: {
+                seenDogs: {
+                    acenterId: new ObjectId(acenterId),
+                    dogId: new ObjectId(dogId),
+                },
+            },
+        }
     );
 
     return { user, success: true };
@@ -211,6 +252,8 @@ const exportedMethods = {
     updateUser,
     loginUser,
     likeDog,
+    swipeLeft,
+    swipeRight,
 };
 
 export default exportedMethods;
