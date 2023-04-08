@@ -174,6 +174,7 @@ const deleteAdoptionCenter = async (id) => {
     if (deletionInfo.deletedCount === 0) {
         throw `Could not delete adoption center with ID ${id}`;
     }
+    return { id, deleted: true };
 };
 
 const createDog = async (

@@ -1,11 +1,10 @@
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import chalk from "chalk";
 
-import userDataFunctions from "../data/users.js";
 import acenterDataFunctions from "../data/acenters.js";
 
 const db = await dbConnection();
-await db.dropDatabase();
+await db.collection("adoption_centers").drop();
 
 const test_section = chalk.yellow;
 const test_log = chalk.blue;
@@ -15,8 +14,8 @@ const test_error = chalk.red;
 
 let adoptionCenterTest = {
     email: "adoptioncenter1@test.com",
-    name: "Adoption Center 1",
-    password: "password",
+    name: "Adoption Center One",
+    password: "Password123_!",
     contactFirstName: "Adoption",
     contactLastName: "Center",
     phone: "9295054338",
@@ -25,8 +24,8 @@ let adoptionCenterTest = {
 
 let adoptionCenterTest2 = {
     email: "adoptioncenter2@test.com",
-    name: "Adoption Center 2",
-    password: "password",
+    name: "Adoption Center Two",
+    password: "Password123_!",
     contactFirstName: "Another",
     contactLastName: "Center",
     phone: "9295054339",

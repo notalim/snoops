@@ -56,7 +56,7 @@ router.route("/").post(async (req, res) => {
     address = validation.checkString(address, "Address");
 
     try {
-        const user = await userData.addUser(
+        const user = await userData.createUser(
             email,
             password,
             firstName,
@@ -79,7 +79,7 @@ router.route("/:id").delete(async (req, res) => {
     id = validation.checkId(id, "ID");
 
     try {
-        const user = await userData.removeUser(req.params.id);
+        const user = await userData.deleteUser(req.params.id);
         return res
             .status(200)
             .json([user, { message: "User deleted successfully" }]);
