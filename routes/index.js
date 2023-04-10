@@ -8,6 +8,19 @@ const constructorMethod = (app) => {
     app.get("/", (req, res) => {
         res.render("index");
     });
+
+    app.get("/signup", (req, res) => {
+        res.render("signup", { userType: "user" });
+    });
+
+    app.get("/acenters/signup", (req, res) => {
+        res.render("ac_signup", { userType: "adoption-center" });
+    });
+
+    app.get("/users/login", (req, res) => {
+        res.render("login");
+    });
+
     app.use("/acenters", acenterRoutes);
     app.use("/users", userRoutes);
     app.use("/chats", chatRoutes);
@@ -17,7 +30,7 @@ const constructorMethod = (app) => {
     });
 
     app.use("*", (req, res) => {
-        res.redirect("/public/404.html");
+        res.status(404).json({ error: "Route Not found" });
     });
 };
 
