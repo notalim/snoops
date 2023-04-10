@@ -46,7 +46,7 @@
 .scroller-dog-info-header{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: end;
     width: 100%;
     border-bottom: 1px solid #633d1e;
