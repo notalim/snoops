@@ -123,6 +123,15 @@ export function checkDate(date, elmName) {
     if (!validator.isDate(date)) {
         throw `${elmName} must be a valid date`;
     }
+    let dob = new Date(date);
+    let mon_diff = Date.now() - dob.getTime();
+    let age_diff = new Date(mon_diff);
+    let year = age_diff.getUTCFullYear();
+    let age = Math.abs(year - 1970);
+    if (age < 18 || age > 122) {
+        throw `${elmName} must be a valid age (18-122)`
+    }
+
     return date.trim();
 }
 
