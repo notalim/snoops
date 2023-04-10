@@ -5,6 +5,9 @@ import chatRoutes from "./chats.js";
 import path from "path";
 
 const constructorMethod = (app) => {
+    app.get("/", (req, res) => {
+        res.render("index");
+    });
     app.use("/acenters", acenterRoutes);
     app.use("/users", userRoutes);
     app.use("/chats", chatRoutes);
@@ -14,7 +17,7 @@ const constructorMethod = (app) => {
     });
 
     app.use("*", (req, res) => {
-        res.redirect("/posts");
+        res.redirect("/public/404.html");
     });
 };
 
