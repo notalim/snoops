@@ -195,6 +195,7 @@ export function checkAgePreferences(_var, varName) {
 
 export function checkAddress(adr, varName) {
     // Yousaf - Change address to a subdocument potentially for map API
+    return adr;
 }
 
 //Used to compare password to hash value, and will return a boolean
