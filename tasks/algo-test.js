@@ -49,7 +49,7 @@ let userTest1 = {
     password: "Password123@",
     firstName: "Yousaf",
     lastName: "Rajput",
-    age: 20,
+    dob: "2002-01-01",
     phone: "9295054335",
     address: "1 Campus Drive, Stony Brook, NY 11794",
 };
@@ -59,7 +59,7 @@ let userTest2 = {
     password: "Passw!2105",
     firstName: "Alim",
     lastName: "Kassymov",
-    age: 20,
+    dob: "2002-01-04",
     phone: "9295054336",
     address: "Main Street, New York, NY 10001",
 };
@@ -124,7 +124,7 @@ try {
         userTest1.password,
         userTest1.firstName,
         userTest1.lastName,
-        userTest1.age,
+        userTest1.dob,
         userTest1.phone,
         userTest1.address
     );
@@ -140,7 +140,7 @@ try {
         userTest2.password,
         userTest2.firstName,
         userTest2.lastName,
-        userTest2.age,
+        userTest2.dob,
         userTest2.phone,
         userTest2.address
     );
