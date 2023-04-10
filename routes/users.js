@@ -33,7 +33,7 @@ router.route("/:id").get(async (req, res) => {
 
 // TODO: POST /users - Create user
 
-router.route("/").post(async (req, res) => {
+router.route("/signup").post(async (req, res) => {
     // Decompose request body
 
     let { email, password, firstName, lastName, age, phone, address } =

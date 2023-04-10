@@ -33,7 +33,7 @@ router.route("/:id").get(async (req, res) => {
 
 // TODO: POST /acenters - Create adoption center
 
-router.route("/").post(async (req, res) => {
+router.route("/signup").post(async (req, res) => {
     // Decompose request body
 
     let {

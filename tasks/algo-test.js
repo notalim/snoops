@@ -157,7 +157,7 @@ console.log(test_section("********** TESTS FOR MAIN ALGO **********"));
 console.log(test_log("User 1 liking Dog 1:"));
 
 try {
-    await userDataFunctions.likeDog(
+    await userDataFunctions.swipeRight(
         user1._id.toString(),
         acenter1._id.toString(),
         dog1._id.toString()
@@ -165,6 +165,20 @@ try {
     console.log(test_log("User1 liked Dog1"));
 } catch (e) {
     console.log(test_error("Error liking dog"));
+    console.log(test_error(e));
+}
+
+console.log(test_log("User 1 not liking Dog 2:"));
+
+try {
+    await userDataFunctions.swipeLeft(
+        user1._id.toString(),
+        acenter1._id.toString(),
+        dog2._id.toString()
+    );
+    console.log(test_log("User1 didn't like Dog1"));
+} catch (e) {
+    console.log(test_error("Error not liking dog"));
     console.log(test_error(e));
 }
 
@@ -181,7 +195,7 @@ try {
 console.log(test_log("User 2 liking Dog 1:"));
 
 try {
-    await userDataFunctions.likeDog(
+    await userDataFunctions.swipeRight(
         user2._id.toString(),
         acenter1._id.toString(),
         dog1._id.toString()
@@ -195,7 +209,7 @@ try {
 console.log(test_log("User 2 liking Dog 2:"));
 
 try {
-    await userDataFunctions.likeDog(
+    await userDataFunctions.swipeRight(
         user2._id.toString(),
         acenter1._id.toString(),
         dog2._id.toString()
