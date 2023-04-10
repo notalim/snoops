@@ -2,7 +2,8 @@
     display: flex;
     height: 100%;
     width: 100%;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
 
 }
 
@@ -15,7 +16,7 @@
     max-width: 50vw;
     max-height: 50vh;
     min-width: 500px;
-    min-height: 700px;
+    min-height: fit-content;
     margin-top: 20px;
     padding: 10px;
     flex: 1;
@@ -80,4 +81,19 @@
     color: #633d1e;
     word-wrap: normal;
     overflow: none;
+}
+
+.scroller-button{
+    height: 50px;
+    width: 50px;
+    border: 2px solid #633d1e;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 300ms
+}
+
+.scroller-button:hover{
+    background-color: #633d1e;
+    color: white;
+    transform:scale(1.05)
 }

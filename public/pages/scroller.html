@@ -5,7 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="../../styles/scroller.css" />
-        <link rel="stylesheet" href="../../styles/style.css" />
+		<link rel="stylesheet" href="../../styles/style.css" />
 	</head>
 	<body class="main-page">
 		<header>
@@ -21,32 +21,98 @@
 		</header>
 
 		<main class="scroller">
-            <div class="scroller-dog-container">
-                <div class="scroller-dog-image-container">
-                    <img src="../assets/landing-dog.png" alt="dog" />
-                </div>
-                <div class="scroller-dog-info-container">
-                    <div class="scroller-dog-info-header">
-                        <h1>Max</h1>
-                        <h2>Golden Retriever</h2>
-                        <h2>4 years</h2>
-                    </div>
-                    <div class="scroller-dog-info">
-                        <p>2 miles away</p>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet 
-                            nisl, eget aliquam nisl nisl sit amet lorem. 
-                            Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet 
-                            nisl, eget aliquam nisl nisl sit amet lorem.
-                        </p>
-                    </div>
-                </div>
-            </div>
+			<button class="scroller-button"><</button>
+			<div class="scroller-dog-container">
+				<div class="scroller-dog-image-container">
+					<img src="../assets/landing-dog.png" alt="dog" />
+				</div>
+				<div class="scroller-dog-info-container">
+					<div class="scroller-dog-info-header">
+						<h1 id="dog-name">Max</h1>
+						<h2 id="dog-breeds">Golden Retriever</h2>
+						<h2 id="dog-age">4 years</h2>
+					</div>
+					<div class="scroller-dog-info">
+						<p id="location">2 miles away</p>
+						<p id="dog-description">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet
+							nisl, eget aliquam nisl nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget
+							aliquam nisl nisl sit amet lorem.
+						</p>
+					</div>
+				</div>
+			</div>
+			<button class="scroller-button">></button>
 		</main>
 
 		<footer>
 			<p>&copy; 2023 Snoops</p>
 		</footer>
 	</body>
+
+	<script type="text/javascript">
+		//let the user iterate through json with buttons
+
+		let tempArr = [
+			{
+				name: 'Louis',
+				breeds: ['Chocolate Labrador Retriever'],
+				age: 1,
+				gender: 'M',
+				size: 30,
+			},
+			{
+				name: 'Max',
+				breeds: ['Golden Retriever'],
+				age: 4,
+				gender: 'M',
+				size: 35,
+			},
+			{
+				name: 'Joe',
+				breeds: ['Cool Dog'],
+				age: 3,
+				gender: 'M',
+				size: 30,
+			},
+		];
+
+		let dogName = document.getElementById('dog-name');
+		let dogBreeds = document.getElementById('dog-breeds');
+		let dogAge = document.getElementById('dog-age');
+
+		dogName.textContent = tempArr[0].name;
+		dogBreeds.textContent = tempArr[0].breeds[0];
+		dogAge.textContent = tempArr[0].age;
+
+		let i = 0;
+
+		let leftButton = document.getElementsByClassName('scroller-button')[0];
+		let rightButton = document.getElementsByClassName('scroller-button')[1];
+
+		leftButton.addEventListener('click', () => {
+			if (i === 0) {
+				i = tempArr.length - 1;
+			} else {
+				i--;
+			}
+
+			dogName.textContent = tempArr[i].name;
+			dogBreeds.textContent = tempArr[i].breeds[0];
+			dogAge.textContent = tempArr[i].age;
+		});
+
+		rightButton.addEventListener('click', () => {
+			if (i === tempArr.length) {
+				i = 0;
+			} else {
+				i++;
+			}
+
+			dogName.textContent = tempArr[i].name;
+			dogBreeds.textContent = tempArr[i].breeds[0];
+			dogAge.textContent = tempArr[i].age;
+		});
+		console.log('hi');
+	</script>
 </html>
