@@ -24,7 +24,7 @@
 			<button class="scroller-button"><</button>
 			<div class="scroller-dog-container">
 				<div class="scroller-dog-image-container">
-					<img src="../assets/landing-dog.png" alt="dog" />
+					<img id="dog-image" src="../assets/landing-dog.png" alt="dog" />
 				</div>
 				<div class="scroller-dog-info-container">
 					<div class="scroller-dog-info-header">
@@ -70,19 +70,27 @@
 			},
 			{
 				name: 'Joe',
-				breeds: ['Cool Dog'],
+				breeds: ['Cool Dog', 'Doggy Dog'],
 				age: 3,
 				gender: 'M',
 				size: 30,
 			},
 		];
 
+		function breedName(breeds) {
+			if (breeds.length > 1) {
+				return breeds[0] + ' Mix';
+			} else {
+				return breeds[0];
+			}
+		}
+
 		let dogName = document.getElementById('dog-name');
 		let dogBreeds = document.getElementById('dog-breeds');
 		let dogAge = document.getElementById('dog-age');
 
 		dogName.textContent = tempArr[0].name;
-		dogBreeds.textContent = tempArr[0].breeds[0];
+		dogBreeds.textContent = breedName(tempArr[0].breeds);
 		dogAge.textContent = tempArr[0].age;
 
 		let i = 0;
@@ -98,7 +106,7 @@
 			}
 
 			dogName.textContent = tempArr[i].name;
-			dogBreeds.textContent = tempArr[i].breeds[0];
+			dogBreeds.textContent = breedName(tempArr[i].breeds);
 			dogAge.textContent = tempArr[i].age;
 		});
 
@@ -110,9 +118,8 @@
 			}
 
 			dogName.textContent = tempArr[i].name;
-			dogBreeds.textContent = tempArr[i].breeds[0];
+			dogBreeds.textContent = breedName(tempArr[i].breeds);
 			dogAge.textContent = tempArr[i].age;
 		});
-		console.log('hi');
 	</script>
 </html>
