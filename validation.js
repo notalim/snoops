@@ -115,7 +115,7 @@ export function checkEmail(email, elmName) {
     if (!Validator.validate(email)) {
         throw `You must provide a valid email`;
     }
-    return email.trim();
+    return email.trim().toLowerCase();
 }
 
 export function checkDate(date, elmName) {
