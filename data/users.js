@@ -14,7 +14,7 @@ const createUser = async (
     password,
     firstName,
     lastName,
-    age,
+    dob,
     phone,
     address
 ) => {
@@ -25,25 +25,25 @@ const createUser = async (
     if (user) {
         throw `User with email ${email} already exists`;
     }
-    email = validation.checkEmail(email, "email");
+    email = validation.checkEmail(email, "Email");
 
     // Check password
-    password = validation.checkPassword(password, "password");
+    password = validation.checkPassword(password, "Password");
 
     // Check first name
-    firstName = validation.checkName(firstName, "firstName");
+    firstName = validation.checkName(firstName, "First Name");
 
     // Check last name
-    lastName = validation.checkName(lastName, "lastName");
+    lastName = validation.checkName(lastName, "Last Name");
 
     // Check age
-    age = validation.checkLegalAge(age, "age");
+    dob = validation.checkDate(dob, "Date of birth");
 
     // Check phone number
-    phone = validation.checkPhone(phone, "phone number");
+    phone = validation.checkPhone(phone, "Phone number");
 
     // Check address
-    address = validation.checkString(address, "address");
+    address = validation.checkString(address, "Address");
 
     // Initialize image to null, dogPreferences to empty object, likedDogsIds to empty array
 
@@ -52,7 +52,7 @@ const createUser = async (
         password: password,
         firstName: firstName,
         lastName: lastName,
-        age: age,
+        dob: dob,
         phone: phone,
         address: address,
         img: null,
@@ -98,7 +98,7 @@ const updateUser = async (
     password,
     firstName,
     lastName,
-    age,
+    dob,
     phone,
     address
 ) => {
@@ -106,25 +106,25 @@ const updateUser = async (
 
     // Check email
     
-    email = validation.checkEmail(email, "email");
+    email = validation.checkEmail(email, "Email");
 
     // Check password
-    password = validation.checkPassword(password, "password");
+    password = validation.checkPassword(password, "Password");
 
     // Check first name
-    firstName = validation.checkName(firstName, "firstName");
+    firstName = validation.checkName(firstName, "First Name");
 
     // Check last name
-    lastName = validation.checkName(lastName, "lastName");
+    lastName = validation.checkName(lastName, "Last Name");
 
     // Check age
-    age = validation.checkLegalAge(age, "age");
+    dob = validation.checkDate(dob, "Date of Birth");
 
     // Check phone number
-    phone = validation.checkPhone(phone, "phone number");
+    phone = validation.checkPhone(phone, "Phone number");
 
     // Check address
-    address = validation.checkString(address, "address");
+    address = validation.checkString(address, "Address");
 
     // Initialize image to null, dogPreferences to empty object, likedDogsIds to empty array
 
@@ -135,7 +135,7 @@ const updateUser = async (
         password: password,
         firstName: firstName,
         lastName: lastName,
-        age: age,
+        dob: dob,
         phone: phone,
         address: address,
         img: oldUser.img,

@@ -9,7 +9,7 @@ const constructorMethod = (app) => {
         res.render("index");
     });
 
-    app.get("/signup", (req, res) => {
+    app.get("/users/signup", (req, res) => {
         res.render("signup", { userType: "user" });
     });
 

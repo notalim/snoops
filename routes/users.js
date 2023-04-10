@@ -36,7 +36,7 @@ router.route("/:id").get(async (req, res) => {
 router.route("/signup").post(async (req, res) => {
     // Decompose request body
 
-    let { email, password, firstName, lastName, age, phone, address } =
+    let { email, password, firstName, lastName, dob, phone, address } =
         req.body;
 
     // Validate request body
@@ -47,7 +47,7 @@ router.route("/signup").post(async (req, res) => {
 
     lastName = validation.checkName(lastName, "Last Name");
 
-    age = validation.checkLegalAge(age, "Age");
+    dob = validation.checkDate(dob, "Date of Birth");
 
     phone = validation.checkPhone(phone, "Phone Number");
 
@@ -59,7 +59,7 @@ router.route("/signup").post(async (req, res) => {
             password,
             firstName,
             lastName,
-            age,
+            dob,
             phone,
             address
         );
@@ -93,7 +93,7 @@ router.route("/:id").put(async (req, res) => {
 
     // Decompose request body
 
-    let { email, password, firstName, lastName, age, phone, address } =
+    let { email, password, firstName, lastName, dob, phone, address } =
         req.body;
 
     // Validate request body
@@ -104,7 +104,7 @@ router.route("/:id").put(async (req, res) => {
 
     lastName = validation.checkName(lastName, "Last Name");
 
-    age = validation.checkLegalAge(age, "Age");
+    dob = validation.checkDate(dob, "Date of birth");
 
     phone = validation.checkPhone(phone, "Phone Number");
 
@@ -117,7 +117,7 @@ router.route("/:id").put(async (req, res) => {
             password,
             firstName,
             lastName,
-            age,
+            dob,
             phone,
             address
         );
