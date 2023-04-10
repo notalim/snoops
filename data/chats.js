@@ -6,11 +6,15 @@ import exportedMethods from "./users.js";
 const chatCollection = await chats();
 
 const getAllChatsACenter = async (centerID) => {
-
+    centerID = validation.checkId(centerID, "CenterID");
+    const centerChats = await chatCollection.find({centerID: new ObjectId(centerID)}).toArray();
+    return centerChats;
 }
 
 const getAllChatsUser = async (userID) => {
-    
+    userID = validation.checkId(userID, "UserID");
+    const userChats = await chatCollection.find({userID: new ObjectId(userID)}).toArray();
+    return userChats;
 }
 
 const createChat = async (userID, centerID) => {
