@@ -27,6 +27,10 @@ const createChat = async (userID, centerID) => {
     userID = validation.checkId(userID, "UserID");
     centerID = validation.checkId(centerID, "CenterID");
 
+    const chat = await chatCollection.findOne({userId: userID, centerId: centerID});
+    if(chat){
+        throw `chat between user: ${userID} and aCenter: ${centerID} already exists`
+    }
     const newChat = {
         userId : userID,
         centerId : centerID,
@@ -58,11 +62,32 @@ const getChat = async (userID, centerID) => {
 
 const postMessage = async (
     userID, 
-    center, 
-    senderId,
+    centerID, 
+    senderID,
     messageContent,
     messageTime) => {
 
+    userID = validation.checkId(userID, "UserID");
+    centerID = validation.checkId(centerID, "CenterID");
+    senderID = validation.checkId(senderID, "SenderID");
+
+    //create validation for messages which includes censoring
+    messageContent = validation.checkMessage(messageContent, "Message");
+   
+    const newMessage = {
+        senderId : new ObjectId(senderID),
+        messageContent : messageContent,
+        messageTime : messageTime
+    }
+
+    const updatedInfo = chatCollection.findOneAndUpdate({userId: userID, centerId: centerID},
+        {$push : {messages : newMessage}}, {returnDocument: 'after'});
+
+    if (updatedInfo.lastErrorObject.n === 0) {
+        throw [404,'could not update message successfully'];
+    }
+
+    return newMessage;
 }
 
 
