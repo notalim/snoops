@@ -5,3 +5,4 @@ import extDataFunctions from "./ext.js";
 export const userData = userDataFunctions;
 export const acenterData = acenterDataFunctions;
 export const extData = extDataFunctions;
+export const chatData = chatDataFunctions;
