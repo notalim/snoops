@@ -44,6 +44,14 @@ let dogTest2 = {
     size: 40,
 };
 
+let dogTest3 = {
+    name: "Dog 3",
+    dob: "2021-02-04",
+    breeds: ["breed5"],
+    gender: "F",
+    size: 40,
+};
+
 let userTest1 = {
     email: "yrajput@test.com",
     password: "Password123@",
@@ -229,6 +237,36 @@ try {
     console.log(test_error("Error getting user"));
     console.log(test_error(e));
 }
+
+console.log(test_log("Creating dog 3:"));
+
+try {
+    let dog3 = await acenterDataFunctions.createDog(
+        acenter1._id.toString(),
+        "Dog 3",
+        "2021-02-04",
+        ["breed5"],
+        "F",
+        40,
+    );
+    console.log(test_log("Dog 3 created"));
+} catch (e) {
+    console.log(test_error("Error creating dog 3"));
+    console.log(test_error(e));
+}
+
+console.log(test_log("User 1 trying to see a dog that haven't seen:"));
+
+try {
+    let res = await userDataFunctions.getUnseenDogs(
+        user1._id.toString()
+    )
+    console.log(res);
+} catch (e) {
+    console.log(test_error("Error getting unseen dog"));
+    console.log(test_error(e));
+}
+
 
 console.log(test_section("Done testing / seeding database"));
 

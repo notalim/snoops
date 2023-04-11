@@ -1,4 +1,4 @@
-import { users } from "../config/mongoCollections.js";
+import { users, acenters } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as validation from "../validation.js";
 
@@ -105,7 +105,7 @@ const updateUser = async (
     let validatedId = validation.checkId(id, "User ID");
 
     // Check email
-    
+
     email = validation.checkEmail(email, "Email");
 
     // Check password
@@ -169,7 +169,7 @@ const loginUser = async (email, password) => {
         throw `Incorrect password`;
     }
 
-    return { user, success: true };
+    return user;
 };
 
 const likeDog = async (userId, acenterId, dogId) => {
@@ -244,6 +244,46 @@ const swipeLeft = async (userId, acenterId, dogId) => {
     return { user, success: true };
 };
 
+
+// Get all dogs that the user has not seen yet
+// ! If the user has seen all dogs, it currently throws, but we can change it to return an empty array
+// limit is the number of dogs to return
+const getUnseenDogs = async (userId, limit = 10) => {
+    userId = validation.checkId(userId, "User ID");
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({ _id: new ObjectId(userId) });
+
+    if (!user) {
+        throw `User not found with this Id ${userId}`;
+    }
+
+    const seenDogIds = user.seenDogs.map((seenDog) => seenDog.dogId);
+
+    const acenterCollection = await acenters();
+
+    const unseenDogs = await acenterCollection
+        .aggregate([
+            { $unwind: "$dogList" },
+            {
+                $match: {
+                    "dogList._id": {
+                        $nin: seenDogIds.map((id) => new ObjectId(id)),
+                    },
+                },
+            },
+            { $limit: limit },
+            { $project: { dog: "$dogList", _id: 0 } },
+        ])
+        .toArray();
+
+    if (!unseenDogs || unseenDogs.length === 0) {
+        throw `No more dogs to see`;
+    }
+
+    return { dogs: unseenDogs.map((entry) => entry.dog), success: true };
+};
+
 const exportedMethods = {
     getAllUsers,
     createUser,
@@ -254,6 +294,7 @@ const exportedMethods = {
     likeDog,
     swipeLeft,
     swipeRight,
+    getUnseenDogs,
 };
 
 export default exportedMethods;

@@ -3,6 +3,7 @@ import configRoutes from "./routes/index.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import exphbs from "express-handlebars";
+import expressSession from "express-session";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -19,6 +20,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+    expressSession({
+        secret: "your_secret_key",
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false }, // Set to true for HTTPS connections
+    })
+);
 
 configRoutes(app);
 
