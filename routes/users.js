@@ -63,7 +63,9 @@ router.route("/signup").post(async (req, res) => {
             phone,
             address
         );
-        return res.status(200).json(user);
+        // return res.status(200).json(user);
+        req.session.user = user;
+        return res.status(200).redirect("/scroller");
     } catch (e) {
         res.status(500).json({ error: e });
     }
@@ -142,7 +144,9 @@ router.route("/login").post(async (req, res) => {
 
     try {
         const user = await userData.loginUser(email, hashedPassword);
-        return res.status(200).json(user);
+        // return res.status(200).json(user);
+        req.session.user = user;
+        return res.status(200).redirect("/scroller");
     } catch (e) {
         res.status(500).json({ error: e });
     }
