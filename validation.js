@@ -3,7 +3,7 @@ import * as Validator from "email-validator"; //Yousaf - Url: https://www.npmjs.
 import { phone } from "phone";
 import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package/validator
 //Yousaf - We can prolly just use validator to handle both email and website
-import hash from "password-hash"
+import passwordHash from "password-hash";
 
 export function checkString(str, strName) {
     if (!str) {
@@ -63,9 +63,9 @@ export function checkName(name, varName) {
     if (name.split(" ").length > 1) {
         throw `${varName} must be a single word`;
     }
-    var regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g
-    if(name.replace(regex, "").length !== name.length){
-        throw `${varName} must not consist of special characters`
+    var regex = [/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g];
+    if (name.replace(regex, "").length !== name.length) {
+        throw `${varName} must not consist of special characters`;
     }
     return name.trim();
 }
@@ -83,16 +83,19 @@ export function checkLegalAge(age, elmName) {
     return age;
 }
 
-export function checkPassword(password, elmName) {
+export function hashPassword(password) {
+    return passwordHash.generate(password);
+}
 
+export function checkPassword(password, elmName) {
     password = checkString(password, elmName);
-    if(password.length != password.replace(" ", "").length){
+    if (password.length != password.replace(" ", "").length) {
         throw `${elmName} can not contain spaces`;
     }
     if (!validator.isStrongPassword(password)) {
         throw `${elmName} must be a strong password`;
     }
-    return hash.generate(password);
+    return hashPassword(password);
 }
 
 export function checkWebsite(website, elmName) {
@@ -112,7 +115,7 @@ export function checkEmail(email, elmName) {
     if (!Validator.validate(email)) {
         throw `You must provide a valid email`;
     }
-    return email.trim();
+    return email.trim().toLowerCase();
 }
 
 export function checkDate(date, elmName) {
@@ -133,7 +136,7 @@ export function checkGender(gender, elmName) {
 
 export function checkWorkingHours(workingHours, elmName) {
     workingHours = checkString();
-    if(workingHours.length !== 4){
+    if (workingHours.length !== 4) {
         throw `${elmName} must be in valid workingHour format HH(AM/PM)`;
     }
     if (isNan(Number(workingHours.substring(0, 2)))) {
@@ -192,10 +195,10 @@ export function checkAgePreferences(_var, varName) {
 
 export function checkAddress(adr, varName) {
     // Yousaf - Change address to a subdocument potentially for map API
-} 
-
-//Used to compare password to hash value, and will return a boolean
-export function verifyPassword(password, hash){
-    return hash.verify(password, hash)
+    return adr;
 }
 
+//Used to compare password to hash value, and will return a boolean
+export function verifyPassword(password, hash) {
+    return passwordHash.verify(password, hash);
+}

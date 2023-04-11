@@ -1,11 +1,14 @@
+/*
+This file is for testing the data functions for adoption centers.
+*/
+
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import chalk from "chalk";
 
-import userDataFunctions from "../data/users.js";
 import acenterDataFunctions from "../data/acenters.js";
 
 const db = await dbConnection();
-await db.dropDatabase();
+await db.collection("adoption_centers").drop();
 
 const test_section = chalk.yellow;
 const test_log = chalk.blue;
@@ -15,8 +18,8 @@ const test_error = chalk.red;
 
 let adoptionCenterTest = {
     email: "adoptioncenter1@test.com",
-    name: "Adoption Center 1",
-    password: "password",
+    name: "Adoption Center One",
+    password: "Password123_!",
     contactFirstName: "Adoption",
     contactLastName: "Center",
     phone: "9295054338",
@@ -25,8 +28,8 @@ let adoptionCenterTest = {
 
 let adoptionCenterTest2 = {
     email: "adoptioncenter2@test.com",
-    name: "Adoption Center 2",
-    password: "password",
+    name: "Adoption Center Two",
+    password: "Password123_!",
     contactFirstName: "Another",
     contactLastName: "Center",
     phone: "9295054339",
@@ -68,7 +71,9 @@ try {
         adoptionCenterTest.phone,
         adoptionCenterTest.address
     );
+    console.log(test_log("Adoption Center 1 created"));
 } catch (e) {
+    console.log(test_error("Error creating Adoption center 1"));
     console.log(test_error(e));
 }
 
@@ -82,7 +87,9 @@ try {
         adoptionCenterTest2.phone,
         adoptionCenterTest2.address
     );
+    console.log(test_log("Adoption Center 2 created"));
 } catch (e) {
+    console.log(test_error("Error creating Adoption center 2"));
     console.log(test_error(e));
 }
 
@@ -91,7 +98,9 @@ console.log(test_log("Getting adoption center"));
 try {
     let testId = acenter1._id;
     acenter3 = await acenterDataFunctions.getAdoptionCenter(testId.toString());
+    console.log(test_log("Adoption Center 1 retrieved"));
 } catch (e) {
+    console.log(test_error("Error retrieving Adoption center 1"));
     console.log(test_error(e));
 }
 
@@ -104,6 +113,7 @@ try {
     let acenterList = await acenterDataFunctions.getAllAdoptionCenters();
     console.log(acenterList.length);
 } catch (e) {
+    console.log(test_error("Error retrieving Adoption centers"));
     console.log(test_error(e));
 }
 
@@ -122,6 +132,7 @@ try {
         adoptionCenterTest.address
     );
 } catch (e) {
+    console.log(test_error("Error updating Adoption center"));
     console.log(test_error(e));
 }
 
@@ -136,11 +147,13 @@ console.log(test_log("Deleting adoption center"));
 try {
     let testId = acenter4._id;
     await acenterDataFunctions.deleteAdoptionCenter(testId.toString());
+    console.log(test_log("Adoption Center 1 deleted"));
 } catch (e) {
+    console.log(test_error("Error deleting Adoption center"));
     console.log(test_error(e));
 }
 
-console.log(test_log("[Created it again for further testing]"));
+console.log(test_log("Creating it again for further testing:"));
 
 try {
     acenter1 = await acenterDataFunctions.createAdoptionCenter(
@@ -152,7 +165,9 @@ try {
         adoptionCenterTest.phone,
         adoptionCenterTest.address
     );
+    console.log(test_log("Adoption Center 1 created"));
 } catch (e) {
+    console.log(test_error("Error creating Adoption center 1"));
     console.log(test_error(e));
 }
 
@@ -161,8 +176,10 @@ try {
     let testId = acenter4._id;
     acenter5 = await acenterDataFunctions.getAdoptionCenter(testId.toString());
     console.log(acenter5);
+    console.log(test_error("Adoption Center 1 retrieved"));
 } catch (e) {
-    console.log(test_error(e));
+    console.log(test_log("Error retrieving Adoption center"));
+    console.log(test_log(e));
 }
 
 console.log(test_log("This should be 1: "));
@@ -170,6 +187,7 @@ try {
     let acenterList2 = await acenterDataFunctions.getAllAdoptionCenters();
     console.log(acenterList2.length);
 } catch (e) {
+    console.log(test_error("Error retrieving Adoption centers length"));
     console.log(test_error(e));
 }
 
@@ -191,7 +209,9 @@ try {
         dogTest1.gender,
         dogTest1.size
     );
+    console.log(test_log("Dog 1 created"));
 } catch (e) {
+    console.log(test_error("Error creating Dog 1"));
     console.log(test_error(e));
 }
 
@@ -205,7 +225,9 @@ try {
         dogTest2.gender,
         dogTest2.size
     );
+    console.log(test_log("Dog 2 created"));
 } catch (e) {
+    console.log(test_error("Error creating Dog 2"));
     console.log(test_error(e));
 }
 
@@ -215,6 +237,7 @@ try {
         await acenterDataFunctions.getAdoptionCenter(acenter2._id.toString())
     );
 } catch (e) {
+    console.log(test_error("Error retrieving Adoption center"));
     console.log(test_error(e));
 }
 
@@ -226,6 +249,7 @@ try {
     );
     console.log(acenter1Dogs);
 } catch (e) {
+    console.log(test_error("Error retrieving Adoption center dogs"));
     console.log(test_error(e));
 }
 
@@ -244,15 +268,14 @@ console.log(
 );
 try {
     let acenterTestId = acenter2._id.toString();
-
     acenter2 = await acenterDataFunctions.getAdoptionCenter(acenterTestId);
-
     let dogId = acenter2.dogList[0]._id.toString();
 
     console.log(
         await acenterDataFunctions.getDogFromAcenter(acenterTestId, dogId)
     );
 } catch (e) {
+    console.log(test_error("Error retrieving Adoption center dog by ID"));
     console.log(test_error(e));
 }
 
@@ -286,19 +309,23 @@ try {
     );
 
     console.log(updatedDog);
-
+    console.log("This should be the same as above:");
     console.log(
         await acenterDataFunctions.getDogFromAcenter(acenterTestId, dogId)
     );
+
 } catch (e) {
-    console.log(test_error(`${e}`));
+    console.log(test_error("Error updating Adoption center dog by ID"));
+    console.log(test_error(e));
 }
 
 console.log(test_log("Deleting a dog in the adoption center:"));
 
 try {
     await acenterDataFunctions.deleteDog(acenterTestId, dogId);
+    console.log("Dog deleted");
 } catch (e) {
+    console.log(test_error("Error deleting Adoption center dog by ID"));
     console.log(test_error(e));
 }
 
@@ -310,6 +337,29 @@ try {
     );
     console.log(acenter1Dogs);
 } catch (e) {
+    console.log(test_error("Error retrieving Adoption center dogs"));
+    console.log(test_error(e));
+}
+
+console.log(test_log("Trying to create an adoption center and login:"));
+
+try {
+    let newAcenter = await acenterDataFunctions.createAdoptionCenter(
+        "fail@login.com",
+        "Adoption Login",
+        "Password123!",
+        "Acenter4",
+        "FailLogin",
+        "9295054335",
+        "1234 Test Street"
+    );
+    let acenter1Login = await acenterDataFunctions.logInAdoptionCenter(
+        "fail@login.com",
+        "Password123!"
+    );
+    console.log("Successfully logged in");
+} catch (e) {
+    console.log(test_error("Error logging in Adoption center"));
     console.log(test_error(e));
 }
 

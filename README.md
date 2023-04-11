@@ -6,10 +6,9 @@ Users are able to create one of two different types of accounts: adopter and ado
 
 ## Technologies Used
 
-- HTML
-- CSS
 - JavaScript
-- React
+- Express
+- Handlebars
 - Node.js
 - MongoDB
 
@@ -27,6 +26,30 @@ To start the development server, run:
 
 ```
 $ npm start
+```
+or
+```
+$ node app.js
+```
+To seed the database:
+```
+$ npm run seed
+```
+
+## Tests
+
+Test the main Tinder algo:
+
+```
+$ npm run algo-test
+```
+Test the Users data fuctions:
+```
+$ npm run users-test
+```
+Test the Adoption centers data fuctions:
+```
+$ npm run acenters-test
 ```
 
 ## Contributing

@@ -18,5 +18,5 @@ const getCollectionFn = (collection) => {
 /* Now, you can list your collections here: */
 export const acenters = getCollectionFn('adoption_centers');
 export const users = getCollectionFn('users');
-export const chats = getCollectionFn("chats");
+export const chats = getCollectionFn('chats');
 

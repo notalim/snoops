@@ -19,7 +19,6 @@ const createAdoptionCenter = async (
     if (acenter) {
         throw `Adoption center with email ${email} already exists`;
     }
-
     // ? do we check the users collection too?
 
     email = validation.checkEmail(email, "Email");
@@ -105,7 +104,7 @@ const updateAdoptionCenter = async (
     id = validation.checkId(id, "ID");
 
     // Check email
-    const acenter = await acenterCollection.findOne({ email: email });
+    const acenter = await acenterCollection.findOne({id: !id, email: email});
     if (acenter) {
         throw `Adoption center with email ${email} already exists`;
     }
@@ -130,7 +129,7 @@ const updateAdoptionCenter = async (
     );
 
     // Check phone number
-    const acenter2 = await acenterCollection.findOne({ phone: phone });
+    const acenter2 = await acenterCollection.findOne({ id: !id, phone: phone });
     if (acenter2) {
         throw `Adoption center with phone ${phone} already exists`;
     }
@@ -175,6 +174,7 @@ const deleteAdoptionCenter = async (id) => {
     if (deletionInfo.deletedCount === 0) {
         throw `Could not delete adoption center with ID ${id}`;
     }
+    return { id, deleted: true };
 };
 
 const createDog = async (
@@ -286,8 +286,6 @@ const updateDog = async (
     // get the old dog info
     let oldDog = await getDogFromAcenter(acenterId, dogId);
 
-    
-
     // Check dogName
     // ? Do we use Check Name or Check String?
     dogName = validation.checkString(dogName, "Dog name");
@@ -344,7 +342,23 @@ const deleteDog = async (acenterId, dogId) => {
     if (deletionInfo.modifiedCount === 0) {
         throw `Could not delete dog with ID ${dogId} from adoption center with ID ${acenterId}`;
     }
-    return oldDog;
+    return {id: dogId, deleted: true};
+};
+
+const logInAdoptionCenter = async (acenterEmail, acenterPassword) => {
+
+    acenterEmail = validation.checkEmail(acenterEmail, "email");
+
+    const acenter = await acenterCollection.findOne({ email: acenterEmail });
+    if (!acenter) {
+        throw `Adoption center with email ${acenterEmail} does not exist`;
+    }
+
+    if (!validation.verifyPassword(acenterPassword, acenter.password)) {
+        throw `Incorrect password`;
+    }
+
+    return { acenter, success: true };
 };
 
 const exportedMethods = {
@@ -353,6 +367,7 @@ const exportedMethods = {
     createAdoptionCenter,
     updateAdoptionCenter,
     deleteAdoptionCenter,
+    logInAdoptionCenter,
     createDog,
     getAllDogs,
     getDogFromAcenter,
