@@ -65,9 +65,9 @@ router.route("/signup").post(async (req, res) => {
         );
         // return res.status(200).json(user);
         req.session.user = user;
-        return res.status(200).redirect("/scroller");
-    } catch (e) {
-        res.status(500).json({ error: e });
+        res.redirect("/scroller");
+    } catch (error) {
+        res.render("signup", { error: error.toString() });
     }
 });
 
@@ -138,17 +138,14 @@ router.route("/login").post(async (req, res) => {
 
     let { email, password } = req.body;
 
-    // Validate request email
-
-    email = validation.checkEmail(email, "Email");
-
     try {
-        const user = await userData.loginUser(email, hashedPassword);
-        // return res.status(200).json(user);
-        req.session.user = user;
-        return res.status(200).redirect("/scroller");
+        email = validation.checkEmail(email, "Email");
+
+        const user = await userData.loginUser(email, password); // Pass the plain password, not hashedPassword
+        req.session.userId = user._id; // Store the userId, not the whole user object
+        res.redirect("/scroller");
     } catch (e) {
-        res.status(500).json({ error: e });
+        res.render("login", { error: error.toString() });
     }
 });
 

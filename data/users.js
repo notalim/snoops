@@ -169,7 +169,7 @@ const loginUser = async (email, password) => {
         throw `Incorrect password`;
     }
 
-    return { user, success: true };
+    return user;
 };
 
 const likeDog = async (userId, acenterId, dogId) => {
