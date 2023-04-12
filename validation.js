@@ -93,7 +93,21 @@ export function checkPassword(password, elmName) {
         throw `${elmName} can not contain spaces`;
     }
     if (!validator.isStrongPassword(password)) {
-        throw `${elmName} must be a strong password`;
+        if (password.length < 8){
+            throw `${elmName} has to be at least 8 characters`
+        }
+        if (password.length === password.replace(/[^a-zA-Z0-9 ]/g, "").length) {
+            throw `${elmName} must have at least one symbol (special character)`;
+        }
+        if (password.length === password.replace(/[a-z]/g, "").length) {
+            throw `${elmName} must have at least one lower case character`;
+        }
+        if (password.length === password.replace(/[A-Z]/g, "").length) {
+            throw `${elmName} must have at least one upper case character`;
+        }
+        if (password.length === password.replace(/[0-9]/g, "").length) {
+            throw `${elmName} must have at least number`;
+        }
     }
     return hashPassword(password);
 }
