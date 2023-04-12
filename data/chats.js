@@ -1,7 +1,6 @@
 import { chats } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as validation from "../validation.js";
-import exportedMethods from "./users.js";
 
 const chatCollection = await chats();
 
