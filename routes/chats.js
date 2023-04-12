@@ -5,9 +5,25 @@ import * as validation from "../validation.js";
 
 // TODO: Chat Routes
 
-// TODO: GET /chats/:id - Get All chats for user/aCenter with id
-router.route("/:id").get(async (req, res) => {
+// TODO: GET /chats/:uid - Get All chats for user/aCenter with id
+router.route("/:uid").get(async (req, res) => {
+    try{
+        const id = validation.checkId(req.params.uid);
+        const chatList = await chatData.getAllChatsUser(id);
+        res.status(200).json(chatList);
+    }catch(e){
+        res.status(500).json({error: e});
+    }
+});
 
+router.route("/:acid").get(async (req, res) => {
+    try{
+        const id = validation.checkId(req.params.acid);
+        const chatList = await chatData.getAllChatsUser(id);
+        res.status(200).json(chatList);
+    }catch(e){
+        res.status(500).json({error: e});
+    }
 });
 
 // TODO: GET /chats/:uid/:acid - Get chat for user between it and aCenter
