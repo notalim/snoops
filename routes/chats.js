@@ -11,7 +11,7 @@ router.route("/:id").get(async (req, res) => {
 });
 
 // TODO: GET /chats/:uid/:acid - Get chat for user between it and aCenter
-router.route("/:uid/:acid).get(async (req, res) => {
+router.route("/:uid/:acid").get(async (req, res) => {
 
 });
 

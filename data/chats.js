@@ -70,7 +70,6 @@ const postMessage = async (
     centerID = validation.checkId(centerID, "CenterID");
     senderID = validation.checkId(senderID, "SenderID");
 
-    //create validation for messages which includes censoring
     messageContent = validation.checkMessage(messageContent, "Message");
    
     const newMessage = {
