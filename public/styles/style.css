@@ -97,10 +97,26 @@ header nav a:hover {
   margin-bottom: 1.25rem;
 }
 
+.hero h1 {
+  background: inherit;
+  font-size: 3.875rem;
+  font-weight: bold;
+  margin-bottom: 1.25rem;
+}
+
 .hero p {
   background: inherit;
   margin-bottom: 1.25rem;
   display: flex;
+}
+
+.hero a {
+  background: inherit;
+  margin-bottom: 1.25rem;
+  display: flex;
+  text-decoration: none;
+  color: #eeeeee;
+  font-weight: bold;
 }
 
 .hero-buttons {
