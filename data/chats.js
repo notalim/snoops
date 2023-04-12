@@ -71,7 +71,7 @@ const postMessage = async (
     senderID = validation.checkId(senderID, "SenderID");
 
     messageContent = validation.checkMessage(messageContent, "Message");
-   
+    messageTime = validation.checkString(messageTime, "Message Time");
     const newMessage = {
         senderId : new ObjectId(senderID),
         messageContent : messageContent,

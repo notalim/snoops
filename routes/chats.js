@@ -9,7 +9,10 @@ import * as validation from "../validation.js";
 router.route("/:uid").get(async (req, res) => {
     const id = validation.checkId(req.params.uid);
     try{
-        const chatList = await chatData.getAllChatsUser(id);
+        //could sort by most recent time
+        const chatList = await chatData.getAllChatsUser(id).sort((a,b) => {
+            b.messages[b.messages.length()-1].messageTime - a.messages[a.messages.length()-1].messageTime
+        });
         res.status(200).json(chatList);
     }catch(e){
         res.status(500).json({error: e});
@@ -18,7 +21,7 @@ router.route("/:uid").get(async (req, res) => {
 
 router.route("/:acid").get(async (req, res) => {
     const id = validation.checkId(req.params.acid);
-    try{
+    try{        
         const chatList = await chatData.getAllChatsACenter(id);
         res.status(200).json(chatList);
     }catch(e){
@@ -55,7 +58,9 @@ router.route("/:acid/:uid").put(async (req, res) => {
     const uid = validation.checkId(req.params.uid);
     const acid = validation.checkId(req.params.acid);
     const message = validation.checkMessage(req.body.message);
-    const time = req.body.time;
+    let date = new Date();
+    let time = date.toLocaleDateString();
+    time.concat(date.toUTCString().slice(17,29));
     try{
         const newMessage = await chatData.postMessage(
             uid,
@@ -75,7 +80,9 @@ router.route("/:uid/:acid").put(async (req, res) => {
     const uid = validation.checkId(req.params.uid);
     const acid = validation.checkId(req.params.acid);
     const message = validation.checkMessage(req.body.message);
-    const time = req.body.time;
+    let date = new Date();
+    let time = date.toLocaleDateString();
+    time.concat(date.toUTCString().slice(17,29));
     try{
         const newMessage = await chatData.postMessage(
             uid,
