@@ -1,0 +1,53 @@
+<main class="settings">
+    <h1>Settings</h1>
+    <div class="settingsContainer">
+        <form action="/users/settings" method="POST">
+            <label for="firstName">First Name</label>
+            <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
+
+            <label for="lastName">Last Name</label>
+            <input type="text" name="lastName" id="lastName" value="{{user.lastName}}" />
+
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" value="{{user.email}}" />
+
+            <label for="phone">Phone</label>
+            <input type="tel" name="phone" id="phone" value="{{user.phone}}" />
+
+            <label for="address">Address</label>
+            <input type="text" name="address" id="address" value="{{user.address}}" />
+
+            <label for="oldPassword">Old Password</label>
+            <input type="password" name="oldPassword" id="password" />
+
+            <label for="newPassword">New Password</label>
+            <input type="password" name="newPassword" id="newPassword" />
+            <button type="submit">Save</button>
+        </form>
+
+        <div class="likedDogs">
+            {{#each user.likedDogs}}
+            <div class="likedDog">
+                <img src="{{this.img}}" alt="dog" />
+                <p>{{this.name}}</p>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</main>
+
+<script>
+    let newUser = {
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        dob: dob,
+        phone: phone,
+        address: address,
+        img: null,
+        dogPreferences: {},
+        likedDogs: [],
+        seenDogs: [],
+    };
+</script>

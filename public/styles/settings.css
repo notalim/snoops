@@ -1,0 +1,32 @@
+.settings{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.settingsContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 50vw;
+    height: 50vh;
+    min-width: 500px;
+    min-height: 500px;
+    border: 2px solid #633d1e;
+    border-radius: 16px;
+}
+
+.settingsContainer form{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+}
