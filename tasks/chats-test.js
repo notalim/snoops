@@ -3,10 +3,15 @@ import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import chatDataFunctions from "../data/chats.js";
 import acenterDataFunctions from "../data/acenters.js";
 import userDataFunctions from "../data/users.js";
+import chalk from "chalk";
 
 const db = await dbConnection();
 await db.dropDatabase();
 
+
+const test_section = chalk.yellow;
+const test_log = chalk.magentaBright
+const test_error = chalk.redBright
 
 let adoptionCenter1 = {
     email: "adoption@email1.com",
@@ -150,37 +155,149 @@ let User4 = await userDataFunctions.createUser(
 
 //############ TESTING CHATS ##############
 
+console.log(test_section("############### TESTING CREATECHAT #################"));
+console.log();
 try{
     await chatDataFunctions.createChat(User1._id.toString(), center1._id.toString());
-    console.log(`Created chat between ${User1._id.toString()} and ${center1._id.toString()}`);
+    console.log(test_log(`Created chat between ${User1._id.toString()} and ${center1._id.toString()}`));
 }catch(e){
-    console.log(`Error while creating chat between ${User1._id.toString()} and ${center1._id.toString()}`);
-    console.log(e);
+    console.log(test_error(`Error while creating chat between ${User1._id.toString()} and ${center1._id.toString()}`));
+    console.log(test_error(e));
 }
 
 try{
-
+    await chatDataFunctions.createChat(User1._id.toString(), center1._id.toString());
+    console.log(test_log(`Created chat between ${User1._id.toString()} and ${center1._id.toString()}`));
 }catch(e){
-    console.log(e);
+    console.log(test_error(`Error while creating chat between ${User1._id.toString()} and ${center1._id.toString()}`));
+    console.log(test_error(`ERROR: ${e}`));
 }
 
 try{
-
+    await chatDataFunctions.createChat(User1._id.toString(), center2._id.toString());
+    console.log(test_log(`Created chat between ${User1._id.toString()} and ${center2._id.toString()}`));
 }catch(e){
-    console.log(e);
+    console.log(test_error(`Error while creating chat between ${User1._id.toString()} and ${center1._id.toString()}`));
+    console.log(test_error(`ERROR: ${e}`));
 }
 
 try{
-
+    await chatDataFunctions.createChat(User1._id.toString(), center3._id.toString());
+    console.log(test_log(`Created chat between ${User1._id.toString()} and ${center3._id.toString()}`));
 }catch(e){
-    console.log(e);
+    console.log(test_error(`Error while creating chat between ${User1._id.toString()} and ${center1._id.toString()}`));
+    console.log(test_error(`ERROR: ${e}`));
+}
+
+console.log(test_section("############### TESTING GETALLCHATS FUNCS #################"));
+console.log();
+
+try{
+    console.log(test_log(`Getting all chats for User1`));
+    console.log(await chatDataFunctions.getAllChatsUser(User1._id.toString()));
+}catch(e){
+    console.log(test_error(e));
+}
+
+//Should display only one chat for center1
+try{
+    console.log(test_log(`Getting all chats for center1`));
+    console.log(await chatDataFunctions.getAllChatsACenter(center1._id.toString()));
+    await chatDataFunctions.createChat(User2._id.toString(), center1._id.toString());
+    console.log(test_log(`Getting all chats for center1 after update`));
+    console.log(await chatDataFunctions.getAllChatsACenter(center1._id.toString()));
+}catch(e){
+    console.log(test_error(e));
+}
+
+//Show throw an error
+try{
+    console.log(await chatDataFunctions.getAllChatsUser(User4._id.toString()));
+}catch(e){
+    console.log(test_error(e));
+}
+
+console.log(test_section("############### TESTING GETCHAT #################"));
+console.log();
+
+//This shouldnt throw
+try{
+    console.log(test_log(`Getting chat between ${User1._id.toString()} and ${center1._id.toString()}`))
+    console.log(await chatDataFunctions.getChat(User1._id.toString(), center1._id.toString()));
+}catch(e){
+    console.log(test_error(e));
+}
+
+//This should throw as there isnt a chat between these two users
+try{
+    console.log(test_log(`Getting chat between ${User2._id.toString()} and ${center3._id.toString()}`))
+    console.log(await chatDataFunctions.getChat(User2._id.toString(), center3._id.toString()));
+}catch(e){
+    console.log(test_error(e))
+}
+
+console.log(test_section("############### TESTING POSTMESSAGE #################"));
+console.log();
+
+try{
+    let message = "Hello my name is jeff";
+    await chatDataFunctions.postMessage(
+        User1._id.toString(), 
+        center1._id.toString(),
+        User1._id.toString(),
+        message,
+        new Date().toLocaleDateString());
+}catch(e){
+    console.log(test_error(e));
 }
 
 try{
-
+    let message = "Hello my name is Mary";
+    await chatDataFunctions.postMessage(
+        User1._id.toString(), 
+        center1._id.toString(),
+        center1._id.toString(),
+        message,
+        new Date().toLocaleDateString());
 }catch(e){
-    console.log(e);
+    console.log(test_error(e));
 }
 
+try{
+    let message = "Hello my name is Mary";
+    await chatDataFunctions.postMessage(
+        "meow", 
+        center1._id.toString(),
+        center1._id.toString(),
+        message,
+        new Date().toLocaleDateString());
+}catch(e){
+    console.log(test_error(e));
+}
+
+try{
+    let message = "Hello my name is jeff";
+    await chatDataFunctions.postMessage(
+        User1._id.toString(), 
+        center1._id.toString(),
+        User1._id.toString(),
+        1234,
+        new Date().toLocaleDateString());
+}catch(e){
+    console.log(test_error(e));
+}
+
+//Testing censorship
+try{
+    let message = "You're a fat sack of shit";
+    await chatDataFunctions.postMessage(
+        User1._id.toString(), 
+        center1._id.toString(),
+        User1._id.toString(),
+        message,
+        new Date().toLocaleDateString());
+}catch(e){
+    console.log(test_error(e));
+}
 
 await closeConnection();

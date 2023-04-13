@@ -6,18 +6,19 @@ const chatCollection = await chats();
 
 const getAllChatsACenter = async (centerID) => {
     centerID = validation.checkId(centerID, "CenterID");
-    const centerChats = await chatCollection.find({centerId: new ObjectId(centerID)}).toArray();
-    if(centerChats === null){
+    const centerChats = await chatCollection.find({centerId: centerID}).toArray();
+    if(centerChats.length === 0){
         throw `No chats for aCenter with ID ${centerID}`
     }
     return centerChats;
 }
 
-const getAllChatsUser = async (userID) => {
-    userID = validation.checkId(userID, "UserID");
-    const userChats = await chatCollection.find({userId: new ObjectId(userID)}).toArray();
-    if(userChats === null){
-        throw `No chats for aCenter with ID ${userID}`
+const getAllChatsUser = async (id) => {
+    id = validation.checkId(id, "UserID");
+    console.log(id);
+    let userChats = await chatCollection.find({userId: id}).toArray();
+    if(userChats.length === 0){
+        throw `No chats for User with ID ${id}`
     }
     return userChats;
 }
@@ -48,9 +49,9 @@ const getChat = async (userID, centerID) => {
     userID = validation.checkId(userID, "UserID");
     centerID = validation.checkId(centerID, "CenterID");
 
-    const userChats = await chatCollection.find(
-        {userId: new ObjectId(userID),
-        centerId: new ObjectId(centerID)});
+    const userChats = await chatCollection.findOne(
+        {userId: userID,
+        centerId: centerID});
 
     if(userChats === null){
         throw `No chat between user: ${userID} and aCenter: ${centerID}`;
@@ -78,9 +79,9 @@ const postMessage = async (
         messageTime : messageTime
     }
 
-    const updatedInfo = chatCollection.findOneAndUpdate({userId: userID, centerId: centerID},
+    const updatedInfo = await chatCollection.findOneAndUpdate({userId: userID, centerId: centerID},
         {$push : {messages : newMessage}}, {returnDocument: 'after'});
-
+    //console.log(updatedInfo);
     if (updatedInfo.lastErrorObject.n === 0) {
         throw [404,'could not update message successfully'];
     }
