@@ -4,6 +4,14 @@ import * as validation from "../validation.js";
 
 const chatCollection = await chats();
 
+const getAllChats = async () => {
+    const allChats = await chatCollection.find().toArray();
+    if(allChats.length === 0){
+        throw "There are no chats";
+    }
+    return allChats;
+}
+
 const getAllChatsACenter = async (centerID) => {
     centerID = validation.checkId(centerID, "CenterID");
     const centerChats = await chatCollection.find({centerId: centerID}).toArray();
@@ -91,6 +99,7 @@ const postMessage = async (
 
 
 const exportedMethods = {
+    getAllChats,
     getAllChatsACenter,
     getAllChatsUser,
     createChat,

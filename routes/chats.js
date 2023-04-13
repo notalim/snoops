@@ -4,22 +4,31 @@ import { chatData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 
 // TODO: Chat Routes
-
-// TODO: GET /chats/:uid - Get All chats for user/aCenter with id
-router.route("/:uid").get(async (req, res) => {
-    const id = validation.checkId(req.params.uid);
+router.route("/").get(async (req, res) => {
     try{
-        //could sort by most recent time
-        const chatList = await chatData.getAllChatsUser(id).sort((a,b) => {
-            b.messages[b.messages.length()-1].messageTime - a.messages[a.messages.length()-1].messageTime
-        });
+        const chatList = await chatData.getAllChats();
         res.status(200).json(chatList);
     }catch(e){
         res.status(500).json({error: e});
     }
 });
 
-router.route("/:acid").get(async (req, res) => {
+// TODO: GET /chats/:uid - Get All chats for user/aCenter with id
+router.route("/user/:uid").get(async (req, res) => {
+    const id = validation.checkId(req.params.uid);
+    try{
+        //could sort by most recent time
+        const chatList = await chatData.getAllChatsUser(id);
+        // .sort((a,b) => {
+        //     b.messages[b.messages.length()-1].messageTime - a.messages[a.messages.length()-1].messageTime
+        // });
+        res.status(200).json(chatList);
+    }catch(e){
+        res.status(500).json({error: e});
+    }
+});
+
+router.route("/acenter/:acid").get(async (req, res) => {
     const id = validation.checkId(req.params.acid);
     try{        
         const chatList = await chatData.getAllChatsACenter(id);
@@ -30,7 +39,7 @@ router.route("/:acid").get(async (req, res) => {
 });
 
 // TODO: GET /chats/:uid/:acid - Get chat for user between it and aCenter
-router.route("/:uid/:acid").get(async (req, res) => {
+router.route("/user/:uid/:acid").get(async (req, res) => {
     const uid = validation.checkId(req.params.uid);
     const acid = validation.checkId(req.params.acid);
     try{
@@ -42,7 +51,7 @@ router.route("/:uid/:acid").get(async (req, res) => {
 });
 
 // TODO: GET /chats/:acid/:uid - Get chat for aCenter between it and user
-router.route("/:acid/:uid").get(async (req, res) => {
+router.route("/acenter/:acid/:uid").get(async (req, res) => {
     const uid = validation.checkId(req.params.uid);
     const acid = validation.checkId(req.params.acid);
     try{
@@ -54,7 +63,7 @@ router.route("/:acid/:uid").get(async (req, res) => {
 });
 
 // TODO: PUT /chats/:acid/:uid - Sending a message from aCenter to user
-router.route("/:acid/:uid").put(async (req, res) => {
+router.route("/acenter/:acid/:uid").put(async (req, res) => {
     const uid = validation.checkId(req.params.uid);
     const acid = validation.checkId(req.params.acid);
     const message = validation.checkMessage(req.body.message);
@@ -76,13 +85,14 @@ router.route("/:acid/:uid").put(async (req, res) => {
 });
 
 // TODO: PUT /chats/:uid/:acid - Sending a message from user to aCenter
-router.route("/:uid/:acid").put(async (req, res) => {
+router.route("/user/:uid/:acid").put(async (req, res) => {
+    console.log("moew");
     const uid = validation.checkId(req.params.uid);
     const acid = validation.checkId(req.params.acid);
     const message = validation.checkMessage(req.body.message);
     let date = new Date();
     let time = date.toLocaleDateString();
-    time.concat(date.toUTCString().slice(17,29));
+    time = time.concat(date.toUTCString().slice(17,29));
     try{
         const newMessage = await chatData.postMessage(
             uid,
