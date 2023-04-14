@@ -25,14 +25,13 @@ const constructorMethod = (app) => {
     app.use("/acenters", acenterRoutes);
     app.use("/users", userRoutes);
     app.use("/chats", chatRoutes);
-    
 
     app.get("/about", (req, res) => {
         res.sendFile(path.resolve("static/about.html"));
     });
 
     app.use("*", (req, res) => {
-        res.status(404).render('404Page');
+        res.status(404).render("404Page");
     });
 };
 

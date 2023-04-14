@@ -298,7 +298,7 @@ const getUnseenDogs = async (userId, limit = 10) => {
         .toArray();
 
     if (!unseenDogs || unseenDogs.length === 0) {
-        throw `No more dogs to see`;
+        return { dogs: [], success: true };
     }
 
     return { dogs: unseenDogs.map((entry) => entry.dog), success: true };

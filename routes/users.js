@@ -39,6 +39,12 @@ router.route("/:id").get(async (req, res) => {
 // TODO: POST /users - Create user
 
 router.route("/signup").post(async (req, res) => {
+
+    // check if the user's already logged in
+    if (req.session.userId) {
+        res.redirect("/scroller");
+        return;
+    }
     // Decompose request body
 
     let { email, password, firstName, lastName, dob, phone, address } =
@@ -74,6 +80,7 @@ router.route("/signup").post(async (req, res) => {
             address
         );
         // return res.status(200).json(user);
+
         req.session.user = user;
         return res.redirect("/scroller");
     } catch (error) {
@@ -153,6 +160,11 @@ router.route("/:id").put(async (req, res) => {
 
 router.route("/login").post(async (req, res) => {
     // Decompose request body
+    // check if the user's already logged in
+    if (req.session.userId) {
+        res.redirect("/scroller");
+        return;
+    }
 
     let { email, password } = req.body;
 
@@ -165,10 +177,15 @@ router.route("/login").post(async (req, res) => {
     try {
         const user = await userData.loginUser(email, password); // Pass the plain password, not hashedPassword
         req.session.userId = user._id; // Store the userId, not the whole user object
+        req.session.userFirstName = user.firstName;
+
         return res.redirect("/scroller");
     } catch (e) {
-        return res.status(500).render("login", { error: e.toString() });
+        res.render("login", { error: e.toString(), email });
+        console.log(e);
+
     }
 });
+
 
 export default router;
