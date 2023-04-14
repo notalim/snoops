@@ -8,7 +8,7 @@
         "start": "node app.js",
         "seed": "node ./tasks/seed.js",
         "algo-test": "node ./tasks/algo-test.js",
-        "users-test": "node ./tasks/user-test.js",
+        "users-test": "node ./tasks/users-test.js",
         "acenters-test": "node ./tasks/acenters-test.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
