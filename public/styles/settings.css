@@ -61,6 +61,7 @@
 .likedDog img{
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: fill;
     border-radius: 16px;
+    border: #633d1e 2px solid;
 }
