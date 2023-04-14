@@ -3,9 +3,12 @@ import configRoutes from "./routes/index.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import exphbs from "express-handlebars";
-import expressSession from "express-session";
+import session from "express-session";
+import dotenv from "dotenv";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+dotenv.config();
 
 const app = express();
 
@@ -22,11 +25,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
-    expressSession({
-        secret: "your_secret_key",
+    session({
+        name: "AwesomeWebApp",
+        secret: "This is a secret.. shhh don't tell anyone",
+        saveUninitialized: true,
         resave: false,
-        saveUninitialized: false,
-        cookie: { secure: false }, // Set to true for HTTPS connections
     })
 );
 

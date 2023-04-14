@@ -34,6 +34,12 @@ router.route("/:id").get(async (req, res) => {
 // TODO: POST /users - Create user
 
 router.route("/signup").post(async (req, res) => {
+
+    // check if the user's already logged in
+    if (req.session.userId) {
+        res.redirect("/scroller");
+        return;
+    }
     // Decompose request body
 
     let { email, password, firstName, lastName, dob, phone, address } =
@@ -64,7 +70,6 @@ router.route("/signup").post(async (req, res) => {
             address
         );
         // return res.status(200).json(user);
-        req.session.user = user;
         res.redirect("/scroller");
     } catch (error) {
         res.render("signup", { error: error.toString() });
@@ -135,6 +140,11 @@ router.route("/:id").put(async (req, res) => {
 
 router.route("/login").post(async (req, res) => {
     // Decompose request body
+    // check if the user's already logged in
+    if (req.session.userId) {
+        res.redirect("/scroller");
+        return;
+    }
 
     let { email, password } = req.body;
 
@@ -145,8 +155,20 @@ router.route("/login").post(async (req, res) => {
         req.session.userId = user._id; // Store the userId, not the whole user object
         res.redirect("/scroller");
     } catch (e) {
-        res.render("login", { error: e.toString() });
+        res.render("login", { error: e.toString(), email });
     }
+});
+
+// TODO: Log Out User
+
+router.route("/logout").get(async (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            res.status(500).send("Error while logging out");
+        } else {
+            res.redirect("/login");
+        }
+    });
 });
 
 export default router;
