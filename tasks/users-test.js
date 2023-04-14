@@ -21,7 +21,7 @@ let userTest = {
     password: "Password123!",
     firstName: "User",
     lastName: "Test",
-    age: 20,
+    dob: "2002-01-01",
     phone: "9295054335",
     address: "1234 Test Street",
 };
@@ -31,7 +31,7 @@ let userTest2 = {
     password: "yesPassword123!",
     firstName: "User2",
     lastName: "Testy",
-    age: 20,
+    dob: "1992-06-03",
     phone: "9295054333",
     address: "Test Street, Manhattan, NY 10001",
 };
@@ -50,7 +50,7 @@ try {
         userTest.password,
         userTest.firstName,
         userTest.lastName,
-        userTest.age,
+        userTest.dob,
         userTest.phone,
         userTest.address
     );
@@ -66,7 +66,7 @@ try {
         userTest2.password,
         userTest2.firstName,
         userTest2.lastName,
-        userTest2.age,
+        userTest2.dob,
         userTest2.phone,
         userTest2.address
     );
@@ -124,7 +124,7 @@ try {
         userTest2.password,
         userTest2.firstName,
         userTest2.lastName,
-        userTest2.age,
+        userTest2.dob,
         userTest2.phone,
         userTest2.address
     );

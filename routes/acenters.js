@@ -133,7 +133,7 @@ router.route("/:id").put(async (req, res) => {
 
         return res
             .status(200)
-            .json(acenter, { message: "Adoption Center updated" });
+            .json(acenter);
     } catch (e) {
         res.status(500).json({ error: e });
     }
@@ -148,9 +148,7 @@ router.route("/:id").delete(async (req, res) => {
 
     try {
         const acenter = await acenterData.deleteAdoptionCenter(req.params.id);
-        return res
-            .status(200)
-            .json(acenter);
+        return res.status(200).json(acenter);
     } catch (e) {
         res.status(500).json({ error: e });
     }
@@ -282,6 +280,10 @@ router.route("/:id/dogs/:dogId").delete(async (req, res) => {
     } catch (e) {
         res.status(500).json({ error: e });
     }
+});
+
+router.get("/signup", (req, res) => {
+    res.render("ac_signup");
 });
 
 export default router;

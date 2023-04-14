@@ -5,6 +5,9 @@ import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package
 //Yousaf - We can prolly just use validator to handle both email and website
 import passwordHash from "password-hash";
 import Filter from "bad-words"; // Url: https://www.npmjs.com/package/bad-words
+import NodeGeocoder from 'node-geocoder';
+
+
 
 export function checkString(str, strName) {
     if (!str) {
@@ -94,7 +97,21 @@ export function checkPassword(password, elmName) {
         throw `${elmName} can not contain spaces`;
     }
     if (!validator.isStrongPassword(password)) {
-        throw `${elmName} must be a strong password`;
+        if (password.length < 8){
+            throw `${elmName} has to be at least 8 characters`
+        }
+        if (password.length === password.replace(/[^a-zA-Z0-9 ]/g, "").length) {
+            throw `${elmName} must have at least one symbol (special character)`;
+        }
+        if (password.length === password.replace(/[a-z]/g, "").length) {
+            throw `${elmName} must have at least one lower case character`;
+        }
+        if (password.length === password.replace(/[A-Z]/g, "").length) {
+            throw `${elmName} must have at least one upper case character`;
+        }
+        if (password.length === password.replace(/[0-9]/g, "").length) {
+            throw `${elmName} must have at least number`;
+        }
     }
     return hashPassword(password);
 }
@@ -116,7 +133,7 @@ export function checkEmail(email, elmName) {
     if (!Validator.validate(email)) {
         throw `You must provide a valid email`;
     }
-    return email.trim();
+    return email.trim().toLowerCase();
 }
 
 export function checkDate(date, elmName) {
@@ -124,6 +141,15 @@ export function checkDate(date, elmName) {
     if (!validator.isDate(date)) {
         throw `${elmName} must be a valid date`;
     }
+    let dob = new Date(date);
+    let mon_diff = Date.now() - dob.getTime();
+    let age_diff = new Date(mon_diff);
+    let year = age_diff.getUTCFullYear();
+    let age = Math.abs(year - 1970);
+    if (age < 18 || age > 122) {
+        throw `${elmName} must be a valid age (18-122)`
+    }
+
     return date.trim();
 }
 
@@ -196,6 +222,7 @@ export function checkAgePreferences(_var, varName) {
 
 export function checkAddress(adr, varName) {
     // Yousaf - Change address to a subdocument potentially for map API
+    return adr;
 }
 
 //Used to compare password to hash value, and will return a boolean
@@ -210,3 +237,55 @@ export function checkMessage(message, varName){
     return message;
 }
 
+export async function getLatLong(address, elmName) {
+    address = checkString(address, elmName);
+    let options = {provider: 'google', apiKey: "AIzaSyAUWoccZkfy2bNkLvYx_1G-oK7p9C3mB4Q"};
+    let geocoder = NodeGeocoder(options);
+    let res = await geocoder.geocode(address);
+    let returnObj;
+    if (!res || !res[0] || !res[0].latitude || !res[0].longitude){
+        throw `${elmName} could not be found`
+    }
+    else{
+        returnObj = {lat: res[0].latitude, long: res[0].longitude};
+    }
+    
+    return returnObj;
+  }
+
+
+/*
+[
+  {
+    formattedAddress: '538 Washington St, Hoboken, NJ 07030, USA',
+    latitude: 40.7434407,
+    longitude: -74.0294385,
+    extra: {
+      googlePlaceId: 'ChIJTcfNjd9ZwokRtavHyy8DRX8',
+      confidence: 1,
+      premise: null,
+      subpremise: null,
+      neighborhood: 'Hoboken',
+      establishment: null
+    },
+    administrativeLevels: {
+      level2long: 'Hudson County',
+      level2short: 'Hudson County',
+      level1long: 'New Jersey',
+      level1short: 'NJ'
+    },
+    streetNumber: '538',
+    streetName: 'Washington Street',
+    city: 'Hoboken',
+    country: 'United States',
+    countryCode: 'US',
+    zipcode: '07030',
+    provider: 'google'
+  }
+]
+
+
+
+
+
+*/

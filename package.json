@@ -1,32 +1,38 @@
 {
-  "name": "snoops",
-  "version": "1.0.0",
-  "description": "A web-application project done as a part of CS 546 coursework @ Stevens.",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/notalim/snoops.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/notalim/snoops/issues"
-  },
-  "homepage": "https://github.com/notalim/snoops#readme",
-  "dependencies": {
-    "bad-words": "^3.0.4",
-    "chalk": "^5.2.0",
-    "email-validator": "^2.0.4",
-    "express": "^4.18.2",
-    "express-handlebars": "^7.0.4",
-    "mongodb": "^5.1.0",
-    "password-hash": "^1.2.2",
-    "phone": "^3.1.37",
-    "validator": "^13.9.0"
-  }
+    "name": "snoops",
+    "version": "1.0.0",
+    "description": "A web-application project done as a part of CS 546 coursework @ Stevens.",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node app.js",
+        "seed": "node ./tasks/seed.js",
+        "algo-test": "node ./tasks/algo-test.js",
+        "users-test": "node ./tasks/user-test.js",
+        "acenters-test": "node ./tasks/acenters-test.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/notalim/snoops.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/notalim/snoops/issues"
+    },
+    "homepage": "https://github.com/notalim/snoops#readme",
+    "dependencies": {
+        "chalk": "^5.2.0",
+        "email-validator": "^2.0.4",
+        "express": "^4.18.2",
+        "express-handlebars": "^7.0.4",
+        "express-session": "^1.17.3",
+        "mongodb": "^5.1.0",
+        "node-geocoder": "^4.2.0",
+        "password-hash": "^1.2.2",
+        "phone": "^3.1.37",
+        "validator": "^13.9.0"
+    }
+
 }

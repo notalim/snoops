@@ -110,7 +110,7 @@ let user1 = {
     password: "Password123@",
     firstName: "Yousaf",
     lastName: "Rajput",
-    age: 20,
+    dob: "2002-01-01",
     phone: "9295054335",
     address: "1 Campus Drive, Stony Brook, NY 11794",
 };
@@ -120,7 +120,7 @@ let user2 = {
     password: "Passw!2105",
     firstName: "Alim",
     lastName: "Kassymov",
-    age: 20,
+    dob: "2002-02-02",
     phone: "9295054336",
     address: "Main Street, New York, NY 10001",
 };
@@ -130,7 +130,7 @@ let user3 = {
     password: "Passw2_425",
     firstName: "Nick",
     lastName: "Dimeglio",
-    age: 20,
+    dob: "2002-03-03",
     phone: "9295054337",
     address: "Mt. Sinai Hospital, New York, NY 10029",
 };
@@ -140,7 +140,7 @@ let user4 = {
     password: "P$assw242534",
     firstName: "Kyle",
     lastName: "Halton",
-    age: 20,
+    dob: "2002-04-04",
     phone: "9295054238",
     address: "orlando, FL 32801",
 };
@@ -239,7 +239,7 @@ let testUser1 = await userDataFunctions.createUser(
     user1.password,
     user1.firstName,
     user1.lastName,
-    user1.age,
+    user1.dob,
     user1.phone,
     user1.address
 );
@@ -249,7 +249,7 @@ let testUser2 = await userDataFunctions.createUser(
     user2.password,
     user2.firstName,
     user2.lastName,
-    user2.age,
+    user2.dob,
     user2.phone,
     user2.address
 );
@@ -259,7 +259,7 @@ let testUser3 = await userDataFunctions.createUser(
     user3.password,
     user3.firstName,
     user3.lastName,
-    user3.age,
+    user3.dob,
     user3.phone,
     user3.address
 );
@@ -269,7 +269,7 @@ let testUser4 = await userDataFunctions.createUser(
     user4.password,
     user4.firstName,
     user4.lastName,
-    user4.age,
+    user4.dob,
     user4.phone,
     user4.address
 );

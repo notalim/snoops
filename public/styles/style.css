@@ -1,0 +1,166 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600;700&display=swap");
+
+/* colors:
+#3A98B9
+#FFF1DC
+#E8D5C4
+#EEEEEE
+#3a2412;
+*/
+
+/* Reset styles for elements */
+:root {
+    /* Define base font size */
+    font-size: 16px;
+    --main-background-color: #fff1dc;
+    --text-color: #3a2412;
+    --accent-color: #3a98b9;
+    --accent-hover-color: #2b748e;
+    --footer-background-color: #e8d5c4;
+}
+
+/* Reset styles for elements */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: var(--main-background-color);
+    text-decoration: none;
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1rem;
+}
+
+/* Default font and color styles */
+body {
+    color: var(--text-color);
+    height: 100vh;
+}
+
+/* Header styles */
+header {
+    background-color: var(--main-background-color);
+    padding: 0.625rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 0.03125rem #3a2412;
+    width: 100vw;
+}
+
+header h1 {
+    font-weight: bold;
+    margin-left: 1.875rem;
+    transition: color 0.3s ease-in-out;
+    font-family: "Abril Fatface", cursive;
+    font-size: 2rem;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav a {
+    color: var(--text-color);
+    margin: 0 0.625rem;
+    transition: color 0.3s ease-in-out;
+}
+
+header nav a:hover {
+    color: var(--accent-color);
+}
+
+/* Hero Section styles */
+.hero {
+    position: relative;
+    min-height: fit-content;
+}
+
+.hero img {
+    width: 100%;
+    min-width: 62.5rem;
+    height: auto;
+}
+
+.hero-content {
+    background: transparent;
+    position: absolute;
+    top: 30%;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: column;
+    color: var(--main-background-color);
+}
+
+.hero h2 {
+    background: inherit;
+    font-size: 2.875rem;
+    font-weight: bold;
+    margin-bottom: 1.25rem;
+}
+
+.hero h1 {
+  background: inherit;
+  font-size: 3.875rem;
+  font-weight: bold;
+  margin-bottom: 1.25rem;
+}
+
+.hero h3 {
+  background: inherit;
+  font-size: 2.875rem;
+  font-weight: bold;
+  margin-bottom: 1.25rem;
+}
+
+.hero p {
+    background: inherit;
+    margin-bottom: 1.25rem;
+    display: flex;
+}
+
+.hero a {
+  background: inherit;
+  margin-bottom: 1.25rem;
+  display: flex;
+  text-decoration: none;
+  color: #eeeeee;
+  font-weight: bold;
+}
+
+.hero-buttons {
+    background: inherit;
+    display: flex;
+}
+
+.hero-buttons a {
+    display: inline-block;
+    padding: 0.625rem 3.125rem;
+    background-color: var(--accent-color);
+    color: var(--main-background-color);
+    border-radius: 0.3125rem;
+    margin-right: 2.5rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.hero-buttons a:hover {
+    background-color: var(--accent-hover-color);
+}
+
+.hero-buttons a:last-child {
+    margin-right: 0;
+}
+
+/* Footer styles */
+footer {
+    background-color: var(--footer-background-color);
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+}
+
+footer p {
+    background-color: var(--footer-background-color);
+}

@@ -1,4 +1,4 @@
-import { users } from "../config/mongoCollections.js";
+import { users, acenters } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as validation from "../validation.js";
 
@@ -14,7 +14,7 @@ const createUser = async (
     password,
     firstName,
     lastName,
-    age,
+    dob,
     phone,
     address
 ) => {
@@ -25,25 +25,34 @@ const createUser = async (
     if (user) {
         throw `User with email ${email} already exists`;
     }
-    email = validation.checkEmail(email, "email");
+    email = validation.checkEmail(email, "Email");
 
     // Check password
-    password = validation.checkPassword(password, "password");
+    password = validation.checkPassword(password, "Password");
 
     // Check first name
-    firstName = validation.checkName(firstName, "firstName");
+    firstName = validation.checkName(firstName, "First Name");
 
     // Check last name
-    lastName = validation.checkName(lastName, "lastName");
+    lastName = validation.checkName(lastName, "Last Name");
 
     // Check age
-    age = validation.checkLegalAge(age, "age");
+    dob = validation.checkDate(dob, "Date of birth");
 
     // Check phone number
-    phone = validation.checkPhone(phone, "phone number");
+    phone = validation.checkPhone(phone, "Phone number");
 
     // Check address
-    address = validation.checkString(address, "address");
+    address = validation.checkString(address, "Address");
+
+    //Get LAT & LONG If possible
+    let location;
+    try{
+        location = await validation.getLatLong(address, "Address");
+
+    } catch (e){
+        throw e;
+    }
 
     // Initialize image to null, dogPreferences to empty object, likedDogsIds to empty array
 
@@ -52,13 +61,14 @@ const createUser = async (
         password: password,
         firstName: firstName,
         lastName: lastName,
-        age: age,
+        dob: dob,
         phone: phone,
         address: address,
         img: null,
         dogPreferences: {},
         likedDogs: [],
         seenDogs: [],
+        location: location
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -98,33 +108,42 @@ const updateUser = async (
     password,
     firstName,
     lastName,
-    age,
+    dob,
     phone,
     address
 ) => {
     let validatedId = validation.checkId(id, "User ID");
 
     // Check email
-    
-    email = validation.checkEmail(email, "email");
+
+    email = validation.checkEmail(email, "Email");
 
     // Check password
-    password = validation.checkPassword(password, "password");
+    password = validation.checkPassword(password, "Password");
 
     // Check first name
-    firstName = validation.checkName(firstName, "firstName");
+    firstName = validation.checkName(firstName, "First Name");
 
     // Check last name
-    lastName = validation.checkName(lastName, "lastName");
+    lastName = validation.checkName(lastName, "Last Name");
 
     // Check age
-    age = validation.checkLegalAge(age, "age");
+    dob = validation.checkDate(dob, "Date of Birth");
 
     // Check phone number
-    phone = validation.checkPhone(phone, "phone number");
+    phone = validation.checkPhone(phone, "Phone number");
 
     // Check address
-    address = validation.checkString(address, "address");
+    address = validation.checkString(address, "Address");
+
+    //Get new LAT & LONG if possible
+    let location;
+    try{
+        location = await validation.getLatLong(address, "Address");
+
+    } catch (e){
+        throw e;
+    }
 
     // Initialize image to null, dogPreferences to empty object, likedDogsIds to empty array
 
@@ -135,13 +154,14 @@ const updateUser = async (
         password: password,
         firstName: firstName,
         lastName: lastName,
-        age: age,
+        dob: dob,
         phone: phone,
         address: address,
         img: oldUser.img,
         dogPreferences: oldUser.dogPreferences,
         likedDogs: oldUser.likedDogs,
         seenDogs: oldUser.seenDogs,
+        location: location
     };
 
     const userCollection = await users();
@@ -169,7 +189,7 @@ const loginUser = async (email, password) => {
         throw `Incorrect password`;
     }
 
-    return { user, success: true };
+    return user;
 };
 
 const likeDog = async (userId, acenterId, dogId) => {
@@ -244,6 +264,46 @@ const swipeLeft = async (userId, acenterId, dogId) => {
     return { user, success: true };
 };
 
+
+// Get all dogs that the user has not seen yet
+// ! If the user has seen all dogs, it currently throws, but we can change it to return an empty array
+// limit is the number of dogs to return
+const getUnseenDogs = async (userId, limit = 10) => {
+    userId = validation.checkId(userId, "User ID");
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({ _id: new ObjectId(userId) });
+
+    if (!user) {
+        throw `User not found with this Id ${userId}`;
+    }
+
+    const seenDogIds = user.seenDogs.map((seenDog) => seenDog.dogId);
+
+    const acenterCollection = await acenters();
+
+    const unseenDogs = await acenterCollection
+        .aggregate([
+            { $unwind: "$dogList" },
+            {
+                $match: {
+                    "dogList._id": {
+                        $nin: seenDogIds.map((id) => new ObjectId(id)),
+                    },
+                },
+            },
+            { $limit: limit },
+            { $project: { dog: "$dogList", _id: 0 } },
+        ])
+        .toArray();
+
+    if (!unseenDogs || unseenDogs.length === 0) {
+        throw `No more dogs to see`;
+    }
+
+    return { dogs: unseenDogs.map((entry) => entry.dog), success: true };
+};
+
 const exportedMethods = {
     getAllUsers,
     createUser,
@@ -254,6 +314,7 @@ const exportedMethods = {
     likeDog,
     swipeLeft,
     swipeRight,
+    getUnseenDogs,
 };
 
 export default exportedMethods;
