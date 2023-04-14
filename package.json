@@ -23,6 +23,7 @@
     },
     "homepage": "https://github.com/notalim/snoops#readme",
     "dependencies": {
+        "bad-words": "^3.0.4",
         "chalk": "^5.2.0",
         "email-validator": "^2.0.4",
         "express": "^4.18.2",
@@ -34,5 +35,4 @@
         "phone": "^3.1.37",
         "validator": "^13.9.0"
     }
-
 }
