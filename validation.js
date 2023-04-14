@@ -4,6 +4,8 @@ import { phone } from "phone";
 import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package/validator
 //Yousaf - We can prolly just use validator to handle both email and website
 import passwordHash from "password-hash";
+import NodeGeocoder from 'node-geocoder';
+
 
 export function checkString(str, strName) {
     if (!str) {
@@ -225,3 +227,56 @@ export function checkAddress(adr, varName) {
 export function verifyPassword(password, hash) {
     return passwordHash.verify(password, hash);
 }
+
+export async function getLatLong(address, elmName) {
+    address = checkString(address, elmName);
+    let options = {provider: 'google', apiKey: "AIzaSyAUWoccZkfy2bNkLvYx_1G-oK7p9C3mB4Q"};
+    let geocoder = NodeGeocoder(options);
+    let res = await geocoder.geocode(address);
+    let returnObj;
+    if (!res || !res[0] || !res[0].latitude || !res[0].longitude){
+        throw `${elmName} could not be found`
+    }
+    else{
+        returnObj = {lat: res[0].latitude, long: res[0].longitude};
+    }
+    
+    return returnObj;
+  }
+
+
+/*
+[
+  {
+    formattedAddress: '538 Washington St, Hoboken, NJ 07030, USA',
+    latitude: 40.7434407,
+    longitude: -74.0294385,
+    extra: {
+      googlePlaceId: 'ChIJTcfNjd9ZwokRtavHyy8DRX8',
+      confidence: 1,
+      premise: null,
+      subpremise: null,
+      neighborhood: 'Hoboken',
+      establishment: null
+    },
+    administrativeLevels: {
+      level2long: 'Hudson County',
+      level2short: 'Hudson County',
+      level1long: 'New Jersey',
+      level1short: 'NJ'
+    },
+    streetNumber: '538',
+    streetName: 'Washington Street',
+    city: 'Hoboken',
+    country: 'United States',
+    countryCode: 'US',
+    zipcode: '07030',
+    provider: 'google'
+  }
+]
+
+
+
+
+
+*/
