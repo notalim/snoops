@@ -21,6 +21,7 @@ router.get("/scroller", async (req, res) => {
     }
 });
 
+
 // TODO: Log Out User
 
 router.get("/logout", async (req, res) => {
@@ -28,5 +29,19 @@ router.get("/logout", async (req, res) => {
     res.redirect("/");
     return;
 });
+
+router.get("/settings", async (req, res) => {
+    try{
+        const { userId } = req.session;
+        if (!userId) {
+            return res.redirect("/users/login");
+        }
+        const user = await userData.getUser(userId);
+        res.render("settings", { user });
+    } catch(error) {
+        res.status(500).json({ error: error.toString() });
+    }
+})
+
 
 export default router;

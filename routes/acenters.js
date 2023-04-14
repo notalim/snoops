@@ -12,7 +12,7 @@ router.route("/").get(async (req, res) => {
         const acenters = await acenterData.getAllAdoptionCenters();
         return res.status(200).json(acenters);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -21,13 +21,17 @@ router.route("/").get(async (req, res) => {
 router.route("/:id").get(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    id = validation.checkId(id, "ID");
+    try{
+        id = validation.checkId(id, "ID");
+    }catch(e){
+        res.status(400).json({error: e});
+    }
 
     try {
         const acenter = await acenterData.getAdoptionCenter(req.params.id);
         return res.status(200).json(acenter);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -47,25 +51,27 @@ router.route("/signup").post(async (req, res) => {
     } = req.body;
 
     // Validate request body
+    try{
+        email = validation.checkEmail(email, "Email");
 
-    email = validation.checkEmail(email, "Email");
+        name = validation.checkString(name, "Name");
 
-    name = validation.checkString(name, "Name");
+        contactFirstName = validation.checkName(
+            contactFirstName,
+            "Contact First Name"
+        );
 
-    contactFirstName = validation.checkName(
-        contactFirstName,
-        "Contact First Name"
-    );
+        contactLastName = validation.checkName(
+            contactLastName,
+            "Contact Last Name"
+        );
 
-    contactLastName = validation.checkName(
-        contactLastName,
-        "Contact Last Name"
-    );
+        phone = validation.checkPhone(phone, "Phone");
 
-    phone = validation.checkPhone(phone, "Phone");
-
-    address = validation.checkString(address, "Address");
-
+        address = validation.checkString(address, "Address");
+    }catch(e){
+        return res.status(400).json({error: e});
+    }
     try {
         const acenter = await acenterData.createAdoptionCenter(
             email,
@@ -78,7 +84,7 @@ router.route("/signup").post(async (req, res) => {
         );
         return res.status(200).json(acenter);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -87,7 +93,6 @@ router.route("/signup").post(async (req, res) => {
 router.route("/:id").put(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    id = validation.checkId(id, "ID");
     // Decompose request body
 
     let {
@@ -101,24 +106,28 @@ router.route("/:id").put(async (req, res) => {
     } = req.body;
 
     // Validate request body
+    try{
+        id = validation.checkId(id, "ID");
 
-    email = validation.checkEmail(email, "Email");
+        email = validation.checkEmail(email, "Email");
 
-    name = validation.checkString(name, "Name");
-    contactFirstName = validation.checkName(
-        contactFirstName,
-        "Contact First Name"
-    );
+        name = validation.checkString(name, "Name");
+        contactFirstName = validation.checkName(
+            contactFirstName,
+            "Contact First Name"
+        );
 
-    contactLastName = validation.checkName(
-        contactLastName,
-        "Contact Last Name"
-    );
+        contactLastName = validation.checkName(
+            contactLastName,
+            "Contact Last Name"
+        );
 
-    phone = validation.checkPhone(phone, "Phone");
+        phone = validation.checkPhone(phone, "Phone");
 
-    address = validation.checkString(address, "Address");
-
+        address = validation.checkString(address, "Address");
+    }catch(e){
+        return res.status(400).json({error: e});
+    }
     try {
         const acenter = await acenterData.updateAdoptionCenter(
             req.params.id,
@@ -135,7 +144,7 @@ router.route("/:id").put(async (req, res) => {
             .status(200)
             .json(acenter);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -144,37 +153,45 @@ router.route("/:id").put(async (req, res) => {
 router.route("/:id").delete(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    id = validation.checkId(id, "ID");
-
+    try{
+        id = validation.checkId(id, "ID");
+    }catch(e){
+        return res.status(400).json({error: e});
+    }
     try {
         const acenter = await acenterData.deleteAdoptionCenter(req.params.id);
         return res.status(200).json(acenter);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
 // TODO: POST /acenters/:id/dogs - Create dog for adoption center
 
 router.route("/:id/dogs").post(async (req, res) => {
-    // Validate the id
+   
     let id = req.params.id;
-    id = validation.checkId(id, "Adoption center ID");
+    
 
     // Decompose request body
     let { name, dob, breeds, gender, size } = req.body;
+    try{
+        // Validate the id
+        id = validation.checkId(id, "Adoption center ID");
+        
+        // Validate request body
+        name = validation.checkString(name, "Name");
 
-    // Validate request body
-    name = validation.checkString(name, "Name");
+        dob = validation.checkDate(dob, "Date of Birth");
 
-    dob = validation.checkDate(dob, "Date of Birth");
+        breeds = validation.checkStringArray(breeds, "Breeds");
 
-    breeds = validation.checkStringArray(breeds, "Breeds");
+        gender = validation.checkGender(gender, "Gender");
 
-    gender = validation.checkGender(gender, "Gender");
-
-    size = validation.checkPetWeight(size, "Weight");
-
+        size = validation.checkPetWeight(size, "Weight");
+    }catch(e){
+        return res.status(400).json({error: e});
+    }
     try {
         const dog = await acenterData.createDog(
             id,
@@ -186,7 +203,7 @@ router.route("/:id/dogs").post(async (req, res) => {
         );
         return res.status(200).json(dog);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -195,14 +212,16 @@ router.route("/:id/dogs").post(async (req, res) => {
 router.route("/:id/dogs").get(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-
-    id = validation.checkId(id, "Adoption center ID");
-
+    try{
+        id = validation.checkId(id, "Adoption center ID");
+    }catch(e){
+        return res.status(400).json({error: e});
+    }
     try {
         const dogs = await acenterData.getAllDogs(id);
         return res.status(200).json(dogs);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -211,16 +230,20 @@ router.route("/:id/dogs").get(async (req, res) => {
 router.route("/:id/dogs/:dogId").get(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    id = validation.checkId(id, "Adoption center ID");
-
+    
     let dogId = req.params.dogId;
-    dogId = validation.checkId(dogId, "Dog ID");
 
+    try{
+        id = validation.checkId(id, "Adoption center ID");
+        dogId = validation.checkId(dogId, "Dog ID");
+    }catch(e){
+        return res.status(400).json({error: e});
+    }
     try {
         const dog = await acenterData.getDogFromAcenter(id, dogId);
         return res.status(200).json(dog);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -229,25 +252,29 @@ router.route("/:id/dogs/:dogId").get(async (req, res) => {
 router.route("/:id/dogs/:dogId").put(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    id = validation.checkId(id, "Adoption center ID");
-
+    
     let dogId = req.params.dogId;
-    dogId = validation.checkId(dogId, "Dog ID");
 
     // Decompose request body
     let { name, dob, breeds, gender, size } = req.body;
+    try{
+        // Validate the id
+        id = validation.checkId(id, "Adoption center ID");
+        // Validate the dog id
+        dogId = validation.checkId(dogId, "Dog ID");
+        // Validate request body
+        name = validation.checkString(name, "Name");
 
-    // Validate request body
-    name = validation.checkString(name, "Name");
+        dob = validation.checkDate(dob, "Date of Birth");
 
-    dob = validation.checkDate(dob, "Date of Birth");
+        breeds = validation.checkStringArray(breeds, "Breeds");
 
-    breeds = validation.checkStringArray(breeds, "Breeds");
+        gender = validation.checkGender(gender, "Gender");
 
-    gender = validation.checkGender(gender, "Gender");
-
-    size = validation.checkPetWeight(size, "Weight");
-
+        size = validation.checkPetWeight(size, "Weight");
+    }catch(e){
+        return res.status(400).json({error: e});
+    }
     try {
         const dog = await acenterData.updateDog(
             id,
@@ -260,7 +287,7 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
         );
         return res.status(200).json([dog, { message: "Dog updated" }]);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -269,21 +296,24 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
 router.route("/:id/dogs/:dogId").delete(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    id = validation.checkId(id, "Adoption center ID");
 
     let dogId = req.params.dogId;
-    dogId = validation.checkId(dogId, "Dog ID");
-
+    try{
+        id = validation.checkId(id, "Adoption center ID");
+        dogId = validation.checkId(dogId, "Dog ID");
+    }catch(e){
+        return res.status(400).json({error: e});
+    }
     try {
         const dog = await acenterData.deleteDog(id, dogId);
         return res.status(200).json(dog);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
 router.get("/signup", (req, res) => {
-    res.render("ac_signup");
+    return res.render("ac_signup");
 });
 
 export default router;
