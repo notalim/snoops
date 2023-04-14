@@ -4,7 +4,9 @@ import { phone } from "phone";
 import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package/validator
 //Yousaf - We can prolly just use validator to handle both email and website
 import passwordHash from "password-hash";
+import Filter from "bad-words"; // Url: https://www.npmjs.com/package/bad-words
 import NodeGeocoder from 'node-geocoder';
+
 
 
 export function checkString(str, strName) {
@@ -226,6 +228,13 @@ export function checkAddress(adr, varName) {
 //Used to compare password to hash value, and will return a boolean
 export function verifyPassword(password, hash) {
     return passwordHash.verify(password, hash);
+}
+
+export function checkMessage(message, varName){
+    message = checkString(message, "message");
+    let filter = new Filter();
+    message = filter.clean(message).trim();
+    return message;
 }
 
 export async function getLatLong(address, elmName) {
