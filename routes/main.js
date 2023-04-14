@@ -21,4 +21,11 @@ router.get("/scroller", async (req, res) => {
     }
 });
 
+// TODO: Log Out User
+
+router.get("/logout", async (req, res) => {
+    req.session.destroy();
+    res.send("Logged out");
+});
+
 export default router;

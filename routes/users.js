@@ -153,22 +153,14 @@ router.route("/login").post(async (req, res) => {
 
         const user = await userData.loginUser(email, password); // Pass the plain password, not hashedPassword
         req.session.userId = user._id; // Store the userId, not the whole user object
+        req.session.userFirstName = user.firstName;
+
         res.redirect("/scroller");
     } catch (e) {
         res.render("login", { error: e.toString(), email });
+        console.log(e);
     }
 });
 
-// TODO: Log Out User
-
-router.route("/logout").get(async (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            res.status(500).send("Error while logging out");
-        } else {
-            res.redirect("/login");
-        }
-    });
-});
 
 export default router;
