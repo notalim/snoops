@@ -1,10 +1,9 @@
 .settings{
     display: flex;
-    height: 100%;
-    width: 100%;
+    flex-direction: column;
+
     justify-content: center;
     align-items: center;
-    flex-direction: column;
 }
 
 .settingsContainer{
@@ -29,4 +28,39 @@
     height: 100%;
     width: 100%;
     background-color: transparent;
+}
+
+.doggies{
+    overflow-y: scroll;
+}
+
+.likedDogs{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: transparent
+}
+
+.likedDog{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    max-height: 200px;
+    max-width: 200px;
+    padding: 20px;
+}
+
+.likedDog img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 16px;
 }
