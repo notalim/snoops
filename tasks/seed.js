@@ -8,6 +8,7 @@ import chalk from "chalk";
 
 import acenterDataFunctions from "../data/acenters.js";
 import userDataFunctions from "../data/users.js";
+import chatDataFunctions from "../data/chats.js"
 
 const db = await dbConnection();
 await db.dropDatabase();
@@ -271,6 +272,26 @@ let testUser4 = await userDataFunctions.createUser(
     user4.dob,
     user4.phone,
     user4.address
+);
+
+let U1C1Chat = await chatDataFunctions.createChat(
+    testUser1._id.toString(),
+    center1._id.toString()
+);
+
+let U2C1Chat = await chatDataFunctions.createChat(
+    testUser2._id.toString(),
+    center1._id.toString()
+);
+
+let U1C2Chat = await chatDataFunctions.createChat(
+    testUser1._id.toString(),
+    center2._id.toString()
+);
+
+let U1C3Chat = await chatDataFunctions.createChat(
+    testUser1._id.toString(),
+    center3._id.toString()
 );
 
 console.log(test_section("Done seeding database"));

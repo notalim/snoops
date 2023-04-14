@@ -133,7 +133,7 @@ router.route("/:id").put(async (req, res) => {
 
         return res
             .status(200)
-            .json(acenter, { message: "Adoption Center updated" });
+            .json(acenter);
     } catch (e) {
         res.status(500).json({ error: e });
     }

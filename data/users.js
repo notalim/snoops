@@ -45,6 +45,15 @@ const createUser = async (
     // Check address
     address = validation.checkString(address, "Address");
 
+    //Get LAT & LONG If possible
+    let location;
+    try{
+        location = await validation.getLatLong(address, "Address");
+
+    } catch (e){
+        throw e;
+    }
+
     // Initialize image to null, dogPreferences to empty object, likedDogsIds to empty array
 
     let newUser = {
@@ -59,6 +68,7 @@ const createUser = async (
         dogPreferences: {},
         likedDogs: [],
         seenDogs: [],
+        location: location
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -126,6 +136,15 @@ const updateUser = async (
     // Check address
     address = validation.checkString(address, "Address");
 
+    //Get new LAT & LONG if possible
+    let location;
+    try{
+        location = await validation.getLatLong(address, "Address");
+
+    } catch (e){
+        throw e;
+    }
+
     // Initialize image to null, dogPreferences to empty object, likedDogsIds to empty array
 
     const oldUser = await getUser(validatedId);
@@ -142,6 +161,7 @@ const updateUser = async (
         dogPreferences: oldUser.dogPreferences,
         likedDogs: oldUser.likedDogs,
         seenDogs: oldUser.seenDogs,
+        location: location
     };
 
     const userCollection = await users();

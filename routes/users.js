@@ -145,7 +145,7 @@ router.route("/login").post(async (req, res) => {
         req.session.userId = user._id; // Store the userId, not the whole user object
         res.redirect("/scroller");
     } catch (e) {
-        res.render("login", { error: error.toString() });
+        res.render("login", { error: e.toString() });
     }
 });
 

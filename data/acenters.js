@@ -52,6 +52,16 @@ const createAdoptionCenter = async (
     // Check address
     address = validation.checkString(address, "Address");
 
+    //Get LAT & LONG if possible
+    let location;
+    try{
+        location = await validation.getLatLong(address, "Address");
+
+    } catch (e){
+        throw e;
+    }
+    
+
     let newAcenter = {
         email: email,
         name: name,
@@ -64,6 +74,7 @@ const createAdoptionCenter = async (
         website: null,
         img: null,
         dogList: [],
+        location: location
     };
 
     const newInsertInformation = await acenterCollection.insertOne(newAcenter);
@@ -139,6 +150,15 @@ const updateAdoptionCenter = async (
     // Check address
     address = validation.checkString(address, "Address");
 
+    //Get new LAT & LONG if possible
+    let location;
+    try{
+        location = await validation.getLatLong(address, "Address");
+
+    } catch (e){
+        throw e;
+    }
+
     const updatedAcenter = {
         email: email,
         name: name,
@@ -148,6 +168,7 @@ const updateAdoptionCenter = async (
         phone: phone,
         address: address,
         img: null,
+        location: location
     };
 
     // ? How do we update the working hours and website?
