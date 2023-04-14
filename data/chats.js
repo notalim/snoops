@@ -23,7 +23,6 @@ const getAllChatsACenter = async (centerID) => {
 
 const getAllChatsUser = async (id) => {
     id = validation.checkId(id, "UserID");
-    console.log(id);
     let userChats = await chatCollection.find({userId: id}).toArray();
     if(userChats.length === 0){
         throw `No chats for User with ID ${id}`
@@ -60,7 +59,6 @@ const getChat = async (userID, centerID) => {
     const userChats = await chatCollection.findOne(
         {userId: userID,
         centerId: centerID});
-
     if(userChats === null){
         throw `No chat between user: ${userID} and aCenter: ${centerID}`;
     }
