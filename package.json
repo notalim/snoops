@@ -29,6 +29,7 @@
         "express-handlebars": "^7.0.4",
         "express-session": "^1.17.3",
         "mongodb": "^5.1.0",
+        "node-geocoder": "^4.2.0",
         "password-hash": "^1.2.2",
         "phone": "^3.1.37",
         "validator": "^13.9.0"
