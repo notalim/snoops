@@ -6,8 +6,8 @@ import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package
 import passwordHash from "password-hash";
 import Filter from "bad-words"; // Url: https://www.npmjs.com/package/bad-words
 import NodeGeocoder from 'node-geocoder';
-
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 export function checkString(str, strName) {
     if (!str) {
@@ -239,7 +239,8 @@ export function checkMessage(message, varName){
 
 export async function getLatLong(address, elmName) {
     address = checkString(address, elmName);
-    let options = {provider: 'google', apiKey: "AIzaSyAUWoccZkfy2bNkLvYx_1G-oK7p9C3mB4Q"};
+    let apiKey = process.env.GOOGLE_MAP_API_KEY;
+    let options = {provider: 'google', apiKey: apiKey};
     let geocoder = NodeGeocoder(options);
     let res = await geocoder.geocode(address);
     let returnObj;
