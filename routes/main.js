@@ -15,10 +15,32 @@ router.get("/scroller", async (req, res) => {
             return res.redirect("/users/login");
         }
         const { dogs } = await userData.getUnseenDogs(userId);
-        res.render("scroller", { dogs });
+        res.render("scroller", { dogs: JSON.stringify(dogs) });
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }
 });
+
+// TODO: Log Out User
+
+router.get("/logout", async (req, res) => {
+    req.session.destroy();
+    res.redirect("/");
+    return;
+});
+
+router.get("/settings", async (req, res) => {
+    try{
+        const { userId } = req.session;
+        if (!userId) {
+            return res.redirect("/users/login");
+        }
+        const user = await userData.getUser(userId);
+        res.render("settings", { user });
+    } catch(error) {
+        res.status(500).json({ error: error.toString() });
+    }
+})
+
 
 export default router;

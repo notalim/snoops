@@ -3,7 +3,7 @@
     background-color: var(--main-background-color);
 }
 
-main {
+.signup-wrapper {
     display: flex;
     justify-content: space-between;
     padding-top: 80px;

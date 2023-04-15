@@ -1,0 +1,45 @@
+<main>
+    <div class="signup-wrapper">
+        <div class="graphic-image">
+            <img src="/assets/40444.jpg" alt="" />
+        </div>
+        <div class="form-container">
+            <!-- Adoption Center Signup form -->
+            <form id="signup-form" method="POST" action="/acenters/signup">
+                <input type="email" name="email" placeholder="Email" required />
+                <input type="text" name="name" placeholder="Name" required />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                />
+                <input
+                    type="text"
+                    name="contactFirstName"
+                    placeholder="Contact First Name"
+                    required
+                />
+                <input
+                    type="text"
+                    name="contactLastName"
+                    placeholder="Contact Last Name"
+                    required
+                />
+                <input type="tel" name="phone" placeholder="Phone" required />
+                <input
+                    type="text"
+                    name="address"
+                    placeholder="Address"
+                    required
+                />
+                <input type="submit" value="Sign Up" />
+            </form>
+            <a href="#" onclick="switchToUserSignup()">Switch to User Signup</a>
+        </div>
+    </div>
+    <script>
+        function switchToUserSignup() { window.location.href =
+        "/users/user-signup"; }
+    </script>
+</main>

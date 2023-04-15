@@ -5,6 +5,59 @@ import * as validation from "../validation.js";
 
 // TODO: User Routes
 
+// TODO: Log In User
+
+router.route("user-login").post(async (req, res) => {
+    // Decompose request body
+    // check if the user's already logged in
+    if (req.session.userId) {
+        res.redirect("/scroller");
+        return;
+    }
+
+    let { email, password } = req.body;
+
+    try {
+        email = validation.checkEmail(email, "Email");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
+
+    try {
+        const user = await userData.loginUser(email, password); // Pass the plain password, not hashedPassword
+        req.session.userId = user._id; // Store the userId, not the whole user object
+        req.session.userFirstName = user.firstName;
+
+        return res.redirect("/scroller");
+    } catch (e) {
+        res.render("user-login", { error: e.toString(), email });
+        console.log(e);
+        return;
+    }
+});
+
+// TODO: Signup Page
+
+router.route("/user-signup-page").get(async (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/scroller");
+        return;
+    }
+    res.render("user-signup");
+    return;
+});
+
+// TODO: Log In Page
+
+router.get("/user-login-page", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/scroller");
+        return;
+    }
+    res.render("user-login");
+    return;
+});
+
 // TODO: GET /users - Get all users
 
 router.route("/").get(async (req, res) => {
@@ -12,46 +65,61 @@ router.route("/").get(async (req, res) => {
         const users = await userData.getAllUsers();
         return res.status(200).json(users);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
 // TODO: GET /users/:id - Get user by id
 
 router.route("/:id").get(async (req, res) => {
-    // Validate the id
+    console.log("GET /users/:id triggered with URL:", req.originalUrl);
+
     let id = req.params.id;
-    id = validation.checkId(id, "ID");
+    try {
+        // Validate the id
+        id = validation.checkId(id, "ID", "GET /users/:id");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
 
     try {
         const user = await userData.getUser(req.params.id);
         return res.status(200).json(user);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
 // TODO: POST /users - Create user
 
 router.route("/signup").post(async (req, res) => {
+    // check if the user's already logged in
+    if (req.session.userId) {
+        res.redirect("/scroller");
+        return;
+    }
     // Decompose request body
 
     let { email, password, firstName, lastName, dob, phone, address } =
         req.body;
 
-    // Validate request body
+    try {
+        // Validate request body
 
-    email = validation.checkEmail(email, "Email");
+        email = validation.checkEmail(email, "Email");
 
-    firstName = validation.checkName(firstName, "First Name");
+        firstName = validation.checkName(firstName, "First Name");
 
-    lastName = validation.checkName(lastName, "Last Name");
+        lastName = validation.checkName(lastName, "Last Name");
 
-    dob = validation.checkDate(dob, "Date of Birth");
+        dob = validation.checkDate(dob, "User Date of Birth");
 
-    phone = validation.checkPhone(phone, "Phone Number");
+        phone = validation.checkPhone(phone, "Phone Number");
 
-    address = validation.checkString(address, "Address");
+        address = validation.checkString(address, "Address");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
 
     try {
         const user = await userData.createUser(
@@ -64,10 +132,11 @@ router.route("/signup").post(async (req, res) => {
             address
         );
         // return res.status(200).json(user);
+
         req.session.user = user;
-        res.redirect("/scroller");
+        return res.redirect("/scroller");
     } catch (error) {
-        res.render("signup", { error: error.toString() });
+        return res.status(500).render("signup", { error: error.toString() });
     }
 });
 
@@ -76,13 +145,18 @@ router.route("/signup").post(async (req, res) => {
 router.route("/:id").delete(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    id = validation.checkId(id, "ID");
+
+    try {
+        id = validation.checkId(id, "ID", "DELETE /users/:id");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
 
     try {
         const user = await userData.deleteUser(req.params.id);
         return res.status(200).json(user);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -91,26 +165,30 @@ router.route("/:id").delete(async (req, res) => {
 router.route("/:id").put(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    id = validation.checkId(id, "ID");
 
     // Decompose request body
-
     let { email, password, firstName, lastName, dob, phone, address } =
         req.body;
 
-    // Validate request body
+    try {
+        id = validation.checkId(id, "ID", "PUT /users/:id");
 
-    email = validation.checkEmail(email, "Email");
+        // Validate request body
 
-    firstName = validation.checkName(firstName, "First Name");
+        email = validation.checkEmail(email, "Email");
 
-    lastName = validation.checkName(lastName, "Last Name");
+        firstName = validation.checkName(firstName, "First Name");
 
-    dob = validation.checkDate(dob, "Date of birth");
+        lastName = validation.checkName(lastName, "Last Name");
 
-    phone = validation.checkPhone(phone, "Phone Number");
+        dob = validation.checkDate(dob, "User Date of Birth");
 
-    address = validation.checkString(address, "Address");
+        phone = validation.checkPhone(phone, "Phone Number");
+
+        address = validation.checkString(address, "Address");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
 
     try {
         const user = await userData.updateUser(
@@ -127,26 +205,10 @@ router.route("/:id").put(async (req, res) => {
             .status(200)
             .json([user, { message: "User updated successfully" }]);
     } catch (e) {
-        res.status(500).json({ error: e });
+        return res.status(500).json({ error: e });
     }
 });
 
-// TODO: Log In User
 
-router.route("/login").post(async (req, res) => {
-    // Decompose request body
-
-    let { email, password } = req.body;
-
-    try {
-        email = validation.checkEmail(email, "Email");
-
-        const user = await userData.loginUser(email, password); // Pass the plain password, not hashedPassword
-        req.session.userId = user._id; // Store the userId, not the whole user object
-        res.redirect("/scroller");
-    } catch (e) {
-        res.render("login", { error: e.toString() });
-    }
-});
 
 export default router;

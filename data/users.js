@@ -18,6 +18,7 @@ const createUser = async (
     phone,
     address
 ) => {
+
     const userCollection = await users();
 
     // Check email
@@ -37,7 +38,7 @@ const createUser = async (
     lastName = validation.checkName(lastName, "Last Name");
 
     // Check age
-    dob = validation.checkDate(dob, "Date of birth");
+    dob = validation.checkDate(dob, "User Date of Birth");
 
     // Check phone number
     phone = validation.checkPhone(phone, "Phone number");
@@ -128,7 +129,7 @@ const updateUser = async (
     lastName = validation.checkName(lastName, "Last Name");
 
     // Check age
-    dob = validation.checkDate(dob, "Date of Birth");
+    dob = validation.checkDate(dob, "User Date of Birth");
 
     // Check phone number
     phone = validation.checkPhone(phone, "Phone number");
@@ -298,7 +299,7 @@ const getUnseenDogs = async (userId, limit = 10) => {
         .toArray();
 
     if (!unseenDogs || unseenDogs.length === 0) {
-        throw `No more dogs to see`;
+        return { dogs: [], success: true };
     }
 
     return { dogs: unseenDogs.map((entry) => entry.dog), success: true };

@@ -13,6 +13,7 @@
 :root {
     /* Define base font size */
     font-size: 16px;
+    
     --main-background-color: #fff1dc;
     --text-color: #3a2412;
     --accent-color: #3a98b9;
@@ -29,6 +30,7 @@
     text-decoration: none;
     font-family: "IBM Plex Serif", serif;
     font-size: 1rem;
+    
 }
 
 /* Default font and color styles */
@@ -54,6 +56,12 @@ header h1 {
     transition: color 0.3s ease-in-out;
     font-family: "Abril Fatface", cursive;
     font-size: 2rem;
+    text-decoration: none;
+}
+
+header a h1{
+    color: var(--text-color);
+    text-decoration: none;
 }
 
 header nav ul {
@@ -67,6 +75,10 @@ header nav a {
     transition: color 0.3s ease-in-out;
 }
 
+header nav .auth-links a {
+    margin-right: 2.5rem;
+}
+
 header nav a:hover {
     color: var(--accent-color);
 }
@@ -74,23 +86,26 @@ header nav a:hover {
 /* Hero Section styles */
 .hero {
     position: relative;
-    min-height: fit-content;
+    min-height: 100vh;
 }
 
 .hero img {
     width: 100%;
-    min-width: 62.5rem;
-    height: auto;
+    object-fit: cover;
+    top: 0;
+    left: 0;
 }
 
 .hero-content {
     background: transparent;
     position: absolute;
-    top: 30%;
+    top: 50%;
     margin-left: 5%;
     display: flex;
     flex-direction: column;
-    color: var(--main-background-color);
+    color: #f8f8f8;
+    z-index: 1;
+    transform: translateY(-50%);
 }
 
 .hero h2 {
