@@ -21,7 +21,6 @@ router.get("/scroller", async (req, res) => {
     }
 });
 
-
 // TODO: Log Out User
 
 router.get("/logout", async (req, res) => {

@@ -4,13 +4,13 @@
             <img src="../assets/40444.jpg" alt="" />
         </div>
         <div class="form-container">
-            <h2>Sign Up</h2>
+            <h2>User Sign Up</h2>
             <div
                 id="error-message"
                 class="alert alert-danger"
                 style="display: none;"
             ></div>
-            <form id="signup-form" method="POST">
+            <form id="signup-form" method="POST" action="/users/signup">
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" required />
@@ -50,14 +50,14 @@
                     <textarea id="address" name="address" required></textarea>
                 </div>
                 <button type="submit">Sign Up</button>
-                <a href="#" onclick="switchToAcSignup()">Switch to Adoption
-                    Center Signup</a>
+                <a href="#" onclick="switchToAcenterSignup()">Switch to Acenter
+                    Signup</a>
             </form>
         </div>
     </div>
     <script>
-        function switchToAcSignup() { window.location.href = "/acenters/signup";
-        }
+        function switchToAcenterSignup() { window.location.href =
+        "/acenters/ac-signup"; }
     </script>
     <script>
         (function () { var errorMessage = "{{error}}"; if (errorMessage) {
@@ -65,5 +65,4 @@
         document.getElementById("error-message").innerHTML = errorMessage; }
         })();
     </script>
-
 </main>

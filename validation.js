@@ -6,10 +6,9 @@ import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package
 import passwordHash from "password-hash";
 import Filter from "bad-words"; // Url: https://www.npmjs.com/package/bad-words
 
-import NodeGeocoder from 'node-geocoder';
-import dotenv from 'dotenv';
+import NodeGeocoder from "node-geocoder";
+import dotenv from "dotenv";
 dotenv.config();
-
 
 export function checkString(str, strName) {
     if (!str) {
@@ -49,15 +48,15 @@ export function checkStringArray(arr, arrName) {
     return arr;
 }
 
-export function checkId(id, varName) {
-    if (!id) throw `Error: You must provide a ${varName}`;
-    if (typeof id !== "string") {
-        throw `Error: ${varName} must be a string`;
+export function checkId(id, type = "Object", funcName = "Unknown function") {
+    if (!id || typeof id !== "string") {
+        throw `Error in ${funcName}: ${type} ID is required and must be a string`;
     }
-    id = id.trim();
     if (id.length === 0)
         throw `Error: ${varName} cannot be an empty string or just spaces`;
-    if (!ObjectId.isValid(id)) throw `Error: ${varName} invalid object ID`;
+    if (!ObjectId.isValid(id)) {
+        throw `Error in ${funcName}: ${type} ID invalid object ID`;
+    }
     return id.trim();
 }
 
@@ -244,7 +243,7 @@ export function checkMessage(message, varName) {
 export async function getLatLong(address, elmName) {
     address = checkString(address, elmName);
     let apiKey = process.env.GOOGLE_MAP_API_KEY;
-    let options = {provider: 'google', apiKey: apiKey};
+    let options = { provider: "google", apiKey: apiKey };
 
     let geocoder = NodeGeocoder(options);
     let res = await geocoder.geocode(address);

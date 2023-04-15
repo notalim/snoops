@@ -5,6 +5,29 @@ import * as validation from "../validation.js";
 
 // TODO: Adoption Centers Routes
 
+// TODO: Adoption center Sign Up Page
+
+router.get("/ac-signup-page", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/acenters/login-page");
+        return;
+    }
+    res.render("ac-signup");
+    return;
+});
+
+// TODO: Adoption center Log In Page
+
+router.route("/login-page").get(async (req, res) => {
+    if (req.session.acenterId) {
+        // ? Make it redirect to acenter page
+        res.redirect("index");
+        return;
+    }
+    res.render("ac-login");
+    return;
+});
+
 // TODO: GET /acenters - Get all adoption centers
 
 router.route("/").get(async (req, res) => {
@@ -21,10 +44,10 @@ router.route("/").get(async (req, res) => {
 router.route("/:id").get(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    try{
-        id = validation.checkId(id, "ID");
-    }catch(e){
-        res.status(400).json({error: e});
+    try {
+        id = validation.checkId(id, "ID", "GET /acenters/:id");
+    } catch (e) {
+        res.status(400).json({ error: e });
     }
 
     try {
@@ -39,7 +62,6 @@ router.route("/:id").get(async (req, res) => {
 
 router.route("/signup").post(async (req, res) => {
     // Decompose request body
-
     let {
         email,
         name,
@@ -51,7 +73,7 @@ router.route("/signup").post(async (req, res) => {
     } = req.body;
 
     // Validate request body
-    try{
+    try {
         email = validation.checkEmail(email, "Email");
 
         name = validation.checkString(name, "Name");
@@ -69,8 +91,8 @@ router.route("/signup").post(async (req, res) => {
         phone = validation.checkPhone(phone, "Phone");
 
         address = validation.checkString(address, "Address");
-    }catch(e){
-        return res.status(400).json({error: e});
+    } catch (e) {
+        return res.status(400).json({ error: e });
     }
     try {
         const acenter = await acenterData.createAdoptionCenter(
@@ -106,8 +128,8 @@ router.route("/:id").put(async (req, res) => {
     } = req.body;
 
     // Validate request body
-    try{
-        id = validation.checkId(id, "ID");
+    try {
+        id = validation.checkId(id, "ID", "PUT /acenters/:id");
 
         email = validation.checkEmail(email, "Email");
 
@@ -125,8 +147,8 @@ router.route("/:id").put(async (req, res) => {
         phone = validation.checkPhone(phone, "Phone");
 
         address = validation.checkString(address, "Address");
-    }catch(e){
-        return res.status(400).json({error: e});
+    } catch (e) {
+        return res.status(400).json({ error: e });
     }
     try {
         const acenter = await acenterData.updateAdoptionCenter(
@@ -140,9 +162,7 @@ router.route("/:id").put(async (req, res) => {
             address
         );
 
-        return res
-            .status(200)
-            .json(acenter);
+        return res.status(200).json(acenter);
     } catch (e) {
         return res.status(500).json({ error: e });
     }
@@ -153,10 +173,10 @@ router.route("/:id").put(async (req, res) => {
 router.route("/:id").delete(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    try{
-        id = validation.checkId(id, "ID");
-    }catch(e){
-        return res.status(400).json({error: e});
+    try {
+        id = validation.checkId(id, "ID", "DELETE /:id");
+    } catch (e) {
+        return res.status(400).json({ error: e });
     }
     try {
         const acenter = await acenterData.deleteAdoptionCenter(req.params.id);
@@ -169,16 +189,14 @@ router.route("/:id").delete(async (req, res) => {
 // TODO: POST /acenters/:id/dogs - Create dog for adoption center
 
 router.route("/:id/dogs").post(async (req, res) => {
-   
     let id = req.params.id;
-    
 
     // Decompose request body
     let { name, dob, breeds, gender, size } = req.body;
-    try{
+    try {
         // Validate the id
-        id = validation.checkId(id, "Adoption center ID");
-        
+        id = validation.checkId(id, "Adoption center ID", "POST /:id/dogs");
+
         // Validate request body
         name = validation.checkString(name, "Name");
 
@@ -189,8 +207,8 @@ router.route("/:id/dogs").post(async (req, res) => {
         gender = validation.checkGender(gender, "Gender");
 
         size = validation.checkPetWeight(size, "Weight");
-    }catch(e){
-        return res.status(400).json({error: e});
+    } catch (e) {
+        return res.status(400).json({ error: e });
     }
     try {
         const dog = await acenterData.createDog(
@@ -212,10 +230,10 @@ router.route("/:id/dogs").post(async (req, res) => {
 router.route("/:id/dogs").get(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    try{
-        id = validation.checkId(id, "Adoption center ID");
-    }catch(e){
-        return res.status(400).json({error: e});
+    try {
+        id = validation.checkId(id, "Adoption center ID", "GET /:id/dogs");
+    } catch (e) {
+        return res.status(400).json({ error: e });
     }
     try {
         const dogs = await acenterData.getAllDogs(id);
@@ -230,14 +248,14 @@ router.route("/:id/dogs").get(async (req, res) => {
 router.route("/:id/dogs/:dogId").get(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    
+
     let dogId = req.params.dogId;
 
-    try{
-        id = validation.checkId(id, "Adoption center ID");
+    try {
+        id = validation.checkId(id, "Adoption center ID", "GET /:id/dogs/:dogId");
         dogId = validation.checkId(dogId, "Dog ID");
-    }catch(e){
-        return res.status(400).json({error: e});
+    } catch (e) {
+        return res.status(400).json({ error: e });
     }
     try {
         const dog = await acenterData.getDogFromAcenter(id, dogId);
@@ -252,14 +270,18 @@ router.route("/:id/dogs/:dogId").get(async (req, res) => {
 router.route("/:id/dogs/:dogId").put(async (req, res) => {
     // Validate the id
     let id = req.params.id;
-    
+
     let dogId = req.params.dogId;
 
     // Decompose request body
     let { name, dob, breeds, gender, size } = req.body;
-    try{
+    try {
         // Validate the id
-        id = validation.checkId(id, "Adoption center ID");
+        id = validation.checkId(
+            id,
+            "Adoption center ID",
+            "PUT /:id/dogs/:dogId"
+        );
         // Validate the dog id
         dogId = validation.checkId(dogId, "Dog ID");
         // Validate request body
@@ -272,8 +294,8 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
         gender = validation.checkGender(gender, "Gender");
 
         size = validation.checkPetWeight(size, "Weight");
-    }catch(e){
-        return res.status(400).json({error: e});
+    } catch (e) {
+        return res.status(400).json({ error: e });
     }
     try {
         const dog = await acenterData.updateDog(
@@ -298,11 +320,11 @@ router.route("/:id/dogs/:dogId").delete(async (req, res) => {
     let id = req.params.id;
 
     let dogId = req.params.dogId;
-    try{
-        id = validation.checkId(id, "Adoption center ID");
+    try {
+        id = validation.checkId(id, "Adoption center ID", "DELETE /acenters/:id/dogs/:dogId");
         dogId = validation.checkId(dogId, "Dog ID");
-    }catch(e){
-        return res.status(400).json({error: e});
+    } catch (e) {
+        return res.status(400).json({ error: e });
     }
     try {
         const dog = await acenterData.deleteDog(id, dogId);
@@ -312,8 +334,6 @@ router.route("/:id/dogs/:dogId").delete(async (req, res) => {
     }
 });
 
-router.get("/signup", (req, res) => {
-    return res.render("ac_signup");
-});
+
 
 export default router;

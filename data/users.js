@@ -18,6 +18,7 @@ const createUser = async (
     phone,
     address
 ) => {
+
     const userCollection = await users();
 
     // Check email
