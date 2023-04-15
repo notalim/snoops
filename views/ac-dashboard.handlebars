@@ -1,0 +1,11 @@
+<main>
+    <h2>Welcome, {{acenter.name}}</h2>
+    <p>Address: {{acenter.address}}</p>
+    <p>Phone: {{acenter.phone}}</p>
+    <h3>Posted Dogs</h3>
+    <ul>
+        {{#each dogs}}
+            <li>{{this.name}} - {{this.breed}} - {{this.age}} years old</li>
+        {{/each}}
+    </ul>
+</main>

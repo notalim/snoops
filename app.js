@@ -20,8 +20,6 @@ const app = express();
 import path from "path";
 const viewsDir = path.join(__dirname, "views");
 
-
-
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.set("views", viewsDir);
@@ -45,6 +43,13 @@ app.use((req, res, next) => {
         res.locals.user = {
             _id: req.session.userId,
             firstName: req.session.userFirstName,
+            userType: "user",
+        };
+    } else if (req.session.acenterId) {
+        res.locals.user = {
+            _id: req.session.acenterId,
+            firstName: req.session.acenterName,
+            userType: "acenter",
         };
     }
     next();

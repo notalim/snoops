@@ -5,7 +5,7 @@ import * as validation from "../validation.js";
 
 // TODO: Adoption Centers Routes
 
-// TODO: Adoption center Sign Up Page
+// *: Adoption center Sign Up Page
 
 router.get("/ac-signup-page", (req, res) => {
     if (req.session.userId) {
@@ -16,49 +16,7 @@ router.get("/ac-signup-page", (req, res) => {
     return;
 });
 
-// TODO: Adoption center Log In Page
-
-router.route("/login-page").get(async (req, res) => {
-    if (req.session.acenterId) {
-        // ? Make it redirect to acenter page
-        res.redirect("index");
-        return;
-    }
-    res.render("ac-login");
-    return;
-});
-
-// TODO: GET /acenters - Get all adoption centers
-
-router.route("/").get(async (req, res) => {
-    try {
-        const acenters = await acenterData.getAllAdoptionCenters();
-        return res.status(200).json(acenters);
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
-
-// TODO: GET /acenters/:id - Get adoption center by id
-
-router.route("/:id").get(async (req, res) => {
-    // Validate the id
-    let id = req.params.id;
-    try {
-        id = validation.checkId(id, "ID", "GET /acenters/:id");
-    } catch (e) {
-        res.status(400).json({ error: e });
-    }
-
-    try {
-        const acenter = await acenterData.getAdoptionCenter(req.params.id);
-        return res.status(200).json(acenter);
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
-
-// TODO: POST /acenters - Create adoption center
+// *: POST /acenters - Sign up (Create) adoption center
 
 router.route("/signup").post(async (req, res) => {
     // Decompose request body
@@ -104,6 +62,79 @@ router.route("/signup").post(async (req, res) => {
             phone,
             address
         );
+        return res.status(200).json(acenter);
+    } catch (e) {
+        return res.status(500).json({ error: e });
+    }
+});
+
+// *: Adoption center Log In Page
+
+router.route("/login-page").get(async (req, res) => {
+    if (req.session.acenterId) {
+        // ? Make it redirect to acenter page
+        res.redirect("index");
+        return;
+    }
+    res.render("ac-login");
+    return;
+});
+
+// *: Adoption center Log In
+
+router.route("/login").post(async (req, res) => {
+    if (req.session.acenterId) {
+        res.redirect("/ac-dashboard");
+        return;
+    }
+
+    let { email, password } = req.body;
+
+    try {
+        email = validation.checkEmail(email, "Email");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
+
+    try {
+        const { acenter } = await acenterData.logInAdoptionCenter(
+            email,
+            password
+        );
+        req.session.acenterId = acenter._id;
+        req.session.acenterName = acenter.name;
+        return res.redirect("/ac-dashboard");
+    } catch (e) {
+        res.render("ac-login", { error: e.toString(), email });
+        console.log(e);
+        return;
+    }
+});
+
+// *: GET /acenters - Get all adoption centers
+
+router.route("/").get(async (req, res) => {
+    try {
+        const acenters = await acenterData.getAllAdoptionCenters();
+        return res.status(200).json(acenters);
+    } catch (e) {
+        return res.status(500).json({ error: e });
+    }
+});
+
+// TODO: GET /acenters/:id - Get adoption center by id
+
+router.route("/:id").get(async (req, res) => {
+    // Validate the id
+    let id = req.params.id;
+    try {
+        id = validation.checkId(id, "ID", "GET /acenters/:id");
+    } catch (e) {
+        res.status(400).json({ error: e });
+    }
+
+    try {
+        const acenter = await acenterData.getAdoptionCenter(req.params.id);
         return res.status(200).json(acenter);
     } catch (e) {
         return res.status(500).json({ error: e });
@@ -252,7 +283,11 @@ router.route("/:id/dogs/:dogId").get(async (req, res) => {
     let dogId = req.params.dogId;
 
     try {
-        id = validation.checkId(id, "Adoption center ID", "GET /:id/dogs/:dogId");
+        id = validation.checkId(
+            id,
+            "Adoption center ID",
+            "GET /:id/dogs/:dogId"
+        );
         dogId = validation.checkId(dogId, "Dog ID");
     } catch (e) {
         return res.status(400).json({ error: e });
@@ -321,7 +356,11 @@ router.route("/:id/dogs/:dogId").delete(async (req, res) => {
 
     let dogId = req.params.dogId;
     try {
-        id = validation.checkId(id, "Adoption center ID", "DELETE /acenters/:id/dogs/:dogId");
+        id = validation.checkId(
+            id,
+            "Adoption center ID",
+            "DELETE /acenters/:id/dogs/:dogId"
+        );
         dogId = validation.checkId(dogId, "Dog ID");
     } catch (e) {
         return res.status(400).json({ error: e });
@@ -333,7 +372,5 @@ router.route("/:id/dogs/:dogId").delete(async (req, res) => {
         return res.status(500).json({ error: e });
     }
 });
-
-
 
 export default router;

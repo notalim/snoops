@@ -6,7 +6,7 @@ import * as validation from "../validation.js";
 
 // TODO: Extension Routes to users and adoption centers
 
-// TODO: Get Unseen Dogs
+// TODO: Tinder Scroller (Default user page redirect)
 
 router.get("/scroller", async (req, res) => {
     try {
@@ -21,6 +21,31 @@ router.get("/scroller", async (req, res) => {
     }
 });
 
+// TODO: Acenter Dashboard page (Default acenter page redirect / profile)
+
+router.get("/ac-dashboard", async (req, res) => {
+    try {
+        console.log(req.session);
+        const { acenterId } = req.session;
+        if (!acenterId) {
+            return res.redirect("/acenters/login");
+        }
+        const acenterDataObj = await acenterData.getAdoptionCenter(acenterId);
+        if (!acenterDataObj) {
+            return res
+                .status(500)
+                .json({ error: `No acenter found with ID ${acenterId}` });
+        }
+        
+        const dogs = await acenterData.getAllDogs(acenterId);
+        res.render("ac-dashboard", { acenter: acenterDataObj, dogs });
+    } catch (error) {
+        res.status(500).json({
+            error: `Error in GET /ac-dashboard: ${error.toString()}`,
+        });
+    }
+});
+
 // TODO: Log Out User
 
 router.get("/logout", async (req, res) => {
@@ -30,17 +55,16 @@ router.get("/logout", async (req, res) => {
 });
 
 router.get("/settings", async (req, res) => {
-    try{
+    try {
         const { userId } = req.session;
         if (!userId) {
             return res.redirect("/users/login");
         }
         const user = await userData.getUser(userId);
         res.render("settings", { user });
-    } catch(error) {
+    } catch (error) {
         res.status(500).json({ error: error.toString() });
     }
-})
-
+});
 
 export default router;
