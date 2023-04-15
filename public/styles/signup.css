@@ -3,14 +3,17 @@
     background-color: var(--main-background-color);
 }
 
-main {
+
+/* ! do not use main!!! */
+
+/* main {
     display: flex;
     justify-content: space-between;
     padding-top: 80px;
     padding-bottom: 40px;
     width: 90%;
     margin: 0 auto;
-}
+} */
 
 .graphic-image img {
     flex: 1;
