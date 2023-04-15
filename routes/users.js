@@ -59,7 +59,7 @@ router.route("/signup").post(async (req, res) => {
 
         lastName = validation.checkName(lastName, "Last Name");
 
-        dob = validation.checkDate(dob, "Date of Birth");
+        dob = validation.checkDate(dob, "User Date of Birth");
 
         phone = validation.checkPhone(phone, "Phone Number");
 
@@ -129,7 +129,7 @@ router.route("/:id").put(async (req, res) => {
 
         lastName = validation.checkName(lastName, "Last Name");
 
-        dob = validation.checkDate(dob, "Date of birth");
+        dob = validation.checkDate(dob, "User Date of Birth");
 
         phone = validation.checkPhone(phone, "Phone Number");
 

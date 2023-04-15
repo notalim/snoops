@@ -6,9 +6,9 @@ import exphbs from "express-handlebars";
 import session from "express-session";
 import dotenv from "dotenv";
 
+// ? THIS IS FOR THE WEBSITE TO NOT CRASH WHEN THERE IS AN ERROR
 process.on("unhandledRejection", (reason, promise) => {
     console.log("Unhandled Rejection at:", promise, "reason:", reason);
-    console.error(reason.stack); // Add this line to log the stack trace
 });
 
 const __filename = fileURLToPath(import.meta.url);

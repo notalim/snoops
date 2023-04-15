@@ -5,9 +5,11 @@ import validator from "validator"; //Yousaf - Url: https://www.npmjs.com/package
 //Yousaf - We can prolly just use validator to handle both email and website
 import passwordHash from "password-hash";
 import Filter from "bad-words"; // Url: https://www.npmjs.com/package/bad-words
+
 import NodeGeocoder from 'node-geocoder';
 import dotenv from 'dotenv';
 dotenv.config();
+
 
 export function checkString(str, strName) {
     if (!str) {
@@ -97,8 +99,8 @@ export function checkPassword(password, elmName) {
         throw `${elmName} can not contain spaces`;
     }
     if (!validator.isStrongPassword(password)) {
-        if (password.length < 8){
-            throw `${elmName} has to be at least 8 characters`
+        if (password.length < 8) {
+            throw `${elmName} has to be at least 8 characters`;
         }
         if (password.length === password.replace(/[^a-zA-Z0-9 ]/g, "").length) {
             throw `${elmName} must have at least one symbol (special character)`;
@@ -146,8 +148,10 @@ export function checkDate(date, elmName) {
     let age_diff = new Date(mon_diff);
     let year = age_diff.getUTCFullYear();
     let age = Math.abs(year - 1970);
-    if (age < 18 || age > 122) {
-        throw `${elmName} must be a valid age (18-122)`
+    if (elmName === "User Date of Birth") {
+        if (age < 18 || age > 122) {
+            throw `${elmName} must be a valid age (18-122)`;
+        }
     }
 
     return date.trim();
@@ -230,7 +234,7 @@ export function verifyPassword(password, hash) {
     return passwordHash.verify(password, hash);
 }
 
-export function checkMessage(message, varName){
+export function checkMessage(message, varName) {
     message = checkString(message, "message");
     let filter = new Filter();
     message = filter.clean(message).trim();
@@ -241,19 +245,18 @@ export async function getLatLong(address, elmName) {
     address = checkString(address, elmName);
     let apiKey = process.env.GOOGLE_MAP_API_KEY;
     let options = {provider: 'google', apiKey: apiKey};
+
     let geocoder = NodeGeocoder(options);
     let res = await geocoder.geocode(address);
     let returnObj;
-    if (!res || !res[0] || !res[0].latitude || !res[0].longitude){
-        throw `${elmName} could not be found`
+    if (!res || !res[0] || !res[0].latitude || !res[0].longitude) {
+        throw `${elmName} could not be found`;
+    } else {
+        returnObj = { lat: res[0].latitude, long: res[0].longitude };
     }
-    else{
-        returnObj = {lat: res[0].latitude, long: res[0].longitude};
-    }
-    
-    return returnObj;
-  }
 
+    return returnObj;
+}
 
 /*
 [

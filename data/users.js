@@ -37,7 +37,7 @@ const createUser = async (
     lastName = validation.checkName(lastName, "Last Name");
 
     // Check age
-    dob = validation.checkDate(dob, "Date of birth");
+    dob = validation.checkDate(dob, "User Date of Birth");
 
     // Check phone number
     phone = validation.checkPhone(phone, "Phone number");
@@ -128,7 +128,7 @@ const updateUser = async (
     lastName = validation.checkName(lastName, "Last Name");
 
     // Check age
-    dob = validation.checkDate(dob, "Date of Birth");
+    dob = validation.checkDate(dob, "User Date of Birth");
 
     // Check phone number
     phone = validation.checkPhone(phone, "Phone number");
