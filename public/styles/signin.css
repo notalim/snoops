@@ -5,6 +5,15 @@
     align-items: center;
 }
 
+.signin-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 80px;
+    padding-bottom: 40px;
+    width: 90%;
+    margin: 0 auto;
+}
+
 .signin-container{
     display: flex;
     flex-direction: column;

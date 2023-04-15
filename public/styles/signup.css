@@ -3,17 +3,14 @@
     background-color: var(--main-background-color);
 }
 
-
-/* ! do not use main!!! */
-
-/* main {
+.signup-wrapper {
     display: flex;
     justify-content: space-between;
     padding-top: 80px;
     padding-bottom: 40px;
     width: 90%;
     margin: 0 auto;
-} */
+}
 
 .graphic-image img {
     flex: 1;
