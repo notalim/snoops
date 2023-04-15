@@ -21,6 +21,15 @@ router.get("/scroller", async (req, res) => {
     }
 });
 
+
+// TODO: Log Out User
+
+router.get("/logout", async (req, res) => {
+    req.session.destroy();
+    res.redirect("/");
+    return;
+});
+
 router.get("/settings", async (req, res) => {
     try{
         const { userId } = req.session;
@@ -33,5 +42,6 @@ router.get("/settings", async (req, res) => {
         res.status(500).json({ error: error.toString() });
     }
 })
+
 
 export default router;
