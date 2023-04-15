@@ -7,7 +7,7 @@ import * as validation from "../validation.js";
 
 // TODO: Log In User
 
-router.route("user-login").post(async (req, res) => {
+router.route("/user-login").post(async (req, res) => {
     // Decompose request body
     // check if the user's already logged in
     if (req.session.userId) {
@@ -16,6 +16,8 @@ router.route("user-login").post(async (req, res) => {
     }
 
     let { email, password } = req.body;
+
+    // console.log("got email and password: ", email, password);
 
     try {
         email = validation.checkEmail(email, "Email");
@@ -27,7 +29,6 @@ router.route("user-login").post(async (req, res) => {
         const user = await userData.loginUser(email, password); // Pass the plain password, not hashedPassword
         req.session.userId = user._id; // Store the userId, not the whole user object
         req.session.userFirstName = user.firstName;
-
         return res.redirect("/scroller");
     } catch (e) {
         res.render("user-login", { error: e.toString(), email });

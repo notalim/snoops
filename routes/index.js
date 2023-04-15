@@ -8,11 +8,13 @@ const constructorMethod = (app) => {
     app.get("/", (req, res) => {
         res.render("index");
     });
+
+    app.use("/", mainRoutes);
     
     app.use("/acenters", acenterRoutes);
     app.use("/users", userRoutes);
     app.use("/chats", chatRoutes);
-    app.use("/", mainRoutes);
+    
 
     app.use("*", (req, res) => {
         res.status(404).render("404Page");
