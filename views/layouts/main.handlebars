@@ -17,6 +17,7 @@
                     {{#if user}}
                         <li>Hello, {{user.firstName}}!</li>
                         <li><a href="/logout">Log out</a></li>
+                        <li><a href="/chats/user/{{user._id}}">Messages</a></li>
                     {{else}}
                         <li class="auth-links"><a
                                 href="/users/user-login-page"
