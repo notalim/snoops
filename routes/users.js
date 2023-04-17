@@ -86,6 +86,7 @@ router.route("/:id").get(async (req, res) => {
     try {
         const user = await userData.getUser(req.params.id);
         return res.status(200).render('user-info', {user: user, key: process.env.GOOGLE_MAP_API_KEY});
+        
     } catch (e) {
         return res.status(500).json({ error: e });
     }
