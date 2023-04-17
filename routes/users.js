@@ -169,6 +169,7 @@ router.route("/:id").put(async (req, res) => {
     let id = req.params.id;
 
     // Decompose request body
+    //future reference: does this have to be in a try catch in case there aren't exactly 8 fields?
     let { email, password, firstName, lastName, dob, phone, address } =
         req.body;
 
