@@ -5,12 +5,7 @@ import chatRoutes from "./chats.js";
 import path from "path";
 
 const constructorMethod = (app) => {
-    app.get("/", (req, res) => {
-        res.render("index");
-    });
-
     app.use("/", mainRoutes);
-    
     app.use("/acenters", acenterRoutes);
     app.use("/users", userRoutes);
     app.use("/chats", chatRoutes);
