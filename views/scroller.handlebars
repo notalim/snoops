@@ -17,52 +17,52 @@
     </div>
     <button class="scroller-button">></button>
     <script>
-    let dogsData = JSON.parse('{{{dogs}}}');
+        let dogsData = JSON.parse('{{{dogs}}}');
     
-function breedName(breeds) {
-    if (breeds.length > 1) {
-        return breeds[0] + " Mix";
-    } else {
-        return breeds[0];
-    }
-}
+        function breedName(breeds) {
+            if (breeds.length > 1) {
+                return breeds[0] + " Mix";
+            } else {
+                return breeds[0];
+            }
+        }
 
-let dogName = document.getElementById("dog-name");
-let dogBreeds = document.getElementById("dog-breeds");
-let dogAge = document.getElementById("dog-age");
+        let dogName = document.getElementById("dog-name");
+        let dogBreeds = document.getElementById("dog-breeds");
+        let dogAge = document.getElementById("dog-age");
 
-dogName.textContent = dogsData[0].name;
-dogBreeds.textContent = breedName(dogsData[0].breeds);
-dogAge.textContent = dogsData[0].age;
+        dogName.textContent = dogsData[0].name;
+        dogBreeds.textContent = breedName(dogsData[0].breeds);
+        dogAge.textContent = dogsData[0].age;
 
-let i = 0;
+        let i = 0;
 
-let leftButton = document.getElementsByClassName("scroller-button")[0];
-let rightButton = document.getElementsByClassName("scroller-button")[1];
+        let leftButton = document.getElementsByClassName("scroller-button")[0];
+        let rightButton = document.getElementsByClassName("scroller-button")[1];
 
-leftButton.addEventListener("click", () => {
-    if (i === 0) {
-        i = dogsData.length - 1;
-    } else {
-        i--;
-    }
+        leftButton.addEventListener("click", () => {
+            if (i === 0) {
+                i = dogsData.length - 1;
+            } else {
+                i--;
+            }
 
-    dogName.textContent = dogsData[i].name;
-    dogBreeds.textContent = breedName(dogsData[i].breeds);
-    dogAge.textContent = dogsData[i].age;
-});
+            dogName.textContent = dogsData[i].name;
+            dogBreeds.textContent = breedName(dogsData[i].breeds);
+            dogAge.textContent = dogsData[i].age;
+        });
 
-rightButton.addEventListener("click", () => {
-    if (i === dogsData.length) {
-        i = 0;
-    } else {
-        i++;
-    }
+        rightButton.addEventListener("click", () => {
+            if (i === dogsData.length) {
+                i = 0;
+            } else {
+                i++;
+            }
 
-    dogName.textContent = dogsData[i].name;
-    dogBreeds.textContent = breedName(dogsData[i].breeds);
-    dogAge.textContent = dogsData[i].age;
-});
+            dogName.textContent = dogsData[i].name;
+            dogBreeds.textContent = breedName(dogsData[i].breeds);
+            dogAge.textContent = dogsData[i].age;
+        });
 
 
     </script>
