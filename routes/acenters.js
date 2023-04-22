@@ -3,12 +3,11 @@ const router = Router();
 import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 
-
 // *: Adoption center Log In Page
 
 router.route("/login-page").get(async (req, res) => {
     if (req.session.acenterId) {
-        res.redirect("/ac-dashboard");
+        res.redirect("/acenters/ac-dashboard");
         return;
     }
     res.render("ac-login");
@@ -19,7 +18,7 @@ router.route("/login-page").get(async (req, res) => {
 
 router.route("/login").post(async (req, res) => {
     if (req.session.acenterId) {
-        res.redirect("/ac-dashboard");
+        res.redirect("/acenters/ac-dashboard");
         return;
     }
 
@@ -36,9 +35,9 @@ router.route("/login").post(async (req, res) => {
             email,
             password
         );
+        req.session.acenter = acenter
         req.session.acenterId = acenter._id;
-        req.session.acenterName = acenter.name;
-        return res.redirect("/ac-dashboard");
+        return res.redirect("/acenters/ac-dashboard");
     } catch (e) {
         res.render("ac-login", { error: e.toString(), email });
         console.log(e);
@@ -47,8 +46,8 @@ router.route("/login").post(async (req, res) => {
 });
 
 router.get("/signup-page", (req, res) => {
-    if (req.session.userId) {
-        res.redirect("/acenters/login-page");
+    if (req.session.acenterId) {
+        res.redirect("/acenters/ac-dashboard");
         return;
     }
     res.render("ac-signup");

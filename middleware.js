@@ -1,40 +1,25 @@
-export const middleware = (protectedUserRoutes, protectedAcenterRoutes) => {
+export const userMiddleware = (protectedUserRoutes) => {
     return (req, res, next) => {
-        const isLoggedIn = req.session.userId || req.session.acenterId;
-        const isUser = req.session.userId;
-        const isAcenter = req.session.acenterId;
+        const isLoggedIn = req.session.user;
+        const fullPath = req.baseUrl + req.path;
 
-        if (protectedUserRoutes.includes(req.path) && !isLoggedIn) {
+        if (protectedUserRoutes.some(route => fullPath === "/users" + route) && !isLoggedIn) {
             res.redirect("/users/login-page");
             return;
         }
 
-        if (protectedAcenterRoutes.includes(req.path) && !isLoggedIn) {
+        next();
+    };
+};
+
+export const acenterMiddleware = (protectedAcenterRoutes) => {
+    return (req, res, next) => {
+        const isLoggedIn = req.session.acenter;
+        const fullPath = req.baseUrl + req.path;
+
+        if (protectedAcenterRoutes.some(route => fullPath === "/acenters" + route) && !isLoggedIn) {
             res.redirect("/acenters/login-page");
             return;
-        }
-
-        if (isUser && protectedAcenterRoutes.includes(req.path)) {
-            res.redirect("/users/scroller");
-            return;
-        }
-
-        if (isAcenter && protectedUserRoutes.includes(req.path)) {
-            res.redirect("/acenters/ac-dashboard");
-            return;
-        }
-
-        if (req.path === "/scroller") {
-            if (!isLoggedIn) {
-                res.redirect("/login");
-                return;
-            }
-        } else if (req.path === "/logout") {
-            // req.session.destroy();
-            if (!isLoggedIn) {
-                res.redirect("/login");
-                return;
-            }
         }
         next();
     };
@@ -42,11 +27,11 @@ export const middleware = (protectedUserRoutes, protectedAcenterRoutes) => {
 
 export const redirectToScrollerIfLoggedIn = () => {
     return (req, res, next) => {
-        if (req.session.userId) {
-            res.redirect("/scroller");
-            return;
+        // console.log("req.session.userId: ", req.session.userId)
+        if (req.session.user) {
+            return res.redirect(`/users/scroller/${user._id}`);
         }
-        if (req.session.acenterId) {
+        if (req.session.acenter) {
             res.redirect("/ac-dashboard");
             return;
         }

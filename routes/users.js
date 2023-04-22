@@ -4,6 +4,7 @@ import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 import { redirectToScrollerIfLoggedIn } from "../middleware.js";
 
+
 // *: Log In Page
 
 router
@@ -17,11 +18,6 @@ router
 
 router.route("/login").post(async (req, res) => {
     // Decompose request body
-    // check if the user's already logged in
-    if (req.session.userId) {
-        res.redirect("/scroller");
-        return;
-    }
 
     let { email, password } = req.body;
 
@@ -35,9 +31,9 @@ router.route("/login").post(async (req, res) => {
 
     try {
         const user = await userData.loginUser(email, password); // Pass the plain password, not hashedPassword
-        req.session.userId = user._id; // Store the userId, not the whole user object
-        req.session.userFirstName = user.firstName;
-        return res.redirect("/scroller");
+        //console.log(user);
+        req.session.user = user;
+        return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
         res.render("user-login", { error: e.toString(), email });
         console.log(e);
@@ -58,8 +54,8 @@ router
 
 router.route("/signup").post(async (req, res) => {
     // check if the user's already logged in
-    if (req.session.userId) {
-        res.redirect("/scroller");
+    if (req.session.user) {
+        return res.redirect(`/users/scroller/${user._id}`);
         return;
     }
     // Decompose request body
@@ -96,9 +92,8 @@ router.route("/signup").post(async (req, res) => {
             address
         );
         // return res.status(200).json(user);
-
         req.session.user = user;
-        return res.redirect("/scroller");
+        return res.redirect(`/users/scroller/${user._id}`);
     } catch (error) {
         return res.status(500).render("signup", { error: error.toString() });
     }
@@ -121,6 +116,7 @@ router.route("/:id").get(async (req, res) => {
     console.log("GET /users/:id triggered with URL:", req.originalUrl);
 
     let id = req.params.id;
+    console.log(id);
     try {
         // Validate the id
         id = validation.checkId(id, "ID", "GET /users/:id");

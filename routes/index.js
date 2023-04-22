@@ -6,9 +6,10 @@ import mainRoutes from "./main.js";
 
 const constructorMethod = (app) => {
     app.use("/acenters", acenterRoutes);
+    app.use("/users", mainUserRoutes);
     app.use("/users", userRoutes);
     app.use("/acenters", mainAcenterRoutes);
-    app.use("/users", mainUserRoutes);
+    
     app.use("/", mainRoutes);
 
     app.use("*", (req, res) => {

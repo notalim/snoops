@@ -15,7 +15,7 @@
             <nav>
                 <ul>
                     {{#if user}}
-                        <li><a href="/users/settings">Hello, {{user.firstName}}!</a></li>
+                        <li><a href="/users/settings/{{user._id}}">Hello, {{user.firstName}}!</a></li>
                         <li><a href="/users/logout">Log out</a></li>
                     {{else}}
                         <li class="auth-links"><a
