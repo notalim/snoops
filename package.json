@@ -6,6 +6,7 @@
     "type": "module",
     "scripts": {
         "start": "node app.js",
+        "dev": "nodemon app.js",
         "seed": "node ./tasks/seed.js",
         "algo-test": "node ./tasks/algo-test.js",
         "users-test": "node ./tasks/users-test.js",
