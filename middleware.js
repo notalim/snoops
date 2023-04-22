@@ -24,7 +24,7 @@ export const middleware = (protectedUserRoutes, protectedAcenterRoutes) => {
             return;
         }
 
-        if (req.path === "/users/scroller") {
+        if (req.path === "/scroller") {
             if (!isLoggedIn) {
                 res.redirect("/login");
                 return;
@@ -36,7 +36,6 @@ export const middleware = (protectedUserRoutes, protectedAcenterRoutes) => {
                 return;
             }
         }
-
         next();
     };
 };
