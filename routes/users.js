@@ -2,12 +2,20 @@ import { Router } from "express";
 const router = Router();
 import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
+import { redirectToScrollerIfLoggedIn } from "../middleware.js";
 
-// TODO: User Routes
+// *: Log In Page
 
-// TODO: Log In User
+router
+    .route("/login-page")
+    .get(redirectToScrollerIfLoggedIn(), (req, res) => {
+        res.render("user-login");
+        return;
+    });
 
-router.route("/user-login").post(async (req, res) => {
+// *: Log In User
+
+router.route("/login").post(async (req, res) => {
     // Decompose request body
     // check if the user's already logged in
     if (req.session.userId) {
@@ -37,62 +45,16 @@ router.route("/user-login").post(async (req, res) => {
     }
 });
 
-// TODO: Signup Page
+// *: Sign Up Page
 
-router.route("/user-signup-page").get(async (req, res) => {
-    if (req.session.userId) {
-        res.redirect("/scroller");
+router
+    .route("/signup-page")
+    .get(redirectToScrollerIfLoggedIn(), (req, res) => {
+        res.render("user-signup");
         return;
-    }
-    res.render("user-signup");
-    return;
-});
+    });
 
-// TODO: Log In Page
-
-router.get("/user-login-page", (req, res) => {
-    if (req.session.userId) {
-        res.redirect("/scroller");
-        return;
-    }
-    res.render("user-login");
-    return;
-});
-
-// TODO: GET /users - Get all users
-
-router.route("/").get(async (req, res) => {
-    try {
-        const users = await userData.getAllUsers();
-        return res.status(200).json(users);
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
-
-// TODO: GET /users/:id - Get user by id
-
-router.route("/:id").get(async (req, res) => {
-    console.log("GET /users/:id triggered with URL:", req.originalUrl);
-
-    let id = req.params.id;
-    try {
-        // Validate the id
-        id = validation.checkId(id, "ID", "GET /users/:id");
-    } catch (e) {
-        return res.status(400).json({ error: e });
-    }
-
-    try {
-        const user = await userData.getUser(req.params.id);
-        return res.status(200).render('user-info', {user: user, key: process.env.GOOGLE_MAP_API_KEY});
-        
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
-
-// TODO: POST /users - Create user
+// *: Sign Up user (POST: Create user)
 
 router.route("/signup").post(async (req, res) => {
     // check if the user's already logged in
@@ -139,6 +101,41 @@ router.route("/signup").post(async (req, res) => {
         return res.redirect("/scroller");
     } catch (error) {
         return res.status(500).render("signup", { error: error.toString() });
+    }
+});
+
+// *: Get all users (GET /users)
+
+router.route("/").get(async (req, res) => {
+    try {
+        const users = await userData.getAllUsers();
+        return res.status(200).json(users);
+    } catch (e) {
+        return res.status(500).json({ error: e });
+    }
+});
+
+// *: Get user by id (GET /users/:id)
+
+router.route("/:id").get(async (req, res) => {
+    console.log("GET /users/:id triggered with URL:", req.originalUrl);
+
+    let id = req.params.id;
+    try {
+        // Validate the id
+        id = validation.checkId(id, "ID", "GET /users/:id");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
+
+    try {
+        const user = await userData.getUser(req.params.id);
+        return res.status(200).render("user-info", {
+            user: user,
+            key: process.env.GOOGLE_MAP_API_KEY,
+        });
+    } catch (e) {
+        return res.status(500).json({ error: e });
     }
 });
 

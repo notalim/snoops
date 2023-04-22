@@ -15,14 +15,14 @@
             <nav>
                 <ul>
                     {{#if user}}
-                        <li><a href="/settings">Hello, {{user.firstName}}!</a></li>
-                        <li><a href="/logout">Log out</a></li>
+                        <li><a href="/users/settings">Hello, {{user.firstName}}!</a></li>
+                        <li><a href="/users/logout">Log out</a></li>
                     {{else}}
                         <li class="auth-links"><a
-                                href="/users/user-login-page"
+                                href="/users/login-page"
                             >Log in</a></li>
                         <li class="auth-links"><a
-                                href="/users/user-signup-page"
+                                href="/users/signup-page"
                             >Sign up</a></li>
                     {{/if}}
                     <li><a href="#">About</a></li>

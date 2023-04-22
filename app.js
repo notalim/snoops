@@ -1,10 +1,13 @@
 import express from "express";
 import configRoutes from "./routes/index.js";
+import userRoutes from "./routes/users.js";
+import acenterRoutes from "./routes/acenters.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import dotenv from "dotenv";
+import {middleware} from "./middleware.js";
 
 // ? THIS IS FOR THE WEBSITE TO NOT CRASH WHEN THERE IS AN ERROR
 process.on("unhandledRejection", (reason, promise) => {
@@ -37,6 +40,10 @@ app.use(
         resave: false,
     })
 );
+
+const protectedUserRoutes = ["/users", "/settings", "/scroller"];
+const protectedAcenterRoutes = ["/acenters","/ac-dashboard","/ac-settings"];
+app.use(middleware(protectedUserRoutes, protectedAcenterRoutes));
 
 app.use((req, res, next) => {
     if (req.session.userId) {
