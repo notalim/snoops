@@ -4,15 +4,12 @@ import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 import { redirectToScrollerIfLoggedIn } from "../middleware.js";
 
-
 // *: Log In Page
 
-router
-    .route("/login-page")
-    .get(redirectToScrollerIfLoggedIn(), (req, res) => {
-        res.render("user-login");
-        return;
-    });
+router.route("/login-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
+    res.render("user-login");
+    return;
+});
 
 // *: Log In User
 
@@ -30,8 +27,7 @@ router.route("/login").post(async (req, res) => {
     }
 
     try {
-        const user = await userData.loginUser(email, password); // Pass the plain password, not hashedPassword
-        //console.log(user);
+        const user = await userData.loginUser(email, password);
         req.session.user = user;
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
@@ -43,12 +39,10 @@ router.route("/login").post(async (req, res) => {
 
 // *: Sign Up Page
 
-router
-    .route("/signup-page")
-    .get(redirectToScrollerIfLoggedIn(), (req, res) => {
-        res.render("user-signup");
-        return;
-    });
+router.route("/signup-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
+    res.render("user-signup");
+    return;
+});
 
 // *: Sign Up user (POST: Create user)
 

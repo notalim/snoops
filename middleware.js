@@ -7,7 +7,6 @@ export const userMiddleware = (protectedUserRoutes) => {
             res.redirect("/users/login-page");
             return;
         }
-
         next();
     };
 };
@@ -27,12 +26,13 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
 
 export const redirectToScrollerIfLoggedIn = () => {
     return (req, res, next) => {
-        // console.log("req.session.userId: ", req.session.userId)
+        console.log("req.session: ", req.session);
+        
         if (req.session.user) {
-            return res.redirect(`/users/scroller/${user._id}`);
+            return res.redirect(`/users/scroller/${req.session.user._id}`);
         }
         if (req.session.acenter) {
-            res.redirect("/ac-dashboard");
+            res.redirect(`/acenters/ac-dashboard/${req.session.acenter._id}`);
             return;
         }
         next();

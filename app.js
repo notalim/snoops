@@ -55,9 +55,9 @@ app.use((req, res, next) => {
             userType: "user",
         };
     } else if (req.session.acenter) {
-        res.locals.user = {
+        res.locals.acenter = {
             _id: req.session.acenter._id,
-            firstName: req.session.acenter.name,
+            name: req.session.acenter.name,
             userType: "acenter",
         };
     }

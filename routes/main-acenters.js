@@ -4,22 +4,23 @@ import { acenterData } from "../data/index.js";
 
 // TODO: Acenter Dashboard page (Default acenter page redirect / profile)
 
-router.get("/ac-dashboard", async (req, res) => {
+router.get("/ac-dashboard/:id", async (req, res) => {
     try {
-        console.log(req.session);
-        const { acenterId } = req.session;
+        const acenterId = req.session.acenter._id;
+        const requestedAcenterId = req.params.id;
+
         if (!acenterId) {
             return res.redirect("/acenters/login");
         }
-        const acenterDataObj = await acenterData.getAdoptionCenter(acenterId);
-        if (!acenterDataObj) {
+
+        if (acenterId !== requestedAcenterId) {
             return res
-                .status(500)
-                .json({ error: `No acenter found with ID ${acenterId}` });
+                .status(403)
+                .json({ error: "You are not authorized to view this page" });
         }
 
         const dogs = await acenterData.getAllDogs(acenterId);
-        res.render("ac-dashboard", { acenter: acenterDataObj, dogs });
+        res.render("ac-dashboard", { acenter: req.session.acenter, dogs });
     } catch (error) {
         res.status(500).json({
             error: `Error in GET /ac-dashboard: ${error.toString()}`,

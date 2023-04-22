@@ -6,7 +6,7 @@ import * as validation from "../validation.js";
 
 // *: Extension Routes to users and adoption centers
 
-// TODO: Tinder Scroller (Default user page redirect)
+// *: Tinder Scroller (Default user page redirect)
 
 router.get("/scroller/:id", async (req, res) => {
     try {
@@ -33,13 +33,15 @@ router.get("/scroller/:id", async (req, res) => {
     }
 });
 
-// TODO: Log Out User
+// *: Log Out User
 
 router.get("/logout", async (req, res) => {
     req.session.destroy();
     res.redirect("/");
     return;
 });
+
+// *: User Settings Page
 
 router.get("/settings/:id", async (req, res) => {
     try {

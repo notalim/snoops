@@ -31,13 +31,14 @@ router.route("/login").post(async (req, res) => {
     }
 
     try {
-        const { acenter } = await acenterData.logInAdoptionCenter(
+        const acenter = await acenterData.logInAdoptionCenter(
             email,
             password
         );
-        req.session.acenter = acenter
-        req.session.acenterId = acenter._id;
-        return res.redirect("/acenters/ac-dashboard");
+
+        console.log(acenter);
+        req.session.acenter = acenter;
+        return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
         res.render("ac-login", { error: e.toString(), email });
         console.log(e);

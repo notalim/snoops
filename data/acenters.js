@@ -379,7 +379,7 @@ const logInAdoptionCenter = async (acenterEmail, acenterPassword) => {
         throw `Incorrect password`;
     }
 
-    return { acenter, success: true };
+    return acenter;
 };
 
 const exportedMethods = {
