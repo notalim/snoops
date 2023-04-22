@@ -23,7 +23,6 @@ router.route("/user/:uid").get(async (req, res) => {
         //could sort by most recent time
         const chatList = await chatData.getAllChatsUser(id);
         let sorted = chatList.sort((a, b) => {
-            console.log([a, b]);
             if (a.messages.length === 0) {
                 return 1;
             } else if (b.messages.length === 0) {
@@ -54,7 +53,6 @@ router.route("/acenter/:acid").get(async (req, res) => {
     try {
         const chatList = await chatData.getAllChatsACenter(id);
         let sorted = chatList.sort((a, b) => {
-            console.log([a, b]);
             if (a.messages.length === 0) {
                 return 1;
             } else if (b.messages.length === 0) {

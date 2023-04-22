@@ -16,11 +16,38 @@
     </div>
     <script type="module">
         //import {getUser} from "../data/users.js"
-        let acid = document.getElementsByClassName("acid");
-        console.log(acid)
-        let acidText = acid[0].textContent;
-        console.log(acidText)
-        // let user = getUser(acidText);
-        // console.log(user);
+
+        let chats = document.getElementsByClassName("chat");
+        for(let chat of chats){
+            chat.addEventListener("click", async() =>{
+                console.log(chat);
+                let acid = chat.getElementsByClassName("acid");
+                let uid = chat.getElementsByClassName("uid");
+
+                let acidText = acid[0].textContent.split(" ")[1];
+                console.log(acidText)
+
+                let uidText = uid[0].textContent.split(" ")[1];
+                console.log(uidText);
+
+                chat.style.color = "red";
+
+                let requestConfig = {
+                    method: 'GET',
+                    url: `/user/${uidText}/${acidText}`
+                };
+                (function ($) {
+                    console.log("meow")
+                    $.ajax(requestConfig).then(function (responseMessage){
+            
+                        console.log(responseMessage);
+                        //console.log("Meowwwww")
+                    })
+                })(window.jQuery);
+            })
+        }
+                console.log(chats[0]);
+             // let user = getUser(acidText);
+                // console.log(user);
     </script>
 </main>
