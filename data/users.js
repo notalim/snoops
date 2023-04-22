@@ -74,7 +74,7 @@ const createUser = async (
 
     const newInsertInformation = await userCollection.insertOne(newUser);
     if (newInsertInformation.insertedCount === 0) {
-        throw `Could not add adoption center`;
+        throw `Could not add a user with email ${email}`;
     }
 
     return newUser;

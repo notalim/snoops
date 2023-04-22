@@ -2,7 +2,6 @@ import acenterRoutes from "./acenters.js";
 import userRoutes from "./users.js";
 import mainRoutes from "./main.js";
 import chatRoutes from "./chats.js";
-import path from "path";
 
 const constructorMethod = (app) => {
     app.use("/", mainRoutes);
