@@ -21,15 +21,13 @@ router.get("/scroller/:id", async (req, res) => {
 
         if (userId !== requestedUserId) {
             // Redirect to login page or show an error message
-            return res
-                .status(403)
-                .json({ error: "You are not authorized to access this page." });
+            return res.status(403).json({ error: "You are not authorized to access this page." });
         }
 
         const { dogs } = await userData.getUnseenDogs(userId);
-        res.render("scroller", { dogs: JSON.stringify(dogs) });
+        return res.render("scroller", { dogs: JSON.stringify(dogs) });
     } catch (error) {
-        res.status(500).json({ error: error.toString() });
+        return res.status(500).json({ error: error.toString() });
     }
 });
 

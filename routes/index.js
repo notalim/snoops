@@ -13,7 +13,7 @@ const constructorMethod = (app) => {
     app.use("/", mainRoutes);
 
     app.use("*", (req, res) => {
-        res.status(404).render("404Page");
+        return res.status(404).render("404Page");
     });
 };
 

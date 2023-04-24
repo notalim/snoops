@@ -14,9 +14,7 @@ router.get("/ac-dashboard/:id", async (req, res) => {
         }
 
         if (acenterId !== requestedAcenterId) {
-            return res
-                .status(403)
-                .json({ error: "You are not authorized to view this page" });
+            return res.status(403).json({ error: "You are not authorized to view this page" });
         }
 
         const dogs = await acenterData.getAllDogs(acenterId);
