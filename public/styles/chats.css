@@ -23,3 +23,28 @@
     border-bottom: 2px solid black;
 }
 
+.textbox{
+    width: 50%;
+    height: 50px;
+    padding: 10px;
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 80%;
+}
+
+.button{
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 80%;
+}
+
+.userMessage{
+    width: fit-content;
+    text-align: right;
+    background-color: red;
+    margin: 5px 5px auto auto;
+    padding: 5px;
+    border-radius: 10px;
+}
