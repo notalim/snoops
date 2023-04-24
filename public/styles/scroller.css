@@ -97,3 +97,43 @@
     color: white;
     transform:scale(1.05)
 }
+
+.scroller-interaction-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.scroller-interaction-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 60px;
+    min-height: 60px;
+    cursor: pointer;
+    transition: 300ms;
+    font-size: 2em;
+    border-radius: 6px;
+    border: 2px solid #633d1e;
+    box-shadow: 0 0 5px #633d1e;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #633d1e;
+    transition: 300ms;
+}
+
+.like:hover{
+    color:red;
+    border: 2px solid red;
+    background-color: white;
+    transform: scale(1.05);
+}
+
+.dislike:hover{
+    background-color: grey;
+    border: 2px solid black;
+    color: white;
+    transform: scale(1.05);
+}

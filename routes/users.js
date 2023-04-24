@@ -2,18 +2,19 @@ import { Router } from "express";
 const router = Router();
 import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
+import { redirectToScrollerIfLoggedIn } from "../middleware.js";
 
-// TODO: User Routes
+// *: Log In Page
 
-// TODO: Log In User
+router.route("/login-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
+    res.render("user-login");
+    return;
+});
 
-router.route("/user-login").post(async (req, res) => {
+// *: Log In User
+
+router.route("/login").post(async (req, res) => {
     // Decompose request body
-    // check if the user's already logged in
-    if (req.session.userId) {
-        res.redirect("/scroller");
-        return;
-    }
 
     let { email, password } = req.body;
 
@@ -26,10 +27,9 @@ router.route("/user-login").post(async (req, res) => {
     }
 
     try {
-        const user = await userData.loginUser(email, password); // Pass the plain password, not hashedPassword
-        req.session.userId = user._id; // Store the userId, not the whole user object
-        req.session.userFirstName = user.firstName;
-        return res.redirect("/scroller");
+        const user = await userData.loginUser(email, password);
+        req.session.user = user;
+        return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
         res.render("user-login", { error: e.toString(), email });
         console.log(e);
@@ -37,66 +37,19 @@ router.route("/user-login").post(async (req, res) => {
     }
 });
 
-// TODO: Signup Page
+// *: Sign Up Page
 
-router.route("/user-signup-page").get(async (req, res) => {
-    if (req.session.userId) {
-        res.redirect("/scroller");
-        return;
-    }
+router.route("/signup-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
     res.render("user-signup");
     return;
 });
 
-// TODO: Log In Page
-
-router.get("/user-login-page", (req, res) => {
-    if (req.session.userId) {
-        res.redirect("/scroller");
-        return;
-    }
-    res.render("user-login");
-    return;
-});
-
-// TODO: GET /users - Get all users
-
-router.route("/").get(async (req, res) => {
-    try {
-        const users = await userData.getAllUsers();
-        return res.status(200).json(users);
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
-
-// TODO: GET /users/:id - Get user by id
-
-router.route("/:id").get(async (req, res) => {
-    console.log("GET /users/:id triggered with URL:", req.originalUrl);
-
-    let id = req.params.id;
-    try {
-        // Validate the id
-        id = validation.checkId(id, "ID", "GET /users/:id");
-    } catch (e) {
-        return res.status(400).json({ error: e });
-    }
-
-    try {
-        const user = await userData.getUser(req.params.id);
-        return res.status(200).json(user);
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
-
-// TODO: POST /users - Create user
+// *: Sign Up user (POST: Create user)
 
 router.route("/signup").post(async (req, res) => {
     // check if the user's already logged in
-    if (req.session.userId) {
-        res.redirect("/scroller");
+    if (req.session.user) {
+        return res.redirect(`/users/scroller/${user._id}`);
         return;
     }
     // Decompose request body
@@ -133,11 +86,46 @@ router.route("/signup").post(async (req, res) => {
             address
         );
         // return res.status(200).json(user);
-
         req.session.user = user;
-        return res.redirect("/scroller");
+        return res.redirect(`/users/scroller/${user._id}`);
     } catch (error) {
         return res.status(500).render("signup", { error: error.toString() });
+    }
+});
+
+// *: Get all users (GET /users)
+
+router.route("/").get(async (req, res) => {
+    try {
+        const users = await userData.getAllUsers();
+        return res.status(200).json(users);
+    } catch (e) {
+        return res.status(500).json({ error: e });
+    }
+});
+
+// *: Get user by id (GET /users/:id)
+
+router.route("/:id").get(async (req, res) => {
+    console.log("GET /users/:id triggered with URL:", req.originalUrl);
+
+    let id = req.params.id;
+    console.log(id);
+    try {
+        // Validate the id
+        id = validation.checkId(id, "ID", "GET /users/:id");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
+
+    try {
+        const user = await userData.getUser(req.params.id);
+        return res.status(200).render("user-info", {
+            user: user,
+            key: process.env.GOOGLE_MAP_API_KEY,
+        });
+    } catch (e) {
+        return res.status(500).json({ error: e });
     }
 });
 
@@ -168,6 +156,7 @@ router.route("/:id").put(async (req, res) => {
     let id = req.params.id;
 
     // Decompose request body
+    //future reference: does this have to be in a try catch in case there aren't exactly 8 fields?
     let { email, password, firstName, lastName, dob, phone, address } =
         req.body;
 
@@ -209,7 +198,5 @@ router.route("/:id").put(async (req, res) => {
         return res.status(500).json({ error: e });
     }
 });
-
-
 
 export default router;

@@ -1,10 +1,13 @@
 import express from "express";
 import configRoutes from "./routes/index.js";
+import userRoutes from "./routes/users.js";
+import acenterRoutes from "./routes/acenters.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import dotenv from "dotenv";
+import { userMiddleware, acenterMiddleware } from "./middleware.js";
 
 // ? THIS IS FOR THE WEBSITE TO NOT CRASH WHEN THERE IS AN ERROR
 process.on("unhandledRejection", (reason, promise) => {
@@ -38,17 +41,23 @@ app.use(
     })
 );
 
+const protectedUserRoutes = ["/settings", "/scroller"];
+const protectedAcenterRoutes = ["/ac-dashboard", "/ac-settings"];
+
+app.use("/users", userMiddleware(protectedUserRoutes));
+app.use("/acenters", acenterMiddleware(protectedAcenterRoutes));
+
 app.use((req, res, next) => {
-    if (req.session.userId) {
+    if (req.session.user) {
         res.locals.user = {
-            _id: req.session.userId,
-            firstName: req.session.userFirstName,
+            _id: req.session.user._id,
+            firstName: req.session.user.firstName,
             userType: "user",
         };
-    } else if (req.session.acenterId) {
-        res.locals.user = {
-            _id: req.session.acenterId,
-            firstName: req.session.acenterName,
+    } else if (req.session.acenter) {
+        res.locals.acenter = {
+            _id: req.session.acenter._id,
+            name: req.session.acenter.name,
             userType: "acenter",
         };
     }

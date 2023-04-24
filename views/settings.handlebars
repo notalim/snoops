@@ -1,7 +1,7 @@
 <main class="settings">
     <h1>Settings</h1>
     <div class="settingsContainer">
-        <form action="/users/settings" method="POST">
+        <form action="/users/{{user._id}}" method="POST">
             <label for="firstName">First Name</label>
             <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
@@ -18,7 +18,7 @@
             <input type="text" name="address" id="address" value="{{user.address}}" />
 
             <label for="oldPassword">Old Password</label>
-            <input type="password" name="oldPassword" id="password" />
+            <input type="password" name="oldPassword" id="password"/>
 
             <label for="newPassword">New Password</label>
             <input type="password" name="newPassword" id="newPassword" />
