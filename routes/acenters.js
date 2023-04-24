@@ -2,27 +2,25 @@ import { Router } from "express";
 const router = Router();
 import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
+import xss from 'xss';
 
 // *: Adoption center Log In Page
 
 router.route("/login-page").get(async (req, res) => {
     if (req.session.acenterId) {
-        res.redirect("/acenters/ac-dashboard");
-        return;
+        return res.redirect("/acenters/ac-dashboard");
     }
-    res.render("ac-login");
-    return;
+    return res.render("ac-login");
 });
 
 // *: Adoption center Log In
 
 router.route("/login").post(async (req, res) => {
     if (req.session.acenterId) {
-        res.redirect("/acenters/ac-dashboard");
-        return;
+        return res.redirect("/acenters/ac-dashboard");
     }
-
-    let { email, password } = req.body;
+    let email = xss(req.body.email);
+    let password = xss(req.body.password);
 
     try {
         email = validation.checkEmail(email, "Email");
@@ -40,9 +38,8 @@ router.route("/login").post(async (req, res) => {
         req.session.acenter = acenter;
         return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
-        res.render("ac-login", { error: e.toString(), email });
         console.log(e);
-        return;
+        return res.render("ac-login", { error: e.toString(), email });
     }
 });
 
@@ -59,16 +56,14 @@ router.get("/signup-page", (req, res) => {
 
 router.route("/signup").post(async (req, res) => {
     // Decompose request body
-    let {
-        email,
-        name,
-        password,
-        contactFirstName,
-        contactLastName,
-        phone,
-        address,
-    } = req.body;
-
+    let email = xss(req.body.email);
+    let name = xss(req.body.name);
+    let password = xss(req.body.password);
+    let contactFirstName = xss(req.body.contactFirstName);
+    let contactLastName = xss(req.body.contactLastName);
+    let phone = xss(req.body.phone);
+    let address = xss(req.body.address);
+    
     // Validate request body
     try {
         email = validation.checkEmail(email, "Email");
