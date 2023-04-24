@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="/styles/signup.css" />
         <link rel="stylesheet" href="/styles/scroller.css" />
         <link rel="stylesheet" href="/styles/settings.css" />
+        <link rel="stylesheet" href="/styles/chats.css" />
     </head>
     <body class="main-page">
         <header>
@@ -15,11 +16,13 @@
             <nav>
                 <ul>
                     {{#if user}}
+
                         <li><a href="/users/settings/{{user._id}}">Hello, {{user.firstName}}!</a></li>
                         <li><a href="/users/logout">Log out</a></li>
                     {{else }} {{#if acenter}}
                         <li><a href="/acenters/ac-dashboard/{{acenter._id}}">Hello, {{acenter.name}}!</a></li>
                         <li><a href="/acenters/logout">Log out</a></li>
+
                     {{else}}
                         <li class="auth-links"><a
                                 href="/users/login-page"
@@ -37,5 +40,10 @@
         <footer>
             <p>&copy; 2023 Snoops</p>
         </footer>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
     </body>
 </html>
