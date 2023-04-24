@@ -20,9 +20,9 @@ router.get("/ac-dashboard/:id", async (req, res) => {
         }
 
         const dogs = await acenterData.getAllDogs(acenterId);
-        res.render("ac-dashboard", { acenter: req.session.acenter, dogs });
+        return res.render("ac-dashboard", { acenter: req.session.acenter, dogs: dogs });
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             error: `Error in GET /ac-dashboard: ${error.toString()}`,
         });
     }
