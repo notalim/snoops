@@ -124,7 +124,7 @@ router.route("/:id").get(async (req, res) => {
 
     try {
         const acenter = await acenterData.getAdoptionCenter(req.params.id);
-        return res.status(200).json(acenter);
+        return res.status(200).render("acenter-info", {acenter: acenter, key: process.env.GOOGLE_MAP_API_KEY});
     } catch (e) {
         return res.status(500).json({ error: e });
     }
@@ -306,7 +306,7 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
     let breeds = xss(req.body.breeds);
     let gender = xss(req.body.gender);
     let size = xss(req.body.size);
-    
+
     try {
         // Validate the id
         id = validation.checkId(
