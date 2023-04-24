@@ -22,13 +22,18 @@
 
             <label for="newPassword">New Password</label>
             <input type="password" name="newPassword" id="newPassword" />
+
+            <label for="image">Profile Picture</label>
+            <input type="file" name="image" id="image" />
+
+            <input style="display: none;" type="hidden" name="_method" id="_method" value="PUT">
             <button type="submit">Save</button>
         </form>
     </div>
     <div class="settingsContainer doggies" style="margin-top: 20px">
         <div class="likedDogs">
             {{!-- {{#each user.likedDogs}}
-            <a href="/acenters/{this.aCenterId}/dogs/{{this._id}}">
+            <a href="/acenters/{{this.aCenterId}}/dogs/{{this._id}}">
                 <div class="likedDog">
                     <img src="{{this.img}}" alt="dog" />
                     <p>{{this.name}}</p>
