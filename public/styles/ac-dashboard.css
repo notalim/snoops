@@ -1,0 +1,33 @@
+/* Ac-dashboard styles */
+
+:root {
+    /* Define base font size */
+    font-size: 16px;
+    --main-background-color: #fff1dc;
+    --text-color: #3a2412;
+    --accent-color: #3a98b9;
+    --accent-hover-color: #2b748e;
+    --footer-background-color: #e8d5c4;
+}
+
+.ac-wrapper {
+    padding-top: 2rem;
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    height: 100%;
+    margin: 0 auto;
+    height: 60vh;
+}
+
+.ac-dashboard-main {
+    border: solid 1px var(--text-color);
+    border-radius: 10px;
+    width: 40%;
+}
+
+.ac-dashboard-main h2 {
+    text-align: center;
+    margin: 1rem;
+    font-size: larger;
+}

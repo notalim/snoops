@@ -26,7 +26,7 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
 
 export const redirectToScrollerIfLoggedIn = () => {
     return (req, res, next) => {
-        console.log("req.session: ", req.session);
+        // console.log("req.session: ", req.session);
         
         if (req.session.user) {
             return res.redirect(`/users/scroller/${req.session.user._id}`);

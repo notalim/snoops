@@ -1,11 +1,24 @@
 <main>
-    <h2>Welcome, {{acenter.name}}</h2>
-    <p>Address: {{acenter.address}}</p>
-    <p>Phone: {{acenter.phone}}</p>
-    <h3>Posted Dogs</h3>
-    <ul>
-        {{#each dogs}}
-            <li>{{this.name}} - {{this.breed}} - {{this.age}} years old</li>
-        {{/each}}
-    </ul>
+    <div class="ac-wrapper">
+        <div class="ac-dashboard-main">
+            <h2>Welcome, {{acenter.name}}</h2>
+            <p>Address: {{acenter.address}}</p>
+            <p>Phone: {{acenter.phone}}</p>
+            
+        </div>
+        <div class="ac-dashboard-dogs">
+            <h3>Posted Dogs</h3>
+            <ul>
+                {{#each dogs}}
+                    <li>{{this.name}}
+                        -
+                        {{this.breed}}
+                        -
+                        {{this.age}}
+                        years old</li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+
 </main>
