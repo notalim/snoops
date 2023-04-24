@@ -54,9 +54,16 @@
                                 messageDiv.appendChild(messageP);
                                 currentChat.appendChild(messageDiv);
                                 messageDiv.classList.add("userMessageDiv");
-                                messageP.classList.add("userMessage")
+                                messageP.classList.add("userMessage");
                             }else{
-                                console.log("Acenter: " + message.messageContent)
+                                console.log("Acenter: " + message.messageContent);
+                                let messageDiv = document.createElement("div");
+                                let messageP = document.createElement("p");
+                                messageP.textContent = message.messageContent;
+                                messageDiv.appendChild(messageP);
+                                currentChat.appendChild(messageDiv);
+                                messageDiv.classList.add("acenterMessageDiv");
+                                messageP.classList.add("acenterMessage");
                             }
                         }
                     })

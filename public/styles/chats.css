@@ -48,3 +48,12 @@
     padding: 5px;
     border-radius: 10px;
 }
+
+.acenterMessage{
+    text-align: left;
+    width: fit-content; 
+    background-color: skyblue;
+    margin-left: 5px;
+    padding: 5px;
+    border-radius: 10px;
+} 
