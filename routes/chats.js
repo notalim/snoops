@@ -119,7 +119,8 @@ router.route("/acenter/:acid/:uid").put(async (req, res) => {
     try{
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
-        message = validation.checkMessage(req.body.message);
+        message = xss(req.body.message);
+        message = validation.checkMessage(message);
         let date = new Date();
         time = date.toLocaleDateString();
         time = time.concat(" ");
@@ -153,7 +154,8 @@ router.route("/user/:uid/:acid").put(async (req, res) => {
     try{
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
-        message = validation.checkMessage(req.body.message);
+        message = xss(req.body.message);
+        message = validation.checkMessage(message);
         let date = new Date();
         time = date.toLocaleDateString();
         time = time.concat(" ");
