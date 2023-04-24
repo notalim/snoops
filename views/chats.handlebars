@@ -12,9 +12,7 @@
         <div id="current-chat" class="current-chat">
             
             <input class="textBox" type="text" name="sentMessage" id="sentMessage">
-            <button class="button" type="submit">Submit</button>
-
-            {{!-- display chat if clicked on one --}}
+            <button class="button" type="submit" id="sendButton">Submit</button>
         
         </div>
         {{/if}}
@@ -22,11 +20,15 @@
     <script type="module">
         let chats = document.getElementsByClassName("chat");
         let currentChat = document.getElementById("current-chat");
+        let sendMessage = document.getElementById("sendButton");
+        let chatTextBox = document.getElementById("sentMessage");
+        let currChatInfo;
         for(let chat of chats){
             chat.addEventListener("click", async() =>{
                 while(currentChat.childElementCount > 2){
                     currentChat.removeChild(currentChat.lastChild);
                 }
+                currChatInfo = chat;
                 console.log(chat);
                 let acid = chat.getElementsByClassName("acid");
                 let uid = chat.getElementsByClassName("uid");
@@ -71,6 +73,43 @@
             })
         }
         //add the same loading ajax request but on an interval
-                console.log(chats[0]);
+        //this might be prone to injections
+        sendMessage.addEventListener("click", (event) => {
+            event.preventDefault();
+            let chatText = chatTextBox.value;
+            console.log(chatText)
+            console.log(chatTextBox)
+            try{
+                if(!chatText){
+                    throw `You must supply a message`;
+                }
+                if(chatText.trim().length === 0){
+                    throw `You must send a non-empty message`;
+                }
+                chatText = chatText.trim();
+            }catch(e){
+                console.log(e);
+            }
+            let acid = currChatInfo.getElementsByClassName("acid");
+            let uid = currChatInfo.getElementsByClassName("uid");
+
+            let acidText = acid[0].textContent.split(" ")[1];
+
+            let uidText = uid[0].textContent.split(" ")[1];
+
+            let requestConfig = {
+                method: 'PUT',
+                url: `/chats/user/${uidText}/${acidText}`,
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    message: chatText,
+                })
+            };
+            (function($){
+                $.ajax(requestConfig).then(function (responseMessage) {
+                    console.log(responseMessage);
+                })
+            })(window.jQuery);
+        })
     </script>
 </main>
