@@ -11,9 +11,11 @@
         </div>
         <div id="current-chat" class="current-chat">
             
+        
+        </div>
+        <div id="chatTextDiv">
             <input class="textBox" type="text" name="sentMessage" id="sentMessage">
             <button class="button" type="submit" id="sendButton">Submit</button>
-        
         </div>
         {{/if}}
     </div>
@@ -25,7 +27,7 @@
         let currChatInfo;
         for(let chat of chats){
             chat.addEventListener("click", async() =>{
-                while(currentChat.childElementCount > 2){
+                while(currentChat.childElementCount > 0){
                     currentChat.removeChild(currentChat.lastChild);
                 }
                 currChatInfo = chat;
@@ -70,6 +72,8 @@
                         }
                     })
                 })(window.jQuery);
+                currentChat.scrollTop = currentChat.scrollHeight;
+                console.log(currentChat.scrollHeight)
             })
         }
         //add the same loading ajax request but on an interval
@@ -107,9 +111,17 @@
             };
             (function($){
                 $.ajax(requestConfig).then(function (responseMessage) {
-                    console.log(responseMessage);
+                    console.log(responseMessage.message.messageContent);
+                    let messageDiv = document.createElement("div");
+                    let messageP = document.createElement("p");
+                    messageP.textContent = responseMessage.message.messageContent;
+                    messageDiv.appendChild(messageP);
+                    currentChat.appendChild(messageDiv);
+                    messageDiv.classList.add("userMessageDiv");
+                    messageP.classList.add("userMessage");
                 })
             })(window.jQuery);
+
         })
     </script>
 </main>
