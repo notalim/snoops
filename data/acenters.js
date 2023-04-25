@@ -228,6 +228,7 @@ const createDog = async (
 
     let newDog = {
         _id: new ObjectId(),
+        aCenterId: acenterId,
         name: dogName,
         dob: dogDOB,
         breeds: dogBreeds,
@@ -263,6 +264,7 @@ const getAllDogs = async (acenterId) => {
     return acenter.dogList;
 };
 
+//can likely simplify this if we use acenterId as a foreign key in the dog schema
 const getDogFromAcenter = async (acenterId, dogId) => {
     acenterId = validation.checkId(acenterId, "ID");
     dogId = validation.checkId(dogId, "ID");
@@ -327,6 +329,7 @@ const updateDog = async (
 
     const updatedDog = {
         _id: new ObjectId(dogId),
+        aCenterId: acenterId,
         name: dogName,
         dob: dogDOB,
         breeds: dogBreeds,

@@ -1,7 +1,7 @@
 <main class="settings">
     <h1>Settings</h1>
-    <div class="settingsContainer">
-        <form action="/users/{{user._id}}" method="POST">
+    <div class="settingsContainer" id="user-settings">
+        <form id="update-user" action="/users/{{user._id}}" method="POST">
             <label for="firstName">First Name</label>
             <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
@@ -17,25 +17,27 @@
             <label for="address">Address</label>
             <input type="text" name="address" id="address" value="{{user.address}}" />
 
-            <label for="oldPassword">Old Password</label>
-            <input type="password" name="oldPassword" id="password"/>
+            <label for="oldPassword">Password</label>
+            <input type="password" name="password" id="password"/>
 
-            <label for="newPassword">New Password</label>
-            <input type="password" name="newPassword" id="newPassword" />
+            <label for="image">Profile Picture</label>
+            <input type="file" name="image" id="image" />
+
+            <input style="display: none;" type="hidden" name="_method" id="_method" value="PUT">
             <button type="submit">Save</button>
         </form>
     </div>
     <div class="settingsContainer doggies" style="margin-top: 20px">
         <div class="likedDogs">
-            {{!-- {{#each user.likedDogs}}
-            <a href="/acenters/ADOPTIONCENTERID/dogs/{{this._id}}">
+            {{#each user.likedDogs}}
+            <a href="/acenters/{{this.aCenterId}}/dogs/{{this._id}}">
                 <div class="likedDog">
                     <img src="{{this.img}}" alt="dog" />
                     <p>{{this.name}}</p>
                 </div>
             </a>
-            {{/each}} --}}
-            <a>
+            {{/each}}
+            {{!-- <a>
             <div class="likedDog">
                 <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
                 <p>dog1</p>
@@ -89,13 +91,13 @@
             <div class="likedDog">
                 <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
                 <p>dog2</p>
-            </div>
+            </div> --}}
         </div>
     </div>
 </main>
 
 <script>
-    let newUser = {
+   /* let newUser = {
         email: email,
         password: password,
         firstName: firstName,
@@ -107,5 +109,37 @@
         dogPreferences: {},
         likedDogs: [],
         seenDogs: [],
-    };
+    }; */
+
+    //update user with ajax
+    $("#update-user").submit(function (e) {
+        e.preventDefault();
+        console.log("submitting");
+        $.ajax({
+            url: `/users/{{user._id}}`,
+            type: "PUT",
+            data: $("#update-user").serialize(),
+            success: function (data) {
+                console.log(data);
+ 
+                let successMessage = document.getElementById("success");
+                if (successMessage) {
+                    successMessage.remove();
+                }
+
+                let success = document.createElement("p");
+                let container = document.getElementById("user-settings");
+
+                success.innerText = "User updated successfully";
+                success.style.color = "green";
+                success.style.marginTop = "10px";
+                container.appendChild(success);
+            },
+            error: function (err) {
+                let data = $("#update-user").serialize();
+                console.log(err);
+                console.log(data);
+            }
+        });
+    });
 </script>

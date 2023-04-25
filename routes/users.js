@@ -29,6 +29,7 @@ router.route("/login").post(async (req, res) => {
     try {
         const user = await userData.loginUser(email, password);
         req.session.user = user;
+        console.log(user);
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
         res.render("user-login", { error: e.toString(), email });
@@ -160,6 +161,7 @@ router.route("/:id").put(async (req, res) => {
 
     // Decompose request body
     //future reference: does this have to be in a try catch in case there aren't exactly 8 fields?
+
     let email = xss(req.body.email);
     let password = xss(req.body.password);
     let firstName = xss(req.body.firstName);
@@ -168,6 +170,26 @@ router.route("/:id").put(async (req, res) => {
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
     
+    if (email == undefined || email == "" || email == null) {
+        email = xss(req.session.user.email);
+    }
+    if (firstName == undefined || firstName == "" || firstName == null) {
+        firstName = xss(req.session.user.firstName);
+    }
+    if (lastName == undefined || lastName == "" || lastName == null) {
+        lastName = xss(req.session.user.lastName);
+    }
+    if (dob == undefined || dob == "" || dob == null) {
+        dob = xss(req.session.user.dob);
+    }
+    if (phone == undefined || phone == "" || phone == null) {
+        phone = xss(req.session.user.phone);
+    }
+    if (address == undefined || address == "" || address == null) {
+        address = xss(req.session.user.address);
+    }
+        console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address)
+
     try {
         id = validation.checkId(id, "ID", "PUT /users/:id");
 
@@ -201,6 +223,34 @@ router.route("/:id").put(async (req, res) => {
         );
         return res.status(200).json([user, { message: "User updated successfully" }]);
     } catch (e) {
+        return res.status(500).json({ error: e });
+    }
+});
+
+// *: Like a dog
+
+router.route("/:id/like/:dogId").post(async (req, res) => {
+    // Validate the ids
+    let id = req.params.id;
+    let dogId = req.params.dogId;
+
+    try {
+        id = validation.checkId(id, "ID", "POST /users/:id/like/:dogId");
+        dogId = validation.checkId(dogId, "Dog ID", "POST /users/:id/like/:dogId");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
+
+    try {
+        const user = await userData.likeDog(id, dogId);
+        if(user.success){
+        return res.status(200).json(user.success);
+        }
+        else{
+            return res.status(403).json({error: 'Invalid Request'});
+        }
+    } catch (e) {
+
         return res.status(500).json({ error: e });
     }
 });
