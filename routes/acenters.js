@@ -115,7 +115,7 @@ router.route("/").get(async (req, res) => {
 
 router.route("/:id").get(async (req, res) => {
     // Validate the id
-    let id = req.params.id();
+    let id = req.params.id;
     try {
         id = validation.checkId(id, "ID", "GET /acenters/:id");
     } catch (e) {

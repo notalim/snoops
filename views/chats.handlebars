@@ -25,8 +25,26 @@
         let sendMessage = document.getElementById("sendButton");
         let chatTextBox = document.getElementById("sentMessage");
         let currChatInfo;
+
         for(let chat of chats){
+            let aCenterID = chat.getElementsByClassName("acid")[0];
+            let requestConfig = {
+                method: 'GET',
+                url: `/acenters/${aCenterID.textContent.split(" ")[1]}`
+            };
+            (function ($) {
+                $.ajax(requestConfig).then(function (responseMessage) {
+                    let aCenterName = document.createElement("p");
+                    aCenterName.textContent = responseMessage.name;
+                    chat.appendChild(aCenterName)
+                })
+            })(window.jQuery);
             chat.addEventListener("click", async() =>{
+                for(let _chat of chats){
+                    if(_chat != chat){
+                        _chat.style.color = "black"
+                    }
+                }
                 while(currentChat.childElementCount > 0){
                     currentChat.removeChild(currentChat.lastChild);
                 }
