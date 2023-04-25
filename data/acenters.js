@@ -228,7 +228,7 @@ const createDog = async (
 
     let newDog = {
         _id: new ObjectId(),
-        aCenterId: acenterId,
+        acenterId: new ObjectId(acenterId),
         name: dogName,
         dob: dogDOB,
         breeds: dogBreeds,
@@ -329,7 +329,7 @@ const updateDog = async (
 
     const updatedDog = {
         _id: new ObjectId(dogId),
-        aCenterId: acenterId,
+        acenterId: new ObjectId(acenterId),
         name: dogName,
         dob: dogDOB,
         breeds: dogBreeds,

@@ -229,20 +229,22 @@ router.route("/:id").put(async (req, res) => {
 
 // *: Like a dog
 
-router.route("/:id/like/:dogId").post(async (req, res) => {
+router.route("/:id/like/:acenterId/:dogId").post(async (req, res) => {
     // Validate the ids
     let id = req.params.id;
     let dogId = req.params.dogId;
+    let acenterId = req.params.acenterId;
 
     try {
         id = validation.checkId(id, "ID", "POST /users/:id/like/:dogId");
         dogId = validation.checkId(dogId, "Dog ID", "POST /users/:id/like/:dogId");
+        acenterId = validation.checkId(acenterId, "Animal Center ID", "POST /users/:id/like/:dogId");
     } catch (e) {
         return res.status(400).json({ error: e });
     }
 
     try {
-        const user = await userData.likeDog(id, dogId);
+        const user = await userData.likeDog(id, acenterId, dogId);
         if(user.success){
         return res.status(200).json(user.success);
         }
