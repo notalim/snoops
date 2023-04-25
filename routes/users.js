@@ -3,20 +3,20 @@ const router = Router();
 import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 import { redirectToScrollerIfLoggedIn } from "../middleware.js";
+import xss from 'xss';
 
 // *: Log In Page
 
 router.route("/login-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
-    res.render("user-login");
-    return;
+    return res.render("user-login");
 });
 
 // *: Log In User
 
 router.route("/login").post(async (req, res) => {
     // Decompose request body
-
-    let { email, password } = req.body;
+    let email = xss(req.body.email);
+    let password = xss(req.body.password);
 
     // console.log("got email and password: ", email, password);
 
@@ -41,8 +41,7 @@ router.route("/login").post(async (req, res) => {
 // *: Sign Up Page
 
 router.route("/signup-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
-    res.render("user-signup");
-    return;
+    return res.render("user-signup");
 });
 
 // *: Sign Up user (POST: Create user)
@@ -51,13 +50,17 @@ router.route("/signup").post(async (req, res) => {
     // check if the user's already logged in
     if (req.session.user) {
         return res.redirect(`/users/scroller/${user._id}`);
-        return;
     }
     // Decompose request body
 
-    let { email, password, firstName, lastName, dob, phone, address } =
-        req.body;
-
+    let email = xss(req.body.email);
+    let password = xss(req.body.password);
+    let firstName = xss(req.body.firstName);
+    let lastName = xss(req.body.lastName);
+    let dob = xss(req.body.dob);
+    let phone = xss(req.body.phone);
+    let address = xss(req.body.address);
+   
     try {
         // Validate request body
 
@@ -158,27 +161,35 @@ router.route("/:id").put(async (req, res) => {
 
     // Decompose request body
     //future reference: does this have to be in a try catch in case there aren't exactly 8 fields?
-    let { email, password, firstName, lastName, dob, phone, address } =
-        req.body;
+
+    let email = xss(req.body.email);
+    let password = xss(req.body.password);
+    let firstName = xss(req.body.firstName);
+    let lastName = xss(req.body.lastName);
+    let dob = xss(req.body.dob);
+    let phone = xss(req.body.phone);
+    let address = xss(req.body.address);
+    
     if (email == undefined || email == "" || email == null) {
-        email = req.session.user.email;
+        email = xss(req.session.user.email);
     }
     if (firstName == undefined || firstName == "" || firstName == null) {
-        firstName = req.session.user.firstName;
+        firstName = xss(req.session.user.firstName);
     }
     if (lastName == undefined || lastName == "" || lastName == null) {
-        lastName = req.session.user.lastName;
+        lastName = xss(req.session.user.lastName);
     }
     if (dob == undefined || dob == "" || dob == null) {
-        dob = req.session.user.dob;
+        dob = xss(req.session.user.dob);
     }
     if (phone == undefined || phone == "" || phone == null) {
-        phone = req.session.user.phone;
+        phone = xss(req.session.user.phone);
     }
     if (address == undefined || address == "" || address == null) {
-        address = req.session.user.address;
+        address = xss(req.session.user.address);
     }
         console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address)
+
     try {
         id = validation.checkId(id, "ID", "PUT /users/:id");
 
@@ -210,9 +221,7 @@ router.route("/:id").put(async (req, res) => {
             phone,
             address
         );
-        return res
-            .status(200)
-            .json([user, { message: "User updated successfully" }]);
+        return res.status(200).json([user, { message: "User updated successfully" }]);
     } catch (e) {
         return res.status(500).json({ error: e });
     }

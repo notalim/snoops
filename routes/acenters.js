@@ -2,27 +2,25 @@ import { Router } from "express";
 const router = Router();
 import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
+import xss from 'xss';
 
 // *: Adoption center Log In Page
 
 router.route("/login-page").get(async (req, res) => {
     if (req.session.acenterId) {
-        res.redirect("/acenters/ac-dashboard");
-        return;
+        return res.redirect("/acenters/ac-dashboard");
     }
-    res.render("ac-login");
-    return;
+    return res.render("ac-login");
 });
 
 // *: Adoption center Log In
 
 router.route("/login").post(async (req, res) => {
     if (req.session.acenterId) {
-        res.redirect("/acenters/ac-dashboard");
-        return;
+        return res.redirect("/acenters/ac-dashboard");
     }
-
-    let { email, password } = req.body;
+    let email = xss(req.body.email);
+    let password = xss(req.body.password);
 
     try {
         email = validation.checkEmail(email, "Email");
@@ -40,35 +38,30 @@ router.route("/login").post(async (req, res) => {
         req.session.acenter = acenter;
         return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
-        res.render("ac-login", { error: e.toString(), email });
         console.log(e);
-        return;
+        return res.render("ac-login", { error: e.toString(), email });
     }
 });
 
 router.get("/signup-page", (req, res) => {
     if (req.session.acenterId) {
-        res.redirect("/acenters/ac-dashboard");
-        return;
+        return res.redirect("/acenters/ac-dashboard");
     }
-    res.render("ac-signup");
-    return;
+    return res.render("ac-signup");
 });
 
 // *: Sign up (Create) adoption center (POST /acenters)
 
 router.route("/signup").post(async (req, res) => {
     // Decompose request body
-    let {
-        email,
-        name,
-        password,
-        contactFirstName,
-        contactLastName,
-        phone,
-        address,
-    } = req.body;
-
+    let email = xss(req.body.email);
+    let name = xss(req.body.name);
+    let password = xss(req.body.password);
+    let contactFirstName = xss(req.body.contactFirstName);
+    let contactLastName = xss(req.body.contactLastName);
+    let phone = xss(req.body.phone);
+    let address = xss(req.body.address);
+    
     // Validate request body
     try {
         email = validation.checkEmail(email, "Email");
@@ -122,16 +115,17 @@ router.route("/").get(async (req, res) => {
 
 router.route("/:id").get(async (req, res) => {
     // Validate the id
-    let id = req.params.id;
+    let id = req.params.id();
     try {
         id = validation.checkId(id, "ID", "GET /acenters/:id");
     } catch (e) {
-        res.status(400).json({ error: e });
+        return res.status(400).json({ error: e });
     }
 
     try {
         const acenter = await acenterData.getAdoptionCenter(req.params.id);
-        return res.status(200).json(acenter);
+        
+        return res.status(200).render("acenter-info", {acenter: acenter, key: process.env.GOOGLE_MAP_API_KEY});
     } catch (e) {
         return res.status(500).json({ error: e });
     }
@@ -144,16 +138,14 @@ router.route("/:id").put(async (req, res) => {
     let id = req.params.id;
     // Decompose request body
 
-    let {
-        email,
-        name,
-        password,
-        contactFirstName,
-        contactLastName,
-        phone,
-        address,
-    } = req.body;
-
+    let email = xss(req.body.email);
+    let name = xss(req.body.name);
+    let password = xss(req.body.password);
+    let contactFirstName = xss(req.body.contactFirstName);
+    let contactLastName = xss(req.body.contactLastName);
+    let phone = xss(req.body.phone);
+    let address = xss(req.body.address);
+    
     // Validate request body
     try {
         id = validation.checkId(id, "ID", "PUT /acenters/:id");
@@ -219,7 +211,12 @@ router.route("/:id/dogs").post(async (req, res) => {
     let id = req.params.id;
 
     // Decompose request body
-    let { name, dob, breeds, gender, size } = req.body;
+    let name = xss(req.body.name);
+    let dob = xss(req.body.dob);
+    let breeds = xss(req.body.breeds);
+    let gender = xss(req.body.gender);
+    let size = xss(req.body.size);
+    
     try {
         // Validate the id
         id = validation.checkId(id, "Adoption center ID", "POST /:id/dogs");
@@ -305,7 +302,12 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
     let dogId = req.params.dogId;
 
     // Decompose request body
-    let { name, dob, breeds, gender, size } = req.body;
+    let name = xss(req.body.name);
+    let dob = xss(req.body.dob);
+    let breeds = xss(req.body.breeds);
+    let gender = xss(req.body.gender);
+    let size = xss(req.body.size);
+
     try {
         // Validate the id
         id = validation.checkId(

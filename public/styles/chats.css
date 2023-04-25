@@ -1,0 +1,59 @@
+.chat-container{
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+.all-chats{
+    float: left;
+    width: 25%;
+    height: 100%;
+
+    border-right: 5px solid black;
+}
+
+.current-chat{
+    float: left;
+    width: 75%;
+    height: 100%;
+}
+
+.chat{
+    width: 100%;
+    height: 10%;
+    border-bottom: 2px solid black;
+}
+
+.textbox{
+    width: 50%;
+    height: 50px;
+    padding: 10px;
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 80%;
+}
+
+.button{
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 80%;
+}
+
+.userMessage{
+    width: fit-content;
+    text-align: right;
+    background-color: red;
+    margin: 5px 5px auto auto;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.acenterMessage{
+    text-align: left;
+    width: fit-content; 
+    background-color: skyblue;
+    margin-left: 5px;
+    padding: 5px;
+    border-radius: 10px;
+} 

@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
         }
         return res.render("index");
     } catch (error) {
-        res.status(500).json({ error: error.toString() });
+        return res.status(500).json({ error: error.toString() });
     }
 });
 
