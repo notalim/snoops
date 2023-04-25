@@ -36,7 +36,7 @@ router.route("/login").post(async (req, res) => {
             password
         );
 
-        console.log(acenter);
+        // console.log(acenter);
         req.session.acenter = acenter;
         return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {

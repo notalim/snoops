@@ -26,7 +26,7 @@
 * `2` per missing dependency
 * `5`: able to access unaccessible pages (middleware)
 * `2` per page with invalid HTML (`6` max)
-* `2` per page accessibility issue (`6` max)
+* `2` per page tota11y accessibility issue (`6` max)
 * **`10` per core feature not implemented**
 * **`5` per core feature halfbaked**
 * `10`: if able to create a duplicate account
