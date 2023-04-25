@@ -29,6 +29,7 @@ router.route("/login").post(async (req, res) => {
     try {
         const user = await userData.loginUser(email, password);
         req.session.user = user;
+        console.log(user);
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
         res.render("user-login", { error: e.toString(), email });
@@ -159,7 +160,25 @@ router.route("/:id").put(async (req, res) => {
     //future reference: does this have to be in a try catch in case there aren't exactly 8 fields?
     let { email, password, firstName, lastName, dob, phone, address } =
         req.body;
-
+    if (email == undefined || email == "" || email == null) {
+        email = req.session.user.email;
+    }
+    if (firstName == undefined || firstName == "" || firstName == null) {
+        firstName = req.session.user.firstName;
+    }
+    if (lastName == undefined || lastName == "" || lastName == null) {
+        lastName = req.session.user.lastName;
+    }
+    if (dob == undefined || dob == "" || dob == null) {
+        dob = req.session.user.dob;
+    }
+    if (phone == undefined || phone == "" || phone == null) {
+        phone = req.session.user.phone;
+    }
+    if (address == undefined || address == "" || address == null) {
+        address = req.session.user.address;
+    }
+        console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address)
     try {
         id = validation.checkId(id, "ID", "PUT /users/:id");
 

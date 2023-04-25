@@ -97,7 +97,7 @@
 </main>
 
 <script>
-    let newUser = {
+   /* let newUser = {
         email: email,
         password: password,
         firstName: firstName,
@@ -109,21 +109,22 @@
         dogPreferences: {},
         likedDogs: [],
         seenDogs: [],
-    };
+    }; */
 
     //update user with ajax
     $("#update-user").submit(function (e) {
         e.preventDefault();
+        console.log("submitting");
         $.ajax({
-            url: "/users/{{user._id}}",
-            type: "POST",
+            url: `/users/{{user._id}}`,
+            type: "PUT",
             data: $("#update-user").serialize(),
             success: function (data) {
                 console.log(data);
  
-                let success = document.getElementById("success");
-                if (success) {
-                    success.remove();
+                let successMessage = document.getElementById("success");
+                if (successMessage) {
+                    successMessage.remove();
                 }
 
                 let success = document.createElement("p");
@@ -135,7 +136,9 @@
                 container.appendChild(success);
             },
             error: function (err) {
+                let data = $("#update-user").serialize();
                 console.log(err);
+                console.log(data);
             }
         });
     });

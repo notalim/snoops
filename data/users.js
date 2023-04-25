@@ -120,8 +120,12 @@ const updateUser = async (
     email = validation.checkEmail(email, "Email");
 
     // Check password
-    password = validation.checkPassword(password, "Password");
-
+    if(password !== undefined && password !== null && password !== ""){
+        password = validation.checkPassword(password, "Password");
+    }else{
+        const user = await getUser(validatedId);
+        password = user.password;
+    }
     // Check first name
     firstName = validation.checkName(firstName, "First Name");
 
