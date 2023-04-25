@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import { chatData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
+import xss from 'xss';
 
 // TODO: Chat Routes
 
