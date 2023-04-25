@@ -49,10 +49,19 @@
     margin-top: 5px;
 }
 
+.userMessageDiv{
+    text-align: right;
+}
+
+.acenterMessageDiv{
+
+}
+
 .userMessage{
+    display: inline-block;
     width: fit-content;
     text-align: right;
-    background-color: red;
+    background-color: lightpink;
     margin: 5px 20px auto auto;
     padding: 5px;
     border-radius: 10px;
@@ -60,6 +69,7 @@
 }
 
 .acenterMessage{
+    display: inline-block;
     text-align: left;
     width: fit-content; 
     background-color: skyblue;
@@ -70,3 +80,15 @@
     border-radius: 10px;
     max-width: 45%;
 } 
+
+.userMessageTime{
+    font-size: small;
+    color: gray;
+    margin-right: 3px;
+}
+
+.acenterMessageTime{
+    font-size: small;
+    color: gray;
+    margin-left: 3px;
+}

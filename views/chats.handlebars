@@ -53,21 +53,29 @@
                             if(message.senderId === uidText){
                                 console.log("User: " + message.messageContent)
                                 let messageDiv = document.createElement("div");
+                                let timeP = document.createElement("span");
                                 let messageP = document.createElement("p");
-                                messageP.textContent = message.messageContent
+                                timeP.textContent = message.messageTime;
+                                messageP.textContent = message.messageContent;
+                                messageDiv.appendChild(timeP);
                                 messageDiv.appendChild(messageP);
                                 currentChat.appendChild(messageDiv);
                                 messageDiv.classList.add("userMessageDiv");
                                 messageP.classList.add("userMessage");
+                                timeP.classList.add("userMessageTime");
                             }else{
                                 console.log("Acenter: " + message.messageContent);
                                 let messageDiv = document.createElement("div");
+                                let timeP = document.createElement("span");
                                 let messageP = document.createElement("p");
                                 messageP.textContent = message.messageContent;
+                                timeP.textContent = message.messageTime;
                                 messageDiv.appendChild(messageP);
+                                messageDiv.appendChild(timeP);
                                 currentChat.appendChild(messageDiv);
                                 messageDiv.classList.add("acenterMessageDiv");
                                 messageP.classList.add("acenterMessage");
+                                timeP.classList.add("acenterMessageTime");
                             }
                         }
                     })
