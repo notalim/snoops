@@ -136,15 +136,75 @@
                 $.ajax(requestConfig).then(function (responseMessage) {
                     console.log(responseMessage.message.messageContent);
                     let messageDiv = document.createElement("div");
+                    let timeSpan =  document.createElement("span");
                     let messageP = document.createElement("p");
                     messageP.textContent = responseMessage.message.messageContent;
+                    timeSpan.textContent = responseMessage.message.messageTime;
+                    messageDiv.appendChild(timeSpan)
                     messageDiv.appendChild(messageP);
                     currentChat.appendChild(messageDiv);
+                    timeSpan.classList.add("userMessageTime")
                     messageDiv.classList.add("userMessageDiv");
                     messageP.classList.add("userMessage");
                 })
             })(window.jQuery);
 
         })
+
+        setInterval(getMessageAjax, 10000);
+
+        function getMessageAjax(){
+            console.log("firing interval");
+
+            while(currentChat.childElementCount > 0){
+                currentChat.removeChild(currentChat.lastChild);
+            }
+            let acid = currChatInfo.getElementsByClassName("acid");
+            let uid = currChatInfo.getElementsByClassName("uid");
+
+            let acidText = acid[0].textContent.split(" ")[1];
+
+            let uidText = uid[0].textContent.split(" ")[1];
+
+            let requestConfig = {
+                method: 'GET',
+                url: `/chats/user/${uidText}/${acidText}`
+            };
+            (function ($) {
+                $.ajax(requestConfig).then(function (responseMessage){
+                    console.log(responseMessage);
+                    let messages = responseMessage.messages;
+                    for(let message of messages){
+                        if(message.senderId === uidText){
+                            console.log("User: " + message.messageContent)
+                            let messageDiv = document.createElement("div");
+                            let timeP = document.createElement("span");
+                            let messageP = document.createElement("p");
+                            timeP.textContent = message.messageTime;
+                            messageP.textContent = message.messageContent;
+                            messageDiv.appendChild(timeP);
+                            messageDiv.appendChild(messageP);
+                            currentChat.appendChild(messageDiv);
+                            messageDiv.classList.add("userMessageDiv");
+                            messageP.classList.add("userMessage");
+                            timeP.classList.add("userMessageTime");
+                        }else{
+                            console.log("Acenter: " + message.messageContent);
+                            let messageDiv = document.createElement("div");
+                            let timeP = document.createElement("span");
+                            let messageP = document.createElement("p");
+                            messageP.textContent = message.messageContent;
+                            timeP.textContent = message.messageTime;
+                            messageDiv.appendChild(messageP);
+                            messageDiv.appendChild(timeP);
+                            currentChat.appendChild(messageDiv);
+                            messageDiv.classList.add("acenterMessageDiv");
+                            messageP.classList.add("acenterMessage");
+                            timeP.classList.add("acenterMessageTime");
+                        }
+                    }
+                })
+            })(window.jQuery);
+        }
     </script>
 </main>
