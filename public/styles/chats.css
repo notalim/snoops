@@ -20,10 +20,13 @@
 }
 
 .current-chat{
+
     float: left;
     width: 75%;
     height: 70%;
-    overflow: scroll;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 #chatTextDiv{
@@ -70,7 +73,7 @@
     width: fit-content;
     text-align: right;
     background-color: lightpink;
-    margin: 5px 20px auto auto;
+    margin: 5px 20px 5px auto;
     padding: 5px;
     border-radius: 10px;
     max-width: 45%;
@@ -90,13 +93,21 @@
 } 
 
 .userMessageTime{
-    font-size: small;
+    display: inline-block;
+    font-size: x-small;
     color: gray;
     margin-right: 3px;
+    max-width: 70px;
+    position: relative;
+    top: 5px;
 }
 
 .acenterMessageTime{
-    font-size: small;
+    display: inline-block;
+    font-size: x-small;
     color: gray;
     margin-left: 3px;
+    max-width: 70px;
+    position: relative;
+    top: 5px;
 }

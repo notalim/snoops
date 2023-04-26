@@ -9,10 +9,7 @@
             </div>
             {{/each}}
         </div>
-        <div id="current-chat" class="current-chat">
-            
-        
-        </div>
+        <div id="current-chat" class="current-chat"></div>
         <div id="chatTextDiv">
             <input class="textBox" type="text" name="sentMessage" id="sentMessage">
             <button class="button" type="submit" id="sendButton">Submit</button>
@@ -98,8 +95,8 @@
                         }
                     })
                 })(window.jQuery);
-                currentChat.scrollTop = currentChat.scrollHeight;
-                console.log(currentChat.scrollHeight)
+                currentChat.scrollTop = 0;
+                console.log(currentChat.scrollTo(10000, 1000))
             })
         }
         //add the same loading ajax request but on an interval
