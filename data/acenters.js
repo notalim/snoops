@@ -226,6 +226,14 @@ const createDog = async (
     // Check dogSize
     dogSize = validation.checkPetWeight(dogSize, "Dog Size");
 
+    // Gets the random placeholder image
+    function getRandomDogPlaceholder() {
+        const min = 1;
+        const max = 16;
+        const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+        return `/assets/dog-placeholders/dog-placeholder-${randomNum}.png`;
+    }
+
     let newDog = {
         _id: new ObjectId(),
         name: dogName,
@@ -233,9 +241,9 @@ const createDog = async (
         breeds: dogBreeds,
         gender: dogGender,
         size: dogSize,
-        img: null,
+        img: getRandomDogPlaceholder(),
         description: null,
-        adoptionStatus: null,
+        adoptionStatus: "Available",
     };
 
     const updatedInfo = await acenterCollection.updateOne(

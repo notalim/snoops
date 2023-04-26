@@ -2,25 +2,96 @@
     <div class="ac-wrapper">
         <div class="ac-dashboard-main">
             <h2>Welcome, {{acenter.name}}</h2>
-            <p>Address: {{acenter.address}}</p>
-            <p>Phone: {{acenter.phone}}</p>
-
+            <img
+                src="{{acenter.img}}"
+                alt="Acenter Image"
+                class="acenter-image"
+            />
+            <form class="acenter-info-form">
+                <label for="email">Email:</label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value="{{acenter.email}}"
+                />
+                <label for="name">Name:</label>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value="{{acenter.name}}"
+                />
+                <label for="password">Password:</label>
+                <input type="password" name="password" readonly />
+                <label for="contactFirstName">Contact First Name:</label>
+                <input
+                    type="text"
+                    name="contactFirstName"
+                    id="contactFirstName"
+                    value="{{acenter.contactFirstName}}"
+                />
+                <label for="contactLastName">Contact Last Name:</label>
+                <input
+                    type="text"
+                    name="contactLastName"
+                    id="contactLastName"
+                    value="{{acenter.contactLastName}}"
+                />
+                <label for="phone">Phone:</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    id="phone"
+                    value="{{acenter.phone}}"
+                />
+                <label for="address">Address:</label>
+                <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    value="{{acenter.address}}"
+                />
+                <input
+                    type="submit"
+                    value="Update Info"
+                    class="update-info-btn"
+                />
+            </form>
+            <div class="error-message" hidden>Error: Invalid input</div>
         </div>
         <div class="ac-dashboard-dogs">
-            <h3>Posted Dogs</h3>
-            <ul>
+            <h3>Here are your posted dogs:</h3>
+            <div
+                class="dog-grid"
+                data-dob="{{this.dob}}"
+                data-size="{{this.size}}"
+            >
                 {{#each dogs}}
-                    <div class="dog-card">
-                        <li>{{this.name}}
-                            -
-                            {{this.breed}}
-                            -
-                            {{this.age}}
-                            years old</li>
+                    <div
+                        class="dog-card"
+                        data-dob="{{this.dob}}"
+                        data-size="{{this.size}}"
+                        data-gender="{{this.gender}}"
+                    >
+
+                        <img
+                            src="{{this.img}}"
+                            alt="{{this.name}}"
+                            class="dog-image"
+                        />
+                        <h4>{{this.name}}</h4>
+
+                        <p>{{this.breeds}}</p>
+
+                        <p>{{this.description}}</p>
+                        <p>{{this.adoptionStatus}}</p>
                     </div>
                 {{/each}}
-            </ul>
+                <div class="add-dog-card">
+                    <a href="#" class="add-dog-btn">+</a>
+                </div>
+            </div>
         </div>
     </div>
-
 </main>

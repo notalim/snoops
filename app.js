@@ -22,7 +22,6 @@ const app = express();
 
 import path from "path";
 const viewsDir = path.join(__dirname, "views");
-
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.set("views", viewsDir);
