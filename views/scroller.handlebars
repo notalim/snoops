@@ -2,7 +2,7 @@
     <button class="scroller-button"><</button>
     <div class="scroller-dog-container">
         <div class="scroller-dog-image-container">
-            <img id="dog-image" src="../assets/landing-dog.png" alt="dog" />
+            <img id="dog-image" src="{{dog.img}}" alt="{{dog.name}}" />
         </div>
         <div class="scroller-dog-info-container">
             <div class="scroller-dog-info-header">
@@ -34,10 +34,15 @@
         let dogName = document.getElementById("dog-name");
         let dogBreeds = document.getElementById("dog-breeds");
         let dogAge = document.getElementById("dog-age");
+        let dogImage = document.getElementById("dog-image");
+        let dogDescription = document.getElementById("dog-description");
 
         dogName.textContent = dogsData[0].name;
         dogBreeds.textContent = breedName(dogsData[0].breeds);
         dogAge.textContent = dogsData[0].age;
+        dogImage.src = dogsData[0].img;
+        dogDescription.textContent = dogsData[0].description;
+
         let dogId = dogsData[0]._id.toString();
         let dogAcenterId = dogsData[0].acenterId.toString();
 
@@ -56,6 +61,8 @@
             dogName.textContent = dogsData[i].name;
             dogBreeds.textContent = breedName(dogsData[i].breeds);
             dogAge.textContent = dogsData[i].age;
+            dogImage.src = dogsData[i].img;
+            dogDescription.textContent = dogsData[i].description;
         };
 
         function goForward(){
@@ -68,6 +75,8 @@
             dogName.textContent = dogsData[i].name;
             dogBreeds.textContent = breedName(dogsData[i].breeds);
             dogAge.textContent = dogsData[i].age;
+            dogImage.src = dogsData[i].img;
+            dogDescription.textContent = dogsData[i].description;
             dogId = dogsData[i]._id.toString();
             dogAcenterId = dogsData[i].acenterId.toString();
         };

@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
-import xss from 'xss';
+import xss from "xss";
 
 // *: Adoption center Log In Page
 
@@ -58,7 +58,7 @@ router.route("/signup").post(async (req, res) => {
     let contactLastName = xss(req.body.contactLastName);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
-    
+
     // Validate request body
     try {
         email = validation.checkEmail(email, "Email");
@@ -121,8 +121,11 @@ router.route("/:id").get(async (req, res) => {
 
     try {
         const acenter = await acenterData.getAdoptionCenter(req.params.id);
-        
-        return res.status(200).render("acenter-info", {acenter: acenter, key: process.env.GOOGLE_MAP_API_KEY});
+
+        return res.status(200).render("acenter-info", {
+            acenter: acenter,
+            key: process.env.GOOGLE_MAP_API_KEY,
+        });
     } catch (e) {
         return res.status(500).json({ error: e });
     }
@@ -142,7 +145,7 @@ router.route("/:id").put(async (req, res) => {
     let contactLastName = xss(req.body.contactLastName);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
-    
+
     // Validate request body
     try {
         id = validation.checkId(id, "ID", "PUT /acenters/:id");
@@ -208,13 +211,24 @@ router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
     //console.log("POST route called");
     let id = req.params.id;
 
-    // Decompose request body
-    let name = xss(req.body.name);
-    let dob = xss(req.body.dob);
-    let breeds = xss(req.body.breeds);
+    let name = req.body.name;
+    let dob = req.body.dob;
+    let breeds = req.body.breeds;
     let gender = xss(req.body.gender);
     let size = xss(req.body.size);
-    
+
+    // xss check
+    try {
+        name = xss(req.body.name);
+        dob = xss(req.body.dob);
+        breeds = xss(req.body.breeds);
+        gender = xss(req.body.gender);
+        size = xss(req.body.size);
+    } catch (e) {
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, error: e });
+    }
+
     try {
         // Validate the id
         id = validation.checkId(id, "Adoption center ID", "POST /:id/dogs");
@@ -224,7 +238,8 @@ router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
 
         dob = validation.checkDate(dob, "Date of Birth");
 
-        breeds = validation.checkStringArray(JSON.parse(breeds), "Breeds");
+        breeds = JSON.parse(breeds);
+        breeds = validation.checkStringArray(breeds, "Breeds");
 
         gender = validation.checkGender(gender, "Gender");
 
@@ -234,6 +249,7 @@ router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
         const acenter = await acenterData.getAdoptionCenter(id);
         return res.render("ac-dashboard", { acenter, error: e });
     }
+
     try {
         const dog = await acenterData.createDog(
             id,
