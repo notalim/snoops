@@ -22,7 +22,6 @@
         let sendMessage = document.getElementById("sendButton");
         let chatTextBox = document.getElementById("sentMessage");
         let currChatInfo;
-
         for(let chat of chats){
             let aCenterID = chat.getElementsByClassName("acid")[0];
             let requestConfig = {
@@ -62,11 +61,10 @@
                 };
                 (function ($) {
                     $.ajax(requestConfig).then(function (responseMessage){
-                        console.log(responseMessage);
                         let messages = responseMessage.messages;
                         for(let message of messages){
                             if(message.senderId === uidText){
-                                console.log("User: " + message.messageContent)
+                                //console.log("User: " + message.messageContent)
                                 let messageDiv = document.createElement("div");
                                 let timeP = document.createElement("span");
                                 let messageP = document.createElement("p");
@@ -79,7 +77,7 @@
                                 messageP.classList.add("userMessage");
                                 timeP.classList.add("userMessageTime");
                             }else{
-                                console.log("Acenter: " + message.messageContent);
+                                //console.log("Acenter: " + message.messageContent);
                                 let messageDiv = document.createElement("div");
                                 let timeP = document.createElement("span");
                                 let messageP = document.createElement("p");
@@ -95,7 +93,8 @@
                         }
                     })
                 })(window.jQuery);
-                currentChat.scrollTop = currentChat.scrollHeight;
+                console.log("here");
+                //currentChat.scrollTop = currentChat.scrollHeight;
                 //console.log(currentChat.scrollTo(10000, 1000))
             })
         }
@@ -176,12 +175,13 @@
                     let messages = responseMessage.messages;
                     for(let message of messages){
                         if(message.senderId === uidText){
-                            console.log("User: " + message.messageContent)
+                            //console.log("User: " + message.messageContent)
                             let messageDiv = document.createElement("div");
                             let timeP = document.createElement("span");
                             let messageP = document.createElement("p");
                             timeP.textContent = message.messageTime;
                             messageP.textContent = message.messageContent;
+                            
                             messageDiv.appendChild(timeP);
                             messageDiv.appendChild(messageP);
                             currentChat.appendChild(messageDiv);
@@ -189,7 +189,7 @@
                             messageP.classList.add("userMessage");
                             timeP.classList.add("userMessageTime");
                         }else{
-                            console.log("Acenter: " + message.messageContent);
+                            //console.log("Acenter: " + message.messageContent);
                             let messageDiv = document.createElement("div");
                             let timeP = document.createElement("span");
                             let messageP = document.createElement("p");
@@ -205,6 +205,8 @@
                     }
                 })
             })(window.jQuery);
+
+            currentChat.scroll({ top: currentChat.scrollHeight, behavior: "smooth"})
         }
     </script>
 </main>
