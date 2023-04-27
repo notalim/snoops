@@ -223,7 +223,9 @@ router.route("/:id").put(async (req, res) => {
             phone,
             address
         );
-        return res.status(200).json([user, { message: "User updated successfully" }]);
+
+        req.session.user = user;
+        return res.status(200).json({ message: "User updated successfully" });
     } catch (e) {
         return res.status(500).json({ error: e });
     }
@@ -233,9 +235,9 @@ router.route("/:id").put(async (req, res) => {
 
 router.route("/:id/like/:acenterId/:dogId").post(async (req, res) => {
     // Validate the ids
-    let id = req.params.id;
-    let dogId = req.params.dogId;
-    let acenterId = req.params.acenterId;
+    let id = xss(req.params.id);
+    let dogId = xss(req.params.dogId);
+    let acenterId = xss(req.params.acenterId);
 
     try {
         id = validation.checkId(id, "ID", "POST /users/:id/like/:dogId");
@@ -248,7 +250,8 @@ router.route("/:id/like/:acenterId/:dogId").post(async (req, res) => {
     try {
         const user = await userData.likeDog(id, acenterId, dogId);
         if(user.success){
-        return res.status(200).json(user.success);
+            req.session.user = user.user;
+            return res.status(200).json(user.success);
         }
         else{
             return res.status(403).json({error: 'Invalid Request'});

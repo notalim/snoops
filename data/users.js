@@ -233,8 +233,8 @@ const likeDog = async (userId, acenterId, dogId) => {
     } else {
         throw "Dog is already liked.";
     }
-
-    return { user, success: true };
+    const newUser = await userCollection.findOne({ _id: new ObjectId(userId) });
+    return { newUser, success: true };
 };
 
 // Same as likeDog, but with different alias
