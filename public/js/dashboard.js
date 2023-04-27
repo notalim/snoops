@@ -81,6 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const breed3 = document.getElementById("dogBreed3").value;
 
         const breeds = [breed1, breed2, breed3].filter((breed) => breed !== "");
+        console.log(breeds);
+        return breeds;
     }
 
     let createDogForm = document.getElementById("create-dog-form");
@@ -90,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
                 event.preventDefault();
                 const breedsArray = getBreedsArray();
+                console.log(breedsArray);
                 const breedsJson = JSON.stringify(breedsArray);
                 const hiddenBreedsInput = document.createElement("input");
                 hiddenBreedsInput.type = "hidden";

@@ -1,10 +1,9 @@
 import { Router } from "express";
 const router = Router();
 import { acenterData, userData } from "../data/index.js";
-
 import * as validation from "../validation.js";
 
-// *: Extension Routes to users and adoption centers
+// *: Extension Algorithm Routes for Users
 
 // *: Tinder Scroller (Default user page redirect)
 
@@ -21,7 +20,9 @@ router.get("/scroller/:id", async (req, res) => {
 
         if (userId !== requestedUserId) {
             // Redirect to login page or show an error message
-            return res.status(403).json({ error: "You are not authorized to access this page." });
+            return res
+                .status(403)
+                .json({ error: "You are not authorized to access this page." });
         }
 
         const { dogs } = await userData.getUnseenDogs(userId);
@@ -29,14 +30,6 @@ router.get("/scroller/:id", async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: error.toString() });
     }
-});
-
-// *: Log Out User
-
-router.get("/logout", async (req, res) => {
-    req.session.destroy();
-    res.redirect("/");
-    return;
 });
 
 // *: User Settings Page
@@ -59,6 +52,14 @@ router.get("/settings/:id", async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }
+});
+
+// *: Log Out User
+
+router.get("/logout", async (req, res) => {
+    req.session.destroy();
+    res.redirect("/");
+    return;
 });
 
 export default router;

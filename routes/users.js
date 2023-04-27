@@ -162,7 +162,7 @@ router.route("/:id").put(async (req, res) => {
     let id = req.params.id;
 
     // Decompose request body
-    //future reference: does this have to be in a try catch in case there aren't exactly 8 fields?
+    // ? future reference: does this have to be in a try catch in case there aren't exactly 8 fields?
 
     let email = xss(req.body.email);
     let password = xss(req.body.password);
@@ -190,7 +190,7 @@ router.route("/:id").put(async (req, res) => {
     if (address == undefined || address == "" || address == null) {
         address = xss(req.session.user.address);
     }
-        console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address)
+        // console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address)
 
     try {
         id = validation.checkId(id, "ID", "PUT /users/:id");
