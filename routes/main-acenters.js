@@ -30,8 +30,7 @@ router.get("/ac-dashboard/:id", async (req, res) => {
 
 router.get("/logout", async (req, res) => {
     req.session.destroy();
-    res.redirect("/");
-    return;
+    return res.redirect("/");
 });
 
 export default router;

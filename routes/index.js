@@ -5,10 +5,11 @@ import mainUserRoutes from "./main-users.js";
 import mainRoutes from "./main.js";
 
 const constructorMethod = (app) => {
+    app.use("/acenters", mainAcenterRoutes);
     app.use("/acenters", acenterRoutes);
     app.use("/users", mainUserRoutes);
     app.use("/users", userRoutes);
-    app.use("/acenters", mainAcenterRoutes);
+    
     
     app.use("/", mainRoutes);
 
