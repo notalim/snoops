@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import { chatData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
+import xss from 'xss';
 
 // TODO: Chat Routes
 
@@ -23,7 +24,6 @@ router.route("/user/:uid").get(async (req, res) => {
         //could sort by most recent time
         const chatList = await chatData.getAllChatsUser(id);
         let sorted = chatList.sort((a, b) => {
-            console.log([a, b]);
             if (a.messages.length === 0) {
                 return 1;
             } else if (b.messages.length === 0) {
@@ -37,9 +37,9 @@ router.route("/user/:uid").get(async (req, res) => {
                 );
             }
         });
-        return res.status(200).json(sorted);
+        return res.status(200).render("chats", {chats: sorted});
     } catch (e) {
-        return res.status(500).json({ error: e });
+        return res.status(500).render("no-chats", {error: e});
     }
 });
 
@@ -54,7 +54,6 @@ router.route("/acenter/:acid").get(async (req, res) => {
     try {
         const chatList = await chatData.getAllChatsACenter(id);
         let sorted = chatList.sort((a, b) => {
-            console.log([a, b]);
             if (a.messages.length === 0) {
                 return 1;
             } else if (b.messages.length === 0) {
@@ -70,7 +69,7 @@ router.route("/acenter/:acid").get(async (req, res) => {
         });
         return res.status(200).json(sorted);
     } catch (e) {
-        return res.status(500).json({ error: e });
+        return res.status(500).render("no-chats", {error: e});
     }
 });
 
@@ -121,7 +120,8 @@ router.route("/acenter/:acid/:uid").put(async (req, res) => {
     try{
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
-        message = validation.checkMessage(req.body.message);
+        message = xss(req.body.message);
+        message = validation.checkMessage(message);
         let date = new Date();
         time = date.toLocaleDateString();
         time = time.concat(" ");
@@ -155,7 +155,8 @@ router.route("/user/:uid/:acid").put(async (req, res) => {
     try{
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
-        message = validation.checkMessage(req.body.message);
+        message = xss(req.body.message);
+        message = validation.checkMessage(message);
         let date = new Date();
         time = date.toLocaleDateString();
         time = time.concat(" ");

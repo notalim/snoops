@@ -6,6 +6,7 @@
     "type": "module",
     "scripts": {
         "start": "node app.js",
+        "dev": "nodemon app.js",
         "seed": "node ./tasks/seed.js",
         "algo-test": "node ./tasks/algo-test.js",
         "users-test": "node ./tasks/users-test.js",
@@ -31,9 +32,11 @@
         "express-handlebars": "^7.0.4",
         "express-session": "^1.17.3",
         "mongodb": "^5.1.0",
+        "multer": "^1.4.5-lts.1",
         "node-geocoder": "^4.2.0",
         "password-hash": "^1.2.2",
         "phone": "^3.1.37",
-        "validator": "^13.9.0"
+        "validator": "^13.9.0",
+        "xss": "^1.0.14"
     }
 }

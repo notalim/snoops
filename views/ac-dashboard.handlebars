@@ -1,0 +1,151 @@
+<main>
+    <div class="ac-wrapper">
+        <div class="ac-dashboard-main">
+            <h2>Welcome, {{acenter.name}}</h2>
+            <img
+                src="{{acenter.img}}"
+                alt="Acenter Image"
+                class="acenter-image"
+            />
+            <form class="acenter-info-form">
+                <label for="email">Email:</label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value="{{acenter.email}}"
+                />
+                <label for="name">Name:</label>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value="{{acenter.name}}"
+                />
+                <label for="password">Password:</label>
+                <input type="password" name="password" readonly />
+                <label for="contactFirstName">Contact First Name:</label>
+                <input
+                    type="text"
+                    name="contactFirstName"
+                    id="contactFirstName"
+                    value="{{acenter.contactFirstName}}"
+                />
+                <label for="contactLastName">Contact Last Name:</label>
+                <input
+                    type="text"
+                    name="contactLastName"
+                    id="contactLastName"
+                    value="{{acenter.contactLastName}}"
+                />
+                <label for="phone">Phone:</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    id="phone"
+                    value="{{acenter.phone}}"
+                />
+                <label for="address">Address:</label>
+                <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    value="{{acenter.address}}"
+                />
+                <input
+                    type="submit"
+                    value="Update Info"
+                    class="update-info-btn"
+                />
+            </form>
+            <div class="error-message" hidden>Error: Invalid input</div>
+        </div>
+        <div class="ac-dashboard-dogs">
+            <h3>Here are your posted dogs:</h3>
+            <div
+                class="dog-grid"
+                data-dob="{{this.dob}}"
+                data-size="{{this.size}}"
+            >
+                {{#each dogs}}
+                    <div
+                        class="dog-card"
+                        data-dob="{{this.dob}}"
+                        data-size="{{this.size}}"
+                        data-gender="{{this.gender}}"
+                    >
+
+                        <img
+                            src="{{this.img}}"
+                            alt="{{this.name}}"
+                            class="dog-image"
+                        />
+                        <h4>{{this.name}}</h4>
+                        {{#each this.breeds}}
+                        {{!-- display the every breed separately --}}
+                            <p>{{this}}</p>
+                        {{/each}}
+
+                        <p>{{this.description}}</p>
+                        <p>{{this.adoptionStatus}}</p>
+                    </div>
+                {{/each}}
+                <div class="add-dog-card">
+                    <a href="#" class="add-dog-btn">+</a>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="create-dog-modal">
+            <div class="modal-content create-dog-modal-content">
+                <span class="close create-dog-close">&times;</span>
+                <h2 class="create-dog-header">Create a Dog</h2>
+                <form
+                    id="create-dog-form"
+                    class="create-dog-form"
+                    action="/acenters/ac-dashboard/{{acenter._id}}/dogs"
+                    method="POST"
+                >
+                    <div id="error" class="error">
+                        {{#if error}}
+                            {{error}}
+                        {{/if}}
+                    </div>
+                    <label for="dogName">Name</label>
+                    <input type="text" id="dogName" name="name" required />
+
+                    <label for="dogDob">Date of Birth</label>
+                    <input type="date" id="dogDob" name="dob" required />
+
+                    <label for="dogBreed1">Breed 1</label>
+                    <input type="text" id="dogBreed1" name="breed1" required />
+
+                    <label for="dogBreed2">Breed 2 (Optional)</label>
+                    <input type="text" id="dogBreed2" name="breed2" />
+
+                    <label for="dogBreed3">Breed 3 (Optional)</label>
+                    <input type="text" id="dogBreed3" name="breed3" />
+
+                    <label for="dogGender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+
+                    <label for="dogSize">Size</label>
+                    <input
+                        type="number"
+                        id="dogSize"
+                        name="size"
+                        placeholder="Weight in lbs"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        class="create-dog-submit-btn"
+                        id="create-dog-submit-btn"
+                    >Add Dog</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

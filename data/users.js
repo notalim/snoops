@@ -74,7 +74,7 @@ const createUser = async (
 
     const newInsertInformation = await userCollection.insertOne(newUser);
     if (newInsertInformation.insertedCount === 0) {
-        throw `Could not add adoption center`;
+        throw `Could not add a user with email ${email}`;
     }
 
     return newUser;
@@ -120,8 +120,12 @@ const updateUser = async (
     email = validation.checkEmail(email, "Email");
 
     // Check password
-    password = validation.checkPassword(password, "Password");
-
+    if(password !== undefined && password !== null && password !== ""){
+        password = validation.checkPassword(password, "Password");
+    }else{
+        const user = await getUser(validatedId);
+        password = user.password;
+    }
     // Check first name
     firstName = validation.checkName(firstName, "First Name");
 

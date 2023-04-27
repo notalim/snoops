@@ -3,11 +3,22 @@
         <title>Snoops</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        ></script>
         <link rel="stylesheet" href="/styles/style.css" />
         <link rel="stylesheet" href="/styles/signin.css" />
         <link rel="stylesheet" href="/styles/signup.css" />
         <link rel="stylesheet" href="/styles/scroller.css" />
         <link rel="stylesheet" href="/styles/settings.css" />
+        <link rel="stylesheet" href="/styles/chats.css" />
+        <link rel="stylesheet" href="/styles/modal.css" />
+        <link rel="stylesheet" href="/styles/ac-dashboard.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+        />
+        <script src="/js/dashboard.js"></script>
     </head>
     <body class="main-page">
         <header>
@@ -15,16 +26,25 @@
             <nav>
                 <ul>
                     {{#if user}}
-                        <li>Hello, {{user.firstName}}!</li>
-                        <li><a href="/logout">Log out</a></li>
+
+                        <li><a href="/users/settings/{{user._id}}">Hello,
+                                {{user.firstName}}!</a></li>
+                        <li><a href="/users/logout">Log out</a></li>
                     {{else}}
-                        <li class="auth-links"><a
-                                href="/users/user-login-page"
-                            >Log in</a></li>
-                        <li class="auth-links"><a
-                                href="/users/user-signup-page"
-                            >Sign up</a></li>
-                    {{/if}}
+                        {{#if acenter}}
+                            <li><a
+                                    href="/acenters/ac-dashboard/{{acenter._id}}"
+                                >Hello, {{acenter.name}}!</a></li>
+                            <li><a href="/acenters/logout">Log out</a></li>
+
+                        {{else}}
+                            <li class="auth-links"><a
+                                    href="/users/login-page"
+                                >Log in</a></li>
+                            <li class="auth-links"><a
+                                    href="/users/signup-page"
+                                >Sign up</a></li>
+                        {{/if}}{{/if}}
                     <li><a href="#">About</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
