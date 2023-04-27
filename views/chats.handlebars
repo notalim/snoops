@@ -95,13 +95,13 @@
                         }
                     })
                 })(window.jQuery);
-                currentChat.scrollTop = 0;
-                console.log(currentChat.scrollTo(10000, 1000))
+                currentChat.scrollTop = currentChat.scrollHeight;
+                //console.log(currentChat.scrollTo(10000, 1000))
             })
         }
         //add the same loading ajax request but on an interval
         //this might be prone to injections
-        sendMessage.addEventListener("click", (event) => {
+        sendMessage.addEventListener("submit", (event) => {
             event.preventDefault();
             let chatText = chatTextBox.value;
             console.log(chatText)
