@@ -48,6 +48,7 @@ header {
     align-items: center;
     border-bottom: solid 0.03125rem #3a2412;
     width: 100vw;
+    position: relative;
 }
 
 header h1 {
@@ -75,9 +76,6 @@ header nav a {
     transition: color 0.3s ease-in-out;
 }
 
-header nav .auth-links a {
-    margin-right: 2.5rem;
-}
 
 header nav a:hover {
     color: var(--accent-color);
