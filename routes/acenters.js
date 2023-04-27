@@ -202,7 +202,7 @@ router.route("/:id").delete(async (req, res) => {
     }
 });
 
-// TODO: POST /acenters/:id/dogs - Create dog for adoption center
+// *: POST /acenters/:id/dogs - Create dog for adoption center
 
 router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
     //console.log("POST route called");
