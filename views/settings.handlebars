@@ -30,87 +30,18 @@
     <div class="settingsContainer doggies" style="margin-top: 20px">
         <div class="likedDogs">
             {{#each user.likedDogs}}
-            <a href="/acenters/{{this.aCenterId}}/dogs/{{this._id}}">
+            <a href="/acenters/{{this.acenterId}}/dogs/{{this._id}}">
                 <div class="likedDog">
                     <img src="{{this.img}}" alt="dog" />
                     <p>{{this.name}}</p>
                 </div>
             </a>
             {{/each}}
-            {{!-- <a>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            </a>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-                        <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div> --}}
         </div>
     </div>
 </main>
 
 <script>
-   /* let newUser = {
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        dob: dob,
-        phone: phone,
-        address: address,
-        img: null,
-        dogPreferences: {},
-        likedDogs: [],
-        seenDogs: [],
-    }; */
-
     //update user with ajax
     $("#update-user").submit(function (e) {
         e.preventDefault();

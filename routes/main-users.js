@@ -48,6 +48,16 @@ router.get("/settings/:id", async (req, res) => {
             });
         }
         const user = req.session.user;
+
+        //refresh likedDogs to have actual dog objects every time they visit settings page
+        //this will ensure that no matter what is changed we dont have redundancy in our database
+        //and the user can see the updated dog information.
+        if(user.likedDogs.length > 0) {
+            for(let i = 0; i < user.likedDogs.length; i++) {
+                const dog = await acenterData.getDogFromAcenter(user.likedDogs[i].acenterId,user.likedDogs[i]._id);
+                user.likedDogs[i] = dog;
+            }
+        }
         res.render("settings", { user });
     } catch (error) {
         res.status(500).json({ error: error.toString() });

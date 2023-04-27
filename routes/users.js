@@ -250,7 +250,7 @@ router.route("/:id/like/:acenterId/:dogId").post(async (req, res) => {
     try {
         const user = await userData.likeDog(id, acenterId, dogId);
         if(user.success){
-            req.session.user = user.user;
+            req.session.user = user.newUser;
             return res.status(200).json(user.success);
         }
         else{

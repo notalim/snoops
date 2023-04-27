@@ -85,7 +85,7 @@
          $("#likeButton").click(function (e) {
             e.preventDefault();
             $.ajax({
-                url: `/users/{{user._id}}/like/${dogId}/${dogAcenterId}`,
+                url: `/users/{{user._id}}/like/${dogAcenterId}/${dogId}`,
                 type: "POST",
                 data: {dogId: dogsData[i]._id},
                 success: function (data) {

@@ -218,11 +218,11 @@ const likeDog = async (userId, acenterId, dogId) => {
                 $push: {
                     likedDogs: {
                         acenterId: new ObjectId(acenterId),
-                        dogId: new ObjectId(dogId),
+                        _id: new ObjectId(dogId),
                     },
                     seenDogs: {
                         acenterId: new ObjectId(acenterId),
-                        dogId: new ObjectId(dogId),
+                        _id: new ObjectId(dogId),
                     },
                 },
             }
