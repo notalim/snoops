@@ -6,8 +6,13 @@
         <div class="form-container">
             <!-- Adoption Center Signup form -->
             <form id="signup-form" method="POST" action="/acenters/signup">
-                <input type="email" name="email" placeholder="Email" required />
-                <input type="text" name="name" placeholder="Name" required />
+                <div id="error" class="error">
+                    {{#if error}}
+                        {{error}}
+                    {{/if}}
+                </div>
+                <input type="email" name="email" placeholder="Email" value="{{email}}" required />
+                <input type="text" name="name" placeholder="Name" value="{{name}}" required />
                 <input
                     type="password"
                     name="password"

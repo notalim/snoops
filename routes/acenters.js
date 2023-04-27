@@ -19,13 +19,19 @@ router.route("/login").post(async (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
+
     let email = xss(req.body.email);
     let password = xss(req.body.password);
+    let savedEmail;
 
     try {
         email = validation.checkEmail(email, "Email");
+        savedEmail = email;
     } catch (e) {
-        return res.status(400).json({ error: e });
+        return res.render("ac-login", {
+            error: e.toString(),
+            email: savedEmail,
+        });
     }
 
     try {
@@ -36,7 +42,7 @@ router.route("/login").post(async (req, res) => {
         return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
         console.log(e);
-        return res.render("ac-login", { error: e.toString(), email });
+        return res.render("ac-login", { error: e.toString(), email: savedEmail});
     }
 });
 
@@ -59,27 +65,48 @@ router.route("/signup").post(async (req, res) => {
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
 
+    let savedEmail,
+        savedName,
+        savedContactFirstName,
+        savedContactLastName,
+        savedPhone,
+        savedAddress;
+
     // Validate request body
     try {
         email = validation.checkEmail(email, "Email");
+        savedEmail = email;
 
         name = validation.checkString(name, "Name");
+        savedName = name;
 
         contactFirstName = validation.checkName(
             contactFirstName,
             "Contact First Name"
         );
+        savedContactFirstName = contactFirstName;
 
         contactLastName = validation.checkName(
             contactLastName,
             "Contact Last Name"
         );
+        savedContactLastName = contactLastName;
 
         phone = validation.checkPhone(phone, "Phone");
+        savedPhone = phone;
 
         address = validation.checkString(address, "Address");
+        savedAddress = address;
     } catch (e) {
-        return res.status(400).json({ error: e });
+        return res.render("ac-signup", {
+            error: e.toString(),
+            email: savedEmail,
+            name: savedName,
+            contactFirstName: savedContactFirstName,
+            contactLastName: savedContactLastName,
+            phone: savedPhone,
+            address: savedAddress,
+        });
     }
     try {
         const acenter = await acenterData.createAdoptionCenter(
@@ -91,9 +118,17 @@ router.route("/signup").post(async (req, res) => {
             phone,
             address
         );
-        return res.status(200).json(acenter);
+        return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
-        return res.status(500).json({ error: e });
+        return res.render("ac-signup", {
+            error: e.toString(),
+            email: savedEmail,
+            name: savedName,
+            contactFirstName: savedContactFirstName,
+            contactLastName: savedContactLastName,
+            phone: savedPhone,
+            address: savedAddress,
+        });
     }
 });
 

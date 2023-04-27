@@ -3,7 +3,7 @@ const router = Router();
 import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 import { redirectToScrollerIfLoggedIn } from "../middleware.js";
-import xss from 'xss';
+import xss from "xss";
 
 // *: Log In Page
 
@@ -17,13 +17,18 @@ router.route("/login").post(async (req, res) => {
     // Decompose request body
     let email = xss(req.body.email);
     let password = xss(req.body.password);
+    let savedEmail;
 
     // console.log("got email and password: ", email, password);
 
     try {
         email = validation.checkEmail(email, "Email");
+        savedEmail = email;
     } catch (e) {
-        return res.status(400).json({ error: e });
+        return res.status(400).render("user-login", {
+            error: e.toString(),
+            email: savedEmail,
+        });
     }
 
     try {
@@ -32,7 +37,7 @@ router.route("/login").post(async (req, res) => {
         console.log(user);
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
-        res.render("user-login", { error: e.toString(), email });
+        res.render("user-login", { error: e.toString(), email: savedEmail });
         console.log(e);
         return;
     }
@@ -60,23 +65,43 @@ router.route("/signup").post(async (req, res) => {
     let dob = xss(req.body.dob);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
-   
+
+    let savedEmail,
+        savedFirstName,
+        savedLastName,
+        savedDob,
+        savedPhone,
+        savedAddress;
     try {
         // Validate request body
 
         email = validation.checkEmail(email, "Email");
+        savedEmail = email;
 
         firstName = validation.checkName(firstName, "First Name");
+        savedFirstName = firstName;
 
         lastName = validation.checkName(lastName, "Last Name");
+        savedLastName = lastName;
 
         dob = validation.checkDate(dob, "User Date of Birth");
+        savedDob = dob;
 
         phone = validation.checkPhone(phone, "Phone Number");
+        savedPhone = phone;
 
         address = validation.checkString(address, "Address");
+        savedAddress = address;
     } catch (e) {
-        return res.status(400).json({ error: e });
+        return res.status(400).render("user-signup", {
+            error: e.toString(),
+            email: savedEmail,
+            firstName: savedFirstName,
+            lastName: savedLastName,
+            dob: savedDob,
+            phone: savedPhone,
+            address: savedAddress,
+        });
     }
 
     try {
@@ -171,7 +196,7 @@ router.route("/:id").put(async (req, res) => {
     let dob = xss(req.body.dob);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
-    
+
     if (email == undefined || email == "" || email == null) {
         email = xss(req.session.user.email);
     }
@@ -190,7 +215,7 @@ router.route("/:id").put(async (req, res) => {
     if (address == undefined || address == "" || address == null) {
         address = xss(req.session.user.address);
     }
-        // console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address)
+    // console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address)
 
     try {
         id = validation.checkId(id, "ID", "PUT /users/:id");
@@ -241,8 +266,16 @@ router.route("/:id/like/:acenterId/:dogId").post(async (req, res) => {
 
     try {
         id = validation.checkId(id, "ID", "POST /users/:id/like/:dogId");
-        dogId = validation.checkId(dogId, "Dog ID", "POST /users/:id/like/:dogId");
-        acenterId = validation.checkId(acenterId, "Animal Center ID", "POST /users/:id/like/:dogId");
+        dogId = validation.checkId(
+            dogId,
+            "Dog ID",
+            "POST /users/:id/like/:dogId"
+        );
+        acenterId = validation.checkId(
+            acenterId,
+            "Animal Center ID",
+            "POST /users/:id/like/:dogId"
+        );
     } catch (e) {
         return res.status(400).json({ error: e });
     }
@@ -257,7 +290,6 @@ router.route("/:id/like/:acenterId/:dogId").post(async (req, res) => {
             return res.status(403).json({error: 'Invalid Request'});
         }
     } catch (e) {
-
         return res.status(500).json({ error: e });
     }
 });
