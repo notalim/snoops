@@ -93,7 +93,9 @@ router.route("/signup").post(async (req, res) => {
         req.session.user = user;
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (error) {
-        return res.status(500).render("signup", { error: error.toString() });
+        return res
+            .status(500)
+            .render("user-signup", { error: error.toString() });
     }
 });
 

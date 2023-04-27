@@ -11,6 +11,7 @@
 
 .ac-wrapper {
     padding-top: 2rem;
+    padding-bottom: 2rem;
     display: flex;
     width: 90%;
     justify-content: space-between;

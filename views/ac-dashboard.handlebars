@@ -81,8 +81,10 @@
                             class="dog-image"
                         />
                         <h4>{{this.name}}</h4>
-
-                        <p>{{this.breeds}}</p>
+                        {{#each this.breeds}}
+                        {{!-- display the every breed separately --}}
+                            <p>{{this}}</p>
+                        {{/each}}
 
                         <p>{{this.description}}</p>
                         <p>{{this.adoptionStatus}}</p>
@@ -91,6 +93,58 @@
                 <div class="add-dog-card">
                     <a href="#" class="add-dog-btn">+</a>
                 </div>
+            </div>
+        </div>
+        <div class="modal" id="create-dog-modal">
+            <div class="modal-content create-dog-modal-content">
+                <span class="close create-dog-close">&times;</span>
+                <h2 class="create-dog-header">Create a Dog</h2>
+                <form
+                    id="create-dog-form"
+                    class="create-dog-form"
+                    action="/acenters/ac-dashboard/{{acenter._id}}/dogs"
+                    method="POST"
+                >
+                    <div id="error" class="error">
+                        {{#if error}}
+                            {{error}}
+                        {{/if}}
+                    </div>
+                    <label for="dogName">Name</label>
+                    <input type="text" id="dogName" name="name" required />
+
+                    <label for="dogDob">Date of Birth</label>
+                    <input type="date" id="dogDob" name="dob" required />
+
+                    <label for="dogBreed1">Breed 1</label>
+                    <input type="text" id="dogBreed1" name="breed1" required />
+
+                    <label for="dogBreed2">Breed 2 (Optional)</label>
+                    <input type="text" id="dogBreed2" name="breed2" />
+
+                    <label for="dogBreed3">Breed 3 (Optional)</label>
+                    <input type="text" id="dogBreed3" name="breed3" />
+
+                    <label for="dogGender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+
+                    <label for="dogSize">Size</label>
+                    <input
+                        type="number"
+                        id="dogSize"
+                        name="size"
+                        placeholder="Weight in lbs"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        class="create-dog-submit-btn"
+                        id="create-dog-submit-btn"
+                    >Add Dog</button>
+                </form>
             </div>
         </div>
     </div>

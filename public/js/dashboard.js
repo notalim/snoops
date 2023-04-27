@@ -58,4 +58,53 @@ document.addEventListener("DOMContentLoaded", function () {
             return "Unknown";
         }
     }
+
+    function setupAddDogCardEventListener(selector, style) {
+        const addDogBtn = document.querySelector(selector);
+        if (addDogBtn) {
+            addDogBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+                document.querySelector("#create-dog-modal").style.display =
+                    style;
+            });
+        } else {
+            setTimeout(setupAddDogCardEventListener, 100);
+        }
+    }
+
+    setupAddDogCardEventListener(".add-dog-btn", "block");
+    setupAddDogCardEventListener(".create-dog-close", "none");
+    function getBreedsArray() {
+        // ! don't forget to validate the inptus
+        const breed1 = document.getElementById("dogBreed1").value;
+        const breed2 = document.getElementById("dogBreed2").value;
+        const breed3 = document.getElementById("dogBreed3").value;
+
+        const breeds = [breed1, breed2, breed3].filter((breed) => breed !== "");
+    }
+
+    let createDogForm = document.getElementById("create-dog-form");
+    if (createDogForm) {
+        let errorModal = document.getElementById("error");
+        createDogForm.addEventListener("submit", (event) => {
+            try {
+                event.preventDefault();
+                const breedsArray = getBreedsArray();
+                const breedsJson = JSON.stringify(breedsArray);
+                const hiddenBreedsInput = document.createElement("input");
+                hiddenBreedsInput.type = "hidden";
+                hiddenBreedsInput.name = "breeds";
+                hiddenBreedsInput.value = breedsJson;
+
+                createDogForm.appendChild(hiddenBreedsInput);
+                document.querySelector("#create-dog-modal").style.display =
+                    "none";
+                event.target.submit();
+                errorModal.hidden = false;
+            } catch (e) {
+                errorModal.hidden = false;
+                errorModal.innerHTML = e;
+            }
+        });
+    }
 });

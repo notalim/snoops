@@ -29,10 +29,7 @@ router.route("/login").post(async (req, res) => {
     }
 
     try {
-        const acenter = await acenterData.logInAdoptionCenter(
-            email,
-            password
-        );
+        const acenter = await acenterData.logInAdoptionCenter(email, password);
 
         // console.log(acenter);
         req.session.acenter = acenter;
@@ -207,7 +204,8 @@ router.route("/:id").delete(async (req, res) => {
 
 // TODO: POST /acenters/:id/dogs - Create dog for adoption center
 
-router.route("/:id/dogs").post(async (req, res) => {
+router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
+    //console.log("POST route called");
     let id = req.params.id;
 
     // Decompose request body
@@ -226,13 +224,15 @@ router.route("/:id/dogs").post(async (req, res) => {
 
         dob = validation.checkDate(dob, "Date of Birth");
 
-        breeds = validation.checkStringArray(breeds, "Breeds");
+        breeds = validation.checkStringArray(JSON.parse(breeds), "Breeds");
 
         gender = validation.checkGender(gender, "Gender");
 
-        size = validation.checkPetWeight(size, "Weight");
+        size = validation.checkPetWeight(parseInt(size), "Weight");
     } catch (e) {
-        return res.status(400).json({ error: e });
+        console.log(e);
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, error: e });
     }
     try {
         const dog = await acenterData.createDog(
@@ -243,9 +243,10 @@ router.route("/:id/dogs").post(async (req, res) => {
             gender,
             size
         );
-        return res.status(200).json(dog);
+        return res.redirect("/acenters/ac-dashboard/" + id);
     } catch (e) {
-        return res.status(500).json({ error: e });
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, error: e });
     }
 });
 
