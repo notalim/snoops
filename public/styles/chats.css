@@ -70,10 +70,12 @@
     display: inline-block;
     width: fit-content;
     text-align: right;
-    background-color: lightpink;
+    background-color: rgb(189, 236, 182);
     margin: 5px 20px 5px auto;
     padding: 5px;
     border-radius: 10px;
+    border-bottom: 2px solid rgb(164, 211, 157);
+    border-left: 1px solid rgb(164, 211, 157);
     max-width: 45%;
 }
 
@@ -81,12 +83,14 @@
     display: inline-block;
     text-align: left;
     width: fit-content; 
-    background-color: skyblue;
+    background-color: white;
     margin-top: 5px;
     margin-bottom: 5px;
     margin-left: 20px;
     padding: 5px;
     border-radius: 10px;
+    border-bottom: 2px solid rgb(230, 230, 230);
+    border-right: 1px solid rgb(230, 230, 230);
     max-width: 45%;
 } 
 
