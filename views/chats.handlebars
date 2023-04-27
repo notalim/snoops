@@ -101,7 +101,7 @@
         }
         //add the same loading ajax request but on an interval
         //this might be prone to injections
-        sendMessage.addEventListener("submit", (event) => {
+        sendMessage.addEventListener("click", (event) => {
             event.preventDefault();
             let chatText = chatTextBox.value;
             console.log(chatText)
