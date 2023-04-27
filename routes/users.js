@@ -8,7 +8,7 @@ import xss from "xss";
 // *: Log In Page
 
 router.route("/login-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
-    return res.render("user-login");
+    return res.render("user-login", {title: "Log In"});
 });
 
 // *: Log In User
@@ -27,6 +27,7 @@ router.route("/login").post(async (req, res) => {
     } catch (e) {
         return res.status(400).render("user-login", {
             error: e.toString(),
+            title: "Log In",
             email: savedEmail,
         });
     }
@@ -37,7 +38,7 @@ router.route("/login").post(async (req, res) => {
         console.log(user);
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
-        res.render("user-login", { error: e.toString(), email: savedEmail });
+        res.render("user-login", { error: e.toString(), title: "User Login", email: savedEmail });
         console.log(e);
         return;
     }
@@ -95,6 +96,7 @@ router.route("/signup").post(async (req, res) => {
     } catch (e) {
         return res.status(400).render("user-signup", {
             error: e.toString(),
+            title: "Sign Up",
             email: savedEmail,
             firstName: savedFirstName,
             lastName: savedLastName,
@@ -120,7 +122,7 @@ router.route("/signup").post(async (req, res) => {
     } catch (error) {
         return res
             .status(500)
-            .render("user-signup", { error: error.toString() });
+            .render("user-signup", { error: error.toString(), title: "Sign Up" });
     }
 });
 
@@ -234,7 +236,7 @@ router.route("/:id").put(async (req, res) => {
 
         address = validation.checkString(address, "Address");
     } catch (e) {
-        return res.status(400).json({ error: e });
+        return res.status(400).render("settings", {title: "Settings", error: e.toString(), user: req.session.user});
     }
 
     try {

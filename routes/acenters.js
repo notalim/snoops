@@ -10,7 +10,7 @@ router.route("/login-page").get(async (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
-    return res.render("ac-login");
+    return res.render("ac-login", {title: "Adoption Center Login"});
 });
 
 // *: Adoption center Log In
@@ -29,6 +29,7 @@ router.route("/login").post(async (req, res) => {
         savedEmail = email;
     } catch (e) {
         return res.render("ac-login", {
+            title: "Adoption Center Login",
             error: e.toString(),
             email: savedEmail,
         });
@@ -50,7 +51,7 @@ router.get("/signup-page", (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
-    return res.render("ac-signup");
+    return res.render("ac-signup", {title: "Adoption Center Signup"});
 });
 
 // *: Sign up (Create) adoption center (POST /acenters)
@@ -100,6 +101,7 @@ router.route("/signup").post(async (req, res) => {
     } catch (e) {
         return res.render("ac-signup", {
             error: e.toString(),
+            title: "Adoption Center Signup",
             email: savedEmail,
             name: savedName,
             contactFirstName: savedContactFirstName,
@@ -122,6 +124,7 @@ router.route("/signup").post(async (req, res) => {
     } catch (e) {
         return res.render("ac-signup", {
             error: e.toString(),
+            title: "Adoption Center Signup",
             email: savedEmail,
             name: savedName,
             contactFirstName: savedContactFirstName,

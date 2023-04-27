@@ -1,5 +1,10 @@
 <main class="scroller">
-    <button class="scroller-button"><</button>
+    <div id="error" class="error">
+        {{#if error}}
+            {{error}}
+        {{/if}}
+    </div>
+    <button class="scroller-button"></button>
     <div class="scroller-dog-container">
         <div class="scroller-dog-image-container">
             <img id="dog-image" src="{{dog.img}}" alt="{{dog.name}}" />
@@ -15,8 +20,14 @@
             </div>
         </div>
         <div class="scroller-interaction-container">
-            <button class="scroller-interaction-button like" id="likeButton">♥</button>
-            <button class="scroller-interaction-button dislike" id="dislikeButton">X</button>
+            <button
+                class="scroller-interaction-button like"
+                id="likeButton"
+            >♥</button>
+            <button
+                class="scroller-interaction-button dislike"
+                id="dislikeButton"
+            >X</button>
         </div>
     </div>
     <button class="scroller-button">></button>
