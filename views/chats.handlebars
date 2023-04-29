@@ -90,12 +90,15 @@
                                 messageP.classList.add("acenterMessage");
                                 timeP.classList.add("acenterMessageTime");
                             }
+                            let userMessages = currentChat.querySelectorAll("div.userMessageDiv");
+                            let acenterMessages = currentChat.querySelectorAll("div.acenterMessageDiv");
+                            //console.log(userMessages[userMessages.length - 1]);
+                            userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
                         }
                     })
                 })(window.jQuery);
                 console.log("here");
-                //currentChat.scrollTop = currentChat.scrollHeight;
-                //console.log(currentChat.scrollTo(10000, 1000))
+
             })
         }
         //add the same loading ajax request but on an interval
@@ -145,19 +148,33 @@
                     timeSpan.classList.add("userMessageTime")
                     messageDiv.classList.add("userMessageDiv");
                     messageP.classList.add("userMessage");
+
+                    let userMessages = currentChat.querySelectorAll("div.userMessageDiv");
+                    let acenterMessages = currentChat.querySelectorAll("div.acenterMessageDiv");
+                    //scroll by height;
+                    
+                    if(userMessages[userMessages.length - 1].getBoundingClientRect().top > 
+                        acenterMessages[acenterMessages.length - 1].getBoundingClientRect().top){
+                            userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                        }else{
+                            acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                        }
+                    
                 })
-            })(window.jQuery);
+            })(window.jQuery); 
             chatTextBox.value = "";
+            
         })
 
         setInterval(getMessageAjax, 10000);
 
         function getMessageAjax(){
             console.log("firing interval");
-
-            while(currentChat.childElementCount > 0){
-                currentChat.removeChild(currentChat.lastChild);
-            }
+            console.log(currentChat.childElementCount)
+            
+            //while(currentChat.childElementCount > 0){
+            //    currentChat.removeChild(currentChat.lastChild);
+            //}
             let acid = currChatInfo.getElementsByClassName("acid");
             let uid = currChatInfo.getElementsByClassName("uid");
 
@@ -173,40 +190,43 @@
                 $.ajax(requestConfig).then(function (responseMessage){
                     console.log(responseMessage);
                     let messages = responseMessage.messages;
-                    for(let message of messages){
-                        if(message.senderId === uidText){
+                    if(messages.length > currentChat.childElementCount){
+                        for(let i = currentChat.childElementCount; i < messages.length; i++){
+                            if(messages[i].senderId === uidText){
                             //console.log("User: " + message.messageContent)
-                            let messageDiv = document.createElement("div");
-                            let timeP = document.createElement("span");
-                            let messageP = document.createElement("p");
-                            timeP.textContent = message.messageTime;
-                            messageP.textContent = message.messageContent;
-                            
-                            messageDiv.appendChild(timeP);
-                            messageDiv.appendChild(messageP);
-                            currentChat.appendChild(messageDiv);
-                            messageDiv.classList.add("userMessageDiv");
-                            messageP.classList.add("userMessage");
-                            timeP.classList.add("userMessageTime");
-                        }else{
+                                let messageDiv = document.createElement("div");
+                                let timeP = document.createElement("span");
+                                let messageP = document.createElement("p");
+                                timeP.textContent = messages[i].messageTime;
+                                messageP.textContent = messages[i].messageContent;
+                                
+                                messageDiv.appendChild(timeP);
+                                messageDiv.appendChild(messageP);
+                                currentChat.appendChild(messageDiv);
+                                messageDiv.classList.add("userMessageDiv");
+                                messageP.classList.add("userMessage");
+                                timeP.classList.add("userMessageTime");
+                            }else{
                             //console.log("Acenter: " + message.messageContent);
-                            let messageDiv = document.createElement("div");
-                            let timeP = document.createElement("span");
-                            let messageP = document.createElement("p");
-                            messageP.textContent = message.messageContent;
-                            timeP.textContent = message.messageTime;
-                            messageDiv.appendChild(messageP);
-                            messageDiv.appendChild(timeP);
-                            currentChat.appendChild(messageDiv);
-                            messageDiv.classList.add("acenterMessageDiv");
-                            messageP.classList.add("acenterMessage");
-                            timeP.classList.add("acenterMessageTime");
+                                let messageDiv = document.createElement("div");
+                                let timeP = document.createElement("span");
+                                let messageP = document.createElement("p");
+                                messageP.textContent = messages[i].messageContent;
+                                timeP.textContent = messages[i].messageTime;
+
+                                messageDiv.appendChild(messageP);
+                                messageDiv.appendChild(timeP);
+                                currentChat.appendChild(messageDiv);
+                                messageDiv.classList.add("acenterMessageDiv");
+                                messageP.classList.add("acenterMessage");
+                                timeP.classList.add("acenterMessageTime");
+                            }
                         }
                     }
+                    
                 })
             })(window.jQuery);
 
-            currentChat.scroll({ top: currentChat.scrollHeight, behavior: "smooth"})
         }
     </script>
 </main>
