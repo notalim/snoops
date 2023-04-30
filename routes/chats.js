@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import { chatData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
+import xss from 'xss';
 
 // TODO: Chat Routes
 
@@ -119,7 +120,8 @@ router.route("/acenter/:acid/:uid").put(async (req, res) => {
     try{
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
-        message = validation.checkMessage(req.body.message);
+        message = xss(req.body.message);
+        message = validation.checkMessage(message);
         let date = new Date();
         time = date.toLocaleDateString();
         time = time.concat(" ");
@@ -153,7 +155,8 @@ router.route("/user/:uid/:acid").put(async (req, res) => {
     try{
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
-        message = validation.checkMessage(req.body.message);
+        message = xss(req.body.message);
+        message = validation.checkMessage(message);
         let date = new Date();
         time = date.toLocaleDateString();
         time = time.concat(" ");

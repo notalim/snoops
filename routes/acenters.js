@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
-import xss from 'xss';
+import xss from "xss";
 
 // *: Adoption center Log In Page
 
@@ -10,7 +10,7 @@ router.route("/login-page").get(async (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
-    return res.render("ac-login");
+    return res.render("ac-login", {title: "Adoption Center Login"});
 });
 
 // *: Adoption center Log In
@@ -19,27 +19,31 @@ router.route("/login").post(async (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
+
     let email = xss(req.body.email);
     let password = xss(req.body.password);
+    let savedEmail;
 
     try {
         email = validation.checkEmail(email, "Email");
+        savedEmail = email;
     } catch (e) {
-        return res.status(400).json({ error: e });
+        return res.render("ac-login", {
+            title: "Adoption Center Login",
+            error: e.toString(),
+            email: savedEmail,
+        });
     }
 
     try {
-        const acenter = await acenterData.logInAdoptionCenter(
-            email,
-            password
-        );
+        const acenter = await acenterData.logInAdoptionCenter(email, password);
 
-        console.log(acenter);
+        // console.log(acenter);
         req.session.acenter = acenter;
         return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
         console.log(e);
-        return res.render("ac-login", { error: e.toString(), email });
+        return res.render("ac-login", { error: e.toString(), email: savedEmail});
     }
 });
 
@@ -47,7 +51,7 @@ router.get("/signup-page", (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
-    return res.render("ac-signup");
+    return res.render("ac-signup", {title: "Adoption Center Signup"});
 });
 
 // *: Sign up (Create) adoption center (POST /acenters)
@@ -61,28 +65,50 @@ router.route("/signup").post(async (req, res) => {
     let contactLastName = xss(req.body.contactLastName);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
-    
+
+    let savedEmail,
+        savedName,
+        savedContactFirstName,
+        savedContactLastName,
+        savedPhone,
+        savedAddress;
+
     // Validate request body
     try {
         email = validation.checkEmail(email, "Email");
+        savedEmail = email;
 
         name = validation.checkString(name, "Name");
+        savedName = name;
 
         contactFirstName = validation.checkName(
             contactFirstName,
             "Contact First Name"
         );
+        savedContactFirstName = contactFirstName;
 
         contactLastName = validation.checkName(
             contactLastName,
             "Contact Last Name"
         );
+        savedContactLastName = contactLastName;
 
         phone = validation.checkPhone(phone, "Phone");
+        savedPhone = phone;
 
         address = validation.checkString(address, "Address");
+        savedAddress = address;
     } catch (e) {
-        return res.status(400).json({ error: e });
+        return res.render("ac-signup", {
+            error: e.toString(),
+            title: "Adoption Center Signup",
+            email: savedEmail,
+            name: savedName,
+            contactFirstName: savedContactFirstName,
+            contactLastName: savedContactLastName,
+            phone: savedPhone,
+            address: savedAddress,
+        });
     }
     try {
         const acenter = await acenterData.createAdoptionCenter(
@@ -94,9 +120,18 @@ router.route("/signup").post(async (req, res) => {
             phone,
             address
         );
-        return res.status(200).json(acenter);
+        return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
-        return res.status(500).json({ error: e });
+        return res.render("ac-signup", {
+            error: e.toString(),
+            title: "Adoption Center Signup",
+            email: savedEmail,
+            name: savedName,
+            contactFirstName: savedContactFirstName,
+            contactLastName: savedContactLastName,
+            phone: savedPhone,
+            address: savedAddress,
+        });
     }
 });
 
@@ -124,7 +159,11 @@ router.route("/:id").get(async (req, res) => {
 
     try {
         const acenter = await acenterData.getAdoptionCenter(req.params.id);
-        return res.status(200).json(acenter);
+
+        return res.status(200).render("acenter-info", {
+            acenter: acenter,
+            key: process.env.GOOGLE_MAP_API_KEY,
+        });
     } catch (e) {
         return res.status(500).json({ error: e });
     }
@@ -144,7 +183,7 @@ router.route("/:id").put(async (req, res) => {
     let contactLastName = xss(req.body.contactLastName);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
-    
+
     // Validate request body
     try {
         id = validation.checkId(id, "ID", "PUT /acenters/:id");
@@ -204,18 +243,30 @@ router.route("/:id").delete(async (req, res) => {
     }
 });
 
-// TODO: POST /acenters/:id/dogs - Create dog for adoption center
+// *: POST /acenters/:id/dogs - Create dog for adoption center
 
-router.route("/:id/dogs").post(async (req, res) => {
+router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
+    //console.log("POST route called");
     let id = req.params.id;
 
-    // Decompose request body
-    let name = xss(req.body.name);
-    let dob = xss(req.body.dob);
-    let breeds = xss(req.body.breeds);
+    let name = req.body.name;
+    let dob = req.body.dob;
+    let breeds = req.body.breeds;
     let gender = xss(req.body.gender);
     let size = xss(req.body.size);
-    
+
+    // xss check
+    try {
+        name = xss(req.body.name);
+        dob = xss(req.body.dob);
+        breeds = xss(req.body.breeds);
+        gender = xss(req.body.gender);
+        size = xss(req.body.size);
+    } catch (e) {
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, error: e });
+    }
+
     try {
         // Validate the id
         id = validation.checkId(id, "Adoption center ID", "POST /:id/dogs");
@@ -225,14 +276,18 @@ router.route("/:id/dogs").post(async (req, res) => {
 
         dob = validation.checkDate(dob, "Date of Birth");
 
+        breeds = JSON.parse(breeds);
         breeds = validation.checkStringArray(breeds, "Breeds");
 
         gender = validation.checkGender(gender, "Gender");
 
-        size = validation.checkPetWeight(size, "Weight");
+        size = validation.checkPetWeight(parseInt(size), "Weight");
     } catch (e) {
-        return res.status(400).json({ error: e });
+        console.log(e);
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, error: e });
     }
+
     try {
         const dog = await acenterData.createDog(
             id,
@@ -242,9 +297,10 @@ router.route("/:id/dogs").post(async (req, res) => {
             gender,
             size
         );
-        return res.status(200).json(dog);
+        return res.redirect("/acenters/ac-dashboard/" + id);
     } catch (e) {
-        return res.status(500).json({ error: e });
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, error: e });
     }
 });
 
@@ -306,7 +362,7 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
     let breeds = xss(req.body.breeds);
     let gender = xss(req.body.gender);
     let size = xss(req.body.size);
-    
+
     try {
         // Validate the id
         id = validation.checkId(

@@ -1,14 +1,25 @@
 <html lang="en">
     <head>
-        <title>Snoops</title>
+        <title>{{title}}</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        ></script>
         <link rel="stylesheet" href="/styles/style.css" />
         <link rel="stylesheet" href="/styles/signin.css" />
         <link rel="stylesheet" href="/styles/signup.css" />
         <link rel="stylesheet" href="/styles/scroller.css" />
         <link rel="stylesheet" href="/styles/settings.css" />
         <link rel="stylesheet" href="/styles/chats.css" />
+        <link rel="stylesheet" href="/styles/modal.css" />
+        <link rel="stylesheet" href="/styles/ac-dashboard.css" />
+        <link rel="stylesheet" href="/styles/error.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+        />
+        <script src="/js/dashboard.js"></script>
     </head>
     <body class="main-page">
         <header>
@@ -34,6 +45,7 @@
                             >Sign up</a></li>
                     {{/if}}{{/if}}
                     <li><a href="/about">About</a></li>
+
                     <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
@@ -42,10 +54,5 @@
         <footer>
             <p>&copy; 2023 Snoops</p>
         </footer>
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-        crossorigin="anonymous"></script>
     </body>
 </html>

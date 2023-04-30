@@ -18,7 +18,6 @@ const createUser = async (
     phone,
     address
 ) => {
-
     const userCollection = await users();
 
     // Check email
@@ -48,10 +47,9 @@ const createUser = async (
 
     //Get LAT & LONG If possible
     let location;
-    try{
+    try {
         location = await validation.getLatLong(address, "Address");
-
-    } catch (e){
+    } catch (e) {
         throw e;
     }
 
@@ -69,7 +67,7 @@ const createUser = async (
         dogPreferences: {},
         likedDogs: [],
         seenDogs: [],
-        location: location
+        location: location,
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -120,8 +118,12 @@ const updateUser = async (
     email = validation.checkEmail(email, "Email");
 
     // Check password
-    password = validation.checkPassword(password, "Password");
-
+    if (password !== undefined && password !== null && password !== "") {
+        password = validation.checkPassword(password, "Password");
+    } else {
+        const user = await getUser(validatedId);
+        password = user.password;
+    }
     // Check first name
     firstName = validation.checkName(firstName, "First Name");
 
@@ -139,10 +141,9 @@ const updateUser = async (
 
     //Get new LAT & LONG if possible
     let location;
-    try{
+    try {
         location = await validation.getLatLong(address, "Address");
-
-    } catch (e){
+    } catch (e) {
         throw e;
     }
 
@@ -162,7 +163,7 @@ const updateUser = async (
         dogPreferences: oldUser.dogPreferences,
         likedDogs: oldUser.likedDogs,
         seenDogs: oldUser.seenDogs,
-        location: location
+        location: location,
     };
 
     const userCollection = await users();
@@ -217,11 +218,11 @@ const likeDog = async (userId, acenterId, dogId) => {
                 $push: {
                     likedDogs: {
                         acenterId: new ObjectId(acenterId),
-                        dogId: new ObjectId(dogId),
+                        _id: new ObjectId(dogId),
                     },
                     seenDogs: {
                         acenterId: new ObjectId(acenterId),
-                        dogId: new ObjectId(dogId),
+                        _id: new ObjectId(dogId),
                     },
                 },
             }
@@ -229,8 +230,8 @@ const likeDog = async (userId, acenterId, dogId) => {
     } else {
         throw "Dog is already liked.";
     }
-
-    return { user, success: true };
+    const newUser = await userCollection.findOne({ _id: new ObjectId(userId) });
+    return { newUser, success: true };
 };
 
 // Same as likeDog, but with different alias
@@ -264,7 +265,6 @@ const swipeLeft = async (userId, acenterId, dogId) => {
 
     return { user, success: true };
 };
-
 
 // Get all dogs that the user has not seen yet
 // ! If the user has seen all dogs, it currently throws, but we can change it to return an empty array

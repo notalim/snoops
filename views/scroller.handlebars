@@ -1,8 +1,13 @@
 <main class="scroller">
-    <button class="scroller-button"><</button>
+    <div id="error" class="error">
+        {{#if error}}
+            {{error}}
+        {{/if}}
+    </div>
+    <button class="scroller-button"></button>
     <div class="scroller-dog-container">
         <div class="scroller-dog-image-container">
-            <img id="dog-image" src="../assets/landing-dog.png" alt="dog" />
+            <img id="dog-image" src="{{dog.img}}" alt="{{dog.name}}" />
         </div>
         <div class="scroller-dog-info-container">
             <div class="scroller-dog-info-header">
@@ -15,8 +20,14 @@
             </div>
         </div>
         <div class="scroller-interaction-container">
-            <button class="scroller-interaction-button like">♥</button>
-            <button class="scroller-interaction-button dislike">X</button>
+            <button
+                class="scroller-interaction-button like"
+                id="likeButton"
+            >♥</button>
+            <button
+                class="scroller-interaction-button dislike"
+                id="dislikeButton"
+            >X</button>
         </div>
     </div>
     <button class="scroller-button">></button>
@@ -34,17 +45,24 @@
         let dogName = document.getElementById("dog-name");
         let dogBreeds = document.getElementById("dog-breeds");
         let dogAge = document.getElementById("dog-age");
+        let dogImage = document.getElementById("dog-image");
+        let dogDescription = document.getElementById("dog-description");
 
         dogName.textContent = dogsData[0].name;
         dogBreeds.textContent = breedName(dogsData[0].breeds);
         dogAge.textContent = dogsData[0].age;
+        dogImage.src = dogsData[0].img;
+        dogDescription.textContent = dogsData[0].description;
+
+        let dogId = dogsData[0]._id.toString();
+        let dogAcenterId = dogsData[0].acenterId.toString();
 
         let i = 0;
 
         let leftButton = document.getElementsByClassName("scroller-button")[0];
         let rightButton = document.getElementsByClassName("scroller-button")[1];
 
-        leftButton.addEventListener("click", () => {
+        function goBack() {
             if (i === 0) {
                 i = dogsData.length - 1;
             } else {
@@ -54,9 +72,11 @@
             dogName.textContent = dogsData[i].name;
             dogBreeds.textContent = breedName(dogsData[i].breeds);
             dogAge.textContent = dogsData[i].age;
-        });
+            dogImage.src = dogsData[i].img;
+            dogDescription.textContent = dogsData[i].description;
+        };
 
-        rightButton.addEventListener("click", () => {
+        function goForward(){
             if (i === dogsData.length) {
                 i = 0;
             } else {
@@ -66,7 +86,28 @@
             dogName.textContent = dogsData[i].name;
             dogBreeds.textContent = breedName(dogsData[i].breeds);
             dogAge.textContent = dogsData[i].age;
-        });
+            dogImage.src = dogsData[i].img;
+            dogDescription.textContent = dogsData[i].description;
+            dogId = dogsData[i]._id.toString();
+            dogAcenterId = dogsData[i].acenterId.toString();
+        };
+
+        //like button post request
+         $("#likeButton").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: `/users/{{user._id}}/like/${dogAcenterId}/${dogId}`,
+                type: "POST",
+                data: {dogId: dogsData[i]._id},
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (err) {
+                    console.log(err);
+                },
+            });
+            goForward();
+        }); 
 
 
     </script>

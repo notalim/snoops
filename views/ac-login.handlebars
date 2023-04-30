@@ -5,11 +5,11 @@
         </div>
         <div class="form-container">
             <h2>Adoption Center Log in</h2>
-            <div
-                id="error-message"
-                class="alert alert-danger"
-                style="display: none;"
-            ></div>
+            <div id="error" class="error">
+                {{#if error}}
+                    {{error}}
+                {{/if}}
+            </div>
             <form id="ac-login-form" method="POST" action="/acenters/login">
                 <div class="form-group">
                     <label for="email">Email</label>

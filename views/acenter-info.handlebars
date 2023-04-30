@@ -1,0 +1,24 @@
+<main>
+    <section>
+        <div class="acenter-info">
+            <h2>{{acenter.name}}</h2>
+            <img src="{{acenter.img}}" alt="{{acenter.name}}">
+            <br>
+            <p>Email: {{acenter.email}}</p>
+            <p>Primary Contact: {{acenter.contactFirstName}} {{acenter.contactLastName}}</p>
+            <p>Phone Number: {{acenter.phone}}</p>
+            {{#if acenter.website}}
+            <p>Website: {{acenter.website}}</p>
+            {{/if}}
+            {{#if acenter.workingHours}}
+            <p>Working Hours: {{acenter.workingHours}}</p>
+            {{/if}}
+            
+        </div>
+        <div class="acenter-location">
+            <p>Address: {{acenter.address}}</p>
+            <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?q={{acenter.location.lat}}%2C%20{{acenter.location.long}}&key={{key}}"></iframe>
+
+        </div>
+    </section>
+</main>

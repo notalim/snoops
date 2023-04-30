@@ -1,10 +1,9 @@
 import { Router } from "express";
 const router = Router();
-import { acenterData, userData, extData } from "../data/index.js";
-
+import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 
-// *: Extension Routes to users and adoption centers
+// *: Extension Algorithm Routes for Users
 
 // *: Tinder Scroller (Default user page redirect)
 
@@ -27,18 +26,10 @@ router.get("/scroller/:id", async (req, res) => {
         }
 
         const { dogs } = await userData.getUnseenDogs(userId);
-        res.render("scroller", { dogs: JSON.stringify(dogs) });
+        return res.render("scroller", { dogs: JSON.stringify(dogs) });
     } catch (error) {
-        res.status(500).json({ error: error.toString() });
+        return res.status(500).json({ error: error.toString() });
     }
-});
-
-// *: Log Out User
-
-router.get("/logout", async (req, res) => {
-    req.session.destroy();
-    res.redirect("/");
-    return;
 });
 
 // *: User Settings Page
@@ -57,10 +48,28 @@ router.get("/settings/:id", async (req, res) => {
             });
         }
         const user = req.session.user;
+
+        //refresh likedDogs to have actual dog objects every time they visit settings page
+        //this will ensure that no matter what is changed we dont have redundancy in our database
+        //and the user can see the updated dog information.
+        if(user.likedDogs.length > 0) {
+            for(let i = 0; i < user.likedDogs.length; i++) {
+                const dog = await acenterData.getDogFromAcenter(user.likedDogs[i].acenterId,user.likedDogs[i]._id);
+                user.likedDogs[i] = dog;
+            }
+        }
         res.render("settings", { user });
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }
+});
+
+// *: Log Out User
+
+router.get("/logout", async (req, res) => {
+    req.session.destroy();
+    res.redirect("/");
+    return;
 });
 
 export default router;

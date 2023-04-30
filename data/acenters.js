@@ -226,16 +226,25 @@ const createDog = async (
     // Check dogSize
     dogSize = validation.checkPetWeight(dogSize, "Dog Size");
 
+    // Gets the random placeholder image
+    function getRandomDogPlaceholder() {
+        const min = 1;
+        const max = 16;
+        const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+        return `/assets/dog-placeholders/dog-placeholder-${randomNum}.png`;
+    }
+
     let newDog = {
         _id: new ObjectId(),
+        acenterId: new ObjectId(acenterId),
         name: dogName,
         dob: dogDOB,
         breeds: dogBreeds,
         gender: dogGender,
         size: dogSize,
-        img: null,
+        img: getRandomDogPlaceholder(),
         description: null,
-        adoptionStatus: null,
+        adoptionStatus: "Available",
     };
 
     const updatedInfo = await acenterCollection.updateOne(
@@ -263,6 +272,7 @@ const getAllDogs = async (acenterId) => {
     return acenter.dogList;
 };
 
+//can likely simplify this if we use acenterId as a foreign key in the dog schema
 const getDogFromAcenter = async (acenterId, dogId) => {
     acenterId = validation.checkId(acenterId, "ID");
     dogId = validation.checkId(dogId, "ID");
@@ -327,6 +337,7 @@ const updateDog = async (
 
     const updatedDog = {
         _id: new ObjectId(dogId),
+        acenterId: new ObjectId(acenterId),
         name: dogName,
         dob: dogDOB,
         breeds: dogBreeds,
