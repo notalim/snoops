@@ -12,7 +12,7 @@
         <div id="current-chat" class="current-chat"></div>
         <div id="chatTextDiv">
             <input class="textBox" type="text" name="sentMessage" id="sentMessage">
-            <button class="button" type="submit" id="sendButton">Submit</button>
+            <button class="button" type="submit" id="sendButton">Send</button>
         </div>
         {{/if}}
     </div>
@@ -23,14 +23,17 @@
         let chatTextBox = document.getElementById("sentMessage");
         let currChatInfo;
         for(let chat of chats){
+            //needa change this
             let aCenterID = chat.getElementsByClassName("acid")[0];
             let requestConfig = {
                 method: 'GET',
                 url: `/acenters/${aCenterID.textContent.split(" ")[1]}`
             };
+            //putting name for messages
             (function ($) {
                 $.ajax(requestConfig).then(function (responseMessage) {
                     let aCenterName = document.createElement("p");
+                    aCenterName.classList.add("recName")
                     aCenterName.textContent = responseMessage.name;
                     chat.appendChild(aCenterName)
                 })
@@ -38,7 +41,7 @@
             chat.addEventListener("click", async() =>{
                 for(let _chat of chats){
                     if(_chat != chat){
-                        _chat.style.color = "black"
+                        _chat.classList.remove("toggledChat");
                     }
                 }
                 while(currentChat.childElementCount > 0){
@@ -53,7 +56,7 @@
 
                 let uidText = uid[0].textContent.split(" ")[1];
 
-                chat.style.color = "red";
+                chat.classList.add("toggledChat");
 
                 let requestConfig = {
                     method: 'GET',
@@ -73,9 +76,9 @@
                                 messageDiv.appendChild(timeP);
                                 messageDiv.appendChild(messageP);
                                 currentChat.appendChild(messageDiv);
-                                messageDiv.classList.add("userMessageDiv");
-                                messageP.classList.add("userMessage");
-                                timeP.classList.add("userMessageTime");
+                                messageDiv.classList.add("senderMessageDiv");
+                                messageP.classList.add("senderMessage");
+                                timeP.classList.add("senderMessageTime");
                             }else{
                                 //console.log("Acenter: " + message.messageContent);
                                 let messageDiv = document.createElement("div");
@@ -86,12 +89,12 @@
                                 messageDiv.appendChild(messageP);
                                 messageDiv.appendChild(timeP);
                                 currentChat.appendChild(messageDiv);
-                                messageDiv.classList.add("acenterMessageDiv");
-                                messageP.classList.add("acenterMessage");
-                                timeP.classList.add("acenterMessageTime");
+                                messageDiv.classList.add("receiverMessageDiv");
+                                messageP.classList.add("receiverMessage");
+                                timeP.classList.add("receiverMessageTime");
                             }
-                            let userMessages = currentChat.querySelectorAll("div.userMessageDiv");
-                            let acenterMessages = currentChat.querySelectorAll("div.acenterMessageDiv");
+                            let userMessages = currentChat.querySelectorAll("div.senderMessageDiv");
+                            let acenterMessages = currentChat.querySelectorAll("div.receiverMessageDiv");
                             //console.log(userMessages[userMessages.length - 1]);
                             userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
                         }
@@ -109,6 +112,14 @@
             console.log(chatText)
             console.log(chatTextBox)
             try{
+                if(currChatInfo === undefined){
+                    throw "Cant send message to nothing"
+                }
+            }catch(e){
+                console.log(e);
+                return;
+            }
+            try{
                 if(!chatText){
                     throw `You must supply a message`;
                 }
@@ -118,6 +129,7 @@
                 chatText = chatText.trim();
             }catch(e){
                 console.log(e);
+                return;
             }
             let acid = currChatInfo.getElementsByClassName("acid");
             let uid = currChatInfo.getElementsByClassName("uid");
@@ -145,12 +157,12 @@
                     messageDiv.appendChild(timeSpan)
                     messageDiv.appendChild(messageP);
                     currentChat.appendChild(messageDiv);
-                    timeSpan.classList.add("userMessageTime")
-                    messageDiv.classList.add("userMessageDiv");
-                    messageP.classList.add("userMessage");
+                    timeSpan.classList.add("senderMessageTime")
+                    messageDiv.classList.add("senderMessageDiv");
+                    messageP.classList.add("senderMessage");
 
-                    let userMessages = currentChat.querySelectorAll("div.userMessageDiv");
-                    let acenterMessages = currentChat.querySelectorAll("div.acenterMessageDiv");
+                    let userMessages = currentChat.querySelectorAll("div.senderMessageDiv");
+                    let acenterMessages = currentChat.querySelectorAll("div.receiverMessageDiv");
                     //scroll by height;
                     
                     if(userMessages[userMessages.length - 1].getBoundingClientRect().top > 
@@ -165,16 +177,14 @@
             chatTextBox.value = "";
             
         })
-
-        setInterval(getMessageAjax, 10000);
+        if(currChatInfo !== undefined){
+            setInterval(getMessageAjax, 10000);
+        }
 
         function getMessageAjax(){
             console.log("firing interval");
             console.log(currentChat.childElementCount)
-            
-            //while(currentChat.childElementCount > 0){
-            //    currentChat.removeChild(currentChat.lastChild);
-            //}
+
             let acid = currChatInfo.getElementsByClassName("acid");
             let uid = currChatInfo.getElementsByClassName("uid");
 
@@ -203,9 +213,9 @@
                                 messageDiv.appendChild(timeP);
                                 messageDiv.appendChild(messageP);
                                 currentChat.appendChild(messageDiv);
-                                messageDiv.classList.add("userMessageDiv");
-                                messageP.classList.add("userMessage");
-                                timeP.classList.add("userMessageTime");
+                                messageDiv.classList.add("senderMessageDiv");
+                                messageP.classList.add("senderMessage");
+                                timeP.classList.add("senderMessageTime");
                             }else{
                             //console.log("Acenter: " + message.messageContent);
                                 let messageDiv = document.createElement("div");
@@ -217,9 +227,9 @@
                                 messageDiv.appendChild(messageP);
                                 messageDiv.appendChild(timeP);
                                 currentChat.appendChild(messageDiv);
-                                messageDiv.classList.add("acenterMessageDiv");
-                                messageP.classList.add("acenterMessage");
-                                timeP.classList.add("acenterMessageTime");
+                                messageDiv.classList.add("receiverMessageDiv");
+                                messageP.classList.add("receiverMessage");
+                                timeP.classList.add("receiverMessageTime");
                             }
                         }
                     }

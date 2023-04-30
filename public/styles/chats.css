@@ -40,6 +40,24 @@
     border-bottom: 2px solid black;
 }
 
+.recName{
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 5px
+}
+
+.toggledChat, .toggledChat .recName{
+    background-color: #ffd99f;
+}
+.toggledChat{
+    border: 1px solid black;
+    border-bottom: 2px solid black;
+    -webkit-box-shadow: inset 0px 0px 5px black;
+    -moz-box-shadow: inset 0px 0px 5px black;
+    box-shadow: inset 0px 0px 5px black;
+    outline: none;
+}
+
 .textbox{
     width: 50%;
     height: 50px;
@@ -48,24 +66,38 @@
     margin: auto;
     position: relative;
     top: 20%;
+    border-radius: 10px;
+    border: 1px solid black;
 }
 
-.button{
+#sendButton{
     display: block;
+    text-align: center;
+    border: none;
     margin: auto;
     position: relative;
     top: 20%;
-    margin-top: 5px;
+    margin-top: 10px;
+    padding: 5px 20px;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 15px;
+    border-color: #2196F3;
+    background-color: plum;
 }
 
-.userMessageDiv{
+#sendButton:active{
+    -webkit-box-shadow: inset 0px 0px 5px black;
+    -moz-box-shadow: inset 0px 0px 5px black;
+    box-shadow: inset 0px 0px 5px black;
+    outline: none;
+}
+
+.senderMessageDiv{
     text-align: right;
 }
 
-.acenterMessageDiv{
-}
-
-.userMessage{
+.senderMessage{
     display: inline-block;
     width: fit-content;
     height: fit-content;
@@ -80,7 +112,7 @@
     word-wrap: break-word;
 }
 
-.acenterMessage{
+.receiverMessage{
     display: inline-block;
     text-align: left;
     width: fit-content; 
@@ -97,7 +129,7 @@
     word-wrap: break-word;
 } 
 
-.userMessageTime{
+.senderMessageTime{
     display: inline-block;
     font-size: x-small;
     color: gray;
@@ -107,7 +139,7 @@
     top: 5px;
 }
 
-.acenterMessageTime{
+.receiverMessageTime{
     display: inline-block;
     font-size: x-small;
     color: gray;
