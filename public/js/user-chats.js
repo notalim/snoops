@@ -7,11 +7,12 @@ let chats = document.getElementsByClassName("chat");
             let aCenterID = chat.getElementsByClassName("acid")[0];
             let requestConfig = {
                 method: 'GET',
-                url: `/acenters/${aCenterID.textContent.split(" ")[1]}`
+                url: `/acenters/ac-dashboard/${aCenterID.textContent.split(" ")[1]}`
             };
             //putting name for messages
             (function ($) {
                 $.ajax(requestConfig).then(function (responseMessage) {
+                    console.log(responseMessage)
                     let name = responseMessage.substring(responseMessage.indexOf("<h2>") + 4,
                         responseMessage.indexOf("</h2>"))
                     let aCenterName = document.createElement("p");
