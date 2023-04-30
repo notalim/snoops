@@ -37,7 +37,7 @@ router.route("/user/:uid").get(async (req, res) => {
                 );
             }
         });
-        return res.status(200).render("chats", {chats: sorted});
+        return res.status(200).render("user-chats", {chats: sorted});
     } catch (e) {
         return res.status(500).render("no-chats", {error: e});
     }
@@ -67,7 +67,7 @@ router.route("/acenter/:acid").get(async (req, res) => {
                 );
             }
         });
-        return res.status(200).json(sorted);
+        return res.status(200).render("ac-chats", {chats: sorted});
     } catch (e) {
         return res.status(500).render("no-chats", {error: e});
     }

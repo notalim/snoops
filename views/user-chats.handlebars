@@ -1,0 +1,22 @@
+<main>
+    <div class="chat-container">
+        {{#if chats}}
+        <div class="all-chats">
+            {{#each chats}}
+            <div class="chat">
+                <p class="uid">User {{this.userId}}</p>
+                <p class="acid">User {{this.centerId}}</p>
+            </div>
+            {{/each}}
+        </div>
+        <div id="current-chat" class="current-chat"></div>
+        <div id="chatTextDiv">
+            <input class="textBox" type="text" name="sentMessage" id="sentMessage">
+            <button class="button" type="submit" id="sendButton">Send</button>
+        </div>
+        {{/if}}
+    </div>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/public/js/user-chats.js"></script>
+</main>

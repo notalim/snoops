@@ -177,3 +177,34 @@ footer {
 footer p {
     background-color: var(--footer-background-color);
 }
+
+.aboutContainer{
+    background-color: #fce5c3;
+    height: 83%;
+    width: 60%;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.aboutTitle{
+    margin-left: 20px;
+    background-color: #fce5c3;
+    font-size: 3.2rem;
+    text-align: left;
+}
+
+.aboutText{
+    background-color: #fce5c3;
+    width: 80%;
+    margin: auto;
+    text-indent: 50px;
+    margin-top: 50px;
+    font-size: 1.3rem;
+    text-align: left;
+}
+
+.aboutSplitter{
+    height: 10px;
+}

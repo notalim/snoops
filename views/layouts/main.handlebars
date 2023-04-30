@@ -28,25 +28,24 @@
                 <ul>
                     {{#if user}}
 
-                        <li><a href="/users/settings/{{user._id}}">Hello,
-                                {{user.firstName}}!</a></li>
+                        <li><a href="/users/settings/{{user._id}}">Hello, {{user.firstName}}!</a></li>
+                        <li><a href="/chats/user/{{user._id}}">Messages</a></li>
                         <li><a href="/users/logout">Log out</a></li>
-                    {{else}}
-                        {{#if acenter}}
-                            <li><a
-                                    href="/acenters/ac-dashboard/{{acenter._id}}"
-                                >Hello, {{acenter.name}}!</a></li>
-                            <li><a href="/acenters/logout">Log out</a></li>
+                    {{else }} {{#if acenter}}
+                        <li><a href="/acenters/ac-dashboard/{{acenter._id}}">Hello, {{acenter.name}}!</a></li>
+                        <li><a href="/chats/acenter/{{acenter._id}}">Messages</a></li>
+                        <li><a href="/acenters/logout">Log out</a></li>
 
-                        {{else}}
-                            <li class="auth-links"><a
-                                    href="/users/login-page"
-                                >Log in</a></li>
-                            <li class="auth-links"><a
-                                    href="/users/signup-page"
-                                >Sign up</a></li>
-                        {{/if}}{{/if}}
-                    <li><a href="#">About</a></li>
+                    {{else}}
+                        <li class="auth-links"><a
+                                href="/users/login-page"
+                            >Log in</a></li>
+                        <li class="auth-links"><a
+                                href="/users/signup-page"
+                            >Sign up</a></li>
+                    {{/if}}{{/if}}
+                    <li><a href="/about">About</a></li>
+
                     <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
