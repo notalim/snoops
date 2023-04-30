@@ -12,10 +12,11 @@ let chats = document.getElementsByClassName("chat");
             //putting name for messages
             (function ($) {
                 $.ajax(requestConfig).then(function (responseMessage) {
-                    console.log(responseMessage)
+                    let name = responseMessage.substring(responseMessage.indexOf("<h2>") + 4,
+                        responseMessage.indexOf("</h2>"))
                     let aCenterName = document.createElement("p");
                     aCenterName.classList.add("recName")
-                    aCenterName.textContent = responseMessage.name;
+                    aCenterName.textContent = name;
                     chat.appendChild(aCenterName)
                 })
             })(window.jQuery);
