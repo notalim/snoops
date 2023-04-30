@@ -35,7 +35,7 @@ router.route("/login").post(async (req, res) => {
     try {
         const user = await userData.loginUser(email, password);
         req.session.user = user;
-        console.log(user);
+        // console.log(user);
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
         res.render("user-login", { error: e.toString(), title: "User Login", email: savedEmail });
