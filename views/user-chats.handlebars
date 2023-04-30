@@ -96,7 +96,22 @@
                             let userMessages = currentChat.querySelectorAll("div.senderMessageDiv");
                             let acenterMessages = currentChat.querySelectorAll("div.receiverMessageDiv");
                             //console.log(userMessages[userMessages.length - 1]);
-                            userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                            if(acenterMessages[acenterMessages.length - 1] === undefined && userMessages[userMessages.length - 1] === undefined){
+                            
+                            }else if(acenterMessages[acenterMessages.length - 1] === undefined){
+                                userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                            }else if(userMessages[userMessages.length - 1] === undefined){
+                                acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                            }else{
+                                console.log(acenterMessages[acenterMessages.length - 1])
+                                console.log(userMessages[userMessages.length - 1])
+                                if(acenterMessages[acenterMessages.length - 1].getBoundingClientRect().top > 
+                                    userMessages[userMessages.length - 1].getBoundingClientRect().top){
+                                        acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                                }else{
+                                    userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                                }
+                            }
                         }
                     })
                 })(window.jQuery);

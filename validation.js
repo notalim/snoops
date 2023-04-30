@@ -236,8 +236,11 @@ export function verifyPassword(password, hash) {
 export function checkMessage(message, varName) {
     message = checkString(message, "message");
     let filter = new Filter();
-    filter.addWords("penis", "vagina")
-    message = filter.clean(message).trim();
+    try{
+        message = filter.clean(message).trim();
+    }catch(e){
+        //console.log(e);
+    }
     return message;
 }
 
