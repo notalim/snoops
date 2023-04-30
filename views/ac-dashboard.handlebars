@@ -75,7 +75,9 @@
             >
                 {{#each dogs}}
                     <div
+                        id="dog-card"
                         class="dog-card"
+                        data-dog-id="{{this._id}}"
                         data-dob="{{this.dob}}"
                         data-size="{{this.size}}"
                         data-gender="{{this.gender}}"
@@ -152,6 +154,37 @@
                 </form>
             </div>
         </div>
+        <div id="update-dog-modal" class="modal">
+    <div class="update-dog-modal-content">
+        <span class="update-dog-close">&times;</span>
+        <h2 class="update-dog-header">Update Dog Information</h2>
+        <form class="update-dog-form">
+            <input type="text" name="name" id="name" placeholder="Name" />
+            <input type="date" name="dob" id="dob" placeholder="Date of Birth" />
+            <input type="text" name="breeds" id="breeds" placeholder="Breeds" />
+            <select name="gender" id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <select name="size" id="size">
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+                <option value="extra-large">Extra Large</option>
+            </select>
+            <input type="text" name="description" id="description" placeholder="Description" />
+            <select name="adoptionStatus" id="adoptionStatus">
+                <option value="available">Available</option>
+                <option value="pending">Pending</option>
+                <option value="adopted">Adopted</option>
+            </select>
+            <label for="image">Dog Image</label>
+                        <input type="file" name="image" id="image" />
+            <input style="display: none;" type="hidden" name="_method" id="_method" value="PUT">
+            <button class="update-dog-submit-btn" type="submit">Save</button>
+        </form>
+    </div>
+</div>
     </div>
 </main>
 

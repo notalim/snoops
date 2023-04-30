@@ -15,7 +15,6 @@
 .graphic-image img {
     flex: 1;
     height: 500px;
-    background-image: url(../../images/dog-image.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
