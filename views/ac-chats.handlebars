@@ -23,19 +23,21 @@
         let chatTextBox = document.getElementById("sentMessage");
         let currChatInfo;
         for(let chat of chats){
-            //needa change this
-            let aCenterID = chat.getElementsByClassName("acid")[0];
+            //to get all users
+            let userID = chat.getElementsByClassName("uid")[0];
             let requestConfig = {
                 method: 'GET',
-                url: `/acenters/${aCenterID.textContent.split(" ")[1]}`
+                url: `/users/${userID.textContent.split(" ")[1]}`
             };
             //putting name for messages
             (function ($) {
                 $.ajax(requestConfig).then(function (responseMessage) {
-                    let aCenterName = document.createElement("p");
-                    aCenterName.classList.add("recName")
-                    aCenterName.textContent = responseMessage.name;
-                    chat.appendChild(aCenterName)
+                    let name = responseMessage.substring(responseMessage.indexOf("<h2>") + 4,
+                        responseMessage.indexOf("</h2>"))
+                    let userName = document.createElement("p");
+                    userName.classList.add("recName")
+                    userName.textContent = name;
+                    chat.appendChild(userName)
                 })
             })(window.jQuery);
             chat.addEventListener("click", async() =>{
@@ -53,21 +55,21 @@
                 let uid = chat.getElementsByClassName("uid");
 
                 let acidText = acid[0].textContent.split(" ")[1];
-
+                console.log(acidText)
                 let uidText = uid[0].textContent.split(" ")[1];
 
                 chat.classList.add("toggledChat");
 
                 let requestConfig = {
                     method: 'GET',
-                    url: `/chats/user/${uidText}/${acidText}`
+                    url: `/chats/acenter/${acidText}/${uidText}`
                 };
                 (function ($) {
                     $.ajax(requestConfig).then(function (responseMessage){
                         let messages = responseMessage.messages;
                         for(let message of messages){
-                            if(message.senderId === uidText){
-                                //console.log("User: " + message.messageContent)
+                            if(message.senderId === acidText){
+                                //console.log("Acenter: " + message.messageContent)
                                 let messageDiv = document.createElement("div");
                                 let timeP = document.createElement("span");
                                 let messageP = document.createElement("p");
@@ -80,7 +82,7 @@
                                 messageP.classList.add("senderMessage");
                                 timeP.classList.add("senderMessageTime");
                             }else{
-                                //console.log("Acenter: " + message.messageContent);
+                                //console.log("User: " + message.messageContent);
                                 let messageDiv = document.createElement("div");
                                 let timeP = document.createElement("span");
                                 let messageP = document.createElement("p");
@@ -93,14 +95,30 @@
                                 messageP.classList.add("receiverMessage");
                                 timeP.classList.add("receiverMessageTime");
                             }
-                            let userMessages = currentChat.querySelectorAll("div.senderMessageDiv");
-                            let acenterMessages = currentChat.querySelectorAll("div.receiverMessageDiv");
-                            //console.log(userMessages[userMessages.length - 1]);
+
+                        }
+                        
+                        let acenterMessages = currentChat.querySelectorAll("div.senderMessageDiv");
+                        let userMessages = currentChat.querySelectorAll("div.receiverMessageDiv");
+                        if(acenterMessages[acenterMessages.length - 1] === undefined && userMessages[userMessages.length - 1] === undefined){
+                            
+                        }else if(acenterMessages[acenterMessages.length - 1] === undefined){
                             userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                        }else if(userMessages[userMessages.length - 1] === undefined){
+                            acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                        }else{
+                            console.log(acenterMessages[acenterMessages.length - 1])
+                            console.log(userMessages[userMessages.length - 1])
+                            if(acenterMessages[acenterMessages.length - 1].getBoundingClientRect().top > 
+                                userMessages[userMessages.length - 1].getBoundingClientRect().top){
+                                    acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                            }else{
+                                userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                            }
                         }
                     })
                 })(window.jQuery);
-                console.log("here");
+                console.log("here2");
 
             })
         }
@@ -140,7 +158,7 @@
 
             let requestConfig = {
                 method: 'PUT',
-                url: `/chats/user/${uidText}/${acidText}`,
+                url: `/chats/acenter/${acidText}/${uidText}`,
                 contentType: 'application/json',
                 data: JSON.stringify({
                     message: chatText,
@@ -161,29 +179,31 @@
                     messageDiv.classList.add("senderMessageDiv");
                     messageP.classList.add("senderMessage");
 
-                    let userMessages = currentChat.querySelectorAll("div.senderMessageDiv");
-                    let acenterMessages = currentChat.querySelectorAll("div.receiverMessageDiv");
+                    let acenterMessages = currentChat.querySelectorAll("div.senderMessageDiv");
+                    let userMessages = currentChat.querySelectorAll("div.receiverMessageDiv");
                     //scroll by height;
                     
-                    if(userMessages[userMessages.length - 1].getBoundingClientRect().top > 
-                        acenterMessages[acenterMessages.length - 1].getBoundingClientRect().top){
+                    if(acenterMessages[acenterMessages.length - 1].getBoundingClientRect().top > 
+                    userMessages[userMessages.length - 1].getBoundingClientRect().top){
+                        acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                    }else{
                             userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
-                        }else{
-                            acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
-                        }
+                    }
                     
                 })
             })(window.jQuery); 
             chatTextBox.value = "";
             
         })
-        if(currChatInfo !== undefined){
-            setInterval(getMessageAjax, 10000);
-        }
+
+        setInterval(getMessageAjax, 10000);
 
         function getMessageAjax(){
             console.log("firing interval");
             console.log(currentChat.childElementCount)
+            if(currChatInfo === undefined){
+                return;
+            }
 
             let acid = currChatInfo.getElementsByClassName("acid");
             let uid = currChatInfo.getElementsByClassName("uid");
@@ -194,7 +214,7 @@
 
             let requestConfig = {
                 method: 'GET',
-                url: `/chats/user/${uidText}/${acidText}`
+                url: `/chats/acenter/${acidText}/${uidText}`
             };
             (function ($) {
                 $.ajax(requestConfig).then(function (responseMessage){
@@ -202,7 +222,7 @@
                     let messages = responseMessage.messages;
                     if(messages.length > currentChat.childElementCount){
                         for(let i = currentChat.childElementCount; i < messages.length; i++){
-                            if(messages[i].senderId === uidText){
+                            if(messages[i].senderId === acidText){
                             //console.log("User: " + message.messageContent)
                                 let messageDiv = document.createElement("div");
                                 let timeP = document.createElement("span");

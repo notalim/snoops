@@ -31,6 +31,7 @@
             //putting name for messages
             (function ($) {
                 $.ajax(requestConfig).then(function (responseMessage) {
+                    console.log(responseMessage)
                     let aCenterName = document.createElement("p");
                     aCenterName.classList.add("recName")
                     aCenterName.textContent = responseMessage.name;
@@ -176,13 +177,15 @@
             chatTextBox.value = "";
             
         })
-        if(currChatInfo !== undefined){
-            setInterval(getMessageAjax, 10000);
-        }
+        
+        setInterval(getMessageAjax, 10000);
 
         function getMessageAjax(){
             console.log("firing interval");
             console.log(currentChat.childElementCount)
+            if(currChatInfo === undefined){
+                return;
+            }
 
             let acid = currChatInfo.getElementsByClassName("acid");
             let uid = currChatInfo.getElementsByClassName("uid");
