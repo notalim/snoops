@@ -285,6 +285,11 @@ const swipeLeft = async (userId, acenterId, dogId) => {
 // Get all dogs that the user has not seen yet
 // ! If the user has seen all dogs, it currently throws, but we can change it to return an empty array
 // limit is the number of dogs to return
+
+    //this does NOT work atm for some reason
+
+
+
 const getUnseenDogs = async (userId, limit = 10) => {
     userId = validation.checkId(userId, "User ID");
 
