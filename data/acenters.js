@@ -220,6 +220,13 @@ const createDog = async (
     // Check dogBreeds
     dogBreeds = validation.checkStringArray(dogBreeds, "Dog Breeds");
 
+    //turn the first letter of each breed to uppercase
+    dogBreeds = dogBreeds.map((breed) => {
+        let breedStartLetter = breed.charAt(0);
+        let restOfBreed = breed.slice(1);
+        return breedStartLetter.toUpperCase() + restOfBreed;
+    });
+
     // Check dogGender
     dogGender = validation.checkGender(dogGender, "Dog Gender");
 
@@ -328,6 +335,13 @@ const updateDog = async (
 
     // Check dogBreeds
     dogBreeds = validation.checkStringArray(dogBreeds, "Dog breeds");
+
+    //turn the first letter of each breed to uppercase
+    dogBreeds = dogBreeds.map((breed) => {
+        let breedStartLetter = breed.charAt(0);
+        let restOfBreed = breed.slice(1);
+        return breedStartLetter.toUpperCase() + restOfBreed;
+    });
 
     // Check dogGender
     dogGender = validation.checkGender(dogGender, "Dog gender");
