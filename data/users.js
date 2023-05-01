@@ -63,7 +63,7 @@ const createUser = async (
         dob: dob,
         phone: phone,
         address: address,
-        img: null,
+        img: "/assets/No_Image_Available.jpg",
         dogPreferences: {},
         likedDogs: [],
         seenDogs: [],

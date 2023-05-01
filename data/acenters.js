@@ -72,7 +72,7 @@ const createAdoptionCenter = async (
         address: address,
         workingHours: null,
         website: null,
-        img: null,
+        img: "/assets/No_Image_Available.jpg",
         dogList: [],
         location: location
     };
