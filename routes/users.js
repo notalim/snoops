@@ -296,4 +296,49 @@ router.route("/:id/like/:acenterId/:dogId").post(async (req, res) => {
     }
 });
 
+// *: Dislike a dog
+
+router.route("/:id/dislike/:acenterId/:dogId").post(async (req, res) => {
+    // Validate the ids
+    let id = xss(req.params.id);
+    let dogId = xss(req.params.dogId);
+    let acenterId = xss(req.params.acenterId);
+
+    try {
+        id = validation.checkId(
+            id, 
+            "ID", 
+            "POST /users/:id/dislike/:dogId"
+        );
+
+        dogId = validation.checkId(
+            dogId,
+            "Dog ID",
+            "POST /users/:id/dislike/:dogId"
+        );
+
+        acenterId = validation.checkId(
+            acenterId,
+            "Animal Center ID",
+            "POST /users/:id/dislike/:dogId"
+        );
+
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
+
+    try {
+        const user = await userData.swipeLeft(id, acenterId, dogId);
+        if(user.success){
+            req.session.user = user.newUser;
+            return res.status(200).json(user.success);
+        }
+        else{
+            return res.status(403).json({error: 'Invalid Request'});
+        }
+    } catch (e) {
+        return res.status(500).json({ error: e });
+    }
+});
+
 export default router;

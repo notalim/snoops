@@ -204,12 +204,6 @@ const likeDog = async (userId, acenterId, dogId) => {
     if (!user) {
         throw `User not found with this Id ${userId}`;
     }
-    
-    // const alreadyLiked = user.likedDogs.some(
-    //     (entry) =>
-    //         entry.acenterId.toString() === acenterId &&
-    //         entry._id.toString() === _id
-    // );
 
     //check if already liked in the user likedDogs
     const alreadyLiked = false;
@@ -260,17 +254,30 @@ const swipeLeft = async (userId, acenterId, dogId) => {
         throw `User not found with this Id ${userId}`;
     }
 
-    const updateInfo = await userCollection.updateOne(
-        { _id: new ObjectId(userId) },
-        {
-            $push: {
-                seenDogs: {
-                    acenterId: new ObjectId(acenterId),
-                    dogId: new ObjectId(dogId),
-                },
-            },
+    //check if already seen in the user seenDogs
+    let alreadySeen = false;
+    for(let i = 0; i < user.seenDogs.length; i++) {
+        if(user.seenDogs[i]._id.toString() === dogId) {
+            alreadySeen = true;
+            break;
         }
-    );
+    }
+
+    if(!alreadySeen) {
+        const updateInfo = await userCollection.updateOne(
+            { _id: new ObjectId(userId) },
+            {
+                $push: {
+                    seenDogs: {
+                        acenterId: new ObjectId(acenterId),
+                        _id: new ObjectId(dogId),
+                    },
+                },
+            }
+        );
+    } else {
+        throw "Dog is already seen.";
+    }
 
     return { user, success: true };
 };

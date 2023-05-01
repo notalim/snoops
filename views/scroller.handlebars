@@ -4,8 +4,7 @@
             {{error}}
         {{/if}}
     </div>
-    <button class="scroller-button"></button>
-    <div class="scroller-dog-container">
+    <div class="scroller-dog-container" id="content">
         <div class="scroller-dog-image-container">
             <img id="dog-image" src="{{dog.img}}" alt="{{dog.name}}" />
         </div>
@@ -30,9 +29,15 @@
             >X</button>
         </div>
     </div>
-    <button class="scroller-button">></button>
     <script>
         let dogsData = JSON.parse('{{{dogs}}}');
+
+        if(dogsData.length === 0) {
+            document.getElementById("error").textContent = "No dogs found! You've looked through all the dogs!";
+            let content = document.getElementById("content");
+            //delete content so people cannot interact with it.
+            content.parentNode.removeChild(content);
+        }
     
         function breedName(breeds) {
             if (breeds.length > 1) {
@@ -79,8 +84,10 @@
         };
 
         function goForward(){
-            if (i === dogsData.length) {
-                i = 0;
+            if (i === dogsData.length - 1) {
+                //redirect to scroller
+                window.location.href = "/users/scroller/{{user._id}}";
+                return
             } else {
                 i++;
             }
@@ -100,7 +107,7 @@
             $.ajax({
                 url: `/users/${userId}/like/${dogAcenterId}/${dogId}`,
                 type: "POST",
-                data: {dogId: dogsData[i]._id},
+                data: "Love the dog!",
                 success: function (data) {
                     console.log(data);
                 },
@@ -110,6 +117,23 @@
             });
             goForward();
         }); 
+
+        //dislike button post request
+        $("#dislikeButton").click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: `/users/${userId}/dislike/${dogAcenterId}/${dogId}`,
+                type: "POST",
+                data: "Hate the dog!",
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (err) {
+                    console.log(err);
+                },
+            });
+            goForward();
+        })
 
 
     </script>
