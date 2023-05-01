@@ -7,6 +7,7 @@ import { dirname } from "path";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import dotenv from "dotenv";
+import multer from "multer";
 import { userMiddleware, acenterMiddleware } from "./middleware.js";
 
 // ? THIS IS FOR THE WEBSITE TO NOT CRASH WHEN THERE IS AN ERROR
@@ -65,6 +66,14 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+let storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'public/assets/uploads/');
+    }
+});
+
+let upload = multer({storage: storage});
 
 configRoutes(app);
 
