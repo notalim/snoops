@@ -86,7 +86,7 @@
         function goForward(){
             if (i === dogsData.length - 1) {
                 //redirect to scroller
-                window.location.href = "/users/scroller/{{user._id}}";
+                window.location.reload(true);
                 return
             } else {
                 i++;
