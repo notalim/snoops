@@ -105,14 +105,13 @@ function checkDate(date, elmName) {
             throw `${elmName} must be a valid age (18-122)`;
         }
     }
-
     return date.trim();
 }
 
-function checkPhone(_var, varName) {
+function checkPhoneRegex(_var, varName) {
     let Number = checkString(_var, varName);
 
-    let phoneRegex = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
+    let phoneRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
     let phoneCheck = phoneRegex.test(Number);
     if (!phoneCheck) throw `${varName} invalid`;
 
@@ -145,7 +144,7 @@ let exportedMethods = {
     checkPassword,
     checkEmailRegex,
     checkDate,
-    checkPhone,
+    checkPhoneRegex,
     checkPetWeight,
     checkAgePreferences,
 };

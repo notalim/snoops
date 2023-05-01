@@ -86,6 +86,7 @@ router.route("/signup").post(async (req, res) => {
         savedLastName = lastName;
 
         dob = validation.checkDate(dob, "User Date of Birth");
+        console.log(dob);
         savedDob = dob;
 
         phone = validation.checkPhone(phone, "Phone Number");

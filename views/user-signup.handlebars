@@ -5,11 +5,11 @@
         </div>
         <div class="form-container">
             <h2>User Sign Up</h2>
-            <div
-                id="error"
-                class="alert alert-danger"
-                style="display: none;"
-            ></div>
+            <div id="error" class="error">
+                {{#if error}}
+                    {{error}}
+                {{/if}}
+            </div>
             <form id="signup-form" method="POST" action="/users/signup">
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -31,11 +31,6 @@
                     />
                 </div>
                 <div class="form-group">
-                    <div id="error" class="error">
-                        {{#if error}}
-                            {{error}}
-                        {{/if}}
-                    </div>
                     <label for="first-name">First Name</label>
                     <input
                         type="text"
@@ -88,10 +83,6 @@
         function switchToAcenterSignup() { window.location.href =
         "/acenters/signup-page"; }
     </script>
-    <script>
-        (function () { var errorMessage = "{{error}}"; if (errorMessage) {
-        document.getElementById("error-message").style.display = "block";
-        document.getElementById("error-message").innerHTML = errorMessage; }
-        })();
+    <script type="module" src="/js/user-signup-validation.js">
     </script>
 </main>
