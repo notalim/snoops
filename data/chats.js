@@ -1,4 +1,6 @@
 import { chats } from "../config/mongoCollections.js";
+import { acenters } from "../config/mongoCollections.js";
+import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as validation from "../validation.js";
 
@@ -38,10 +40,26 @@ const createChat = async (userID, centerID) => {
     if(chat){
         throw `chat between user: ${userID} and aCenter: ${centerID} already exists`
     }
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({_id: new ObjectId(userID)});
+    if(!user){
+        throw `No user with id: ${userID}. Error finding user from db.`
+    }
+
+    const acenterCollection = await acenters();
+    const acenter = await acenterCollection.findOne({_id: new ObjectId(centerID)});
+    if(!acenter){
+        throw `No acenter with id: ${centerID}. Error finding user from db.`
+    }
+
+
     const newChat = {
-        userId : userID,
-        centerId : centerID,
-        messages : []
+        userId: userID,
+        centerId: centerID,
+        userName: user.firstName + " " + user.lastName,
+        acenterName: acenter.name,
+        messages: []
     }
 
     const newInsertInformation = await chatCollection.insertOne(newChat);

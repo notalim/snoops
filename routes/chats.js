@@ -18,8 +18,12 @@ router.route("/").get(async (req, res) => {
 
 // TODO: GET /user/:uid - Get All chats for user with id sorted by most recent
 router.route("/user/:uid").get(async (req, res) => {
-    const id = validation.checkId(req.params.uid);
-
+    let id;
+    try{
+        id = validation.checkId(req.params.uid);
+    }catch(e){
+        return res.status(400).json({ error: e });
+    }
     try {
         //could sort by most recent time
         const chatList = await chatData.getAllChatsUser(id);
@@ -37,6 +41,7 @@ router.route("/user/:uid").get(async (req, res) => {
                 );
             }
         });
+        console.log(sorted)
         return res.status(200).render("user-chats", {chats: sorted});
     } catch (e) {
         return res.status(500).render("no-chats", {error: e});
@@ -67,6 +72,7 @@ router.route("/acenter/:acid").get(async (req, res) => {
                 );
             }
         });
+        console.log(sorted)
         return res.status(200).render("ac-chats", {chats: sorted});
     } catch (e) {
         return res.status(500).render("no-chats", {error: e});
@@ -81,13 +87,14 @@ router.route("/user/:uid/:acid").get(async (req, res) => {
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
     }catch(e){
-        return res.status(400).json({ error: e });
+        return res.status(400).render("no-chats", {error: e})
     }
     try {
         const chat = await chatData.getChat(uid, acid);
         return res.status(200).json(chat);
     } catch (e) {
-        return res.status(500).json({ error: e });
+        //might throw diff page
+        return res.status(500).render("no-chats", {error: e});
     }
 });
 
@@ -100,13 +107,14 @@ router.route("/acenter/:acid/:uid").get(async (req, res) => {
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
     }catch(e){
-        return res.status(400).json({ error: e });
+        return res.status(400).render("no-chats", {error: e});
     }
     try {
         const chat = await chatData.getChat(uid, acid);
         return res.status(200).json(chat);
     } catch (e) {
-        return res.status(500).json({ error: e });
+        //might throw diff page
+        return res.status(500).render("no-chats", {error: e});
     }
 });
 
