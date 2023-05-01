@@ -37,6 +37,8 @@
         let dogImage = document.getElementById("dog-image");
         let dogDescription = document.getElementById("dog-description");
 
+        let userId = '{{user._id}}';
+
         dogName.textContent = dogsData[0].name;
         dogBreeds.textContent = breedName(dogsData[0].breeds);
         dogAge.textContent = dogsData[0].age;
@@ -78,14 +80,14 @@
             dogImage.src = dogsData[i].img;
             dogDescription.textContent = dogsData[i].description;
             dogId = dogsData[i]._id.toString();
-            dogAcenterId = dogsData[i].acenterId.toString();
+            dogAcenterId = dogsData[i].acenterId.toString()
         };
 
         //like button post request
          $("#likeButton").click(function (e) {
             e.preventDefault();
             $.ajax({
-                url: `/users/{{user._id}}/like/${dogAcenterId}/${dogId}`,
+                url: `/users/${userId}/like/${dogAcenterId}/${dogId}`,
                 type: "POST",
                 data: {dogId: dogsData[i]._id},
                 success: function (data) {

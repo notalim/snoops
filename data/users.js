@@ -204,12 +204,21 @@ const likeDog = async (userId, acenterId, dogId) => {
     if (!user) {
         throw `User not found with this Id ${userId}`;
     }
+    
+    // const alreadyLiked = user.likedDogs.some(
+    //     (entry) =>
+    //         entry.acenterId.toString() === acenterId &&
+    //         entry._id.toString() === _id
+    // );
 
-    const alreadyLiked = user.likedDogs.some(
-        (entry) =>
-            entry.acenterId.toString() === acenterId &&
-            entry.dogId.toString() === dogId
-    );
+    //check if already liked in the user likedDogs
+    const alreadyLiked = false;
+    for(let i = 0; i < user.likedDogs.length; i++) {
+        if(user.likedDogs[i]._id.toString() === dogId) {
+            alreadyLiked = true;
+            break;
+        }
+    }
 
     if (!alreadyLiked) {
         const updateInfo = await userCollection.updateOne(
