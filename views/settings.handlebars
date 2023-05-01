@@ -1,6 +1,11 @@
 <main class="settings">
     <h1>Settings</h1>
     <div class="settingsContainer" id="user-settings">
+        <div id="error" class="error">
+                {{#if error}}
+                    {{error}}
+                {{/if}}
+            </div>
         <form id="update-user" action="/users/{{user._id}}" method="POST">
             <label for="firstName">First Name</label>
             <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
@@ -10,6 +15,9 @@
 
             <label for="email">Email</label>
             <input type="email" name="email" id="email" value="{{user.email}}" />
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" name="dob" id="dob" value="{{user.dob}}" />
 
             <label for="phone">Phone</label>
             <input type="tel" name="phone" id="phone" value="{{user.phone}}" />
@@ -23,7 +31,6 @@
             <label for="image">Profile Picture</label>
             <input type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
 
-            <input style="display: none;" type="hidden" name="_method" id="_method" value="PUT">
             <button type="submit">Save</button>
         </form>
     </div>
@@ -42,3 +49,5 @@
 </main>
 
 <script type="text/javascript" src="/public/js/settings.js"></script>
+<script type="module" src="/js/user-update-validation.js">
+</script>
