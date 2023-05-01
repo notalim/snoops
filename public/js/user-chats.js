@@ -4,23 +4,6 @@ let chats = document.getElementsByClassName("chat");
         let chatTextBox = document.getElementById("sentMessage");
         let currChatInfo;
         for(let chat of chats){
-            let aCenterID = chat.getElementsByClassName("acid")[0];
-            let requestConfig = {
-                method: 'GET',
-                url: `/acenters/ac-dashboard/${aCenterID.textContent.split(" ")[1]}`
-            };
-            //putting name for messages
-            (function ($) {
-                $.ajax(requestConfig).then(function (responseMessage) {
-                    console.log(responseMessage)
-                    let name = responseMessage.substring(responseMessage.indexOf("<h2>") + 4,
-                        responseMessage.indexOf("</h2>"))
-                    let aCenterName = document.createElement("p");
-                    aCenterName.classList.add("recName")
-                    aCenterName.textContent = name;
-                    chat.appendChild(aCenterName)
-                })
-            })(window.jQuery);
             chat.addEventListener("click", async() =>{
                 for(let _chat of chats){
                     if(_chat != chat){
@@ -159,12 +142,20 @@ let chats = document.getElementsByClassName("chat");
                     let acenterMessages = currentChat.querySelectorAll("div.receiverMessageDiv");
                     //scroll by height;
                     
-                    if(userMessages[userMessages.length - 1].getBoundingClientRect().top > 
-                        acenterMessages[acenterMessages.length - 1].getBoundingClientRect().top){
-                            userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                    if(acenterMessages[acenterMessages.length - 1] === undefined && userMessages[userMessages.length - 1] === undefined){
+                            
+                    }else if(acenterMessages[acenterMessages.length - 1] === undefined){
+                        userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                    }else if(userMessages[userMessages.length - 1] === undefined){
+                        acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                    }else{
+                        if(acenterMessages[acenterMessages.length - 1].getBoundingClientRect().top > 
+                            userMessages[userMessages.length - 1].getBoundingClientRect().top){
+                                acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
                         }else{
-                            acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                            userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
                         }
+                    }
                     
                 })
             })(window.jQuery); 

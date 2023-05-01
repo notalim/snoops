@@ -4,23 +4,6 @@ let sendMessage = document.getElementById("sendButton");
 let chatTextBox = document.getElementById("sentMessage");
 let currChatInfo;
 for(let chat of chats){
-    //to get all users
-    let userID = chat.getElementsByClassName("uid")[0];
-    let requestConfig = {
-        method: 'GET',
-        url: `/users/${userID.textContent.split(" ")[1]}`
-    };
-    //putting name for messages
-    (function ($) {
-        $.ajax(requestConfig).then(function (responseMessage) {
-            let name = responseMessage.substring(responseMessage.indexOf("<h2>") + 4,
-                responseMessage.indexOf("</h2>"))
-            let userName = document.createElement("p");
-            userName.classList.add("recName")
-            userName.textContent = name;
-            chat.appendChild(userName)
-        })
-    })(window.jQuery);
     chat.addEventListener("click", async() =>{
         for(let _chat of chats){
             if(_chat != chat){
@@ -164,11 +147,21 @@ sendMessage.addEventListener("click", (event) => {
             let userMessages = currentChat.querySelectorAll("div.receiverMessageDiv");
             //scroll by height;
             
-            if(acenterMessages[acenterMessages.length - 1].getBoundingClientRect().top > 
-            userMessages[userMessages.length - 1].getBoundingClientRect().top){
+            if(acenterMessages[acenterMessages.length - 1] === undefined && userMessages[userMessages.length - 1] === undefined){
+                    
+            }else if(acenterMessages[acenterMessages.length - 1] === undefined){
+                userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+            }else if(userMessages[userMessages.length - 1] === undefined){
                 acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
             }else{
+                console.log(acenterMessages[acenterMessages.length - 1])
+                console.log(userMessages[userMessages.length - 1])
+                if(acenterMessages[acenterMessages.length - 1].getBoundingClientRect().top > 
+                    userMessages[userMessages.length - 1].getBoundingClientRect().top){
+                        acenterMessages[acenterMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                }else{
                     userMessages[userMessages.length - 1].scrollIntoView({block: 'nearest', inline: 'start'});
+                }
             }
             
         })
