@@ -213,9 +213,7 @@ const createDog = async (
     dogName = validation.checkString(dogName, "Dog Name");
 
     // Check dogDOB
-    // ? Do we use Check Age or Check String?
-    // ? How do we store age?
-    dogDOB = validation.checkDate(dogDOB, "Dog DOB");
+    dogDOB = validation.checkDate(dogDOB, "Date of Birth", 1, 20);
 
     // Check dogBreeds
     dogBreeds = validation.checkStringArray(dogBreeds, "Dog Breeds");
