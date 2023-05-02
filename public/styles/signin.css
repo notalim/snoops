@@ -57,7 +57,7 @@
     font-size: 16px;
 }
 
-.uLoginh2{
+.Loginh2{
     background-color: #f8f8f8;
 }
 
@@ -66,7 +66,7 @@
     width: 60%;
 }
 
-.userInput{
+.userInput, .acInput{
     display: block;
     background-color: #f1f1f1;
     border-radius: 3px;
@@ -80,7 +80,7 @@
 }
 
 
-.userLabel{
+.userLabel, .acLabel{
     background-color: #f8f8f8;
     display: block;
     font-size: large;
@@ -88,7 +88,7 @@
     color: rgb(168, 168, 168);
 }
 
-.userLoginSubmit{
+.LoginSubmit{
     display: block;
     margin: auto;
     margin-top: 30px;
