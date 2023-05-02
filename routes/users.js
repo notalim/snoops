@@ -4,6 +4,15 @@ import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 import { redirectToScrollerIfLoggedIn } from "../middleware.js";
 import xss from "xss";
+import multer from "multer";
+
+let storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'public/assets/uploads/');
+    }
+});
+
+let upload = multer({storage: storage});
 
 // *: Log In Page
 
@@ -295,5 +304,21 @@ router.route("/:id/like/:acenterId/:dogId").post(async (req, res) => {
         return res.status(500).json({ error: e });
     }
 });
+
+router.route("/upload/:id").post(upload.single('image'),async (req, res) => {
+    // Validate the ids
+    let id = xss(req.params.id);
+
+    try {
+        id = validation.checkId(id, "ID", "POST /upload/:id");
+    } catch (e) {
+        return res.status(400).json({ error: e });
+    }
+    
+
+    
+});
+
+
 
 export default router;

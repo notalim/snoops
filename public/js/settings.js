@@ -7,7 +7,7 @@ $("#update-user").submit(function (e) {
         type: "PUT",
         data: $("#update-user").serialize(),
         success: function (data) {
-            console.log(data);
+            //console.log(data);
 
             let successMessage = document.getElementById("success");
             if (successMessage) {
@@ -55,5 +55,10 @@ $("#update-user").submit(function (e) {
             container.appendChild(error);
 
         }
+    });
+    $.ajax({
+        url: `/users/upload/{{user._id}}`,
+        type: "POST",
+        data: $("#image")
     });
 });

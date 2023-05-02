@@ -67,14 +67,6 @@ app.use((req, res, next) => {
     next();
 });
 
-let storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, 'public/assets/uploads/');
-    }
-});
-
-let upload = multer({storage: storage});
-
 configRoutes(app);
 
 app.listen(3000, () => {

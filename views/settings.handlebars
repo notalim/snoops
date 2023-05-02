@@ -1,7 +1,7 @@
 <main class="settings">
     <h1>Settings</h1>
     <div class="settingsContainer" id="user-settings">
-        <form id="update-user" action="/users/{{user._id}}" method="POST">
+        <form id="update-user" action="/users/{{user._id}}" method="POST" enctype="multipart/form-data" >
             <label for="firstName">First Name</label>
             <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
