@@ -137,23 +137,30 @@ export function checkEmail(email, elmName) {
     return email.trim().toLowerCase();
 }
 
-export function checkDate(date, elmName) {
+export function checkDate(date, elmName, minAge = 18, maxAge = 120) {
     date = checkString(date, elmName);
     if (!validator.isDate(date)) {
         throw `${elmName} must be a valid date`;
     }
     let dob = new Date(date);
-    let mon_diff = Date.now() - dob.getTime();
-    let age_diff = new Date(mon_diff);
-    let year = age_diff.getUTCFullYear();
-    let age = Math.abs(year - 1970);
-    if (elmName === "User Date of Birth") {
-        if (age < 18 || age > 122) {
-            throw `${elmName} must be a valid age (18-122)`;
-        }
+    let age = calculateAge(dob);
+
+    if (age < minAge || age > maxAge) {
+        throw `${elmName} must be a valid age (${minAge}-${maxAge})`;
     }
 
     return date.trim();
+}
+
+function calculateAge(dateOfBirth) {
+    const now = new Date();
+    const age = now.getFullYear() - dateOfBirth.getFullYear();
+    const m = now.getMonth() - dateOfBirth.getMonth();
+
+    if (m < 0 || (m === 0 && now.getDate() < dateOfBirth.getDate())) {
+        return age - 1;
+    }
+    return age;
 }
 
 export function checkGender(gender, elmName) {
@@ -210,7 +217,7 @@ export function checkPetWeight(_var, varName) {
     _var = checkNumber(_var, varName);
     _var = parseFloat(parseFloat(_var).toFixed(1)); // Round to 1 decimal point and parse back to float
     if (_var < 1 || _var > 180) {
-        throw new Error(`${varName} must be a valid weight`);
+        throw `${varName} must be a valid weight`;
     }
     return _var;
 }

@@ -10,7 +10,7 @@ router.route("/login-page").get(async (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
-    return res.render("ac-login", {title: "Adoption Center Login"});
+    return res.render("ac-login", { title: "Adoption Center Login" });
 });
 
 // *: Adoption center Log In
@@ -43,7 +43,10 @@ router.route("/login").post(async (req, res) => {
         return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
         console.log(e);
-        return res.render("ac-login", { error: e.toString(), email: savedEmail});
+        return res.render("ac-login", {
+            error: e.toString(),
+            email: savedEmail,
+        });
     }
 });
 
@@ -51,7 +54,7 @@ router.get("/signup-page", (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
-    return res.render("ac-signup", {title: "Adoption Center Signup"});
+    return res.render("ac-signup", { title: "Adoption Center Signup" });
 });
 
 // *: Sign up (Create) adoption center (POST /acenters)
@@ -136,6 +139,7 @@ router.route("/signup").post(async (req, res) => {
 });
 
 // *: GET /acenters - Get all adoption centers
+// ?: Do we remove it?
 
 router.route("/").get(async (req, res) => {
     try {
@@ -243,9 +247,9 @@ router.route("/:id").delete(async (req, res) => {
     }
 });
 
-// *: POST /acenters/:id/dogs - Create dog for adoption center
+// *: POST /acenters/:id/ - Create dog for adoption center
 
-router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
+router.route("/ac-dashboard/:id/").post(async (req, res) => {
     //console.log("POST route called");
     let id = req.params.id;
 
@@ -263,8 +267,8 @@ router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
         gender = xss(req.body.gender);
         size = xss(req.body.size);
     } catch (e) {
-        const acenter = await acenterData.getAdoptionCenter(id);
-        return res.render("ac-dashboard", { acenter, error: e });
+        console.log(e);
+        res.status(400).type("application/json").send({ error: e.toString() });
     }
 
     try {
@@ -274,7 +278,7 @@ router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
         // Validate request body
         name = validation.checkString(name, "Name");
 
-        dob = validation.checkDate(dob, "Date of Birth");
+        dob = validation.checkDate(dob, "Date of Birth", 1, 20);
 
         breeds = JSON.parse(breeds);
         breeds = validation.checkStringArray(breeds, "Breeds");
@@ -284,11 +288,11 @@ router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
         size = validation.checkPetWeight(parseInt(size), "Weight");
     } catch (e) {
         console.log(e);
-        const acenter = await acenterData.getAdoptionCenter(id);
-        return res.render("ac-dashboard", { acenter, error: e });
+        res.status(400).type("application/json").send({ error: e.toString() });
     }
 
     try {
+        // console.log('Creating dog');
         const dog = await acenterData.createDog(
             id,
             name,
@@ -297,8 +301,10 @@ router.route("/ac-dashboard/:id/dogs").post(async (req, res) => {
             gender,
             size
         );
+        // console.log("Dog created");
         return res.redirect("/acenters/ac-dashboard/" + id);
     } catch (e) {
+        console.log(e);
         const acenter = await acenterData.getAdoptionCenter(id);
         return res.render("ac-dashboard", { acenter, error: e });
     }

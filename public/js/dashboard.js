@@ -94,7 +94,7 @@ function openUpdateDogModal(card) {
     dogModal.querySelector("#dogUpdateBreed1").value = dogBreed1 || "";
     dogModal.querySelector("#dogUpdateBreed2").value = dogBreed2 || "";
     dogModal.querySelector("#dogUpdateBreed3").value = dogBreed3 || "";
-    
+
     dogModal.querySelector("#dogUpdateImagePreview").src = dogImgSrc;
     dogModal.querySelector("#dogUpdateGender").value = dogGender;
     dogModal.querySelector("#dogUpdateSize").value = dogSize;
@@ -171,6 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
     const closeModal = document.querySelector(".update-dog-close");
+    
     closeModal.addEventListener("click", () => {
         document.querySelector("#update-dog-modal").style.display = "none";
     });
