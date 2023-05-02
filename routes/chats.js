@@ -18,6 +18,7 @@ import xss from 'xss';
 
 // TODO: GET /user/:uid - Get All chats for user with id sorted by most recent
 router.route("/user/:uid").get(async (req, res) => {
+    
     let id;
     try{
         id = validation.checkId(req.params.uid);
@@ -41,7 +42,6 @@ router.route("/user/:uid").get(async (req, res) => {
                 );
             }
         });
-        console.log(sorted)
         return res.status(200).render("user-chats", {chats: sorted});
     } catch (e) {
         return res.status(500).render("no-chats", {error: e});
@@ -50,6 +50,10 @@ router.route("/user/:uid").get(async (req, res) => {
 
 // TODO: GET /acenter/:acid - Get All chats for aCenter with id sorted by most recent
 router.route("/acenter/:acid").get(async (req, res) => {
+    console.log(req.session);
+    if(!req.session.acenter && req.session.acenter._id !== req.params.acid){
+        return res.redirect("404Page");
+    }
     let id;
     try{
         id = validation.checkId(req.params.acid);
@@ -72,7 +76,6 @@ router.route("/acenter/:acid").get(async (req, res) => {
                 );
             }
         });
-        console.log(sorted)
         return res.status(200).render("ac-chats", {chats: sorted});
     } catch (e) {
         return res.status(500).render("no-chats", {error: e});
