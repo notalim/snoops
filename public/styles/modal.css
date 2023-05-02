@@ -138,3 +138,17 @@
     background-color: var(--accent-hover-color);
 }
 
+.update-dog-form {
+  display: flex;
+}
+
+.update-dog-form-left {
+  flex: 1;
+}
+
+.update-dog-form-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
