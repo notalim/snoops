@@ -48,6 +48,143 @@
     </div>
 </main>
 
-<script type="text/javascript" src="/public/js/settings.js"></script>
-<script type="module" src="/js/user-update-validation.js">
+<!-- <script type="module" src="/js/user-update-validation.js"></script> -->
+<script type="module">
+    //import clientValidation methods
+    import clientValidation from "/js/client-validation-methods.js";
+
+    let updateForm = document.getElementById("update-user");
+
+    if (updateForm) {
+        let emailAddressIn = document.getElementById("email");
+        let passwordIn = document.getElementById("password");
+        let firstNameIn = document.getElementById("firstName");
+        let lastNameIn = document.getElementById("lastName");
+        let dobIn = document.getElementById("dob");
+        let phoneIn = document.getElementById("phone");
+        let addressIn = document.getElementById("address");
+
+        let error = document.getElementById("error");
+
+        updateForm.addEventListener("submit", function (event) {
+            try {
+                error.hidden = true;
+                event.preventDefault();
+
+                if(firstNameIn.value){
+                firstNameIn.value = clientValidation.checkName(
+                    firstNameIn.value,
+                    "First Name"
+                );
+                }
+
+                if(lastNameIn.value){
+                    lastNameIn.value = clientValidation.checkName(
+                        lastNameIn.value,
+                        "Last Name"
+                    );
+                }
+
+
+                if(email.value){
+                    emailAddressIn.value = clientValidation.checkEmailRegex(
+                        emailAddressIn.value,
+                        "Email Address"
+                    );
+                }
+
+                if(dobIn.value){
+                    dobIn.value = clientValidation.checkDate(
+                        dobIn.value,
+                        "Date of Birth"
+                    );
+                }
+
+                if(phoneIn.value){
+                    phoneIn.value = clientValidation.checkPhoneRegex(
+                        phoneIn.value,
+                        "Phone Number"
+                    );
+                }
+
+                if (passwordIn.value) {
+                    passwordIn.value = clientValidation.checkPassword(
+                        passwordIn.value,
+                        "Password"
+                    );
+                }
+
+                addressIn.value = clientValidation.checkString(
+                    addressIn.value,
+                    "Address"
+                );
+
+            // } catch (e) {
+            //     event.preventDefault();
+            //     error.hidden = false;
+            //     error.innerHTML = e;
+            // }
+            // try {
+                error.hidden = false;
+                $.ajax({
+                    url: `/users/{{user._id}}`,
+                    type: "PUT",
+                    data: $("#update-user").serialize(),
+                    success: function (data) {
+                        console.log(data);
+
+                        let successMessage = document.getElementById("success");
+                        if (successMessage) {
+                            successMessage.remove();
+                        }
+
+                        let errorMessage = document.getElementById("error");
+                        if (errorMessage) {
+                            errorMessage.remove();
+                        }
+
+                        let success = document.createElement("p");
+                        let container = document.getElementById("user-settings");
+
+                        success.innerText = "User updated successfully";
+                        success.style.color = "green";
+                        success.style.marginTop = "10px";
+                        success.style.textAlign = "center";
+                        success.id = "success";
+                        container.appendChild(success);
+                    },
+                    error: function (err) {
+                        let data = $("#update-user").serialize();
+                        console.log(err);
+                        console.log(data);
+
+                        let errorMessage = document.getElementById("error");
+                        if (errorMessage) {
+                            errorMessage.remove();
+                        }
+
+                        let successMessage = document.getElementById("success");
+                        if (successMessage) {
+                            successMessage.remove();
+                        }
+
+                        let error = document.createElement("p");
+                        let container = document.getElementById("user-settings");
+                        let errorText = err.responseJSON.error;
+                        error.innerText = errorText;
+                        error.style.color = "red";
+                        error.style.marginTop = "10px";
+                        error.style.textAlign = "center";
+                        error.id = "error";
+                        container.appendChild(error);
+
+                    }
+                });
+            } catch (e) {
+                event.preventDefault();
+                error.hidden = false;
+                error.innerHTML = e;
+            }
+        });
+    }
 </script>
