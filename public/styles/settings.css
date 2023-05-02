@@ -1,14 +1,11 @@
 .settings{
     display: flex;
-    flex-direction: column;
-
     justify-content: center;
     align-items: center;
 }
 
 .settingsContainer{
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     width: 50vw;
@@ -16,7 +13,8 @@
     min-width: 500px;
     min-height: 500px;
     border: 2px solid #633d1e;
-    border-radius: 16px;
+    border-radius: 10px;
+    background-color: #f8f8f8;
 }
 
 .settingsContainer form{
@@ -28,6 +26,30 @@
     height: 100%;
     width: 100%;
     background-color: transparent;
+}
+
+.settingsInput{
+    display: block;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    width: 100%;
+    padding: 5px 10px;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    border: none transparent;
+    outline: none;
+    border-bottom: 2px solid rgb(168, 168, 168);
+    width: 40%;
+    margin: 0 auto;
+}
+
+
+.settingsLabel{
+    background-color: #f1f1f1;
+    display: block;
+    font-size: large;
+    margin-bottom: 5px;
+    color: rgb(168, 168, 168);
 }
 
 .doggies{

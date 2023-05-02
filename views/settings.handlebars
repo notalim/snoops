@@ -7,29 +7,29 @@
                 {{/if}}
             </div>
         <form id="update-user" action="/users/{{user._id}}" method="POST">
-            <label for="firstName">First Name</label>
-            <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
+            <label class="settingsLabel" for="firstName">First Name</label>
+            <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
-            <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" id="lastName" value="{{user.lastName}}" />
+            <label class="settingsLabel" for="lastName">Last Name</label>
+            <input class="settingsInput" type="text" name="lastName" id="lastName" value="{{user.lastName}}" />
 
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" value="{{user.email}}" />
+            <label class="settingsLabel" for="email">Email</label>
+            <input class="settingsInput" type="email" name="email" id="email" value="{{user.email}}" />
 
-            <label for="dob">Date of Birth</label>
-            <input type="date" name="dob" id="dob" value="{{user.dob}}" />
+            <label class="settingsLabel" for="dob">Date of Birth</label>
+            <input class="settingsInput" type="date" name="dob" id="dob" value="{{user.dob}}" />
 
-            <label for="phone">Phone</label>
-            <input type="tel" name="phone" id="phone" value="{{user.phone}}" />
+            <label class="settingsLabel" for="phone">Phone</label>
+            <input class="settingsInput" type="tel" name="phone" id="phone" value="{{user.phone}}" />
 
-            <label for="address">Address</label>
-            <input type="text" name="address" id="address" value="{{user.address}}" />
+            <label class="settingsLabel" for="address">Address</label>
+            <input class="settingsInput" type="text" name="address" id="address" value="{{user.address}}" />
 
-            <label for="oldPassword">Password</label>
-            <input type="password" name="password" id="password"/>
+            <label class="settingsLabel" for="password">Password</label>
+            <input class="settingsInput" type="password" name="password" id="password"/>
 
-            <label for="image">Profile Picture</label>
-            <input type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
+            <label class="settingsLabel" for="image">Profile Picture</label>
+            <input class="settingsInput" type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
 
             <button type="submit">Save</button>
         </form>
