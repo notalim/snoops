@@ -1,33 +1,42 @@
 <main>
     <div class="signup-wrapper">
         <div class="graphic-image">
-            <img src="/assets/40444.jpg" alt="" />
+            <img src="/assets/40444.jpg" alt="Graphic Image with dogs" />
         </div>
         <div class="form-container">
             <!-- Adoption Center Signup form -->
             <form id="signup-form" method="POST" action="/acenters/signup">
-                <input type="email" name="email" placeholder="Email" required />
-                <input type="text" name="name" placeholder="Name" required />
+                <div id="error" class="error">
+                    {{#if error}}
+                        {{error}}
+                    {{/if}}
+                </div>
+                <input id="email" type="email" name="email" placeholder="Email" value="{{email}}" required />
+                <input id="name" type="text" name="name" placeholder="Name" value="{{name}}" required />
                 <input
+                    id="password"
                     type="password"
                     name="password"
                     placeholder="Password"
                     required
                 />
                 <input
+                    id="firstName"
                     type="text"
                     name="contactFirstName"
                     placeholder="Contact First Name"
                     required
                 />
                 <input
+                    id="lastName"
                     type="text"
                     name="contactLastName"
                     placeholder="Contact Last Name"
                     required
                 />
-                <input type="tel" name="phone" placeholder="Phone" required />
+                <input id="phone" type="tel" name="phone" placeholder="Phone" required />
                 <input
+                    id="address"
                     type="text"
                     name="address"
                     placeholder="Address"
@@ -41,5 +50,7 @@
     <script>
         function switchToUserSignup() { window.location.href =
         "/users/signup-page"; }
+    </script>
+    <script type="module" src="/js/ac-signup-validation.js">
     </script>
 </main>

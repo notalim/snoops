@@ -72,7 +72,7 @@ const createAdoptionCenter = async (
         address: address,
         workingHours: null,
         website: null,
-        img: null,
+        img: "/assets/No_Image_Available.jpg",
         dogList: [],
         location: location
     };
@@ -220,6 +220,13 @@ const createDog = async (
     // Check dogBreeds
     dogBreeds = validation.checkStringArray(dogBreeds, "Dog Breeds");
 
+    //turn the first letter of each breed to uppercase
+    dogBreeds = dogBreeds.map((breed) => {
+        let breedStartLetter = breed.charAt(0);
+        let restOfBreed = breed.slice(1);
+        return breedStartLetter.toUpperCase() + restOfBreed;
+    });
+
     // Check dogGender
     dogGender = validation.checkGender(dogGender, "Dog Gender");
 
@@ -329,6 +336,13 @@ const updateDog = async (
     // Check dogBreeds
     dogBreeds = validation.checkStringArray(dogBreeds, "Dog breeds");
 
+    //turn the first letter of each breed to uppercase
+    dogBreeds = dogBreeds.map((breed) => {
+        let breedStartLetter = breed.charAt(0);
+        let restOfBreed = breed.slice(1);
+        return breedStartLetter.toUpperCase() + restOfBreed;
+    });
+
     // Check dogGender
     dogGender = validation.checkGender(dogGender, "Dog gender");
 
@@ -393,6 +407,15 @@ const logInAdoptionCenter = async (acenterEmail, acenterPassword) => {
     return acenter;
 };
 
+const getAllDogsFromAllAcenters = async () => {
+    const acenterList = await acenterCollection.find({}).toArray();
+    let dogList = [];
+    for (let i = 0; i < acenterList.length; i++) {
+        dogList = dogList.concat(acenterList[i].dogList);
+    }
+    return dogList;
+}
+
 const exportedMethods = {
     getAllAdoptionCenters,
     getAdoptionCenter,
@@ -405,6 +428,7 @@ const exportedMethods = {
     getDogFromAcenter,
     updateDog,
     deleteDog,
+    getAllDogsFromAllAcenters
 };
 
 export default exportedMethods;

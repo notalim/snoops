@@ -1,6 +1,11 @@
 <main class="settings">
     <h1>Settings</h1>
     <div class="settingsContainer" id="user-settings">
+        <div id="error" class="error">
+                {{#if error}}
+                    {{error}}
+                {{/if}}
+            </div>
         <form id="update-user" action="/users/{{user._id}}" method="POST">
             <label for="firstName">First Name</label>
             <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
@@ -10,6 +15,9 @@
 
             <label for="email">Email</label>
             <input type="email" name="email" id="email" value="{{user.email}}" />
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" name="dob" id="dob" value="{{user.dob}}" />
 
             <label for="phone">Phone</label>
             <input type="tel" name="phone" id="phone" value="{{user.phone}}" />
@@ -21,153 +29,162 @@
             <input type="password" name="password" id="password"/>
 
             <label for="image">Profile Picture</label>
-            <input type="file" name="image" id="image" />
+            <input type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
 
-            <input style="display: none;" type="hidden" name="_method" id="_method" value="PUT">
             <button type="submit">Save</button>
         </form>
     </div>
     <div class="settingsContainer doggies" style="margin-top: 20px">
         <div class="likedDogs">
             {{#each user.likedDogs}}
-            <a href="/acenters/{{this.aCenterId}}/dogs/{{this._id}}">
+            <a href="/acenters/{{this.acenterId}}/dogs/{{this._id}}">
                 <div class="likedDog">
                     <img src="{{this.img}}" alt="dog" />
                     <p>{{this.name}}</p>
                 </div>
             </a>
             {{/each}}
-            {{!-- <a>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            </a>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-                        <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div>
-
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog1</p>
-            </div>
-            <div class="likedDog">
-                <img src="https://m.media-amazon.com/images/I/512M7RYECDL._AC_UF894,1000_QL80_.jpg" alt="dog" />
-                <p>dog2</p>
-            </div> --}}
         </div>
     </div>
 </main>
 
-<script>
-   /* let newUser = {
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        dob: dob,
-        phone: phone,
-        address: address,
-        img: null,
-        dogPreferences: {},
-        likedDogs: [],
-        seenDogs: [],
-    }; */
+<!-- <script type="module" src="/js/user-update-validation.js"></script> -->
+<script type="module">
+    //import clientValidation methods
+    import clientValidation from "/js/client-validation-methods.js";
 
-    //update user with ajax
-    $("#update-user").submit(function (e) {
-        e.preventDefault();
-        console.log("submitting");
-        $.ajax({
-            url: `/users/{{user._id}}`,
-            type: "PUT",
-            data: $("#update-user").serialize(),
-            success: function (data) {
-                console.log(data);
- 
-                let successMessage = document.getElementById("success");
-                if (successMessage) {
-                    successMessage.remove();
+    let updateForm = document.getElementById("update-user");
+
+    if (updateForm) {
+        let emailAddressIn = document.getElementById("email");
+        let passwordIn = document.getElementById("password");
+        let firstNameIn = document.getElementById("firstName");
+        let lastNameIn = document.getElementById("lastName");
+        let dobIn = document.getElementById("dob");
+        let phoneIn = document.getElementById("phone");
+        let addressIn = document.getElementById("address");
+
+        let error = document.getElementById("error");
+
+        updateForm.addEventListener("submit", function (event) {
+            try {
+                error.hidden = true;
+                event.preventDefault();
+
+                if(firstNameIn.value){
+                firstNameIn.value = clientValidation.checkName(
+                    firstNameIn.value,
+                    "First Name"
+                );
                 }
 
-                let errorMessage = document.getElementById("error");
-                if (errorMessage) {
-                    errorMessage.remove();
+                if(lastNameIn.value){
+                    lastNameIn.value = clientValidation.checkName(
+                        lastNameIn.value,
+                        "Last Name"
+                    );
                 }
 
-                let success = document.createElement("p");
-                let container = document.getElementById("user-settings");
 
-                success.innerText = "User updated successfully";
-                success.style.color = "green";
-                success.style.marginTop = "10px";
-                success.style.textAlign = "center";
-                success.id = "success";
-                container.appendChild(success);
-            },
-            error: function (err) {
-                let data = $("#update-user").serialize();
-                console.log(err);
-                console.log(data);
-
-                let errorMessage = document.getElementById("error");
-                if (errorMessage) {
-                    errorMessage.remove();
+                if(email.value){
+                    emailAddressIn.value = clientValidation.checkEmailRegex(
+                        emailAddressIn.value,
+                        "Email Address"
+                    );
                 }
 
-                let successMessage = document.getElementById("success");
-                if (successMessage) {
-                    successMessage.remove();
+                if(dobIn.value){
+                    dobIn.value = clientValidation.checkDate(
+                        dobIn.value,
+                        "Date of Birth"
+                    );
                 }
 
-                let error = document.createElement("p");
-                let container = document.getElementById("user-settings");
-                let errorText = err.responseJSON.error;
-                error.innerText = errorText;
-                error.style.color = "red";
-                error.style.marginTop = "10px";
-                error.style.textAlign = "center";
-                error.id = "error";
-                container.appendChild(error);
+                if(phoneIn.value){
+                    phoneIn.value = clientValidation.checkPhoneRegex(
+                        phoneIn.value,
+                        "Phone Number"
+                    );
+                }
 
+                if (passwordIn.value) {
+                    passwordIn.value = clientValidation.checkPassword(
+                        passwordIn.value,
+                        "Password"
+                    );
+                }
+
+                addressIn.value = clientValidation.checkString(
+                    addressIn.value,
+                    "Address"
+                );
+
+            // } catch (e) {
+            //     event.preventDefault();
+            //     error.hidden = false;
+            //     error.innerHTML = e;
+            // }
+            // try {
+                error.hidden = false;
+                $.ajax({
+                    url: `/users/{{user._id}}`,
+                    type: "PUT",
+                    data: $("#update-user").serialize(),
+                    success: function (data) {
+                        console.log(data);
+
+                        let successMessage = document.getElementById("success");
+                        if (successMessage) {
+                            successMessage.remove();
+                        }
+
+                        let errorMessage = document.getElementById("error");
+                        if (errorMessage) {
+                            errorMessage.remove();
+                        }
+
+                        let success = document.createElement("p");
+                        let container = document.getElementById("user-settings");
+
+                        success.innerText = "User updated successfully";
+                        success.style.color = "green";
+                        success.style.marginTop = "10px";
+                        success.style.textAlign = "center";
+                        success.id = "success";
+                        container.appendChild(success);
+                    },
+                    error: function (err) {
+                        let data = $("#update-user").serialize();
+                        console.log(err);
+                        console.log(data);
+
+                        let errorMessage = document.getElementById("error");
+                        if (errorMessage) {
+                            errorMessage.remove();
+                        }
+
+                        let successMessage = document.getElementById("success");
+                        if (successMessage) {
+                            successMessage.remove();
+                        }
+
+                        let error = document.createElement("p");
+                        let container = document.getElementById("user-settings");
+                        let errorText = err.responseJSON.error;
+                        error.innerText = errorText;
+                        error.style.color = "red";
+                        error.style.marginTop = "10px";
+                        error.style.textAlign = "center";
+                        error.id = "error";
+                        container.appendChild(error);
+
+                    }
+                });
+            } catch (e) {
+                event.preventDefault();
+                error.hidden = false;
+                error.innerHTML = e;
             }
         });
-    });
+    }
 </script>

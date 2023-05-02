@@ -1,6 +1,7 @@
 import { users, acenters } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as validation from "../validation.js";
+import * as acenterData from "./acenters.js";
 
 const userCollection = await users();
 
@@ -18,7 +19,6 @@ const createUser = async (
     phone,
     address
 ) => {
-
     const userCollection = await users();
 
     // Check email
@@ -48,10 +48,9 @@ const createUser = async (
 
     //Get LAT & LONG If possible
     let location;
-    try{
+    try {
         location = await validation.getLatLong(address, "Address");
-
-    } catch (e){
+    } catch (e) {
         throw e;
     }
 
@@ -65,11 +64,11 @@ const createUser = async (
         dob: dob,
         phone: phone,
         address: address,
-        img: null,
+        img: "/assets/No_Image_Available.jpg",
         dogPreferences: {},
         likedDogs: [],
         seenDogs: [],
-        location: location
+        location: location,
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -120,9 +119,9 @@ const updateUser = async (
     email = validation.checkEmail(email, "Email");
 
     // Check password
-    if(password !== undefined && password !== null && password !== ""){
+    if (password !== undefined && password !== null && password !== "") {
         password = validation.checkPassword(password, "Password");
-    }else{
+    } else {
         const user = await getUser(validatedId);
         password = user.password;
     }
@@ -143,10 +142,9 @@ const updateUser = async (
 
     //Get new LAT & LONG if possible
     let location;
-    try{
+    try {
         location = await validation.getLatLong(address, "Address");
-
-    } catch (e){
+    } catch (e) {
         throw e;
     }
 
@@ -166,7 +164,7 @@ const updateUser = async (
         dogPreferences: oldUser.dogPreferences,
         likedDogs: oldUser.likedDogs,
         seenDogs: oldUser.seenDogs,
-        location: location
+        location: location,
     };
 
     const userCollection = await users();
@@ -208,11 +206,14 @@ const likeDog = async (userId, acenterId, dogId) => {
         throw `User not found with this Id ${userId}`;
     }
 
-    const alreadyLiked = user.likedDogs.some(
-        (entry) =>
-            entry.acenterId.toString() === acenterId &&
-            entry.dogId.toString() === dogId
-    );
+    //check if already liked in the user likedDogs
+    const alreadyLiked = false;
+    for(let i = 0; i < user.likedDogs.length; i++) {
+        if(user.likedDogs[i]._id.toString() === dogId) {
+            alreadyLiked = true;
+            break;
+        }
+    }
 
     if (!alreadyLiked) {
         const updateInfo = await userCollection.updateOne(
@@ -221,11 +222,11 @@ const likeDog = async (userId, acenterId, dogId) => {
                 $push: {
                     likedDogs: {
                         acenterId: new ObjectId(acenterId),
-                        dogId: new ObjectId(dogId),
+                        _id: new ObjectId(dogId),
                     },
                     seenDogs: {
                         acenterId: new ObjectId(acenterId),
-                        dogId: new ObjectId(dogId),
+                        _id: new ObjectId(dogId),
                     },
                 },
             }
@@ -233,8 +234,8 @@ const likeDog = async (userId, acenterId, dogId) => {
     } else {
         throw "Dog is already liked.";
     }
-
-    return { user, success: true };
+    const newUser = await userCollection.findOne({ _id: new ObjectId(userId) });
+    return { newUser, success: true };
 };
 
 // Same as likeDog, but with different alias
@@ -254,25 +255,43 @@ const swipeLeft = async (userId, acenterId, dogId) => {
         throw `User not found with this Id ${userId}`;
     }
 
-    const updateInfo = await userCollection.updateOne(
-        { _id: new ObjectId(userId) },
-        {
-            $push: {
-                seenDogs: {
-                    acenterId: new ObjectId(acenterId),
-                    dogId: new ObjectId(dogId),
-                },
-            },
+    //check if already seen in the user seenDogs
+    let alreadySeen = false;
+    for(let i = 0; i < user.seenDogs.length; i++) {
+        if(user.seenDogs[i]._id.toString() === dogId) {
+            alreadySeen = true;
+            break;
         }
-    );
+    }
 
-    return { user, success: true };
+    if(!alreadySeen) {
+        const updateInfo = await userCollection.updateOne(
+            { _id: new ObjectId(userId) },
+            {
+                $push: {
+                    seenDogs: {
+                        acenterId: new ObjectId(acenterId),
+                        _id: new ObjectId(dogId),
+                    },
+                },
+            }
+        );
+    } else {
+        throw "Dog is already seen.";
+    }
+
+    const newUser = await userCollection.findOne({ _id: new ObjectId(userId) });
+    return { newUser, success: true };
 };
-
 
 // Get all dogs that the user has not seen yet
 // ! If the user has seen all dogs, it currently throws, but we can change it to return an empty array
 // limit is the number of dogs to return
+
+    //this does NOT work atm for some reason
+
+
+
 const getUnseenDogs = async (userId, limit = 10) => {
     userId = validation.checkId(userId, "User ID");
 
@@ -283,30 +302,54 @@ const getUnseenDogs = async (userId, limit = 10) => {
         throw `User not found with this Id ${userId}`;
     }
 
-    const seenDogIds = user.seenDogs.map((seenDog) => seenDog.dogId);
+    // const seenDogIds = user.seenDogs.map((seenDog) => seenDog.dogId);
+    //const acenterCollection = await acenters();
 
-    const acenterCollection = await acenters();
-
-    const unseenDogs = await acenterCollection
-        .aggregate([
-            { $unwind: "$dogList" },
-            {
-                $match: {
-                    "dogList._id": {
-                        $nin: seenDogIds.map((id) => new ObjectId(id)),
-                    },
-                },
-            },
-            { $limit: limit },
-            { $project: { dog: "$dogList", _id: 0 } },
-        ])
-        .toArray();
-
-    if (!unseenDogs || unseenDogs.length === 0) {
-        return { dogs: [], success: true };
+    //Utilizing hash set here for the BEAUTIFUL O(1) lookup time.
+    let seenDogs = new Set();
+    for(let i = 0; i < user.seenDogs.length; i++) {
+        seenDogs.add(user.seenDogs[i]._id.toString());
     }
 
-    return { dogs: unseenDogs.map((entry) => entry.dog), success: true };
+    
+    //get all the dogs, and check against the set.
+    //add dogs to unseen dog list until either no more dogs at all or until limit is reached.
+    const allDogs = await acenterData.default.getAllDogsFromAllAcenters();
+    let unseenDogs = [];
+    for(let i = 0; i < allDogs.length; i++) {
+        if(unseenDogs.length >= limit) {
+            break;
+        }
+        if(!seenDogs.has(allDogs[i]._id.toString())) {
+            unseenDogs.push(allDogs[i]);
+        }
+    }
+
+    return { dogs: unseenDogs, success: true };
+    
+
+    // const unseenDogs = await acenterCollection
+    //     .aggregate([
+    //         { $unwind: "$dogList" },
+    //         {
+    //             $match: {
+    //                 "dogList._id": {
+    //                     $nin: seenDogIds.map((id) => new ObjectId(id)),
+    //                 },
+    //             },
+    //         },
+    //         { $limit: limit },
+    //         { $project: { dog: "$dogList", _id: 0 } },
+    //     ])
+    //     .toArray();
+
+    // if (!unseenDogs || unseenDogs.length === 0) {
+    //     return { dogs: [], success: true };
+    // }
+
+    // return { dogs: unseenDogs.map((entry) => entry.dog), success: true };
+
+    
 };
 
 const exportedMethods = {

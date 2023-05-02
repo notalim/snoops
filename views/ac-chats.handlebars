@@ -1,0 +1,21 @@
+<main>
+    <div class="chat-container">
+        {{#if chats}}
+        <div class="all-chats">
+            {{#each chats}}
+            <div class="chat">
+                <p class="recName">{{this.userName}}</p>
+                <p class="uid">User {{this.userId}}</p>
+                <p class="acid">User {{this.centerId}}</p>
+            </div>
+            {{/each}}
+        </div>
+        <div id="current-chat" class="current-chat"></div>
+        <div id="chatTextDiv">
+            <input class="textBox" type="text" name="sentMessage" id="sentMessage">
+            <button class="button" type="submit" id="sendButton">Send</button>
+        </div>
+        {{/if}}
+    </div>
+    <script type="text/javascript" src="/public/js/ac-chats.js"></script>
+</main>

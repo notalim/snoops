@@ -3,10 +3,20 @@
         <img src="../assets/landing-dog.png" alt="Happy Dog" />
         <div class="hero-content">
             <h2>Ready to find a new friend?</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta, repudiandae assumenda.</p>
+            <p>Find your perfect canine companion and make a difference in the life of a shelter dog. Our platform connects adoption centers and potential dog adopters to help you find your new best friend.</p>
             <div class="hero-buttons">
-                <a href="/users/login-page">Log In</a>
-                <a href="/users/signup-page">Sign Up</a>
+                {{#unless user}}
+                    {{#unless acenter}}
+                        <a href="/users/login-page">Log In</a>
+                        <a href="/users/signup-page">Sign Up</a>
+                    {{/unless}}
+                {{/unless}}
+                {{#if user}}
+                    <a href="/users/scroller/{{user._id}}">Find Dogs</a>
+                {{/if}}
+                {{#if acenter}}
+                    <a href="/acenters/ac-dashboard/{{acenter._id}}">Dashboard</a>
+                {{/if}}
             </div>
         </div>
     </section>

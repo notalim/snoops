@@ -48,6 +48,7 @@ header {
     align-items: center;
     border-bottom: solid 0.03125rem #3a2412;
     width: 100vw;
+    position: relative;
 }
 
 header h1 {
@@ -75,9 +76,6 @@ header nav a {
     transition: color 0.3s ease-in-out;
 }
 
-header nav .auth-links a {
-    margin-right: 2.5rem;
-}
 
 header nav a:hover {
     color: var(--accent-color);
@@ -178,4 +176,35 @@ footer {
 
 footer p {
     background-color: var(--footer-background-color);
+}
+
+.aboutContainer{
+    background-color: #fce5c3;
+    height: 83%;
+    width: 60%;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.aboutTitle{
+    margin-left: 20px;
+    background-color: #fce5c3;
+    font-size: 3.2rem;
+    text-align: left;
+}
+
+.aboutText{
+    background-color: #fce5c3;
+    width: 80%;
+    margin: auto;
+    text-indent: 50px;
+    margin-top: 50px;
+    font-size: 1.3rem;
+    text-align: left;
+}
+
+.aboutSplitter{
+    height: 10px;
 }

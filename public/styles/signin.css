@@ -56,3 +56,57 @@
     font-family: "Lora", serif;
     font-size: 16px;
 }
+
+.Loginh2{
+    background-color: #f8f8f8;
+}
+
+.login-form{
+    background-color: #f8f8f8;
+    width: 60%;
+}
+
+.userInput, .acInput{
+    display: block;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    width: 100%;
+    padding: 5px 10px;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    border: none transparent;
+    outline: none;
+    border-bottom: 2px solid rgb(168, 168, 168);
+}
+
+
+.userLabel, .acLabel{
+    background-color: #f8f8f8;
+    display: block;
+    font-size: large;
+    margin-bottom: 5px;
+    color: rgb(168, 168, 168);
+}
+
+.LoginSubmit{
+    display: block;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    padding: 3px 30px;
+    background-color: #8fe1ff;
+    border-bottom-color: #69d6fd;
+    border-left-color: #69d6fd;
+    border-width: 2px;
+    border-top: none;
+    border-right: none;
+    border-left-width: 1px;
+
+}
+
+.switchLogin{
+    display: block;
+    background-color: #f8f8f8;
+    text-align: center;
+}

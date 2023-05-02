@@ -7,20 +7,55 @@
     float: left;
     width: 25%;
     height: 100%;
-
+    overflow: scroll;
     border-right: 5px solid black;
+}
+
+.acid{
+    display: none;
+}
+
+.uid{
+    display: none;
 }
 
 .current-chat{
     float: left;
     width: 75%;
-    height: 100%;
+    height: 70%;
+    overflow: scroll;
+
+}
+
+#chatTextDiv{
+    background-color: cadetblue;
+    height: 30%;
+    width: 75%;
+    float: right;
 }
 
 .chat{
     width: 100%;
     height: 10%;
     border-bottom: 2px solid black;
+}
+
+.recName{
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 5px
+}
+
+.toggledChat, .toggledChat .recName{
+    background-color: #ffd99f;
+}
+.toggledChat{
+    border: 1px solid black;
+    border-bottom: 2px solid black;
+    -webkit-box-shadow: inset 0px 0px 5px black;
+    -moz-box-shadow: inset 0px 0px 5px black;
+    box-shadow: inset 0px 0px 5px black;
+    outline: none;
 }
 
 .textbox{
@@ -30,30 +65,87 @@
     display: block;
     margin: auto;
     position: relative;
-    top: 80%;
+    top: 20%;
+    border-radius: 10px;
+    border: 1px solid black;
 }
 
-.button{
+#sendButton{
     display: block;
+    text-align: center;
+    border: none;
     margin: auto;
     position: relative;
-    top: 80%;
+    top: 20%;
+    margin-top: 10px;
+    padding: 5px 20px;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 15px;
+    border-color: #2196F3;
+    background-color: plum;
 }
 
-.userMessage{
-    width: fit-content;
+#sendButton:active{
+    -webkit-box-shadow: inset 0px 0px 5px black;
+    -moz-box-shadow: inset 0px 0px 5px black;
+    box-shadow: inset 0px 0px 5px black;
+    outline: none;
+}
+
+.senderMessageDiv{
     text-align: right;
-    background-color: red;
-    margin: 5px 5px auto auto;
+}
+
+.senderMessage{
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
+    text-align: left;
+    background-color: rgb(189, 236, 182);
+    margin: 5px 20px 5px auto;
     padding: 5px;
     border-radius: 10px;
+    border-bottom: 2px solid rgb(164, 211, 157);
+    border-left: 1px solid rgb(164, 211, 157);
+    max-width: 45%;
+    word-wrap: break-word;
 }
 
-.acenterMessage{
+.receiverMessage{
+    display: inline-block;
     text-align: left;
     width: fit-content; 
-    background-color: skyblue;
-    margin-left: 5px;
+    height: fit-content;
+    background-color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 20px;
     padding: 5px;
     border-radius: 10px;
+    border-bottom: 2px solid rgb(230, 230, 230);
+    border-right: 1px solid rgb(230, 230, 230);
+    max-width: 45%;
+    word-wrap: break-word;
 } 
+
+.senderMessageTime{
+    display: inline-block;
+    font-size: x-small;
+    color: gray;
+    margin-right: 3px;
+    max-width: 70px;
+    position: relative;
+    top: 5px;
+}
+
+.receiverMessageTime{
+    display: inline-block;
+    font-size: x-small;
+    color: gray;
+    margin-left: 3px;
+    max-width: 70px;
+    position: relative;
+    top: 5px;
+}
+

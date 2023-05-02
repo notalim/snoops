@@ -1,31 +1,32 @@
 <main>
     <div class="signin-wrapper">
         <div class="graphic-image">
-            <img src="../assets/40444.jpg" alt="" />
+            <img src="../assets/40444.jpg" alt="Graphic Image with dogs" />
         </div>
-        <div class="form-container">
-            <h2>Log in</h2>
+        <div class="form-container signin-div">
+            <h2 class="Loginh2">Log in</h2>
             <div
-                id="error-message"
+                id="error"
                 class="alert alert-danger"
                 style="display: none;"
             ></div>
-            <form id="login-form" method="POST" action="/users/login">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required />
+            <form class = "login-form" id="login-form" method="POST" action="/users/login">
+                <div id="error" class="error">
+                    {{#if error}}
+                        {{error}}
+                    {{/if}}
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        required
-                    />
-                </div>
-                <button type="submit">Log in</button>
-                <a href="#" onclick="switchToAcLogin()">Switch to Adoption
+
+                <label class="userLabel" for="email">Email</label>
+                <input class="userInput" type="email" 
+                    id="email" name="email" value="{{email}}" required/>
+
+                <label class="userLabel" for="password">Password</label>
+                <input class="userInput" type="password" id="password"
+                        name="password" required/>
+
+                <button class="LoginSubmit" type="submit">Log in</button>
+                <a class="switchLogin" href="#" onclick="switchToAcLogin()">Switch to Adoption
                     Center Login</a>
             </form>
         </div>
@@ -34,6 +35,8 @@
     <script>
         function switchToAcLogin() { window.location.href =
         "/acenters/login-page"; }
+    </script>
+    <script type="module" src="/js/login-validation.js">
     </script>
 
 </main>

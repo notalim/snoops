@@ -1,6 +1,81 @@
+function calculateAge(dob) {
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDifference = today.getMonth() - dob.getMonth();
+    const dayDifference = today.getDate() - dob.getDate();
+
+    if (
+        monthDifference < 0 ||
+        (monthDifference === 0 && today.getDate() < dob.getDate())
+    ) {
+        age--;
+    }
+
+    if (age === 0) {
+        const monthAge = today.getMonth() - dob.getMonth();
+        if (monthDifference === 0 && dayDifference < 30) {
+            return "Less than a month old";
+        } else {
+            return `${monthAge === 1 ? "1 month" : monthAge + " months"} old`;
+        }
+    } else {
+        return `${age === 1 ? "1 year" : age + " years"} old`;
+    }
+}
+
+function getSizeGroup(size) {
+    if (size >= 0 && size <= 24) {
+        return "Small";
+    } else if (size >= 25 && size <= 59) {
+        return "Medium";
+    } else if (size >= 60 && size <= 99) {
+        return "Large";
+    } else if (size >= 100) {
+        return "Giant";
+    } else {
+        return "Unknown";
+    }
+}
+
+function getBreedsArray() {
+    // ! don't forget to validate the inptus
+    const breed1 = document.getElementById("dogBreed1").value;
+    const breed2 = document.getElementById("dogBreed2").value;
+    const breed3 = document.getElementById("dogBreed3").value;
+
+    const breeds = [breed1, breed2, breed3].filter((breed) => breed !== "");
+    // console.log(breeds);
+    return breeds;
+}
+
+function setupAddDogCardEventListener(selector, style) {
+    const addDogBtn = document.querySelector(selector);
+    if (addDogBtn) {
+        addDogBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            document.querySelector("#create-dog-modal").style.display = style;
+        });
+    } else {
+        setTimeout(setupAddDogCardEventListener, 100);
+    }
+}
+
+function setupUpdateDogCardEventListener(selector, style) {
+    const updateDogBtn = document.querySelector(selector);
+    if (updateDogBtn) {
+        updateDogBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            document.querySelector("#update-dog-modal").style.display = style;
+        });
+    } else {
+        setTimeout(() => setupUpdateDogCardEventListener(selector, style), 100);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const dogCards = document.querySelectorAll(".dog-card");
 
+    // create dogCard
     dogCards.forEach((card) => {
         const dob = new Date(card.dataset.dob);
         const size = parseInt(card.dataset.size, 10);
@@ -25,63 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
         card.appendChild(sizeGroupElement);
     });
 
-    function calculateAge(dob) {
-        const today = new Date();
-        let age = today.getFullYear() - dob.getFullYear();
-        const monthDifference = today.getMonth() - dob.getMonth();
-
-        if (
-            monthDifference < 0 ||
-            (monthDifference === 0 && today.getDate() < dob.getDate())
-        ) {
-            age--;
-        }
-
-        if (age === 0) {
-            const monthAge = today.getMonth() - dob.getMonth();
-            return `${monthAge === 1 ? "1 month" : monthAge + " months"} old`;
-        } else {
-            return `${age === 1 ? "1 year" : age + " years"} old`;
-        }
-    }
-
-    function getSizeGroup(size) {
-        if (size >= 0 && size <= 24) {
-            return "Small";
-        } else if (size >= 25 && size <= 59) {
-            return "Medium";
-        } else if (size >= 60 && size <= 99) {
-            return "Large";
-        } else if (size >= 100) {
-            return "Giant";
-        } else {
-            return "Unknown";
-        }
-    }
-
-    function setupAddDogCardEventListener(selector, style) {
-        const addDogBtn = document.querySelector(selector);
-        if (addDogBtn) {
-            addDogBtn.addEventListener("click", function (event) {
-                event.preventDefault();
-                document.querySelector("#create-dog-modal").style.display =
-                    style;
-            });
-        } else {
-            setTimeout(setupAddDogCardEventListener, 100);
-        }
-    }
-
     setupAddDogCardEventListener(".add-dog-btn", "block");
     setupAddDogCardEventListener(".create-dog-close", "none");
-    function getBreedsArray() {
-        // ! don't forget to validate the inptus
-        const breed1 = document.getElementById("dogBreed1").value;
-        const breed2 = document.getElementById("dogBreed2").value;
-        const breed3 = document.getElementById("dogBreed3").value;
-
-        const breeds = [breed1, breed2, breed3].filter((breed) => breed !== "");
-    }
 
     let createDogForm = document.getElementById("create-dog-form");
     if (createDogForm) {
@@ -90,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
                 event.preventDefault();
                 const breedsArray = getBreedsArray();
+                console.log(breedsArray);
                 const breedsJson = JSON.stringify(breedsArray);
                 const hiddenBreedsInput = document.createElement("input");
                 hiddenBreedsInput.type = "hidden";
@@ -107,4 +128,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    // update a dogCard on click
+
+    dogCards.forEach((card) => {
+        const updateDogBtn = card.querySelector(".update-dog-btn");
+        setupUpdateDogCardEventListener(updateDogBtn, "block");
+    });
 });
