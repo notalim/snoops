@@ -1,6 +1,7 @@
 import { users, acenters } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as validation from "../validation.js";
+import * as acenterData from "./acenters.js";
 
 const userCollection = await users();
 
@@ -204,12 +205,6 @@ const likeDog = async (userId, acenterId, dogId) => {
     if (!user) {
         throw `User not found with this Id ${userId}`;
     }
-    
-    // const alreadyLiked = user.likedDogs.some(
-    //     (entry) =>
-    //         entry.acenterId.toString() === acenterId &&
-    //         entry._id.toString() === _id
-    // );
 
     //check if already liked in the user likedDogs
     const alreadyLiked = false;
@@ -260,24 +255,43 @@ const swipeLeft = async (userId, acenterId, dogId) => {
         throw `User not found with this Id ${userId}`;
     }
 
-    const updateInfo = await userCollection.updateOne(
-        { _id: new ObjectId(userId) },
-        {
-            $push: {
-                seenDogs: {
-                    acenterId: new ObjectId(acenterId),
-                    dogId: new ObjectId(dogId),
-                },
-            },
+    //check if already seen in the user seenDogs
+    let alreadySeen = false;
+    for(let i = 0; i < user.seenDogs.length; i++) {
+        if(user.seenDogs[i]._id.toString() === dogId) {
+            alreadySeen = true;
+            break;
         }
-    );
+    }
 
-    return { user, success: true };
+    if(!alreadySeen) {
+        const updateInfo = await userCollection.updateOne(
+            { _id: new ObjectId(userId) },
+            {
+                $push: {
+                    seenDogs: {
+                        acenterId: new ObjectId(acenterId),
+                        _id: new ObjectId(dogId),
+                    },
+                },
+            }
+        );
+    } else {
+        throw "Dog is already seen.";
+    }
+
+    const newUser = await userCollection.findOne({ _id: new ObjectId(userId) });
+    return { newUser, success: true };
 };
 
 // Get all dogs that the user has not seen yet
 // ! If the user has seen all dogs, it currently throws, but we can change it to return an empty array
 // limit is the number of dogs to return
+
+    //this does NOT work atm for some reason
+
+
+
 const getUnseenDogs = async (userId, limit = 10) => {
     userId = validation.checkId(userId, "User ID");
 
@@ -288,30 +302,54 @@ const getUnseenDogs = async (userId, limit = 10) => {
         throw `User not found with this Id ${userId}`;
     }
 
-    const seenDogIds = user.seenDogs.map((seenDog) => seenDog.dogId);
+    // const seenDogIds = user.seenDogs.map((seenDog) => seenDog.dogId);
+    //const acenterCollection = await acenters();
 
-    const acenterCollection = await acenters();
-
-    const unseenDogs = await acenterCollection
-        .aggregate([
-            { $unwind: "$dogList" },
-            {
-                $match: {
-                    "dogList._id": {
-                        $nin: seenDogIds.map((id) => new ObjectId(id)),
-                    },
-                },
-            },
-            { $limit: limit },
-            { $project: { dog: "$dogList", _id: 0 } },
-        ])
-        .toArray();
-
-    if (!unseenDogs || unseenDogs.length === 0) {
-        return { dogs: [], success: true };
+    //Utilizing hash set here for the BEAUTIFUL O(1) lookup time.
+    let seenDogs = new Set();
+    for(let i = 0; i < user.seenDogs.length; i++) {
+        seenDogs.add(user.seenDogs[i]._id.toString());
     }
 
-    return { dogs: unseenDogs.map((entry) => entry.dog), success: true };
+    
+    //get all the dogs, and check against the set.
+    //add dogs to unseen dog list until either no more dogs at all or until limit is reached.
+    const allDogs = await acenterData.default.getAllDogsFromAllAcenters();
+    let unseenDogs = [];
+    for(let i = 0; i < allDogs.length; i++) {
+        if(unseenDogs.length >= limit) {
+            break;
+        }
+        if(!seenDogs.has(allDogs[i]._id.toString())) {
+            unseenDogs.push(allDogs[i]);
+        }
+    }
+
+    return { dogs: unseenDogs, success: true };
+    
+
+    // const unseenDogs = await acenterCollection
+    //     .aggregate([
+    //         { $unwind: "$dogList" },
+    //         {
+    //             $match: {
+    //                 "dogList._id": {
+    //                     $nin: seenDogIds.map((id) => new ObjectId(id)),
+    //                 },
+    //             },
+    //         },
+    //         { $limit: limit },
+    //         { $project: { dog: "$dogList", _id: 0 } },
+    //     ])
+    //     .toArray();
+
+    // if (!unseenDogs || unseenDogs.length === 0) {
+    //     return { dogs: [], success: true };
+    // }
+
+    // return { dogs: unseenDogs.map((entry) => entry.dog), success: true };
+
+    
 };
 
 const exportedMethods = {
