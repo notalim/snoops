@@ -4,28 +4,26 @@
             <img src="../assets/40444.jpg" alt="Graphic Image with dogs" />
         </div>
         <div class="form-container">
-            <h2>Adoption Center Log in</h2>
+            <h2 class="Loginh2">Adoption Center Log in</h2>
             <div id="error" class="error">
                 {{#if error}}
                     {{error}}
                 {{/if}}
             </div>
-            <form id="ac-login-form" method="POST" action="/acenters/login">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required />
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
+            <form class = "login-form" id="ac-login-form" method="POST" action="/acenters/login">
+                    <label class="acLabel" for="email">Email</label>
+                    <input class="acInput" type="email" id="email" name="email" required />
+
+                    <label class="acLabel" for="password">Password</label>
                     <input
+                        class="acInput"
                         type="password"
                         id="password"
                         name="password"
                         required
                     />
-                </div>
-                <button type="submit">Log in</button>
-                <a href="#" onclick="switchToUserLogin()">Switch to User Login</a>
+                <button class="LoginSubmit" type="submit">Log in</button>
+                <a class="switchLogin" href="#" onclick="switchToUserLogin()">Switch to User Login</a>
             </form>
         </div>
     </div>
