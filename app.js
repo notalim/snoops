@@ -81,6 +81,13 @@ app.use("/chats/user/:uid", (req, res, next) => {
     next();
 });
 
+app.use("/chats/user/:uid/:acid", (req, res, next) => {
+    if(!req.xhr){
+        return res.redirect("/404Page");
+    }
+    next();
+});
+
 app.use("/chats/acenter/:acid", (req, res, next) => {
     
     if(!req.session){
@@ -94,6 +101,14 @@ app.use("/chats/acenter/:acid", (req, res, next) => {
     }
     next();
 });
+
+app.use("/chats/acenter/:acid/:uid", (req, res, next) => {
+    if(!req.xhr){
+        return res.redirect("/404Page");
+    }
+    next();
+});
+
 
 
 let storage = multer.diskStorage({
