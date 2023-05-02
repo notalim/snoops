@@ -51,90 +51,94 @@
         let dogBreeds = document.getElementById("dog-breeds");
         let dogAge = document.getElementById("dog-age");
         let dogImage = document.getElementById("dog-image");
-        let dogDescription = document.getElementById("dog-description");
-
-        let userId = '{{user._id}}';
-
-        dogName.textContent = dogsData[0].name;
-        dogBreeds.textContent = breedName(dogsData[0].breeds);
-        dogAge.textContent = dogsData[0].age;
-        dogImage.src = dogsData[0].img;
-        dogDescription.textContent = dogsData[0].description;
-
-        let dogId = dogsData[0]._id.toString();
-        let dogAcenterId = dogsData[0].acenterId.toString();
+        let dogDescription = document.getElementById("dog-description"); 
+        let dogId = "";
+        let dogAcenterId = "";      
+        if(dogsData.length > 0) {
+            dogId = dogsData[0]._id.toString();
+            dogAcenterId = dogsData[0].acenterId.toString();
+        }
 
         let i = 0;
 
         let leftButton = document.getElementsByClassName("scroller-button")[0];
         let rightButton = document.getElementsByClassName("scroller-button")[1];
 
-        function goBack() {
-            if (i === 0) {
-                i = dogsData.length - 1;
-            } else {
-                i--;
-            }
+        let userId = '{{user._id}}';
 
-            dogName.textContent = dogsData[i].name;
-            dogBreeds.textContent = breedName(dogsData[i].breeds);
-            dogAge.textContent = dogsData[i].age;
-            dogImage.src = dogsData[i].img;
-            dogDescription.textContent = dogsData[i].description;
-        };
+        if(dogsData.length > 0){
+            dogName.textContent = dogsData[0].name;
+            dogBreeds.textContent = breedName(dogsData[0].breeds);
+            dogAge.textContent = dogsData[0].age;
+            dogImage.src = dogsData[0].img;
+            dogDescription.textContent = dogsData[0].description;
 
-        function goForward(){
-            if (i === dogsData.length - 1) {
-                //redirect to scroller
-                window.location.reload(true);
-                return
-            } else {
-                i++;
-            }
 
-            dogName.textContent = dogsData[i].name;
-            dogBreeds.textContent = breedName(dogsData[i].breeds);
-            dogAge.textContent = dogsData[i].age;
-            dogImage.src = dogsData[i].img;
-            dogDescription.textContent = dogsData[i].description;
-            dogId = dogsData[i]._id.toString();
-            dogAcenterId = dogsData[i].acenterId.toString()
-        };
 
-        //like button post request
-         $("#likeButton").click(function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: `/users/${userId}/like/${dogAcenterId}/${dogId}`,
-                type: "POST",
-                data: "Love the dog!",
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (err) {
-                    console.log(err);
-                },
-            });
-            goForward();
-        }); 
+            function goBack() {
+                if (i === 0) {
+                    i = dogsData.length - 1;
+                } else {
+                    i--;
+                }
 
-        //dislike button post request
-        $("#dislikeButton").click(function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: `/users/${userId}/dislike/${dogAcenterId}/${dogId}`,
-                type: "POST",
-                data: "Hate the dog!",
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (err) {
-                    console.log(err);
-                },
-            });
-            goForward();
-        })
+                dogName.textContent = dogsData[i].name;
+                dogBreeds.textContent = breedName(dogsData[i].breeds);
+                dogAge.textContent = dogsData[i].age;
+                dogImage.src = dogsData[i].img;
+                dogDescription.textContent = dogsData[i].description;
+            };
 
+            function goForward(){
+                if (i === dogsData.length - 1) {
+                    window.location.reload();
+                } else {
+                    i++;
+            
+                    dogName.textContent = dogsData[i].name;
+                    dogBreeds.textContent = breedName(dogsData[i].breeds);
+                    dogAge.textContent = dogsData[i].age;
+                    dogImage.src = dogsData[i].img;
+                    dogDescription.textContent = dogsData[i].description;
+                    dogId = dogsData[i]._id.toString();
+                    dogAcenterId = dogsData[i].acenterId.toString()
+                }
+            };
+
+            //like button post request
+            $("#likeButton").click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: `/users/${userId}/like/${dogAcenterId}/${dogId}`,
+                    type: "POST",
+                    data: "Love the dog!",
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    },
+                });
+                goForward();
+            }); 
+
+            //dislike button post request
+            $("#dislikeButton").click(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: `/users/${userId}/dislike/${dogAcenterId}/${dogId}`,
+                    type: "POST",
+                    data: "Hate the dog!",
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    },
+                });
+                goForward();
+            })
+        }
 
     </script>
 </main>

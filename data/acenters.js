@@ -407,6 +407,15 @@ const logInAdoptionCenter = async (acenterEmail, acenterPassword) => {
     return acenter;
 };
 
+const getAllDogsFromAllAcenters = async () => {
+    const acenterList = await acenterCollection.find({}).toArray();
+    let dogList = [];
+    for (let i = 0; i < acenterList.length; i++) {
+        dogList = dogList.concat(acenterList[i].dogList);
+    }
+    return dogList;
+}
+
 const exportedMethods = {
     getAllAdoptionCenters,
     getAdoptionCenter,
@@ -419,6 +428,7 @@ const exportedMethods = {
     getDogFromAcenter,
     updateDog,
     deleteDog,
+    getAllDogsFromAllAcenters
 };
 
 export default exportedMethods;
