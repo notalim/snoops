@@ -55,12 +55,6 @@ if (updateForm) {
                 "Address"
             );
 
-        // } catch (e) {
-        //     event.preventDefault();
-        //     error.hidden = false;
-        //     error.innerHTML = e;
-        // }
-        // try {
             event.target.submit();
             error.hidden = false;
         } catch (e) {

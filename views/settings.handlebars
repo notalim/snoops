@@ -119,13 +119,8 @@
                     "Address"
                 );
 
-            // } catch (e) {
-            //     event.preventDefault();
-            //     error.hidden = false;
-            //     error.innerHTML = e;
-            // }
-            // try {
                 error.hidden = false;
+
                 $.ajax({
                     url: `/users/{{user._id}}`,
                     type: "PUT",
@@ -177,7 +172,6 @@
                         error.style.textAlign = "center";
                         error.id = "error";
                         container.appendChild(error);
-
                     }
                 });
             } catch (e) {
