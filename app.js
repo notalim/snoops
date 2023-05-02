@@ -67,6 +67,11 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use("/chats", (req, res, next) => {
+    console.log(req.session);
+    next();
+});
+
 let storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, 'public/assets/uploads/');

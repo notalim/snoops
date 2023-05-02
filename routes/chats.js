@@ -7,14 +7,14 @@ import xss from 'xss';
 // TODO: Chat Routes
 
 // TODO: GET / - Getting all chats between all users
-router.route("/").get(async (req, res) => {
-    try {
-        const chatList = await chatData.getAllChats();
-        return res.status(200).json(chatList);
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
+// router.route("/").get(async (req, res) => {
+//     try {
+//         const chatList = await chatData.getAllChats();
+//         return res.status(200).json(chatList);
+//     } catch (e) {
+//         return res.status(500).json({ error: e });
+//     }
+// });
 
 // TODO: GET /user/:uid - Get All chats for user with id sorted by most recent
 router.route("/user/:uid").get(async (req, res) => {
