@@ -93,19 +93,31 @@ function checkEmailRegex(email, elmName) {
     return email.trim().toLowerCase();
 }
 
-function checkDate(date, elmName) {
+function checkDate(date, elmName, minAge = 18, maxAge = 120) {
     date = checkString(date, elmName);
-    let dob = new Date(date);
-    let mon_diff = Date.now() - dob.getTime();
-    let age_diff = new Date(mon_diff);
-    let year = age_diff.getUTCFullYear();
-    let age = Math.abs(year - 1970);
-    if (elmName === "User Date of Birth") {
-        if (age < 18 || age > 122) {
-            throw `${elmName} must be a valid age (18-122)`;
-        }
+    let dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(date)) {
+        throw `${elmName} must be in the format YYYY-MM-DD`;
     }
+    let dob = new Date(date);
+    let age = calculateAge(dob);
+
+    if (age < minAge || age > maxAge) {
+        throw `${elmName} must be a valid age (${minAge}-${maxAge})`;
+    }
+
     return date.trim();
+}
+
+function calculateAge(dateOfBirth) {
+    const now = new Date();
+    const age = now.getFullYear() - dateOfBirth.getFullYear();
+    const m = now.getMonth() - dateOfBirth.getMonth();
+
+    if (m < 0 || (m === 0 && now.getDate() < dateOfBirth.getDate())) {
+        return age - 1;
+    }
+    return age;
 }
 
 function checkPhoneRegex(_var, varName) {
