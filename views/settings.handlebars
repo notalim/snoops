@@ -175,11 +175,20 @@
                     }
                 });
 
-                $.ajax({
-                    url: '/user/{{user._id}}/uploadimage',
-                    type: "POST",
-                    data: ${"#image"}
-                });
+                //if the user has uploaded a new image, send it to the server separately
+                if($("#image").val()){
+                    $.ajax({
+                        url: '/user/{{user._id}}/uploadimage',
+                        type: "POST",
+                        data: ${"#image"},
+                        success: function(data){
+                            console.log(data);
+                        },
+                        error: function(err){
+                            console.log(err);
+                        }
+                    });
+                }
             } catch (e) {
                 event.preventDefault();
                 error.hidden = false;
