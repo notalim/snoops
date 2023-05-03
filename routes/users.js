@@ -199,6 +199,8 @@ router.route("/:id").put(async (req, res) => {
     let dob = xss(req.body.dob);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
+    let image = req.body.image;
+    console.log(image);
 
     if (email == undefined || email == "" || email == null) {
         email = xss(req.session.user.email);
@@ -346,5 +348,7 @@ router.route("/:id/dislike/:acenterId/:dogId").post(async (req, res) => {
 // *: Upload a profile picture
 
 router.route("/:id/uploadimage").post(async (req, res) => {
+    //print the file contents that were uploaded
+    console.log(req.file);
 });
 export default router;

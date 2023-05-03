@@ -176,11 +176,11 @@
                 });
 
                 //if the user has uploaded a new image, send it to the server separately
-                if($("#image").val()){
+                /*if($("#image").val()){
                     $.ajax({
                         url: '/user/{{user._id}}/uploadimage',
                         type: "POST",
-                        data: ${"#image"},
+                        data: document.getElementById("image").value,
                         success: function(data){
                             console.log(data);
                         },
@@ -188,7 +188,7 @@
                             console.log(err);
                         }
                     });
-                }
+                }*/
             } catch (e) {
                 event.preventDefault();
                 error.hidden = false;
