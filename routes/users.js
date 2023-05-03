@@ -342,4 +342,9 @@ router.route("/:id/dislike/:acenterId/:dogId").post(async (req, res) => {
     }
 });
 
+
+// *: Upload a profile picture
+
+router.route("/:id/uploadimage").post(async (req, res) => {
+});
 export default router;
