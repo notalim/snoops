@@ -68,7 +68,8 @@ export function checkName(name, varName) {
     if (name.split(" ").length > 1) {
         throw `${varName} must be a single word`;
     }
-    var regex = [/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g];
+    // no numbers and symbols are allowed in the regex
+    let regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?0-9]/g;
     if (name.replace(regex, "").length !== name.length) {
         throw `${varName} must not consist of special characters`;
     }
