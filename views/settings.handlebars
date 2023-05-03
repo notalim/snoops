@@ -6,7 +6,7 @@
                     {{error}}
                 {{/if}}
             </div>
-        <form id="update-user" action="/users/{{user._id}}" method="POST" enctype="multipart/form-data">
+        <form id="update-user" method="POST" enctype="multipart/form-data">
             <label for="firstName">First Name</label>
             <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
