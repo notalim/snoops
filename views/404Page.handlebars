@@ -1,12 +1,23 @@
 <main>
-    <section class="hero">
-        <img src="/assets/landing-dog.png" alt="Happy Dog" />
-        <div class="hero-content">
-            <h2>404</h2>
-            <h3>Ruh Roh!</h3>
-            <p>We could not find the page you were looking!</p>
-            <p>Don't worry we got you covered!</p>
-            <a href="/">Click here to go back to main page</a>
+    <section class="hero hero-404">
+        <img id="random-gif" alt="404 Dog" />
+        <div class="wrapper-404">
+            <div class="hero-content hero-content-404">
+                <h2>404</h2>
+                <h3>Ruh Roh!</h3>
+                <p>We could not find the page you were looking!</p>
+                <p>Don't worry we got you covered!</p>
+                <a href="/">Click here to go back to main page</a>
+            </div>
         </div>
+
     </section>
 </main>
+
+<script>
+    const gifs = [ '/public/assets/404-gifs/gif1.gif',
+    '/public/assets/404-gifs/gif2.gif', '/public/assets/404-gifs/gif3.gif', ];
+    function getRandomGif() { const randomIndex = Math.floor(Math.random() *
+    gifs.length); return gifs[randomIndex]; }
+    document.getElementById('random-gif').src = getRandomGif();
+</script>
