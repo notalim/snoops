@@ -4,52 +4,77 @@
             <img src="/assets/40444.jpg" alt="Graphic Image with dogs" />
         </div>
         <div class="form-container">
-            <!-- Adoption Center Signup form -->
-            <form id="signup-form" method="POST" action="/acenters/signup">
+            <h2 class="Signuph2">Adoption Center Sign Up</h2>
                 <div id="error" class="error">
                     {{#if error}}
                         {{error}}
                     {{/if}}
                 </div>
-                <input id="email" type="email" name="email" placeholder="Email" value="{{email}}" required />
-                <input id="name" type="text" name="name" placeholder="Name" value="{{name}}" required />
+            <form class="signup-form" id="signup-form" method="POST" action="/acenters/signup">
+            
+
+                <label class="acSULabel" for="email">Email</label>
+                <input class="acSUInput" id="email" type="email" name="email" placeholder="Email" value="{{email}}" required />
+                
+                <label class="acSULabel" for="name">Name</label>
+                <input class="acSUInput"id="name" type="text" name="name" placeholder="Name" value="{{name}}" required />
+
+                <label class="acSULabel" for="password">Password</label>
                 <input
+                    class="acSUInput"
                     id="password"
                     type="password"
                     name="password"
                     placeholder="Password"
                     required
                 />
+
+                <label class="acSULabel" for="firstName">Contact First Name</label>
                 <input
+                    class="acSUInput"
                     id="firstName"
                     type="text"
                     name="contactFirstName"
                     placeholder="Contact First Name"
                     required
                 />
+
+                <label class="acSULabel" for="lastName">Contact Last Name</label>
                 <input
+                    class="acSUInput"
                     id="lastName"
                     type="text"
                     name="contactLastName"
                     placeholder="Contact Last Name"
                     required
                 />
-                <input id="phone" type="tel" name="phone" placeholder="Phone" required />
-                <input
+
+                <label class="acSULabel" for="phone">Phone</label>
+                <input class="acSUInput" id="phone" type="tel" name="phone" placeholder="Phone" required />
+
+                <label class="acSULabel" for="address">Address</label>
+                <textarea
+                    class="acSUInput"
                     id="address"
-                    type="text"
                     name="address"
-                    placeholder="Address"
+                    value="{{address}}"
                     required
-                />
-                <input type="submit" value="Sign Up" />
+                ></textarea>
+
+                <input class="SignupSubmit" type="submit" value="Sign Up" />
             </form>
-            <a href="#" onclick="switchToUserSignup()">Switch to User Signup</a>
+            <div class="switchWrapper">
+                <a class="switchUserSignUp" href="#" onclick="switchToUserSignup()">User Signup</a>
+                <a class="switchToACSignIn" href="#" onclick="switchToAcenterSignin()">Already have an account?</a>
+            </div>
         </div>
     </div>
     <script>
         function switchToUserSignup() { window.location.href =
         "/users/signup-page"; }
+
+        function switchToAcenterSignin() { window.location.href =
+        "/acenters/login-page"; }
     </script>
     <script type="module" src="/js/ac-signup-validation.js">
     </script>
