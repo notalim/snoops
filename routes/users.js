@@ -199,6 +199,10 @@ router.route("/:id").put(async (req, res) => {
     let dob = xss(req.body.dob);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
+    let agePreference = xss(req.body.agePreference);
+    let sizePreferenceMax = xss(req.body.sizePreferenceMax);
+    let genderPreferenceM = xss(req.body.genderPreferenceM);
+    let genderPreferenceF = xss(req.body.genderPreferenceF);
 
     if (email == undefined || email == "" || email == null) {
         email = xss(req.session.user.email);
@@ -218,7 +222,31 @@ router.route("/:id").put(async (req, res) => {
     if (address == undefined || address == "" || address == null) {
         address = xss(req.session.user.address);
     }
-    // console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address)
+    if(agePreference == undefined || agePreference == "" || agePreference == null){
+        agePreference = null;
+    }
+    if(sizePreferenceMax == undefined || sizePreferenceMax == "" || sizePreferenceMax == null){
+        sizePreferenceMax = null;
+    }
+
+    console.log(genderPreferenceF, genderPreferenceM)
+
+    if(genderPreferenceF == undefined || genderPreferenceF == "" || genderPreferenceF == null){
+        genderPreferenceF = false;
+    }
+    if(genderPreferenceF != undefined && genderPreferenceF != false){
+        genderPreferenceF = true;
+    }
+
+    if(genderPreferenceM == undefined || genderPreferenceM == "" || genderPreferenceM == null){
+        genderPreferenceM = false;
+    }
+    if(genderPreferenceM != undefined && genderPreferenceM != false){
+        genderPreferenceM = true;
+    }
+
+
+    console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address, 'agePreference: ' + agePreference, 'sizePreferenceMax: ' + sizePreferenceMax, "GenderPreferenceF: " + genderPreferenceF, "GenderPreferenceM: " + genderPreferenceM)
 
     try {
         id = validation.checkId(id, "ID", "PUT /users/:id");
@@ -236,6 +264,14 @@ router.route("/:id").put(async (req, res) => {
         phone = validation.checkPhone(phone, "Phone Number");
 
         address = validation.checkString(address, "Address");
+
+        agePreference = validation.checkOptionalMaxPrefrence(agePreference, "Age Preference");
+
+        sizePreferenceMax = validation.checkOptionalMaxPrefrence(sizePreferenceMax, "Size Preference");
+
+        genderPreferenceF = validation.checkBoolean(genderPreferenceF, "Gender F Preference");
+
+        genderPreferenceM = validation.checkBoolean(genderPreferenceM, "Gender M Preference");
     } catch (e) {
         return res.status(400).render("settings", {title: "Settings", error: e.toString(), user: req.session.user});
     }
@@ -249,7 +285,11 @@ router.route("/:id").put(async (req, res) => {
             lastName,
             dob,
             phone,
-            address
+            address,
+            agePreference,
+            sizePreferenceMax,
+            genderPreferenceM,
+            genderPreferenceF
         );
 
         req.session.user = user;

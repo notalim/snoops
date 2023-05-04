@@ -14,7 +14,7 @@
     width: 50vw;
     height: 50vh;
     min-width: 500px;
-    min-height: 500px;
+    min-height: 700px;
     border: 2px solid #633d1e;
     border-radius: 16px;
 }
@@ -32,6 +32,12 @@
 
 .doggies{
     overflow-y: scroll;
+}
+
+#update-user{
+    display: grid;
+    flex-direction: column;
+    flex-wrap: nowrap;
 }
 
 .likedDogs{
