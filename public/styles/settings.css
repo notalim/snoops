@@ -80,6 +80,12 @@
     color: rgb(168, 168, 168);
 }
 
+#update-user{
+    display: grid;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
 .likedDogs{
     display: flex;
     flex-direction: row;

@@ -32,6 +32,18 @@
                 <label class="settingsLabel" for="image">Profile Picture</label>
                 <input class="settingsInput" type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
 
+                <label for="agePreference">Max Age Preference</label>
+                <input type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}"/>
+
+                <label for="sizePreferenceMax">Max Weight Preference</label>
+                <input type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}"/>
+
+                <label for="genderPreferenceM">Disallow Male Dogs?</label>
+                <input type="checkbox" id="genderPreferenceM" name="genderPreferenceM" value="on"/>
+
+                <label for="genderPreferenceF">Disallow Female Dogs?</label>
+                <input type="checkbox" id="genderPreferenceF" name="genderPreferenceF" value="on"/>
+
                 <button class="settingsSubmit" type="submit">Save</button>
             </form>
         </div>
@@ -54,6 +66,17 @@
 
 <!-- <script type="module" src="/js/user-update-validation.js"></script> -->
 <script type="module">
+    //check if checkboxes need to be checked
+    console.log({{user.dogPreferences.genderPreferenceF}})
+    if({{user.dogPreferences.genderPreferenceF}} != null && {{user.dogPreferences.genderPreferenceF}} === true){
+        $("#genderPreferenceF").prop("checked", true)
+    }
+
+    if({{user.dogPreferences.genderPreferenceM}} != null && {{user.dogPreferences.genderPreferenceM}} === true){
+        $("#genderPreferenceM").prop("checked", true)
+    }
+
+
     //import clientValidation methods
     import clientValidation from "/js/client-validation-methods.js";
 

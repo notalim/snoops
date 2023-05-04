@@ -127,6 +127,26 @@ export function checkWebsite(website, elmName) {
     return website.trim();
 }
 
+export function checkBoolean(bool, elmName) {
+    console.log(bool)
+    if (typeof bool !== "boolean") {
+        throw `${elmName} must be a boolean`;
+    }
+    return bool;
+}
+
+export function checkOptionalMaxPrefrence(max, elmName) {
+    if(max === null){
+        return max;
+    }
+    max = parseInt(max);
+    max = checkNumber(max, elmName);
+    if (max < 1) {
+        throw `${elmName} must be a valid preference above 0`;
+    }
+    return max;
+}
+
 export function checkEmail(email, elmName) {
     //Yousaf - Found package email-validator on npm, has like 600k downloads a week.
     //         I can do some testing with it later tho to check if it actually works
