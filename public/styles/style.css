@@ -208,3 +208,27 @@ footer p {
 .aboutSplitter{
     height: 10px;
 }
+
+.resources-intro {
+    padding: 2rem;
+    text-align: center;
+    background-color: #f8f8f8;
+}
+
+.resources-intro h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.resources-intro p {
+    margin-bottom: 2rem;
+}
+
+.resources-intro a {
+    padding: 0.625rem 3.125rem;
+    background-color: var(--accent-color);
+    color: var(--main-background-color);
+    border-radius: 0.3125rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+}

@@ -15,8 +15,12 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/resources", function (req, res) {
+    res.render("resources");
+});
+
 router.get("/about", async (req, res) => {
     res.render("about");
-})
+});
 
 export default router;
