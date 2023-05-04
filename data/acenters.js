@@ -109,7 +109,8 @@ const updateAdoptionCenter = async (
     contactFirstName,
     contactLastName,
     phone,
-    address
+    address,
+    image
 ) => {
     // Check id
     id = validation.checkId(id, "ID");
@@ -125,7 +126,12 @@ const updateAdoptionCenter = async (
     name = validation.checkString(name, "Name");
 
     // Check password
-    password = validation.checkPassword(password, "Password");
+    if (password !== undefined && password !== null && password !== "") {
+        password = validation.checkPassword(password, "Password");
+    } else {
+        const acenter = await getAdoptionCenter(id);
+        password = acenter.password;
+    }
 
     // Check contact first name
     contactFirstName = validation.checkName(
@@ -167,7 +173,7 @@ const updateAdoptionCenter = async (
         contactLastName: contactLastName,
         phone: phone,
         address: address,
-        img: null,
+        img: image,
         location: location
     };
 

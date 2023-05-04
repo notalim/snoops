@@ -12,6 +12,7 @@
                 class="acenter-info-form"
                 action="/acenters/{{acenter._id}}"
                 method="POST"
+                enctype="multipart/form-data"
             >
                 <label for="email">Email:</label>
                 <input
@@ -57,6 +58,15 @@
                     id="address"
                     value="{{acenter.address}}"
                 />
+
+                <label for="image">Profile Picture</label>
+                <input 
+                    type="file" 
+                    name="image"
+                    id="image" 
+                    accept=".jpeg,.png,.HEIC,.img"
+                />
+
                 <input type="hidden" name="_method" value="PUT" />
                 <input
                     type="submit"
@@ -237,5 +247,70 @@
     </div>
 </main>
 <script src="/js/dashboard.js"></script>
-<script type="text/javascript" src="/js/ac-dashboard.js"></script>
+{{!-- <script type="text/javascript" src="/js/ac-dashboard.js"></script> --}}
+<script type="module">
+        // Update acenter with AJAX
+    $("#update-acenter").submit(function (e) {
+        e.preventDefault();
+
+        let formData = new FormData($('#update-acenter')[0]);
+
+        $.ajax({
+            url: `/acenters/{{acenter._id}}`,
+            type: "PUT",
+            contentType: false,
+            processData: false,
+            cache: true,
+            data: formData,
+            success: function (data) {
+                console.log(data);
+
+                let successMessage = document.getElementById("success");
+                if (successMessage) {
+                    successMessage.remove();
+                }
+
+                let errorMessage = document.getElementById("error");
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+
+                let success = document.createElement("p");
+                let container = document.querySelector(".acenter-info-form");
+
+                success.innerText = "Adoption Center updated successfully";
+                success.style.color = "green";
+                success.style.marginTop = "10px";
+                success.style.textAlign = "center";
+                success.id = "success";
+                container.appendChild(success);
+            },
+            error: function (err) {
+                let data = formData;
+                console.log(err);
+                console.log(data);
+
+                let errorMessage = document.getElementById("error");
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+
+                let successMessage = document.getElementById("success");
+                if (successMessage) {
+                    successMessage.remove();
+                }
+
+                let error = document.createElement("p");
+                let container = document.querySelector(".acenter-info-form");
+                let errorText = err.responseJSON.error;
+                error.innerText = errorText;
+                error.style.color = "red";
+                error.style.marginTop = "10px";
+                error.style.textAlign = "center";
+                error.id = "error";
+                container.appendChild(error);
+            },
+        });
+    });
+</script>
 <script type="module" src="/js/ac-create-dog-validation.js"></script>
