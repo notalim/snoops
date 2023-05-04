@@ -46,6 +46,7 @@
             {{/each}}
         </div>
     </div>
+    <img src="{{user.img}}" alt="{{user.firstName}} {{user.lastName}}">
 </main>
 
 <!-- <script type="module" src="/js/user-update-validation.js"></script> -->
@@ -63,6 +64,7 @@
         let dobIn = document.getElementById("dob");
         let phoneIn = document.getElementById("phone");
         let addressIn = document.getElementById("address");
+        let image = document.getElementById('image');
 
         let error = document.getElementById("error");
 
@@ -121,10 +123,15 @@
 
                 error.hidden = false;
 
+                let formData = new FormData($('#update-user')[0]);
+
                 $.ajax({
                     url: `/users/{{user._id}}`,
                     type: "PUT",
-                    data: $("#update-user").serialize(),
+                    contentType: false,
+                    processData: false,
+                    cache: true,
+                    data: formData,
                     success: function (data) {
                         console.log(data);
 

@@ -4,6 +4,8 @@ import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 import { redirectToScrollerIfLoggedIn } from "../middleware.js";
 import xss from "xss";
+import multer from "multer";
+import {v2 as cloudinary} from 'cloudinary';
 
 // *: Log In Page
 
@@ -185,7 +187,21 @@ router.route("/:id").delete(async (req, res) => {
 
 // TODO: PUT /users/:id - Update user by id
 
-router.route("/:id").put(async (req, res) => {
+let cloud_name = process.env.CLOUDINARY_CLOUD_NAME;
+let api_key = process.env.CLOUDINARY_API_KEY;
+let api_secret = process.env.CLOUDINARY_API_SECRET;
+cloudinary.config({
+    cloud_name: cloud_name,
+    api_key: api_key,
+    api_secret: api_secret,
+    secure: true
+});
+
+let upload = multer({
+    storage: multer.diskStorage({}),
+});
+
+router.put("/:id", upload.single('image'),async (req, res) => {
     // Validate the id
     let id = req.params.id;
 
@@ -199,8 +215,7 @@ router.route("/:id").put(async (req, res) => {
     let dob = xss(req.body.dob);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
-    let image = req.body.image;
-    console.log(image);
+    let image = req.file.path;
 
     if (email == undefined || email == "" || email == null) {
         email = xss(req.session.user.email);
@@ -238,6 +253,16 @@ router.route("/:id").put(async (req, res) => {
         phone = validation.checkPhone(phone, "Phone Number");
 
         address = validation.checkString(address, "Address");
+
+        let user = req.session.user;
+        if (!image){
+            image = user.img;
+        }
+        else {
+            let upload = await cloudinary.uploader.upload(image);
+            image = upload.secure_url;
+        }
+
     } catch (e) {
         return res.status(400).render("settings", {title: "Settings", error: e.toString(), user: req.session.user});
     }
@@ -251,7 +276,8 @@ router.route("/:id").put(async (req, res) => {
             lastName,
             dob,
             phone,
-            address
+            address,
+            image
         );
 
         req.session.user = user;

@@ -110,7 +110,8 @@ const updateUser = async (
     lastName,
     dob,
     phone,
-    address
+    address,
+    image
 ) => {
     let validatedId = validation.checkId(id, "User ID");
 
@@ -160,7 +161,7 @@ const updateUser = async (
         dob: dob,
         phone: phone,
         address: address,
-        img: oldUser.img,
+        img: image,
         dogPreferences: oldUser.dogPreferences,
         likedDogs: oldUser.likedDogs,
         seenDogs: oldUser.seenDogs,
