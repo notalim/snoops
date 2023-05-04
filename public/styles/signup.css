@@ -187,7 +187,8 @@
     right: 31%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: grey;
+    color: black;
+    transition: 350ms;
 }
 
 .switchACSignUp{
@@ -196,7 +197,12 @@
     right: 24%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: grey;
+    color: black;
+    transition: 350ms;
+}
+
+.switchACSignUp:hover, .switchUserSignUp:hover{
+    color:#8ea8a8;
 }
 
 .switchToACSignIn{
@@ -206,6 +212,7 @@
     background-color: #f8f8f8;
     text-decoration: solid;
     color: black;
+    transition: 350ms;
 }
 
 .switchToUserSignIn{
@@ -215,6 +222,7 @@
     background-color: #f8f8f8;
     text-decoration: solid;
     color: black;
+    transition: 350ms;
 }
 
 .switchToACSignIn:hover, .switchToUserSignIn:hover{
