@@ -84,6 +84,11 @@ header nav a:hover {
     color: var(--accent-color);
 }
 
+header nav i {
+    padding: 0 10px;
+    cursor: pointer;
+}
+
 /* Hero Section styles */
 .hero {
     position: relative;
