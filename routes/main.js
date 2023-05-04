@@ -15,12 +15,20 @@ router.get("/", async (req, res) => {
     }
 });
 
+// // theme toggle
+// router.post("/theme", (req, res) => {
+//     console.log("POST /theme", req.body);
+//     req.session.theme = req.body.theme;
+//     res.sendStatus(200);
+//     return;
+// });
+
 router.get("/resources", function (req, res) {
-    res.render("resources");
+    return res.render("resources");
 });
 
 router.get("/about", async (req, res) => {
-    res.render("about");
+    returnres.render("about");
 });
 
 export default router;
