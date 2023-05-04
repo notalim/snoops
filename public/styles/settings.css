@@ -32,6 +32,8 @@
     border: 2px solid #633d1e;
     border-radius: 10px;
     background-color: #f8f8f8;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 .settingsContainer#user-settings {
@@ -70,7 +72,6 @@
 
 
 .settingsLabel{
-    
     margin-top: 10px;
     background-color: #f1f1f1;
     background-color: transparent; 

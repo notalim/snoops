@@ -32,8 +32,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const staticDir = express.static(__dirname + '/public');
-app.use('/public', staticDir);
+const staticDir = express.static(__dirname + "/public");
+app.use("/public", staticDir);
 
 app.use(
     session({
@@ -64,16 +64,18 @@ app.use((req, res, next) => {
             userType: "acenter",
         };
     }
+    // console.log(req.session.theme);
+
     next();
 });
 
 let storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, 'public/assets/uploads/');
-    }
+    destination: function (req, file, cb) {
+        cb(null, "public/assets/uploads/");
+    },
 });
 
-let upload = multer({storage: storage});
+let upload = multer({ storage: storage });
 
 configRoutes(app);
 
