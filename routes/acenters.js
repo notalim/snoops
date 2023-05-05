@@ -196,6 +196,8 @@ router.put("/:id", upload.single('image') ,async (req, res) => {
     let id = req.params.id;
     // Decompose request body
 
+    //ADD TRY CATCH MAYBE
+
     let email = xss(req.body.email);
     let name = xss(req.body.name);
     let password = xss(req.body.password);
@@ -203,7 +205,11 @@ router.put("/:id", upload.single('image') ,async (req, res) => {
     let contactLastName = xss(req.body.contactLastName);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
-    let image = req.file.path;
+    let image = null;
+
+    if (req.file && req.file.path){
+        image = req.file.path;
+    }
 
     if (email == undefined || email == "" || email == null) {
         email = xss(req.session.acenter.email);
@@ -246,9 +252,9 @@ router.put("/:id", upload.single('image') ,async (req, res) => {
 
         address = validation.checkString(address, "Address");
 
-        let user = req.session.user;
+        let acenter = req.session.acenter;
         if (!image){
-            image = user.img;
+            image = acenter.img;
         }
         else {
             let upload = await cloudinary.uploader.upload(image);
