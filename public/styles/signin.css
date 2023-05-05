@@ -117,4 +117,9 @@
     text-decoration: solid;
     color: grey;
     margin-bottom: 10px;
+    transition: 350ms;
+}
+
+.switchLogin:hover{
+    color: #8ea8a8;
 }
