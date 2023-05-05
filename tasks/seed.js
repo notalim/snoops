@@ -26,7 +26,7 @@ let adoptionCenter1 = {
     contactFirstName: "Adoption",
     contactLastName: "Center",
     phone: "9295054338",
-    address: "1234 Test Street",
+    address: "1 Castle Point Terrace, Hoboken, NJ",
 };
 
 let adoptionCenter2 = {
@@ -36,7 +36,7 @@ let adoptionCenter2 = {
     contactFirstName: "Another",
     contactLastName: "Center",
     phone: "9295054339",
-    address: "4321 Test Street",
+    address: "95 Washington Street, Hoboken, NJ",
 };
 
 let adoptionCenter3 = {
@@ -46,7 +46,7 @@ let adoptionCenter3 = {
     contactFirstName: "Last",
     contactLastName: "Center",
     phone: "9295054330",
-    address: "43123 Test Avenue",
+    address: "20 W 34th St., New York, NY",
 };
 
 let center1dog1 = {
