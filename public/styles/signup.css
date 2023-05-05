@@ -187,7 +187,7 @@
     right: 31%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: black;
+    color: rgb(120, 120, 120);
     transition: 350ms;
 }
 
@@ -197,7 +197,7 @@
     right: 24%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: black;
+    color: rgb(120, 120, 120);
     transition: 350ms;
 }
 
@@ -211,7 +211,7 @@
     left: 39%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: black;
+    color: rgb(120, 120, 120);
     transition: 350ms;
 }
 
@@ -221,7 +221,7 @@
     left: 18%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: black;
+    color: rgb(120, 120, 120);
     transition: 350ms;
 }
 
