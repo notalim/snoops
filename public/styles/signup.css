@@ -39,7 +39,7 @@
 .form-container h2 {
     font-size: 40px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     text-align: center;
 }
 
@@ -54,16 +54,16 @@
     width: 100%;
 }
 
-.signup-form label {
+/* .signup-form label {
     font-size: 20px;
     margin-top: 20px;
     margin-bottom: 10px;
     font-weight: bold;
     text-align: left;
     width: 100%;
-}
+} */
 
-.signup-form input[type="email"],
+/* .signup-form input[type="email"],
 .signup-form input[type="password"],
 .signup-form input[type="text"],
 .signup-form input[type="tel"],
@@ -77,14 +77,14 @@
     width: 100%;
     background-color: #f6f6f6;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
-.signup-form textarea {
+/* .signup-form textarea {
     resize: none;
     height: 100px;
-}
+} */
 
-.signup-form button[type="submit"] {
+/* .signup-form button[type="submit"] {
     background-color: var(--accent-color);
     color: #fff;
     font-size: 20px;
@@ -95,20 +95,136 @@
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
     width: 100%;
-}
+} */
 
-.signup-form button[type="submit"]:hover {
+/* .signup-form button[type="submit"]:hover {
     background-color: var(--accent-hover-color);
-}
-
+} */
+/* 
 .signup-form a {
     text-align: center;
     display: block;
     margin-top: 10px;
     color: var(--text-color);
     transition: color 0.3s ease-in-out;
+} */
+
+/* .signup-form a:hover {
+    color: var(--accent-color);
+} */
+
+.Signuph2{
+    background-color: #f8f8f8;
 }
 
-.signup-form a:hover {
-    color: var(--accent-color);
+.signup-form{
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    column-gap: 10%;
+    background-color: #f8f8f8;
+    width: 100%;
+    overflow:inherit;
+}
+
+
+.userSUInput, .acSUInput{
+    display: block;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    width: 40%;
+    padding: 5px 10px;
+    font-size: 1rem;
+    border: none transparent;
+    outline: none;
+    border-bottom: 2px solid rgb(168, 168, 168);
+    border-left: 1px solid rgb(224, 224, 224);
+    margin-bottom: 10px;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+}
+
+.userSUInput:last-of-type{
+    margin-bottom: none;
+}
+
+
+.userSULabel, .acSULabel{
+    background-color: #f8f8f8;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: rgb(168, 168, 168);
+    margin-top: 5px;
+    width: 40%;
+}
+
+.SignupSubmit{
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 5px 50px;
+    background-color: #b9d9dd;
+    border-bottom-color: #a5c0c4;
+    border-left-color: #a5c0c4;
+    border-width: 2px;
+    border-top: none;
+    border-right: none;
+    border-left-width: 1px;
+    position: relative;
+    right: 2%;
+}
+
+.switchWrapper{
+    background-color: #f8f8f8;
+}
+
+.switchUserSignUp{
+    display: inline;
+    position: relative;
+    right: 31%;
+    background-color: #f8f8f8;
+    text-decoration: solid;
+    color: rgb(120, 120, 120);
+    transition: 350ms;
+}
+
+.switchACSignUp{
+    display: inline;
+    position: relative;
+    right: 24%;
+    background-color: #f8f8f8;
+    text-decoration: solid;
+    color: rgb(120, 120, 120);
+    transition: 350ms;
+}
+
+.switchACSignUp:hover, .switchUserSignUp:hover{
+    color:#8ea8a8;
+}
+
+.switchToACSignIn{
+    display: inline;
+    position: relative;
+    left: 39%;
+    background-color: #f8f8f8;
+    text-decoration: solid;
+    color: rgb(120, 120, 120);
+    transition: 350ms;
+}
+
+.switchToUserSignIn{
+    display: inline;
+    position: relative;
+    left: 18%;
+    background-color: #f8f8f8;
+    text-decoration: solid;
+    color: rgb(120, 120, 120);
+    transition: 350ms;
+}
+
+.switchToACSignIn:hover, .switchToUserSignIn:hover{
+    color: #8ea8a8;
 }
