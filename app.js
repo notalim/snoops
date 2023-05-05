@@ -1,7 +1,5 @@
 import express from "express";
 import configRoutes from "./routes/index.js";
-import userRoutes from "./routes/users.js";
-import acenterRoutes from "./routes/acenters.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import exphbs from "express-handlebars";

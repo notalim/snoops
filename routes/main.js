@@ -28,7 +28,7 @@ router.get("/resources", function (req, res) {
 });
 
 router.get("/about", async (req, res) => {
-    returnres.render("about");
+    return res.render("about");
 });
 
 export default router;
