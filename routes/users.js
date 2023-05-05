@@ -215,7 +215,11 @@ router.put("/:id", upload.single('image'),async (req, res) => {
     let dob = xss(req.body.dob);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
-    let image = req.file.path;
+    let image = null;
+
+    if (req.file && req.file.path){
+        image = req.file.path;
+    }
 
     if (email == undefined || email == "" || email == null) {
         email = xss(req.session.user.email);
