@@ -26,7 +26,7 @@ let adoptionCenter1 = {
     contactFirstName: "Adoption",
     contactLastName: "Center",
     phone: "9295054338",
-    address: "1234 Test Street",
+    address: "324 Monroe St. Hoboken, NJ",
 };
 
 let adoptionCenter2 = {
@@ -36,7 +36,7 @@ let adoptionCenter2 = {
     contactFirstName: "Another",
     contactLastName: "Center",
     phone: "9295054339",
-    address: "4321 Test Street",
+    address: "New York City 10001",
 };
 
 let adoptionCenter3 = {
@@ -46,7 +46,7 @@ let adoptionCenter3 = {
     contactFirstName: "Last",
     contactLastName: "Center",
     phone: "9295054330",
-    address: "43123 Test Avenue",
+    address: "101 Madison St.",
 };
 
 let center1dog1 = {
@@ -91,7 +91,7 @@ let center2dog3 = {
 
 let center3dog1 = {
     name: "Mr. Dog",
-    dob: "2020-05-01",
+    dob: "2020-05-05",
     breeds: ["Doberman", "Pitbull"],
     gender: "M",
     size: 50,
@@ -101,6 +101,70 @@ let center3dog2 = {
     name: "Miss Dog",
     dob: "2021-07-02",
     breeds: ["Poodle", "Terrier"],
+    gender: "F",
+    size: 40,
+};
+
+let center1dog3 = {
+    name: "Buddy",
+    dob: "2019-10-12",
+    breeds: ["Golden Retriever"],
+    gender: "M",
+    size: 60,
+};
+
+let center1dog4 = {
+    name: "Sadie",
+    dob: "2019-06-07",
+    breeds: ["Beagle"],
+    gender: "F",
+    size: 25,
+};
+
+let center2dog4 = {
+    name: "Rocky",
+    dob: "2018-04-05",
+    breeds: ["Boxer"],
+    gender: "M",
+    size: 65,
+};
+
+let center2dog5 = {
+    name: "Bella",
+    dob: "2020-11-11",
+    breeds: ["Shih Tzu"],
+    gender: "F",
+    size: 15,
+};
+
+let center3dog3 = {
+    name: "Zeus",
+    dob: "2019-03-10",
+    breeds: ["Great Dane"],
+    gender: "M",
+    size: 100,
+};
+
+let center3dog4 = {
+    name: "Lola",
+    dob: "2021-01-12",
+    breeds: ["Dachshund"],
+    gender: "F",
+    size: 20,
+};
+
+let center3dog5 = {
+    name: "Max",
+    dob: "2020-09-05",
+    breeds: ["German Shepherd"],
+    gender: "M",
+    size: 75,
+};
+
+let center3dog6 = {
+    name: "Molly",
+    dob: "2019-12-11",
+    breeds: ["Border Collie"],
     gender: "F",
     size: 40,
 };
@@ -193,6 +257,27 @@ await acenterDataFunctions.createDog(
     center1dog2.gender,
     center1dog2.size
 );
+
+await acenterDataFunctions.createDog(
+    center1._id.toString(),
+    center1dog3.name,
+    center1dog3.dob,
+    center1dog3.breeds,
+    center1dog3.gender,
+    center1dog3.size
+);
+
+await acenterDataFunctions.createDog(
+    center1._id.toString(),
+    center1dog4.name,
+    center1dog4.dob,
+    center1dog4.breeds,
+    center1dog4.gender,
+    center1dog4.size
+);
+
+
+
 await acenterDataFunctions.createDog(
     center2._id.toString(),
     center2dog1.name,
@@ -217,6 +302,25 @@ await acenterDataFunctions.createDog(
     center2dog3.gender,
     center2dog3.size
 );
+
+await acenterDataFunctions.createDog(
+    center2._id.toString(),
+    center2dog4.name,
+    center2dog4.dob,
+    center2dog4.breeds,
+    center2dog4.gender,
+    center2dog4.size
+);
+
+await acenterDataFunctions.createDog(
+    center2._id.toString(),
+    center2dog5.name,
+    center2dog5.dob,
+    center2dog5.breeds,
+    center2dog5.gender,
+    center2dog5.size
+);
+
 await acenterDataFunctions.createDog(
     center3._id.toString(),
     center3dog1.name,
@@ -233,6 +337,46 @@ await acenterDataFunctions.createDog(
     center3dog2.gender,
     center3dog2.size
 );
+
+await acenterDataFunctions.createDog(
+    center3._id.toString(),
+    center3dog3.name,
+    center3dog3.dob,
+    center3dog3.breeds,
+    center3dog3.gender,
+    center3dog3.size
+);
+
+await acenterDataFunctions.createDog(
+    center3._id.toString(),
+
+    center3dog4.name,
+    center3dog4.dob,
+    center3dog4.breeds,
+    center3dog4.gender,
+    center3dog4.size
+);
+
+await acenterDataFunctions.createDog(
+    center3._id.toString(),
+
+    center3dog5.name,
+    center3dog5.dob,
+    center3dog5.breeds,
+    center3dog5.gender,
+    center3dog5.size
+);
+
+await acenterDataFunctions.createDog(
+    center3._id.toString(),
+
+    center3dog6.name,
+    center3dog6.dob,
+    center3dog6.breeds,
+    center3dog6.gender,
+    center3dog6.size
+);
+
 
 let testUser1 = await userDataFunctions.createUser(
     user1.email,

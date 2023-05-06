@@ -13,12 +13,13 @@
 :root {
     /* Define base font size */
     font-size: 16px;
-    
     --main-background-color: #fff1dc;
     --text-color: #3a2412;
     --accent-color: #3a98b9;
     --accent-hover-color: #2b748e;
     --footer-background-color: #e8d5c4;
+    --dark-text-color: #fff1dc;
+    --dark-main-background-color: #3a2412;
 }
 
 /* Reset styles for elements */
@@ -26,27 +27,30 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: var(--main-background-color);
+    
     text-decoration: none;
     font-family: "IBM Plex Serif", serif;
     font-size: 1rem;
-    
 }
 
-/* Default font and color styles */
 body {
+    background-color: var(--main-background-color);
     color: var(--text-color);
     height: 100vh;
 }
 
-/* Header styles */
+body.dark {
+    --text-color: var(--dark-text-color);
+    --main-background-color: var(--dark-main-background-color);
+}
+
 header {
     background-color: var(--main-background-color);
     padding: 0.625rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: solid 0.03125rem #3a2412;
+    border-bottom: solid 0.03125rem var(--text-color);
     width: 100vw;
     position: relative;
 }
@@ -60,7 +64,7 @@ header h1 {
     text-decoration: none;
 }
 
-header a h1{
+header a h1 {
     color: var(--text-color);
     text-decoration: none;
 }
@@ -76,9 +80,13 @@ header nav a {
     transition: color 0.3s ease-in-out;
 }
 
-
 header nav a:hover {
     color: var(--accent-color);
+}
+
+header nav i {
+    padding: 0 10px;
+    cursor: pointer;
 }
 
 /* Hero Section styles */
@@ -114,17 +122,17 @@ header nav a:hover {
 }
 
 .hero h1 {
-  background: inherit;
-  font-size: 3.875rem;
-  font-weight: bold;
-  margin-bottom: 1.25rem;
+    background: inherit;
+    font-size: 3.875rem;
+    font-weight: bold;
+    margin-bottom: 1.25rem;
 }
 
 .hero h3 {
-  background: inherit;
-  font-size: 2.875rem;
-  font-weight: bold;
-  margin-bottom: 1.25rem;
+    background: inherit;
+    font-size: 2.875rem;
+    font-weight: bold;
+    margin-bottom: 1.25rem;
 }
 
 .hero p {
@@ -134,12 +142,11 @@ header nav a:hover {
 }
 
 .hero a {
-  background: inherit;
-  margin-bottom: 1.25rem;
-  display: flex;
-  text-decoration: none;
-  color: #eeeeee;
-  font-weight: bold;
+    background: inherit;
+    display: flex;
+    text-decoration: none;
+    color: #eeeeee;
+    font-weight: bold;
 }
 
 .hero-buttons {
@@ -178,7 +185,7 @@ footer p {
     background-color: var(--footer-background-color);
 }
 
-.aboutContainer{
+.aboutContainer {
     background-color: #fce5c3;
     height: 83%;
     width: 60%;
@@ -188,14 +195,14 @@ footer p {
     border-radius: 10px;
 }
 
-.aboutTitle{
+.aboutTitle {
     margin-left: 20px;
     background-color: #fce5c3;
     font-size: 3.2rem;
     text-align: left;
 }
 
-.aboutText{
+.aboutText {
     background-color: #fce5c3;
     width: 80%;
     margin: auto;
@@ -205,6 +212,29 @@ footer p {
     text-align: left;
 }
 
-.aboutSplitter{
+.aboutSplitter {
     height: 10px;
+}
+
+.resources-intro {
+    padding: 2rem;
+    text-align: center;
+}
+
+.resources-intro h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.resources-intro p {
+    margin-bottom: 2rem;
+}
+
+.resources-intro a {
+    padding: 0.625rem 3.125rem;
+    background-color: var(--accent-color);
+    color: var(--main-background-color);
+    border-radius: 0.3125rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
 }

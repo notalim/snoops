@@ -4,84 +4,87 @@
             <img src="../assets/40444.jpg" alt="Graphic Image with dogs" />
         </div>
         <div class="form-container">
-            <h2>User Sign Up</h2>
+            <h2 class="Signuph2">User Sign Up</h2>
             <div id="error" class="error">
                 {{#if error}}
                     {{error}}
                 {{/if}}
             </div>
-            <form id="signup-form" method="POST" action="/users/signup">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value="{{email}}"
-                        required
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        required
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="first-name">First Name</label>
-                    <input
-                        type="text"
-                        id="firstName"
-                        name="firstName"
-                        value="{{firstName}}"
-                        required
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="last-name">Last Name</label>
-                    <input
-                        type="text"
-                        id="lastName"
-                        name="lastName"
-                        value="{{lastName}}"
-                        required
-                    />
-                </div>
-                <div class="form-group">
-                    <label>Date of Birth</label>
-                    <input type="date" id="dob" name="dob" value="{{dob}}" />
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value="{{phone}}"
-                        required
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <textarea
-                        id="address"
-                        name="address"
-                        value="{{address}}"
-                        required
-                    ></textarea>
-                </div>
-                <button type="submit">Sign Up</button>
-                <a href="#" onclick="switchToAcenterSignup()">Switch to Acenter
-                    Signup</a>
+            <form class="signup-form" id="signup-form" method="POST" action="/users/signup">
+                
+                <label class="userSULabel" for="email">Email</label>
+                <input
+                    class="userSUInput"
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{email}}"
+                    required/>
+            
+                <label class="userSULabel" for="password">Password</label>
+                <input
+                    class="userSUInput"
+                    type="password"
+                    id="password"
+                    name="password"
+                    required/>
+
+                <label class="userSULabel" for="firstName">First Name</label>
+                <input
+                    class="userSUInput"
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value="{{firstName}}"
+                    required/>
+                
+                <label class="userSULabel" for="lastName">Last Name</label>
+                <input
+                    class="userSUInput"
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value="{{lastName}}"
+                    required/>
+
+
+                <label class="userSULabel" for="dob">Date of Birth</label>
+                <input class="userSUInput" type="date" id="dob" name="dob" value="{{dob}}" />
+
+                
+                <label class="userSULabel" for="phone">Phone</label>
+                <input
+                    class="userSUInput"
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value="{{phone}}"
+                    required/>
+          
+                
+                <label class="userSULabel" for="address">Address</label>
+                <textarea
+                    class="userSUInput"
+                    id="address"
+                    name="address"
+                    value="{{address}}"
+                    required
+                ></textarea>
+ 
+                <button class="SignupSubmit" type="submit">Sign Up</button>
             </form>
+            <div class="switchWrapper">
+                <a class="switchACSignUp" href="#" onclick="switchToAcenterSignup()">Adoption Center Signup</a>
+                <a class="switchToUserSignIn" href="#" onclick="switchToUserLogin()">Already have an account?</a>
+            </div>
         </div>
     </div>
     <script>
         function switchToAcenterSignup() { window.location.href =
         "/acenters/signup-page"; }
+
+        function switchToUserLogin() { window.location.href =
+        "/users/login-page"; }
     </script>
     <script type="module" src="/js/user-signup-validation.js">
     </script>

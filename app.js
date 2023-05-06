@@ -1,7 +1,5 @@
 import express from "express";
 import configRoutes from "./routes/index.js";
-import userRoutes from "./routes/users.js";
-import acenterRoutes from "./routes/acenters.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import exphbs from "express-handlebars";
@@ -32,8 +30,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const staticDir = express.static(__dirname + '/public');
-app.use('/public', staticDir);
+const staticDir = express.static(__dirname + "/public");
+app.use("/public", staticDir);
 
 app.use(
     session({
@@ -64,16 +62,62 @@ app.use((req, res, next) => {
             userType: "acenter",
         };
     }
+    // console.log(req.session.theme);
+
     next();
 });
 
-let storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, 'public/assets/uploads/');
+app.use("/chats/user/:uid", (req, res, next) => {
+    
+    if(!req.session){
+        return res.redirect("/users/login-page");
     }
+    if(!req.session.user){
+        return res.redirect("/users/login-page");
+    }
+    if(req.session.user._id !== req.params.uid){
+        return res.redirect("/404Page");
+    }
+    next();
 });
 
-let upload = multer({storage: storage});
+app.use("/chats/user/:uid/:acid", (req, res, next) => {
+    if(!req.xhr){
+        return res.redirect("/404Page");
+    }
+    next();
+});
+
+app.use("/chats/acenter/:acid", (req, res, next) => {
+    
+    if(!req.session){
+        return res.redirect("/acenters/login-page");
+    }
+    if(!req.session.acenter){
+        return res.redirect("/acenters/login-page");
+    }
+    if(req.session.acenter._id !== req.params.acid){
+        return res.redirect("/404Page");
+    }
+    next();
+});
+
+app.use("/chats/acenter/:acid/:uid", (req, res, next) => {
+    if(!req.xhr){
+        return res.redirect("/404Page");
+    }
+    next();
+});
+
+
+
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "public/assets/uploads/");
+    },
+});
+
+let upload = multer({ storage: storage });
 
 configRoutes(app);
 

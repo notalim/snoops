@@ -68,7 +68,8 @@ export function checkName(name, varName) {
     if (name.split(" ").length > 1) {
         throw `${varName} must be a single word`;
     }
-    var regex = [/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g];
+    // no numbers and symbols are allowed in the regex
+    let regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?0-9]/g;
     if (name.replace(regex, "").length !== name.length) {
         throw `${varName} must not consist of special characters`;
     }
@@ -126,6 +127,26 @@ export function checkWebsite(website, elmName) {
     return website.trim();
 }
 
+export function checkBoolean(bool, elmName) {
+    console.log(bool)
+    if (typeof bool !== "boolean") {
+        throw `${elmName} must be a boolean`;
+    }
+    return bool;
+}
+
+export function checkOptionalMaxPrefrence(max, elmName) {
+    if(max === null){
+        return max;
+    }
+    max = parseInt(max);
+    max = checkNumber(max, elmName);
+    if (max < 1) {
+        throw `${elmName} must be a valid preference above 0`;
+    }
+    return max;
+}
+
 export function checkEmail(email, elmName) {
     //Yousaf - Found package email-validator on npm, has like 600k downloads a week.
     //         I can do some testing with it later tho to check if it actually works
@@ -137,23 +158,30 @@ export function checkEmail(email, elmName) {
     return email.trim().toLowerCase();
 }
 
-export function checkDate(date, elmName) {
+export function checkDate(date, elmName, minAge = 18, maxAge = 120) {
     date = checkString(date, elmName);
     if (!validator.isDate(date)) {
         throw `${elmName} must be a valid date`;
     }
     let dob = new Date(date);
-    let mon_diff = Date.now() - dob.getTime();
-    let age_diff = new Date(mon_diff);
-    let year = age_diff.getUTCFullYear();
-    let age = Math.abs(year - 1970);
-    if (elmName === "User Date of Birth") {
-        if (age < 18 || age > 122) {
-            throw `${elmName} must be a valid age (18-122)`;
-        }
+    let age = calculateAge(dob);
+
+    if (age < minAge || age > maxAge) {
+        throw `${elmName} must be a valid age (${minAge}-${maxAge})`;
     }
 
     return date.trim();
+}
+
+function calculateAge(dateOfBirth) {
+    const now = new Date();
+    const age = now.getFullYear() - dateOfBirth.getFullYear();
+    const m = now.getMonth() - dateOfBirth.getMonth();
+
+    if (m < 0 || (m === 0 && now.getDate() < dateOfBirth.getDate())) {
+        return age - 1;
+    }
+    return age;
 }
 
 export function checkGender(gender, elmName) {
@@ -210,7 +238,7 @@ export function checkPetWeight(_var, varName) {
     _var = checkNumber(_var, varName);
     _var = parseFloat(parseFloat(_var).toFixed(1)); // Round to 1 decimal point and parse back to float
     if (_var < 1 || _var > 180) {
-        throw new Error(`${varName} must be a valid weight`);
+        throw `${varName} must be a valid weight`;
     }
     return _var;
 }

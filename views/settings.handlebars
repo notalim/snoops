@@ -1,55 +1,82 @@
 <main class="settings">
-    <h1>Settings</h1>
-    <div class="settingsContainer" id="user-settings">
-        <div id="error" class="error">
-                {{#if error}}
-                    {{error}}
-                {{/if}}
+    <div class="settingsWrapper">  
+        <div class="settingsContainer" id="user-settings">
+            <h2 class="settingHeader">User Account Settings</h2>
+            <div id="error" class="error">
+                    {{#if error}}
+                        {{error}}
+                    {{/if}}
             </div>
-        <form id="update-user" action="/users/{{user._id}}" method="POST">
-            <label for="firstName">First Name</label>
-            <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
+            <form id="update-user" action="/users/{{user._id}}" method="POST">
+                <label class="settingsLabel" for="firstName">First Name</label>
+                <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
-            <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" id="lastName" value="{{user.lastName}}" />
+                <label class="settingsLabel" for="lastName">Last Name</label>
+                <input class="settingsInput" type="text" name="lastName" id="lastName" value="{{user.lastName}}" />
 
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" value="{{user.email}}" />
+                <label class="settingsLabel" for="email">Email</label>
+                <input class="settingsInput" type="email" name="email" id="email" value="{{user.email}}" />
 
-            <label for="dob">Date of Birth</label>
-            <input type="date" name="dob" id="dob" value="{{user.dob}}" />
+                <label class="settingsLabel" for="dob">Date of Birth</label>
+                <input class="settingsInput" type="date" name="dob" id="dob" value="{{user.dob}}" />
 
-            <label for="phone">Phone</label>
-            <input type="tel" name="phone" id="phone" value="{{user.phone}}" />
+                <label class="settingsLabel" for="phone">Phone</label>
+                <input class="settingsInput" type="tel" name="phone" id="phone" value="{{user.phone}}" />
 
-            <label for="address">Address</label>
-            <input type="text" name="address" id="address" value="{{user.address}}" />
+                <label class="settingsLabel" for="address">Address</label>
+                <input class="settingsInput" type="text" name="address" id="address" value="{{user.address}}" />
 
-            <label for="oldPassword">Password</label>
-            <input type="password" name="password" id="password"/>
+                <label class="settingsLabel" for="password">Password</label>
+                <input class="settingsInput" type="password" name="password" id="password"/>
 
-            <label for="image">Profile Picture</label>
-            <input type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
+                <label class="settingsLabel" for="image">Profile Picture</label>
+                <input class="settingsInput" type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
 
-            <button type="submit">Save</button>
-        </form>
-    </div>
-    <div class="settingsContainer doggies" style="margin-top: 20px">
-        <div class="likedDogs">
-            {{#each user.likedDogs}}
-            <a href="/acenters/{{this.acenterId}}/dogs/{{this._id}}">
-                <div class="likedDog">
-                    <img src="{{this.img}}" alt="dog" />
-                    <p>{{this.name}}</p>
-                </div>
-            </a>
-            {{/each}}
+                <label for="agePreference">Max Age Preference</label>
+                <input type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}"/>
+
+                <label for="sizePreferenceMax">Max Weight Preference</label>
+                <input type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}"/>
+
+                <label for="genderPreferenceM">Disallow Male Dogs?</label>
+                <input type="checkbox" id="genderPreferenceM" name="genderPreferenceM" value="on"/>
+
+                <label for="genderPreferenceF">Disallow Female Dogs?</label>
+                <input type="checkbox" id="genderPreferenceF" name="genderPreferenceF" value="on"/>
+
+                <button class="settingsSubmit" type="submit">Save</button>
+            </form>
+        </div>
+        <div class="settingsContainer doggies">
+            <h2 class="likedDogsHeader">Your Liked Dogs</h2>
+            <div class="likedDogs">
+                {{#each user.likedDogs}}
+                <a href="/acenters/{{this.acenterId}}/dogs/{{this._id}}">
+                    <div class="likedDog">
+                        <img src="{{this.img}}" alt="dog" />
+                        <p>{{this.name}}</p>
+                    </div>
+                </a>
+                {{/each}}
+            </div>
         </div>
     </div>
+
 </main>
 
 <!-- <script type="module" src="/js/user-update-validation.js"></script> -->
 <script type="module">
+    //check if checkboxes need to be checked
+    console.log({{user.dogPreferences.genderPreferenceF}})
+    if({{user.dogPreferences.genderPreferenceF}} != null && {{user.dogPreferences.genderPreferenceF}} === true){
+        $("#genderPreferenceF").prop("checked", true)
+    }
+
+    if({{user.dogPreferences.genderPreferenceM}} != null && {{user.dogPreferences.genderPreferenceM}} === true){
+        $("#genderPreferenceM").prop("checked", true)
+    }
+
+
     //import clientValidation methods
     import clientValidation from "/js/client-validation-methods.js";
 
@@ -119,13 +146,8 @@
                     "Address"
                 );
 
-            // } catch (e) {
-            //     event.preventDefault();
-            //     error.hidden = false;
-            //     error.innerHTML = e;
-            // }
-            // try {
                 error.hidden = false;
+
                 $.ajax({
                     url: `/users/{{user._id}}`,
                     type: "PUT",
@@ -177,7 +199,6 @@
                         error.style.textAlign = "center";
                         error.id = "error";
                         container.appendChild(error);
-
                     }
                 });
             } catch (e) {
