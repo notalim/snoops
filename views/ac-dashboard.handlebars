@@ -120,7 +120,6 @@
                 <form
                     id="create-dog-form"
                     class="create-dog-form"
-                    action="/acenters/ac-dashboard/{{acenter._id}}"
                     method="POST"
                     data-id="{{acenter._id}}"
                 >
@@ -400,48 +399,41 @@
         if (createDogForm) {
             let nameIn = document.getElementById("dogName");
             let dobIn = document.getElementById("dogDob");
+            let dogBreed1In = document.getElementById("dogBreed1");
+            let dogBreed2In = document.getElementById("dogBreed2");
+            let dogBreed3In = document.getElementById("dogBreed3");
             let genderIn = document.getElementById("dogGender");
             let sizeIn = document.getElementById("dogSize");
 
-            let errorModal = document.getElementById("error");
+            let errorModal = document.getElementById("errorModal");
             errorModal.hidden = true;
+
             createDogForm.addEventListener("submit", (event) => {
                 event.preventDefault();
+                let isValid = true;
                 try {
-                    let isValid = true;
                     const breedsArray = getBreedsArray();
                     console.log(breedsArray);
-                    const breedsJson = JSON.stringify(breedsArray);
+                    //const breedsJson = JSON.stringify(breedsArray);
                     const hiddenBreedsInput = document.createElement("input");
                     hiddenBreedsInput.type = "hidden";
                     hiddenBreedsInput.name = "breeds";
-                    hiddenBreedsInput.value = breedsJson;
+                    hiddenBreedsInput.value = breedsArray;
 
                     createDogForm.appendChild(hiddenBreedsInput);
-                    let breedsIn = document.getElementsByName("breeds");
-                    //document.querySelector("#create-dog-modal").style.display =
-                    //    "none";
-                    //event.target.submit(); 
-
-                    nameIn.value = clientValidation.checkName(nameIn.value, "Name");
-
-                    dobIn.value = clientValidation.checkDate(dobIn.value, 'Date Of Birth', 0, 20);
-
-                    breedsIn.value = clientValidation.checkStringArray(breedsIn.value, 'Breeds');
-
-                    sizeIn.value = clientValidation.checkPetWeight(sizeIn.value, 'Weight');
-
-                    //Check Gender or nah 
-                    
+                    document.querySelector("#create-dog-modal").style.display =
+                        "none";
+                    //event.target.submit();
+                    //errorModal.hidden = false;
                 } catch (e) {
-                    event.preventDefault();
-                    console.log(e)
                     isValid = false;
                     errorModal.hidden = false;
                     errorModal.innerHTML = e;
                 }
 
                 if (isValid){
+                    console.log('hi');
+                    console.log($("#create-dog-form").serialize());
                     $.ajax({
                         url: `/acenters/ac-dashboard/{{acenter._id}}`,
                         type: "POST",
