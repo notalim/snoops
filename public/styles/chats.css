@@ -1,14 +1,17 @@
 .chat-container{
     float: left;
-    height: 100%;
+    height: 92%;
     width: 100%;
+    background-color: #f8f8f8;
+    box-shadow: inset 0px 0px 3px black;
 }
 .all-chats{
     float: left;
     width: 25%;
     height: 100%;
     overflow: scroll;
-    border-right: 5px solid black;
+    border-right: 2px solid black;
+    padding: 7px;
 }
 
 .acid{
@@ -22,75 +25,99 @@
 .current-chat{
     float: left;
     width: 75%;
-    height: 70%;
+    height: 84%;
     overflow: scroll;
-
+    display: block;
+    padding-top: 10px;
+}
+.solid{
+    width: 65%;
+    margin: auto;
 }
 
 #chatTextDiv{
-    background-color: cadetblue;
-    height: 30%;
+    display: block;
+    height: 15%;
     width: 75%;
     float: right;
+   
 }
 
 .chat{
     width: 100%;
     height: 10%;
-    border-bottom: 2px solid black;
+    /* border-bottom: 2px solid black;
+    border-top: 2px solid black; */
+    border: 2px solid rgb(87, 87, 87);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: 350ms;
 }
 
 .recName{
     display: inline-block;
-    margin-top: 5px;
-    margin-left: 5px
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color: transparent;
+    transition: 200ms;
 }
 
-.toggledChat, .toggledChat .recName{
-    background-color: #ffd99f;
-}
 .toggledChat{
-    border: 1px solid black;
-    border-bottom: 2px solid black;
-    -webkit-box-shadow: inset 0px 0px 5px black;
-    -moz-box-shadow: inset 0px 0px 5px black;
-    box-shadow: inset 0px 0px 5px black;
+    background-color: rgb(136, 153, 250);
+    color: black;
+    box-shadow: inset 0px 0px 2px #f8f8f8;
     outline: none;
+    transform: scale(1.02);
+}
+
+
+.chat:hover{
+    transform: scale(1.02);
 }
 
 .textbox{
-    width: 50%;
+    width: 60%;
     height: 50px;
-    padding: 10px;
-    display: block;
+    padding: 20px;
+    display: inline-block;
     margin: auto;
     position: relative;
     top: 20%;
-    border-radius: 10px;
+    border-radius: 20px;
     border: 1px solid black;
+    margin-left: 18%;
+    transition: 350ms;
+}
+
+.textbox:focus{
+    transform: scale(1.01);
 }
 
 #sendButton{
-    display: block;
+    display: inline-block;
     text-align: center;
     border: none;
-    margin: auto;
     position: relative;
     top: 20%;
     margin-top: 10px;
-    padding: 5px 20px;
+    padding: 17px 10px;
     border: 1px solid black;
     cursor: pointer;
-    border-radius: 15px;
-    border-color: #2196F3;
-    background-color: plum;
+    border: none;
+    background-color: rgb(136, 153, 250);
+    border-radius: 100%;
+    margin-left: 10px;
+    color: black;
+}
+
+#sendButton:hover{
+    transform: scale(1.02);
 }
 
 #sendButton:active{
-    -webkit-box-shadow: inset 0px 0px 5px black;
-    -moz-box-shadow: inset 0px 0px 5px black;
-    box-shadow: inset 0px 0px 5px black;
+    box-shadow: inset 0px 0px 5px rgb(92, 92, 92);
     outline: none;
+    transition: 350ms;
 }
 
 .senderMessageDiv{
@@ -104,8 +131,10 @@
     text-align: left;
     background-color: rgb(189, 236, 182);
     margin: 5px 20px 5px auto;
-    padding: 5px;
-    border-radius: 10px;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
     border-bottom: 2px solid rgb(164, 211, 157);
     border-left: 1px solid rgb(164, 211, 157);
     max-width: 45%;
@@ -121,8 +150,10 @@
     margin-top: 5px;
     margin-bottom: 5px;
     margin-left: 20px;
-    padding: 5px;
-    border-radius: 10px;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
     border-bottom: 2px solid rgb(230, 230, 230);
     border-right: 1px solid rgb(230, 230, 230);
     max-width: 45%;
@@ -132,7 +163,7 @@
 .senderMessageTime{
     display: inline-block;
     font-size: x-small;
-    color: gray;
+    color: #555555;
     margin-right: 3px;
     max-width: 70px;
     position: relative;
@@ -142,7 +173,7 @@
 .receiverMessageTime{
     display: inline-block;
     font-size: x-small;
-    color: gray;
+    color: #555555;
     margin-left: 3px;
     max-width: 70px;
     position: relative;

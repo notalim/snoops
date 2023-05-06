@@ -15,7 +15,7 @@
     font-size: 16px;
     --main-background-color: #fff1dc;
     --text-color: #3a2412;
-    --accent-color: #3a98b9;
+    --a-accent-color: #0081a1;
     --accent-hover-color: #2b748e;
     --footer-background-color: #e8d5c4;
     --dark-text-color: #fff1dc;
@@ -81,7 +81,7 @@ header nav a {
 }
 
 header nav a:hover {
-    color: var(--accent-color);
+    color: var(--a-accent-color);
 }
 
 header nav i {
@@ -102,6 +102,7 @@ main{
 .hero {
     position: relative;
     min-height: 100vh;
+    background: none;
 }
 
 .hero img {
@@ -128,6 +129,7 @@ main{
     font-size: 2.875rem;
     font-weight: bold;
     margin-bottom: 1.25rem;
+    color: #f8f8f8;
 }
 
 .hero h1 {
@@ -148,6 +150,7 @@ main{
     background: inherit;
     margin-bottom: 1.25rem;
     display: flex;
+    color: #f8f8f8;
 }
 
 .hero a {
@@ -166,12 +169,13 @@ main{
 .hero-buttons a {
     display: inline-block;
     padding: 0.625rem 3.125rem;
-    background-color: var(--accent-color);
+    background-color: var(--a-accent-color);
     color: var(--main-background-color);
     border-radius: 0.3125rem;
     margin-right: 2.5rem;
     text-decoration: none;
     transition: background-color 0.3s ease-in-out;
+    color: white;
 }
 
 .hero-buttons a:hover {
@@ -241,9 +245,10 @@ footer p {
 
 .resources-intro a {
     padding: 0.625rem 3.125rem;
-    background-color: var(--accent-color);
+    background-color: var(--a-accent-color);
     color: var(--main-background-color);
     border-radius: 0.3125rem;
     text-decoration: none;
     transition: background-color 0.3s ease-in-out;
+    color: white;
 }

@@ -155,7 +155,7 @@
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: rgb(168, 168, 168);
+    color: #727272;
     margin-top: 5px;
     width: 40%;
 }
@@ -187,7 +187,7 @@
     right: 31%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: rgb(120, 120, 120);
+    color: #727272;
     transition: 350ms;
 }
 
@@ -197,12 +197,13 @@
     right: 24%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: rgb(120, 120, 120);
+    color: #727272;
     transition: 350ms;
 }
 
 .switchACSignUp:hover, .switchUserSignUp:hover{
     color:#8ea8a8;
+    transform: scale(1.02);
 }
 
 .switchToACSignIn{
@@ -211,7 +212,7 @@
     left: 39%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: rgb(120, 120, 120);
+    color: #727272;
     transition: 350ms;
 }
 
@@ -221,10 +222,11 @@
     left: 18%;
     background-color: #f8f8f8;
     text-decoration: solid;
-    color: rgb(120, 120, 120);
+    color: #727272;
     transition: 350ms;
 }
 
 .switchToACSignIn:hover, .switchToUserSignIn:hover{
     color: #8ea8a8;
+    transform: scale(1.01);
 }
