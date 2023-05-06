@@ -35,6 +35,9 @@ router.get("/scroller/:id", async (req, res) => {
 // *: User Settings Page
 
 router.get("/settings/:id", async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/users/login-page");
+    }
     try {
         const userId = req.session.user._id;
         const requestedUserId = req.params.id;

@@ -29,6 +29,7 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
     return (req, res, next) => {
         const isLoggedIn = req.session.acenter;
         const fullPath = req.baseUrl + req.path;
+        // console.log(fullPath);
         const isUserLoggedIn = req.session.user;
 
         if (
