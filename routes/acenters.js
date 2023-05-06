@@ -322,7 +322,7 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
         size = xss(req.body.size);
     } catch (e) {
         console.log(e);
-        res.status(400).type("application/json").send({ error: e.toString() });
+        return res.status(400).type("application/json").send({ error: e.toString() });
     }
 
     try {
@@ -330,7 +330,7 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
         id = validation.checkId(id, "Adoption center ID", "POST /:id/dogs");
 
         // Validate request body
-        name = validation.checkString(name, "Name");
+        name = validation.checkName(name, "Name");
 
         dob = validation.checkDate(dob, "Date of Birth", 1, 20);
 
@@ -342,7 +342,7 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
         size = validation.checkPetWeight(parseInt(size), "Weight");
     } catch (e) {
         console.log(e);
-        res.status(400).type("application/json").send({ error: e.toString() });
+        return res.status(400).type("application/json").send({ error: e.toString() });
     }
 
     try {
