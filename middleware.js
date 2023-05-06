@@ -55,9 +55,10 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
 
 export const chatMiddleware = (protectedChatRoutes) => {
     return (req, res, next) => {
-        if (!req.xhr) {
-            return res.redirect("/404Page");
-        }
+        console.log(req.session, req.xhr);
+        // if (!req.xhr) {
+        //     return res.redirect("/404Page");
+        // }
 
         const isUserLoggedIn = req.session.user;
         const isAcenterLoggedIn = req.session.acenter;

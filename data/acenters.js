@@ -306,6 +306,15 @@ const getDogFromAcenter = async (acenterId, dogId) => {
     return dog;
 };
 
+const dogExists = async (acenterId, dogId) => {
+    try {
+        const dog = await getDogFromAcenter(acenterId, dogId);
+        return !!dog;
+    } catch (error) {
+        return false;
+    }
+}
+
 const updateDog = async (
     acenterId,
     dogId,
@@ -423,6 +432,7 @@ const exportedMethods = {
     createDog,
     getAllDogs,
     getDogFromAcenter,
+    dogExists,
     updateDog,
     deleteDog,
     getAllDogsFromAllAcenters,
