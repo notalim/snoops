@@ -209,6 +209,106 @@ let user4 = {
     address: "orlando, FL 32801",
 };
 
+let adoptionCenter4 = {
+    email: "adoption@email4.com",
+    name: "Adoption Center Four",
+    password: "Password424$",
+    contactFirstName: "Fourth",
+    contactLastName: "Center",
+    phone: "9295054341",
+    address: "200 Main St. Brooklyn, NY",
+};
+
+let adoptionCenter5 = {
+    email: "adoption@email5.com",
+    name: "Adoption Center Five",
+    password: "Password525%",
+    contactFirstName: "Fifth",
+    contactLastName: "Center",
+    phone: "9295054342",
+    address: "123 Broadway St. Queens, NY",
+};
+
+let center4dog1 = {
+    name: "Rex",
+    dob: "2018-07-10",
+    breeds: ["Rottweiler"],
+    gender: "M",
+    size: 70,
+};
+
+let center4dog2 = {
+    name: "Luna",
+    dob: "2017-02-14",
+    breeds: ["Siberian Husky"],
+    gender: "F",
+    size: 50,
+};
+
+let center4dog3 = {
+    name: "Charlie",
+    dob: "2021-08-08",
+    breeds: ["Cocker Spaniel"],
+    gender: "M",
+    size: 30,
+};
+
+let center4dog4 = {
+    name: "Sophie",
+    dob: "2020-10-01",
+    breeds: ["Cavalier King Charles Spaniel"],
+    gender: "F",
+    size: 25,
+};
+
+let center4dog5 = {
+    name: "Duke",
+    dob: "2018-12-25",
+    breeds: ["Bullmastiff"],
+    gender: "M",
+    size: 90,
+};
+
+let center5dog1 = {
+    name: "Milo",
+    dob: "2019-01-20",
+    breeds: ["Australian Shepherd"],
+    gender: "M",
+    size: 55,
+};
+
+let center5dog2 = {
+    name: "Stella",
+    dob: "2020-03-15",
+    breeds: ["Labradoodle"],
+    gender: "F",
+    size: 45,
+};
+
+let center5dog3 = {
+    name: "Finn",
+    dob: "2021-02-28",
+    breeds: ["Whippet"],
+    gender: "M",
+    size: 35,
+};
+
+let center5dog4 = {
+    name: "Lily",
+    dob: "2018-04-30",
+    breeds: ["Bichon Frise"],
+    gender: "F",
+    size: 15,
+};
+
+let center5dog5 = {
+    name: "Toby",
+    dob: "2019-11-18",
+    breeds: ["English Springer Spaniel"],
+    gender: "M",
+    size: 45,
+};
+
 // ********** UPLOADING SEEDING DATA **********
 
 console.log(test_section("Seeding database..."));
@@ -240,6 +340,26 @@ let center3 = await acenterDataFunctions.createAdoptionCenter(
     adoptionCenter3.phone,
     adoptionCenter3.address
 );
+let center4 = await acenterDataFunctions.createAdoptionCenter(
+    adoptionCenter4.email,
+    adoptionCenter4.name,
+    adoptionCenter4.password,
+    adoptionCenter4.contactFirstName,
+    adoptionCenter4.contactLastName,
+    adoptionCenter4.phone,
+    adoptionCenter4.address
+);
+
+let center5 = await acenterDataFunctions.createAdoptionCenter(
+    adoptionCenter5.email,
+    adoptionCenter5.name,
+    adoptionCenter5.password,
+    adoptionCenter5.contactFirstName,
+    adoptionCenter5.contactLastName,
+    adoptionCenter5.phone,
+    adoptionCenter5.address
+);
+
 
 await acenterDataFunctions.createDog(
     center1._id.toString(),
@@ -369,12 +489,93 @@ await acenterDataFunctions.createDog(
 
 await acenterDataFunctions.createDog(
     center3._id.toString(),
-
     center3dog6.name,
     center3dog6.dob,
     center3dog6.breeds,
     center3dog6.gender,
     center3dog6.size
+);
+
+await acenterDataFunctions.createDog(
+    center4._id.toString(),
+    center4dog1.name,
+    center4dog1.dob,
+    center4dog1.breeds,
+    center4dog1.gender,
+    center4dog1.size
+);
+
+await acenterDataFunctions.createDog(
+    center4._id.toString(),
+    center4dog2.name,
+    center4dog2.dob,
+    center4dog2.breeds,
+    center4dog2.gender,
+    center4dog2.size
+);
+await acenterDataFunctions.createDog(
+    center4._id.toString(),
+    center4dog3.name,
+    center4dog3.dob,
+    center4dog3.breeds,
+    center4dog3.gender,
+    center4dog3.size
+);
+await acenterDataFunctions.createDog(
+    center4._id.toString(),
+    center4dog4.name,
+    center4dog4.dob,
+    center4dog4.breeds,
+    center4dog4.gender,
+    center4dog4.size
+);
+await acenterDataFunctions.createDog(
+    center4._id.toString(),
+    center4dog5.name,
+    center4dog5.dob,
+    center4dog5.breeds,
+    center4dog5.gender,
+    center4dog5.size
+);
+await acenterDataFunctions.createDog(
+    center5._id.toString(),
+    center5dog1.name,
+    center5dog1.dob,
+    center5dog1.breeds,
+    center5dog1.gender,
+    center5dog1.size
+);
+await acenterDataFunctions.createDog(
+    center5._id.toString(),
+    center5dog2.name,
+    center5dog2.dob,
+    center5dog2.breeds,
+    center5dog2.gender,
+    center5dog2.size
+);
+await acenterDataFunctions.createDog(
+    center5._id.toString(),
+    center5dog3.name,
+    center5dog3.dob,
+    center5dog3.breeds,
+    center5dog3.gender,
+    center5dog3.size
+);
+await acenterDataFunctions.createDog(
+    center5._id.toString(),
+    center5dog4.name,
+    center5dog4.dob,
+    center5dog4.breeds,
+    center5dog4.gender,
+    center5dog4.size
+);
+await acenterDataFunctions.createDog(
+    center5._id.toString(),
+    center5dog5.name,
+    center5dog5.dob,
+    center5dog5.breeds,
+    center5dog5.gender,
+    center5dog5.size
 );
 
 
