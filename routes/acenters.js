@@ -407,9 +407,9 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
     }
 });
 
-// TODO: DELETE /acenters/:id/dogs/:dogId - Delete dog for adoption center
+// TODO: DELETE /acenters/ac-dashboard/:id/dogs/:dogId - Delete dog for adoption center
 
-router.route("/:id/dogs/:dogId").delete(async (req, res) => {
+router.route("/ac-dashboard/:id/dogs/:dogId").delete(async (req, res) => {
     // Validate the id
     let id = req.params.id;
 
