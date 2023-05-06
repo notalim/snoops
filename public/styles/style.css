@@ -89,6 +89,15 @@ header nav i {
     cursor: pointer;
 }
 
+#main-body{
+    min-height: fit-content;
+    flex:1;
+}
+
+main{
+    min-height: fit-content;
+    flex: 1;
+}
 /* Hero Section styles */
 .hero {
     position: relative;

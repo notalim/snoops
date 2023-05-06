@@ -196,7 +196,7 @@ const updateUser = async (
     );
 
     if (updateInfo.modifiedCount === 0) {
-        throw `Could not update user with ID ${validatedId}`;
+        throw `Could not update user with ID ${validatedId}. You may have not changed any values.`;
     }
 
     return await getUser(validatedId);
@@ -342,7 +342,6 @@ const getUnseenDogs = async (userId, limit = 10) => {
         }
         if(!seenDogs.has(allDogs[i]._id.toString())) {
             //account for user preferences
-            // console.log(user.dogPreferences)
             if( !user.dogPreferences.agePreference || user.dogPreferences.agePreference == null || user.dogPreferences.agePreference >= allDogs[i].age) {
                 if(!user.dogPreferences.sizePreferenceMax || user.dogPreferences.sizePreferenceMax == null || user.dogPreferences.sizePreferenceMax >= allDogs[i].size) {
                     if(!user.dogPreferences.genderPreferenceF || user.dogPreferences.genderPreferenceF == null || (user.dogPreferences.genderPreferenceF == true && allDogs[i].gender != "F")) {

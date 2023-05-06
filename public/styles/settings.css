@@ -23,7 +23,7 @@
     height: 100%;
     margin: 0 auto;
     width: 90%; 
-    height: 100vh;
+    min-height: 100vh;
     gap: 2rem;
 }
 
@@ -32,7 +32,7 @@
     border: 2px solid #633d1e;
     border-radius: 10px;
     background-color: #f8f8f8;
-    min-height: 100vh;
+    min-height: fit-content;
     flex-direction: column;
 }
 
@@ -85,6 +85,11 @@
     display: grid;
     flex-direction: column;
     flex-wrap: nowrap;
+    min-height: fit-content;
+}
+
+#update-user > *{
+    padding: 10px;
 }
 
 .likedDogs{

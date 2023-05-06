@@ -39,7 +39,7 @@ router.route("/login").post(async (req, res) => {
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
         res.render("user-login", { error: e.toString(), title: "User Login", email: savedEmail });
-        console.log(e);
+        //console.log(e);
         return;
     }
 });
@@ -86,7 +86,7 @@ router.route("/signup").post(async (req, res) => {
         savedLastName = lastName;
 
         dob = validation.checkDate(dob, "User Date of Birth");
-        console.log(dob);
+        //console.log(dob);
         savedDob = dob;
 
         phone = validation.checkPhone(phone, "Phone Number");
@@ -144,7 +144,7 @@ router.route("/:id").get(async (req, res) => {
     console.log("GET /users/:id triggered with URL:", req.originalUrl);
 
     let id = req.params.id;
-    console.log(id);
+    //console.log(id);
     try {
         // Validate the id
         id = validation.checkId(id, "ID", "GET /users/:id");
@@ -229,8 +229,6 @@ router.route("/:id").put(async (req, res) => {
         sizePreferenceMax = null;
     }
 
-    console.log(genderPreferenceF, genderPreferenceM)
-
     if(genderPreferenceF == undefined || genderPreferenceF == "" || genderPreferenceF == null){
         genderPreferenceF = false;
     }
@@ -246,7 +244,7 @@ router.route("/:id").put(async (req, res) => {
     }
 
 
-    console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address, 'agePreference: ' + agePreference, 'sizePreferenceMax: ' + sizePreferenceMax, "GenderPreferenceF: " + genderPreferenceF, "GenderPreferenceM: " + genderPreferenceM)
+    // console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address, 'agePreference: ' + agePreference, 'sizePreferenceMax: ' + sizePreferenceMax, "GenderPreferenceF: " + genderPreferenceF, "GenderPreferenceM: " + genderPreferenceM)
 
     try {
         id = validation.checkId(id, "ID", "PUT /users/:id");
