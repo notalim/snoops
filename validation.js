@@ -128,7 +128,6 @@ export function checkWebsite(website, elmName) {
 }
 
 export function checkBoolean(bool, elmName) {
-    console.log(bool)
     if (typeof bool !== "boolean") {
         throw `${elmName} must be a boolean`;
     }
