@@ -31,6 +31,7 @@
     padding-top: 10px;
 }
 .solid{
+    display: block;
     width: 65%;
     margin: auto;
     margin-bottom: 10px;
