@@ -120,7 +120,6 @@
                 <form
                     id="create-dog-form"
                     class="create-dog-form"
-                    action="/acenters/ac-dashboard/{{acenter._id}}"
                     method="POST"
                     data-id="{{acenter._id}}"
                 >
@@ -403,12 +402,12 @@
             let genderIn = document.getElementById("dogGender");
             let sizeIn = document.getElementById("dogSize");
 
-            let errorModal = document.getElementById("error");
+            let errorModal = document.getElementById("errorModal");
             errorModal.hidden = true;
             createDogForm.addEventListener("submit", (event) => {
                 event.preventDefault();
+                let isValid = true;
                 try {
-                    let isValid = true;
                     const breedsArray = getBreedsArray();
                     console.log(breedsArray);
                     const breedsJson = JSON.stringify(breedsArray);
@@ -423,18 +422,17 @@
                     //    "none";
                     //event.target.submit(); 
 
-                    nameIn.value = clientValidation.checkName(nameIn.value, "Name");
+                    //nameIn.value = clientValidation.checkName(nameIn.value, "Name");
 
-                    dobIn.value = clientValidation.checkDate(dobIn.value, 'Date Of Birth', 0, 20);
+                    //dobIn.value = clientValidation.checkDate(dobIn.value, 'Date Of Birth', 0, 20);
 
-                    breedsIn.value = clientValidation.checkStringArray(breedsIn.value, 'Breeds');
+                    //breedsIn.value = clientValidation.checkStringArray(breedsIn.value, 'Breeds');
 
-                    sizeIn.value = clientValidation.checkPetWeight(sizeIn.value, 'Weight');
+                    //sizeIn.value = clientValidation.checkPetWeight(sizeIn.value, 'Weight');
 
                     //Check Gender or nah 
                     
                 } catch (e) {
-                    event.preventDefault();
                     console.log(e)
                     isValid = false;
                     errorModal.hidden = false;
