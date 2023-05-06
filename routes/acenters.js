@@ -309,19 +309,25 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
 
     let name = req.body.name;
     let dob = req.body.dob;
-    let breeds = req.body.breeds;
-    let gender = xss(req.body.gender);
-    let size = xss(req.body.size);
+    let breed1 = req.body.breed1;
+    let breed2 = req.body.breed2;
+    let breed3 = req.body.breed3;
+    let breeds = [];
+    let gender = req.body.gender;
+    let size = req.body.size;
 
     // xss check
     try {
-        name = xss(req.body.name);
-        dob = xss(req.body.dob);
-        breeds = xss(req.body.breeds);
-        gender = xss(req.body.gender);
-        size = xss(req.body.size);
+        name = xss(name);
+        dob = xss(dob);
+        breed1 = xss(breed1);
+        breed2 = xss(breed2);
+        breed3 = xss(breed3);
+        gender = xss(gender);
+        size = xss(size);
     } catch (e) {
         console.log(e);
+        //What tf does this do
         return res.status(400).type("application/json").send({ error: e.toString() });
     }
 
@@ -334,7 +340,18 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
 
         dob = validation.checkDate(dob, "Date of Birth", 1, 20);
 
-        breeds = JSON.parse(breeds);
+        
+
+        if (breed1){
+            breeds.push(breed1);
+        }
+        if (breed2){
+            breeds.push(breed2);
+        }
+        if (breed3){
+            breeds.push(breed3);
+        }
+
         breeds = validation.checkStringArray(breeds, "Breeds");
 
         gender = validation.checkGender(gender, "Gender");
