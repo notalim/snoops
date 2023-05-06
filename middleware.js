@@ -53,6 +53,42 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
     };
 };
 
+export const chatMiddleware = (protectedChatRoutes) => {
+    return (req, res, next) => {
+        if (!req.xhr) {
+            return res.redirect("/404Page");
+        }
+
+        const isUserLoggedIn = req.session.user;
+        const isAcenterLoggedIn = req.session.acenter;
+        const fullPath = req.baseUrl + req.path;
+
+        if (
+            protectedChatRoutes.some(
+                (route) => fullPath === "/chats" + route
+            ) &&
+            !isUserLoggedIn &&
+            !isAcenterLoggedIn
+        ) {
+            return res.redirect("/404Page");
+        }
+
+        if (isUserLoggedIn) {
+            if (req.params.uid !== req.session.user._id) {
+                return res.redirect("/users/login-page");
+            }
+        }
+
+        if (isAcenterLoggedIn) {
+            if (req.params.acid !== req.session.acenter._id) {
+                return res.redirect("/acenters/login-page");
+            }
+        }
+
+        next();
+    };
+};
+
 export const redirectToScrollerIfLoggedIn = () => {
     return (req, res, next) => {
         // console.log("req.session: ", req.session);
