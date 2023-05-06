@@ -15,8 +15,10 @@
                 <h2 id="dog-age">{{dog.dob}} years</h2>
             </div>
             <div class="scroller-dog-info">
-                <p id="dog-description">{{dog.desc}}</p>
-            </div>
+                <p id="dog-description">{{dog.description}}</p>
+                <p id="dog-dob">{{dog.age}}</p>
+                <p id="dog-distance">{{dog.distance}} miles</p>
+            </div>  
         </div>
         <div class="scroller-interaction-container">
             <button
@@ -28,8 +30,9 @@
                 id="dislikeButton"
             >X</button>
         </div>
-    </div>
-    <script>
+    </div>   
+</main>
+<script>
         let dogsData = JSON.parse('{{{dogs}}}');
 
         if(dogsData.length === 0) {
@@ -49,9 +52,18 @@
 
         let dogName = document.getElementById("dog-name");
         let dogBreeds = document.getElementById("dog-breeds");
-        let dogAge = document.getElementById("dog-age");
+        let dogDob = document.getElementById("dog-dob");
         let dogImage = document.getElementById("dog-image");
         let dogDescription = document.getElementById("dog-description"); 
+        let dogDistance = document.getElementById("dog-distance");
+
+        if(dogsData.length > 0){
+            dogName.textContent = dogsData[0].name;
+            dogBreeds.textContent = breedName(dogsData[0].breeds);
+            dogAge.textContent = dogsData[0].dob;
+            dogImage.src = dogsData[0].img;
+            dogDescription.textContent = dogsData[0].description;
+            dogDistance.textContent = dogsData[0].distance;
         let dogId = "";
         let dogAcenterId = "";      
         if(dogsData.length > 0) {
@@ -72,8 +84,7 @@
             dogAge.textContent = dogsData[0].age;
             dogImage.src = dogsData[0].img;
             dogDescription.textContent = dogsData[0].description;
-
-
+        }
 
             function goBack() {
                 if (i === 0) {
@@ -87,6 +98,8 @@
                 dogAge.textContent = dogsData[i].age;
                 dogImage.src = dogsData[i].img;
                 dogDescription.textContent = dogsData[i].description;
+                dogDistance.textContent = dogsData[i].distance;
+
             };
 
             function goForward(){
@@ -101,7 +114,8 @@
                     dogImage.src = dogsData[i].img;
                     dogDescription.textContent = dogsData[i].description;
                     dogId = dogsData[i]._id.toString();
-                    dogAcenterId = dogsData[i].acenterId.toString()
+                    dogAcenterId = dogsData[i].acenterId.toString();
+                    dogDistance.textContent = dogsData[i].distance;
                 }
             };
 
@@ -141,4 +155,3 @@
         }
 
     </script>
-</main>

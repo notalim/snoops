@@ -342,7 +342,7 @@ const getUnseenDogs = async (userId, limit = 10) => {
         }
         if(!seenDogs.has(allDogs[i]._id.toString())) {
             //account for user preferences
-            console.log(user.dogPreferences)
+            // console.log(user.dogPreferences)
             if( !user.dogPreferences.agePreference || user.dogPreferences.agePreference == null || user.dogPreferences.agePreference >= allDogs[i].age) {
                 if(!user.dogPreferences.sizePreferenceMax || user.dogPreferences.sizePreferenceMax == null || user.dogPreferences.sizePreferenceMax >= allDogs[i].size) {
                     if(!user.dogPreferences.genderPreferenceF || user.dogPreferences.genderPreferenceF == null || (user.dogPreferences.genderPreferenceF == true && allDogs[i].gender != "F")) {

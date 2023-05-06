@@ -169,6 +169,11 @@ const updateAdoptionCenter = async (
     };
 
     // ! update every dog in the acenter with the new address
+    // how?
+    // can manually update every dog (dumb)
+    // or can get all dogs, update them, and then update the acenter
+    // !
+
 
     const updatedInfo = await acenterCollection.updateOne(
         { _id: new ObjectId(id) },
