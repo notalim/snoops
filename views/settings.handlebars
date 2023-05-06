@@ -32,17 +32,17 @@
                 <label class="settingsLabel" for="image">Profile Picture</label>
                 <input class="settingsInput" type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
 
-                <label for="agePreference">Max Age Preference</label>
-                <input type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}"/>
+                <label class="settingsLabel" for="agePreference">Max Age Preference</label>
+                <input class="settingsInput" type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}"/>
 
-                <label for="sizePreferenceMax">Max Weight Preference</label>
-                <input type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}"/>
+                <label class="settingsLabel" for="sizePreferenceMax">Max Weight Preference</label>
+                <input class="settingsInput" type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}"/>
 
-                <label for="genderPreferenceM">Disallow Male Dogs?</label>
-                <input type="checkbox" id="genderPreferenceM" name="genderPreferenceM"/>
+                <label class="settingsLabel" for="genderPreferenceM">Disallow Male Dogs?</label>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceM" name="genderPreferenceM"/>
 
-                <label for="genderPreferenceF">Disallow Female Dogs?</label>
-                <input type="checkbox" id="genderPreferenceF" name="genderPreferenceF"/>
+                <label class="settingsLabel" for="genderPreferenceF">Disallow Female Dogs?</label>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceF" name="genderPreferenceF"/>
 
                 <button class="settingsSubmit" type="submit">Save</button>
             </form>
@@ -213,10 +213,12 @@
                         if (successMessage) {
                             successMessage.remove();
                         }
-
                         let error = document.createElement("p");
                         let container = document.getElementById("user-settings");
                         let errorText = err.responseJSON.error;
+                        if(typeof errorText == 'object'){
+                            errorText = errorText.message
+                        }
                         error.innerText = errorText;
                         error.style.color = "red";
                         error.style.marginTop = "10px";
