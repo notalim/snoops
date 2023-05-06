@@ -44,7 +44,7 @@ router.get("/scroller/:id", async (req, res) => {
             }
             const dob = new Date(dog.dob);
             const age = helpers.calculateAge(dob);
-
+            // console.log({ ...dog, distance, age });
             return {
                 ...dog,
                 distance,
