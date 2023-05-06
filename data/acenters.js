@@ -235,7 +235,7 @@ const createDog = async (
         return `/assets/dog-placeholders/dog-placeholder-${randomNum}.png`;
     }
 
-    let acenter = getAdoptionCenter(acenterId);
+    let acenter = await getAdoptionCenter(acenterId);
 
     let newDog = {
         _id: new ObjectId(),
