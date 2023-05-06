@@ -1,6 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import { acenterData, userData } from "../data/index.js";
+import { acenterData } from "../data/index.js";
+
 import * as validation from "../validation.js";
 import xss from "xss";
 

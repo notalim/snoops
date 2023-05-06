@@ -7,12 +7,18 @@ import { acenterData } from "../data/index.js";
 // *: Acenter Dashboard page (Default acenter page redirect / profile)
 
 router.get("/ac-dashboard/:id", async (req, res) => {
+    // console.log("GET /ac-dashboard/:id")
+    if (!req.session.acenter) {
+        return res.redirect("/acenters/login-page");
+    }
+    // console.log(req.session.acenter);
+
     try {
         const acenterId = req.session.acenter._id;
         const requestedAcenterId = req.params.id;
 
         if (!acenterId) {
-            return res.redirect("/acenters/login");
+            return res.redirect("/acenters/login-page");
         }
 
         if (acenterId !== requestedAcenterId) {

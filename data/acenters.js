@@ -169,6 +169,11 @@ const updateAdoptionCenter = async (
     };
 
     // ! update every dog in the acenter with the new address
+    // how?
+    // can manually update every dog (dumb)
+    // or can get all dogs, update them, and then update the acenter
+    // !
+
 
     const updatedInfo = await acenterCollection.updateOne(
         { _id: new ObjectId(id) },
@@ -235,7 +240,7 @@ const createDog = async (
         return `/assets/dog-placeholders/dog-placeholder-${randomNum}.png`;
     }
 
-    let acenter = getAdoptionCenter(acenterId);
+    let acenter = await getAdoptionCenter(acenterId);
 
     let newDog = {
         _id: new ObjectId(),
@@ -305,6 +310,15 @@ const getDogFromAcenter = async (acenterId, dogId) => {
 
     return dog;
 };
+
+const dogExists = async (acenterId, dogId) => {
+    try {
+        const dog = await getDogFromAcenter(acenterId, dogId);
+        return !!dog;
+    } catch (error) {
+        return false;
+    }
+}
 
 const updateDog = async (
     acenterId,
@@ -423,6 +437,7 @@ const exportedMethods = {
     createDog,
     getAllDogs,
     getDogFromAcenter,
+    dogExists,
     updateDog,
     deleteDog,
     getAllDogsFromAllAcenters,
