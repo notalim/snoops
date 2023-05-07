@@ -400,7 +400,7 @@
         setupAddDogCardEventListener(".add-dog-btn", "block");
         setupAddDogCardEventListener(".create-dog-close", "none");
 
-        let createDogForm = document.getElementById("create-dog-form");
+        /* let createDogForm = document.getElementById("create-dog-form");
         if (createDogForm) {
             let nameIn = document.getElementById("dogName");
             let dobIn = document.getElementById("dogDob");
@@ -435,9 +435,9 @@
                     errorModal.hidden = false;
                     errorModal.innerHTML = e;
                     
-                }
+                } */
 
-                if (isValid){
+                /* if (isValid){
                     console.log('hi');
                     console.log($("#create-dog-form").serialize());
                     $.ajax({
@@ -455,9 +455,9 @@
                             errorModal.innerHTML = err;
                         },
                     });
-                }
+                } 
             });
-        }
+        }*/
 
         dogCards.forEach((card) => {
             card.addEventListener("click", function (event) {

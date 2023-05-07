@@ -343,7 +343,7 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
     }
 
     try {
-        console.log("server validation!");
+        // console.log("server validation!");
         // Validate the id
         id = validation.checkId(id, "Adoption center ID", "POST /:id/dogs");
 
