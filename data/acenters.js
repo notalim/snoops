@@ -54,13 +54,11 @@ const createAdoptionCenter = async (
 
     //Get LAT & LONG if possible
     let location;
-    try{
+    try {
         location = await validation.getLatLong(address, "Address");
-
-    } catch (e){
+    } catch (e) {
         throw e;
     }
-    
 
     let newAcenter = {
         email: email,
@@ -74,7 +72,7 @@ const createAdoptionCenter = async (
         website: null,
         img: "/assets/No_Image_Available.jpg",
         dogList: [],
-        location: location
+        location: location,
     };
 
     const newInsertInformation = await acenterCollection.insertOne(newAcenter);
@@ -115,7 +113,7 @@ const updateAdoptionCenter = async (
     id = validation.checkId(id, "ID");
 
     // Check email
-    const acenter = await acenterCollection.findOne({id: !id, email: email});
+    const acenter = await acenterCollection.findOne({ id: !id, email: email });
     if (acenter) {
         throw `Adoption center with email ${email} already exists`;
     }
@@ -152,10 +150,9 @@ const updateAdoptionCenter = async (
 
     //Get new LAT & LONG if possible
     let location;
-    try{
+    try {
         location = await validation.getLatLong(address, "Address");
-
-    } catch (e){
+    } catch (e) {
         throw e;
     }
 
@@ -168,11 +165,15 @@ const updateAdoptionCenter = async (
         phone: phone,
         address: address,
         img: null,
-        location: location
+        location: location,
     };
 
-    // ? How do we update the working hours and website?
-    // ? Separate functions?
+    // ! update every dog in the acenter with the new address
+    // how?
+    // can manually update every dog (dumb)
+    // or can get all dogs, update them, and then update the acenter
+    // !
+
 
     const updatedInfo = await acenterCollection.updateOne(
         { _id: new ObjectId(id) },
@@ -239,6 +240,8 @@ const createDog = async (
         return `/assets/dog-placeholders/dog-placeholder-${randomNum}.png`;
     }
 
+    let acenter = await getAdoptionCenter(acenterId);
+
     let newDog = {
         _id: new ObjectId(),
         acenterId: new ObjectId(acenterId),
@@ -248,6 +251,7 @@ const createDog = async (
         gender: dogGender,
         size: dogSize,
         img: getRandomDogPlaceholder(),
+        location: acenter.location,
         description: null,
         adoptionStatus: "Available",
     };
@@ -307,6 +311,15 @@ const getDogFromAcenter = async (acenterId, dogId) => {
     return dog;
 };
 
+const dogExists = async (acenterId, dogId) => {
+    try {
+        const dog = await getDogFromAcenter(acenterId, dogId);
+        return !!dog;
+    } catch (error) {
+        return false;
+    }
+}
+
 const updateDog = async (
     acenterId,
     dogId,
@@ -356,6 +369,7 @@ const updateDog = async (
         gender: dogGender,
         size: dogSize,
         img: oldDog.img,
+        location: oldDog.location,
         description: oldDog.description,
         adoptionStatus: oldDog.adoptionStatus,
     };
@@ -386,11 +400,10 @@ const deleteDog = async (acenterId, dogId) => {
     if (deletionInfo.modifiedCount === 0) {
         throw `Could not delete dog with ID ${dogId} from adoption center with ID ${acenterId}`;
     }
-    return {id: dogId, deleted: true};
+    return { id: dogId, deleted: true };
 };
 
 const logInAdoptionCenter = async (acenterEmail, acenterPassword) => {
-
     acenterEmail = validation.checkEmail(acenterEmail, "email");
 
     const acenter = await acenterCollection.findOne({ email: acenterEmail });
@@ -412,7 +425,7 @@ const getAllDogsFromAllAcenters = async () => {
         dogList = dogList.concat(acenterList[i].dogList);
     }
     return dogList;
-}
+};
 
 const exportedMethods = {
     getAllAdoptionCenters,
@@ -424,9 +437,10 @@ const exportedMethods = {
     createDog,
     getAllDogs,
     getDogFromAcenter,
+    dogExists,
     updateDog,
     deleteDog,
-    getAllDogsFromAllAcenters
+    getAllDogsFromAllAcenters,
 };
 
 export default exportedMethods;

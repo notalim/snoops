@@ -1,10 +1,9 @@
 .scroller{
     display: flex;
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
     justify-content: center;
     align-items: center;
-
 }
 
 .scroller-dog-container{
@@ -14,7 +13,6 @@
     border: 2px solid #633d1e;
     border-radius: 16px;
     max-width: 50vw;
-    max-height: 50vh;
     min-width: 500px;
     min-height: fit-content;
     margin-top: 20px;
@@ -25,7 +23,6 @@
 
 .scroller-dog-image-container{
     height: 70%;
-
 }
 
 .scroller-dog-image-container img{
