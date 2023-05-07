@@ -478,7 +478,7 @@
     });
 </script>
 <script type="module">
-    import * as clientValidation from '/js/client-validation-methods.js';
+    import clientValidation from "/js/client-validation-methods.js";
 
     let createDogForm = document.getElementById("create-dog-form");
 
@@ -488,14 +488,15 @@
             type: "POST",
             data: $("#create-dog-form").serialize(),
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 let error = document.getElementById("errorModal");
                 if (error){
                     error.remove();
                 }
+                window.location.reload();
             },
             error: function (err) {
-                console.log(err);
+                // console.log(err);
                 let error = document.getElementById("errorModal");
                 if (error){
                     error.remove();
@@ -545,14 +546,14 @@
                     "Breed 1"
                 );
 
-                if (dogBreed2In) {
+                if (dogBreed2In.value) {
                     dogBreed2In.value = clientValidation.checkString(
                         dogBreed2In.value,
                         "Breed 2"
                     );
                 }
 
-                if (dogBreed3In) {
+                if (dogBreed3In.value) {
                     dogBreed3In.value = clientValidation.checkString(
                         dogBreed3In.value,
                         "Breed 3"
@@ -571,6 +572,8 @@
             }
             
         });
+    };
+    
 
 </script>
 

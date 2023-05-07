@@ -219,7 +219,7 @@ const createDog = async (
     dogName = validation.checkString(dogName, "Dog Name");
 
     // Check dogDOB
-    dogDOB = validation.checkDate(dogDOB, "Date of Birth", 1, 20);
+    dogDOB = validation.checkDate(dogDOB, "Date of Birth", 0, 20);
 
     // Check dogBreeds
     dogBreeds = validation.checkStringArray(dogBreeds, "Dog Breeds");

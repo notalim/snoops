@@ -4,7 +4,7 @@ import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 import xss from "xss";
 import multer from "multer";
-import {v2 as cloudinary} from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
 
 // *: Adoption center Log In Page
 
@@ -184,14 +184,14 @@ cloudinary.config({
     cloud_name: cloud_name,
     api_key: api_key,
     api_secret: api_secret,
-    secure: true
+    secure: true,
 });
 
 let upload = multer({
     storage: multer.diskStorage({}),
 });
 
-router.put("/:id", upload.single('image') ,async (req, res) => {
+router.put("/:id", upload.single("image"), async (req, res) => {
     // Validate the id
     let id = req.params.id;
     // Decompose request body
@@ -207,7 +207,7 @@ router.put("/:id", upload.single('image') ,async (req, res) => {
     let address = xss(req.body.address);
     let image = null;
 
-    if (req.file && req.file.path){
+    if (req.file && req.file.path) {
         image = req.file.path;
     }
 
@@ -217,13 +217,21 @@ router.put("/:id", upload.single('image') ,async (req, res) => {
     if (name == undefined || name == "" || name == null) {
         name = xss(req.session.acenter.name);
     }
-    if (contactFirstName == undefined || contactFirstName == "" || contactFirstName == null) {
+    if (
+        contactFirstName == undefined ||
+        contactFirstName == "" ||
+        contactFirstName == null
+    ) {
         contactFirstName = xss(req.session.acenter.contactFirstName);
     }
-    if (contactLastName == undefined || contactLastName == "" || contactLastName == null) {
+    if (
+        contactLastName == undefined ||
+        contactLastName == "" ||
+        contactLastName == null
+    ) {
         contactLastName = xss(req.session.acenter.contactLastName);
     }
-    
+
     if (phone == undefined || phone == "" || phone == null) {
         phone = xss(req.session.acenter.phone);
     }
@@ -253,10 +261,9 @@ router.put("/:id", upload.single('image') ,async (req, res) => {
         address = validation.checkString(address, "Address");
 
         let acenter = req.session.acenter;
-        if (!image){
+        if (!image) {
             image = acenter.img;
-        }
-        else {
+        } else {
             let upload = await cloudinary.uploader.upload(image);
             image = upload.secure_url;
         }
@@ -275,7 +282,7 @@ router.put("/:id", upload.single('image') ,async (req, res) => {
             address,
             image
         );
-        
+
         req.session.acenter = acenter;
         return res.status(200).json(acenter);
     } catch (e) {
@@ -328,27 +335,31 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
     } catch (e) {
         console.log(e);
         //What tf does this do
-        return res.status(400).type("application/json").send({ error: e.toString() });
+        return res
+            .status(400)
+            .type("application/json")
+            .send({ error: e.toString() });
     }
 
     try {
+        console.log("server validation!");
         // Validate the id
         id = validation.checkId(id, "Adoption center ID", "POST /:id/dogs");
 
         // Validate request body
         name = validation.checkName(name, "Name");
 
-        dob = validation.checkDate(dob, "Date of Birth", 1, 20);
+        // console.log("Received dob:", dob); 
+        dob = validation.checkDate(dob, "Date of Birth", 0, 20);
+        // console.log("Validated dob:", dob); 
 
-        
-
-        if (breed1){
+        if (breed1) {
             breeds.push(breed1);
         }
-        if (breed2){
+        if (breed2) {
             breeds.push(breed2);
         }
-        if (breed3){
+        if (breed3) {
             breeds.push(breed3);
         }
 
@@ -359,7 +370,10 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
         size = validation.checkPetWeight(parseInt(size), "Weight");
     } catch (e) {
         console.log(e);
-        return res.status(400).type("application/json").send({ error: e.toString() });
+        return res
+            .status(400)
+            .type("application/json")
+            .send({ error: e.toString() });
     }
 
     try {
@@ -373,7 +387,8 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
             size
         );
         // console.log("Dog created");
-        return res.redirect("/acenters/ac-dashboard/" + id);
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, success: "Dog added!" });
     } catch (e) {
         console.log(e);
         const acenter = await acenterData.getAdoptionCenter(id);

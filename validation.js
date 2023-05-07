@@ -139,11 +139,14 @@ export function checkEmail(email, elmName) {
 
 export function checkDate(date, elmName, minAge = 18, maxAge = 120) {
     date = checkString(date, elmName);
-    if (!validator.isDate(date)) {
-        throw `${elmName} must be a valid date`;
+    let dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(date)) {
+        throw `${elmName} must be in the format YYYY-MM-DD`;
     }
     let dob = new Date(date);
+    // console.log(dob);
     let age = calculateAge(dob);
+    // console.log(age);
 
     if (age < minAge || age > maxAge) {
         throw `${elmName} must be a valid age (${minAge}-${maxAge})`;
