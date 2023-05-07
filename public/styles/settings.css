@@ -52,6 +52,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     height: 100%;
     width: 100%;
     background-color: transparent;
@@ -72,6 +73,16 @@
     margin: 0 auto;
 }
 
+.settingsImageDisplay{
+    max-width: 90%;
+    height: auto;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 .settingsLabel{
     margin-top: 10px;
@@ -80,7 +91,7 @@
     display: block;
     font-size: large;
     margin-bottom: 2px; 
-    color: rgb(168, 168, 168);
+    color: #6f6f6f;
 }
 
 #update-user{
@@ -95,11 +106,14 @@
 }
 
 .likedDogs{
-    display: flex;
+    /* display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start; */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
     width: 100%;
     height: 100%;
     background-color: transparent
