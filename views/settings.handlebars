@@ -8,6 +8,8 @@
                     {{/if}}
             </div>
             <form id="update-user" method="POST" enctype="multipart/form-data">
+                <img src="{{user.img}}" alt="{{user.firstName}} {{user.lastName}}" class="settingsImageDisplay">
+
                 <label class="settingsLabel" for="firstName">First Name</label>
                 <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
@@ -61,9 +63,6 @@
             </div>
         </div>
     </div>
-    
-    <img src="{{user.img}}" alt="{{user.firstName}} {{user.lastName}}">
-
 </main>
 
 <!-- <script type="module" src="/js/user-update-validation.js"></script> -->
