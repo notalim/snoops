@@ -489,9 +489,26 @@
             data: $("#create-dog-form").serialize(),
             success: function (data) {
                 console.log(data);
+                let error = document.getElementById("errorModal");
+                if (error){
+                    error.remove();
+                }
             },
             error: function (err) {
                 console.log(err);
+                let error = document.getElementById("errorModal");
+                if (error){
+                    error.remove();
+                }
+
+                let newError = document.createElement('p');
+                let container = document.getElementById('create-dog-modal');
+                let errorText = err;
+                newError.innerText = errorText;
+                newError.style.color = 'red';
+                newError.style.marginTop = '10px';
+                newError.style.textAlign = 'center';
+                container.appendChild(newError);
             },
         });
     }
@@ -542,15 +559,17 @@
                     );
                 }
 
+                if (isValid) {
+                    await submitForm();
+                }
+
             } catch (e) {
                 event.preventDefault();
                 isValid = false;
                 error.hidden = false;
                 error.innerHTML = e;
             }
-            if (isValid) {
-                await submitForm();
-            }
+            
         });
 
 </script>
