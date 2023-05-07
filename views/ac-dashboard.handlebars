@@ -106,6 +106,7 @@
                         {{/each}}
                         <p class="description">{{this.description}}</p>
                         <p class="adoptionStatus">{{this.adoptionStatus}}</p>
+
                     </div>
                 {{/each}}
                 <div class="add-dog-card">
@@ -247,6 +248,10 @@
                             <option value="pending">Pending</option>
                             <option value="adopted">Adopted</option>
                         </select>
+                        <button
+                            class="delete-dog-btn"
+                            type="button"
+                        >Delete</button>
                         <button
                             class="update-dog-submit-btn"
                             type="submit"

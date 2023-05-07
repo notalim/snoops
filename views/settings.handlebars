@@ -1,56 +1,84 @@
 <main class="settings">
-    <h1>Settings</h1>
-    <div class="settingsContainer" id="user-settings">
-        <div id="error" class="error">
-                {{#if error}}
-                    {{error}}
-                {{/if}}
+    <div class="settingsWrapper">  
+        <div class="settingsContainer" id="user-settings">
+            <h2 class="settingHeader">User Account Settings</h2>
+            <div id="error" class="error">
+                    {{#if error}}
+                        {{error}}
+                    {{/if}}
             </div>
-        <form id="update-user" method="POST" enctype="multipart/form-data">
-            <label for="firstName">First Name</label>
-            <input type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
+            <form id="update-user" method="POST" enctype="multipart/form-data>
+                <label class="settingsLabel" for="firstName">First Name</label>
+                <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
-            <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" id="lastName" value="{{user.lastName}}" />
+                <label class="settingsLabel" for="lastName">Last Name</label>
+                <input class="settingsInput" type="text" name="lastName" id="lastName" value="{{user.lastName}}" />
 
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" value="{{user.email}}" />
+                <label class="settingsLabel" for="email">Email</label>
+                <input class="settingsInput" type="email" name="email" id="email" value="{{user.email}}" />
 
-            <label for="dob">Date of Birth</label>
-            <input type="date" name="dob" id="dob" value="{{user.dob}}" />
+                <label class="settingsLabel" for="dob">Date of Birth</label>
+                <input class="settingsInput" type="date" name="dob" id="dob" value="{{user.dob}}" />
 
-            <label for="phone">Phone</label>
-            <input type="tel" name="phone" id="phone" value="{{user.phone}}" />
+                <label class="settingsLabel" for="phone">Phone</label>
+                <input class="settingsInput" type="tel" name="phone" id="phone" value="{{user.phone}}" />
 
-            <label for="address">Address</label>
-            <input type="text" name="address" id="address" value="{{user.address}}" />
+                <label class="settingsLabel" for="address">Address</label>
+                <input class="settingsInput" type="text" name="address" id="address" value="{{user.address}}" />
 
-            <label for="oldPassword">Password</label>
-            <input type="password" name="password" id="password"/>
+                <label class="settingsLabel" for="password">Password</label>
+                <input class="settingsInput" type="password" name="password" id="password"/>
 
-            <label for="image">Profile Picture</label>
-            <input type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
+                <label class="settingsLabel" for="image">Profile Picture</label>
+                <input class="settingsInput" type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
 
-            <button type="submit">Save</button>
-        </form>
-    </div>
-    <div class="settingsContainer doggies" style="margin-top: 20px">
-        <div class="likedDogs">
-            {{#each user.likedDogs}}
-            <a href="/acenters/{{this.acenterId}}/dogs/{{this._id}}">
-                <div class="likedDog">
-                    <img src="{{this.img}}" alt="dog" />
-                    <p>{{this.name}}</p>
-                </div>
-            </a>
-            {{/each}}
+                <label class="settingsLabel" for="agePreference">Max Age Preference</label>
+                <input class="settingsInput" type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}"/>
+
+                <label class="settingsLabel" for="sizePreferenceMax">Max Weight Preference</label>
+                <input class="settingsInput" type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}"/>
+
+                <label class="settingsLabel" for="genderPreferenceM">Disallow Male Dogs?</label>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceM" name="genderPreferenceM"/>
+
+                <label class="settingsLabel" for="genderPreferenceF">Disallow Female Dogs?</label>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceF" name="genderPreferenceF"/>
+
+                <button class="settingsSubmit" type="submit">Save</button>
+            </form>
+        </div>
+        <div class="settingsContainer doggies">
+            <h2 class="likedDogsHeader">Your Liked Dogs</h2>
+            <div class="likedDogs">
+                {{#each user.likedDogs}}
+                <a href="/acenters/{{this.acenterId}}/dogs/{{this._id}}">
+                    <div class="likedDog">
+                        <img src="{{this.img}}" alt="dog" />
+                        <p>{{this.name}}</p>
+                    </div>
+                </a>
+                {{/each}}
+            </div>
         </div>
     </div>
+    
     <img src="{{user.img}}" alt="{{user.firstName}} {{user.lastName}}">
+
 </main>
 
 <!-- <script type="module" src="/js/user-update-validation.js"></script> -->
 <script type="module">
+    //check if checkboxes need to be checked
+    console.log({{user.dogPreferences.genderPreferenceF}})
+    if({{user.dogPreferences.genderPreferenceF}} != null && {{user.dogPreferences.genderPreferenceF}} === true){
+        $("#genderPreferenceF").prop("checked", true)
+    }
+
+    if({{user.dogPreferences.genderPreferenceM}} != null && {{user.dogPreferences.genderPreferenceM}} === true){
+        $("#genderPreferenceM").prop("checked", true)
+    }
+
+
     //import clientValidation methods
     import clientValidation from "/js/client-validation-methods.js";
 
@@ -65,6 +93,10 @@
         let phoneIn = document.getElementById("phone");
         let addressIn = document.getElementById("address");
         let image = document.getElementById('image');
+        let agePreferenceIn = document.getElementById("agePreference");
+        let sizePreferenceMaxIn = document.getElementById("sizePreferenceMax");
+        let genderPreferenceMIn = document.getElementById("genderPreferenceM");
+        let genderPreferenceFIn = document.getElementById("genderPreferenceF");
 
         let error = document.getElementById("error");
 
@@ -115,12 +147,32 @@
                         "Password"
                     );
                 }
+                
+                if(addressIn.value){
+                    addressIn.value = clientValidation.checkString(
+                        addressIn.value,
+                        "Address"
+                    );
+                }
 
-                addressIn.value = clientValidation.checkString(
-                    addressIn.value,
-                    "Address"
-                );
+                if(agePreferenceIn.value){
+                    agePreferenceIn.value = clientValidation.checkMaxPreference(
+                        agePreferenceIn.value,
+                        "Age Preference"
+                    );
+                }
 
+                if(sizePreferenceMaxIn.value){
+                    sizePreferenceMaxIn.value = clientValidation.checkMaxPreference(
+                        sizePreferenceMaxIn.value,
+                        "Size Preference"
+                    );
+                }
+
+                //check that genderPreferenceM is of type checkbox
+                if(genderPreferenceFIn.type != 'checkbox' || genderPreferenceMIn.type != 'checkbox'){
+                    throw 'Gender Preferences MUST be of type checkbox.'
+                }
                 error.hidden = false;
 
                 let formData = new FormData($('#update-user')[0]);
@@ -169,10 +221,12 @@
                         if (successMessage) {
                             successMessage.remove();
                         }
-
                         let error = document.createElement("p");
                         let container = document.getElementById("user-settings");
                         let errorText = err.responseJSON.error;
+                        if(typeof errorText == 'object'){
+                            errorText = errorText.message
+                        }
                         error.innerText = errorText;
                         error.style.color = "red";
                         error.style.marginTop = "10px";

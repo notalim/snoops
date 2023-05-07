@@ -65,7 +65,12 @@ const createUser = async (
         phone: phone,
         address: address,
         img: "/assets/No_Image_Available.jpg",
-        dogPreferences: {},
+        dogPreferences: {
+            agePreference: null,
+            sizePreferenceMax: null,
+            genderPreferenceF: false,
+            genderPreferenceM: false
+        },
         likedDogs: [],
         seenDogs: [],
         location: location,
@@ -111,7 +116,11 @@ const updateUser = async (
     dob,
     phone,
     address,
-    image
+    image,
+    agePreference,
+    sizePreferenceMax,
+    genderPreferenceM,
+    genderPreferenceF
 ) => {
     let validatedId = validation.checkId(id, "User ID");
 
@@ -141,6 +150,14 @@ const updateUser = async (
     // Check address
     address = validation.checkString(address, "Address");
 
+    agePreference = validation.checkOptionalMaxPrefrence(agePreference, "Age Preference");
+
+    sizePreferenceMax = validation.checkOptionalMaxPrefrence(sizePreferenceMax, "Size Preference");
+
+    genderPreferenceF = validation.checkBoolean(genderPreferenceF, "Gender F Preference");
+
+    genderPreferenceM = validation.checkBoolean(genderPreferenceM, "Gender M Preference");
+
     //Get new LAT & LONG if possible
     let location;
     try {
@@ -162,7 +179,12 @@ const updateUser = async (
         phone: phone,
         address: address,
         img: image,
-        dogPreferences: oldUser.dogPreferences,
+        dogPreferences: {
+            agePreference: agePreference,
+            sizePreferenceMax: sizePreferenceMax,
+            genderPreferenceF: genderPreferenceF,
+            genderPreferenceM: genderPreferenceM
+        },
         likedDogs: oldUser.likedDogs,
         seenDogs: oldUser.seenDogs,
         location: location,
@@ -175,7 +197,7 @@ const updateUser = async (
     );
 
     if (updateInfo.modifiedCount === 0) {
-        throw `Could not update user with ID ${validatedId}`;
+        throw `Could not update user with ID ${validatedId}. You may have not changed any values.`;
     }
 
     return await getUser(validatedId);
@@ -288,9 +310,7 @@ const swipeLeft = async (userId, acenterId, dogId) => {
 // Get all dogs that the user has not seen yet
 // ! If the user has seen all dogs, it currently throws, but we can change it to return an empty array
 // limit is the number of dogs to return
-
-    //this does NOT work atm for some reason
-
+// this does NOT work atm for some reason
 
 
 const getUnseenDogs = async (userId, limit = 10) => {
@@ -312,6 +332,32 @@ const getUnseenDogs = async (userId, limit = 10) => {
         seenDogs.add(user.seenDogs[i]._id.toString());
     }
 
+
+    //need to convert DOB to years
+    function calculateAge(dob) {
+        const today = new Date();
+        dob = new Date(dob);
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDifference = today.getMonth() - dob.getMonth();
+        const dayDifference = today.getDate() - dob.getDate();
+    
+        if (
+            monthDifference < 0 ||
+            (monthDifference === 0 && today.getDate() < dob.getDate())
+        ) {
+            age--;
+        }
+    
+        if (age === 0) {
+            if (monthDifference === 0 && dayDifference < 30) {
+                return 0;
+            } else {
+                return 0;
+            }
+        } else {
+            return age;
+        }
+    }
     
     //get all the dogs, and check against the set.
     //add dogs to unseen dog list until either no more dogs at all or until limit is reached.
@@ -322,34 +368,21 @@ const getUnseenDogs = async (userId, limit = 10) => {
             break;
         }
         if(!seenDogs.has(allDogs[i]._id.toString())) {
-            unseenDogs.push(allDogs[i]);
+            //account for user preferences
+            //console.log('User Preference: ' + user.dogPreferences.agePreference, 'Dog Age: ' + allDogs[i].dob + " " + calculateAge(allDogs[i].dob))
+            if( !user.dogPreferences.agePreference || user.dogPreferences.agePreference == null || user.dogPreferences.agePreference >= calculateAge(allDogs[i].dob)) {
+                if(!user.dogPreferences.sizePreferenceMax || user.dogPreferences.sizePreferenceMax == null || user.dogPreferences.sizePreferenceMax >= allDogs[i].size) {
+                    if(!user.dogPreferences.genderPreferenceF || user.dogPreferences.genderPreferenceF == null || (user.dogPreferences.genderPreferenceF == true && allDogs[i].gender != "F")) {
+                        if(!user.dogPreferences.genderPreferenceM || user.dogPreferences.genderPreferenceM == null || (user.dogPreferences.genderPreferenceM == true && allDogs[i].gender != "M")) {
+                            unseenDogs.push(allDogs[i]);
+                        }
+                    }
+                }
+            }
         }
     }
 
     return { dogs: unseenDogs, success: true };
-    
-
-    // const unseenDogs = await acenterCollection
-    //     .aggregate([
-    //         { $unwind: "$dogList" },
-    //         {
-    //             $match: {
-    //                 "dogList._id": {
-    //                     $nin: seenDogIds.map((id) => new ObjectId(id)),
-    //                 },
-    //             },
-    //         },
-    //         { $limit: limit },
-    //         { $project: { dog: "$dogList", _id: 0 } },
-    //     ])
-    //     .toArray();
-
-    // if (!unseenDogs || unseenDogs.length === 0) {
-    //     return { dogs: [], success: true };
-    // }
-
-    // return { dogs: unseenDogs.map((entry) => entry.dog), success: true };
-
     
 };
 
