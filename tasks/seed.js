@@ -26,7 +26,7 @@ let adoptionCenter1 = {
     contactFirstName: "Adoption",
     contactLastName: "Center",
     phone: "9295054338",
-    address: "324 Monroe St. Hoboken, NJ",
+    address: "324 Monroe St. Hoboken, NJ"
 };
 
 let adoptionCenter2 = {
@@ -36,7 +36,7 @@ let adoptionCenter2 = {
     contactFirstName: "Another",
     contactLastName: "Center",
     phone: "9295054339",
-    address: "New York City 10001",
+    address: "New York City 10001"
 };
 
 let adoptionCenter3 = {
@@ -46,7 +46,7 @@ let adoptionCenter3 = {
     contactFirstName: "Last",
     contactLastName: "Center",
     phone: "9295054330",
-    address: "101 Madison St.",
+    address: "101 Madison St."
 };
 
 let center1dog1 = {

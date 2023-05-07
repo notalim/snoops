@@ -116,6 +116,7 @@ const updateUser = async (
     dob,
     phone,
     address,
+    image,
     agePreference,
     sizePreferenceMax,
     genderPreferenceM,
@@ -177,7 +178,7 @@ const updateUser = async (
         dob: dob,
         phone: phone,
         address: address,
-        img: oldUser.img,
+        img: image,
         dogPreferences: {
             agePreference: agePreference,
             sizePreferenceMax: sizePreferenceMax,

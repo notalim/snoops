@@ -5,6 +5,7 @@ import { dirname } from "path";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import dotenv from "dotenv";
+import path from "path";
 import multer from "multer";
 import { userMiddleware, acenterMiddleware, chatMiddleware } from "./middleware.js";
 
@@ -15,11 +16,11 @@ process.on("unhandledRejection", (reason, promise) => {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, './.env') });
 
 const app = express();
 
-import path from "path";
+
 
 const viewsDir = path.join(__dirname, "views");
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));

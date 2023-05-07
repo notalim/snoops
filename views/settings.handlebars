@@ -7,7 +7,7 @@
                         {{error}}
                     {{/if}}
             </div>
-            <form id="update-user" action="/users/{{user._id}}" method="POST">
+            <form id="update-user" method="POST" enctype="multipart/form-data>
                 <label class="settingsLabel" for="firstName">First Name</label>
                 <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
@@ -61,6 +61,8 @@
             </div>
         </div>
     </div>
+    
+    <img src="{{user.img}}" alt="{{user.firstName}} {{user.lastName}}">
 
 </main>
 
@@ -90,6 +92,7 @@
         let dobIn = document.getElementById("dob");
         let phoneIn = document.getElementById("phone");
         let addressIn = document.getElementById("address");
+        let image = document.getElementById('image');
         let agePreferenceIn = document.getElementById("agePreference");
         let sizePreferenceMaxIn = document.getElementById("sizePreferenceMax");
         let genderPreferenceMIn = document.getElementById("genderPreferenceM");
@@ -172,10 +175,15 @@
                 }
                 error.hidden = false;
 
+                let formData = new FormData($('#update-user')[0]);
+
                 $.ajax({
                     url: `/users/{{user._id}}`,
                     type: "PUT",
-                    data: $("#update-user").serialize(),
+                    contentType: false,
+                    processData: false,
+                    cache: true,
+                    data: formData,
                     success: function (data) {
                         console.log(data);
 
@@ -227,6 +235,21 @@
                         container.appendChild(error);
                     }
                 });
+
+                //if the user has uploaded a new image, send it to the server separately
+                /*if($("#image").val()){
+                    $.ajax({
+                        url: '/user/{{user._id}}/uploadimage',
+                        type: "POST",
+                        data: document.getElementById("image").value,
+                        success: function(data){
+                            console.log(data);
+                        },
+                        error: function(err){
+                            console.log(err);
+                        }
+                    });
+                }*/
             } catch (e) {
                 event.preventDefault();
                 error.hidden = false;
