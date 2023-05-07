@@ -7,7 +7,7 @@
                         {{error}}
                     {{/if}}
             </div>
-            <form id="update-user" action="/users/{{user._id}}" method="POST">
+            <form id="update-user" method="POST" enctype="multipart/form-data>
                 <label class="settingsLabel" for="firstName">First Name</label>
                 <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
 
@@ -32,17 +32,17 @@
                 <label class="settingsLabel" for="image">Profile Picture</label>
                 <input class="settingsInput" type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
 
-                <label for="agePreference">Max Age Preference</label>
-                <input type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}"/>
+                <label class="settingsLabel" for="agePreference">Max Age Preference</label>
+                <input class="settingsInput" type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}"/>
 
-                <label for="sizePreferenceMax">Max Weight Preference</label>
-                <input type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}"/>
+                <label class="settingsLabel" for="sizePreferenceMax">Max Weight Preference</label>
+                <input class="settingsInput" type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}"/>
 
-                <label for="genderPreferenceM">Disallow Male Dogs?</label>
-                <input type="checkbox" id="genderPreferenceM" name="genderPreferenceM" value="on"/>
+                <label class="settingsLabel" for="genderPreferenceM">Disallow Male Dogs?</label>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceM" name="genderPreferenceM"/>
 
-                <label for="genderPreferenceF">Disallow Female Dogs?</label>
-                <input type="checkbox" id="genderPreferenceF" name="genderPreferenceF" value="on"/>
+                <label class="settingsLabel" for="genderPreferenceF">Disallow Female Dogs?</label>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceF" name="genderPreferenceF"/>
 
                 <button class="settingsSubmit" type="submit">Save</button>
             </form>
@@ -61,6 +61,8 @@
             </div>
         </div>
     </div>
+    
+    <img src="{{user.img}}" alt="{{user.firstName}} {{user.lastName}}">
 
 </main>
 
@@ -90,6 +92,11 @@
         let dobIn = document.getElementById("dob");
         let phoneIn = document.getElementById("phone");
         let addressIn = document.getElementById("address");
+        let image = document.getElementById('image');
+        let agePreferenceIn = document.getElementById("agePreference");
+        let sizePreferenceMaxIn = document.getElementById("sizePreferenceMax");
+        let genderPreferenceMIn = document.getElementById("genderPreferenceM");
+        let genderPreferenceFIn = document.getElementById("genderPreferenceF");
 
         let error = document.getElementById("error");
 
@@ -140,18 +147,43 @@
                         "Password"
                     );
                 }
+                
+                if(addressIn.value){
+                    addressIn.value = clientValidation.checkString(
+                        addressIn.value,
+                        "Address"
+                    );
+                }
 
-                addressIn.value = clientValidation.checkString(
-                    addressIn.value,
-                    "Address"
-                );
+                if(agePreferenceIn.value){
+                    agePreferenceIn.value = clientValidation.checkMaxPreference(
+                        agePreferenceIn.value,
+                        "Age Preference"
+                    );
+                }
 
+                if(sizePreferenceMaxIn.value){
+                    sizePreferenceMaxIn.value = clientValidation.checkMaxPreference(
+                        sizePreferenceMaxIn.value,
+                        "Size Preference"
+                    );
+                }
+
+                //check that genderPreferenceM is of type checkbox
+                if(genderPreferenceFIn.type != 'checkbox' || genderPreferenceMIn.type != 'checkbox'){
+                    throw 'Gender Preferences MUST be of type checkbox.'
+                }
                 error.hidden = false;
+
+                let formData = new FormData($('#update-user')[0]);
 
                 $.ajax({
                     url: `/users/{{user._id}}`,
                     type: "PUT",
-                    data: $("#update-user").serialize(),
+                    contentType: false,
+                    processData: false,
+                    cache: true,
+                    data: formData,
                     success: function (data) {
                         console.log(data);
 
@@ -189,10 +221,12 @@
                         if (successMessage) {
                             successMessage.remove();
                         }
-
                         let error = document.createElement("p");
                         let container = document.getElementById("user-settings");
                         let errorText = err.responseJSON.error;
+                        if(typeof errorText == 'object'){
+                            errorText = errorText.message
+                        }
                         error.innerText = errorText;
                         error.style.color = "red";
                         error.style.marginTop = "10px";
@@ -201,6 +235,21 @@
                         container.appendChild(error);
                     }
                 });
+
+                //if the user has uploaded a new image, send it to the server separately
+                /*if($("#image").val()){
+                    $.ajax({
+                        url: '/user/{{user._id}}/uploadimage',
+                        type: "POST",
+                        data: document.getElementById("image").value,
+                        success: function(data){
+                            console.log(data);
+                        },
+                        error: function(err){
+                            console.log(err);
+                        }
+                    });
+                }*/
             } catch (e) {
                 event.preventDefault();
                 error.hidden = false;

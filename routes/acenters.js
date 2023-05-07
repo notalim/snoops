@@ -1,8 +1,11 @@
 import { Router } from "express";
 const router = Router();
-import { acenterData, userData } from "../data/index.js";
+import { acenterData } from "../data/index.js";
+
 import * as validation from "../validation.js";
 import xss from "xss";
+import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
 
 // *: Adoption center Log In Page
 
@@ -175,10 +178,26 @@ router.route("/:id").get(async (req, res) => {
 
 // TODO: PUT /acenters/:id - Update adoption center
 
-router.route("/:id").put(async (req, res) => {
+let cloud_name = process.env.CLOUDINARY_CLOUD_NAME;
+let api_key = process.env.CLOUDINARY_API_KEY;
+let api_secret = process.env.CLOUDINARY_API_SECRET;
+cloudinary.config({
+    cloud_name: cloud_name,
+    api_key: api_key,
+    api_secret: api_secret,
+    secure: true,
+});
+
+let upload = multer({
+    storage: multer.diskStorage({}),
+});
+
+router.put("/:id", upload.single("image"), async (req, res) => {
     // Validate the id
     let id = req.params.id;
     // Decompose request body
+
+    //ADD TRY CATCH MAYBE
 
     let email = xss(req.body.email);
     let name = xss(req.body.name);
@@ -187,6 +206,39 @@ router.route("/:id").put(async (req, res) => {
     let contactLastName = xss(req.body.contactLastName);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
+    let image = null;
+
+    if (req.file && req.file.path) {
+        image = req.file.path;
+    }
+
+    if (email == undefined || email == "" || email == null) {
+        email = xss(req.session.acenter.email);
+    }
+    if (name == undefined || name == "" || name == null) {
+        name = xss(req.session.acenter.name);
+    }
+    if (
+        contactFirstName == undefined ||
+        contactFirstName == "" ||
+        contactFirstName == null
+    ) {
+        contactFirstName = xss(req.session.acenter.contactFirstName);
+    }
+    if (
+        contactLastName == undefined ||
+        contactLastName == "" ||
+        contactLastName == null
+    ) {
+        contactLastName = xss(req.session.acenter.contactLastName);
+    }
+
+    if (phone == undefined || phone == "" || phone == null) {
+        phone = xss(req.session.acenter.phone);
+    }
+    if (address == undefined || address == "" || address == null) {
+        address = xss(req.session.acenter.address);
+    }
 
     // Validate request body
     try {
@@ -208,6 +260,14 @@ router.route("/:id").put(async (req, res) => {
         phone = validation.checkPhone(phone, "Phone");
 
         address = validation.checkString(address, "Address");
+
+        let acenter = req.session.acenter;
+        if (!image) {
+            image = acenter.img;
+        } else {
+            let upload = await cloudinary.uploader.upload(image);
+            image = upload.secure_url;
+        }
     } catch (e) {
         return res.status(400).json({ error: e });
     }
@@ -220,9 +280,11 @@ router.route("/:id").put(async (req, res) => {
             contactFirstName,
             contactLastName,
             phone,
-            address
+            address,
+            image
         );
 
+        req.session.acenter = acenter;
         return res.status(200).json(acenter);
     } catch (e) {
         return res.status(500).json({ error: e });
@@ -255,32 +317,53 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
 
     let name = req.body.name;
     let dob = req.body.dob;
-    let breeds = req.body.breeds;
-    let gender = xss(req.body.gender);
-    let size = xss(req.body.size);
+    let breed1 = req.body.breed1;
+    let breed2 = req.body.breed2;
+    let breed3 = req.body.breed3;
+    let breeds = [];
+    let gender = req.body.gender;
+    let size = req.body.size;
 
     // xss check
     try {
-        name = xss(req.body.name);
-        dob = xss(req.body.dob);
-        breeds = xss(req.body.breeds);
-        gender = xss(req.body.gender);
-        size = xss(req.body.size);
+        name = xss(name);
+        dob = xss(dob);
+        breed1 = xss(breed1);
+        breed2 = xss(breed2);
+        breed3 = xss(breed3);
+        gender = xss(gender);
+        size = xss(size);
     } catch (e) {
         console.log(e);
-        res.status(400).type("application/json").send({ error: e.toString() });
+        //What tf does this do
+        return res
+            .status(400)
+            .type("application/json")
+            .send({ error: e.toString() });
     }
 
     try {
+        // console.log("server validation!");
         // Validate the id
         id = validation.checkId(id, "Adoption center ID", "POST /:id/dogs");
 
         // Validate request body
-        name = validation.checkString(name, "Name");
+        name = validation.checkName(name, "Name");
 
-        dob = validation.checkDate(dob, "Date of Birth", 1, 20);
+        // console.log("Received dob:", dob); 
+        dob = validation.checkDate(dob, "Date of Birth", 0, 20);
+        // console.log("Validated dob:", dob); 
 
-        breeds = JSON.parse(breeds);
+        if (breed1) {
+            breeds.push(breed1);
+        }
+        if (breed2) {
+            breeds.push(breed2);
+        }
+        if (breed3) {
+            breeds.push(breed3);
+        }
+
         breeds = validation.checkStringArray(breeds, "Breeds");
 
         gender = validation.checkGender(gender, "Gender");
@@ -288,7 +371,10 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
         size = validation.checkPetWeight(parseInt(size), "Weight");
     } catch (e) {
         console.log(e);
-        res.status(400).type("application/json").send({ error: e.toString() });
+        return res
+            .status(400)
+            .type("application/json")
+            .send({ error: e.toString() });
     }
 
     try {
@@ -302,7 +388,8 @@ router.route("/ac-dashboard/:id/").post(async (req, res) => {
             size
         );
         // console.log("Dog created");
-        return res.redirect("/acenters/ac-dashboard/" + id);
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, success: "Dog added!" });
     } catch (e) {
         console.log(e);
         const acenter = await acenterData.getAdoptionCenter(id);

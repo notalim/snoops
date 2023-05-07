@@ -15,11 +15,18 @@
     font-size: 16px;
     --main-background-color: #fff1dc;
     --text-color: #3a2412;
-    --accent-color: #3a98b9;
+    --a-accent-color: #0081a1;
     --accent-hover-color: #2b748e;
     --footer-background-color: #e8d5c4;
+
     --dark-text-color: #fff1dc;
     --dark-main-background-color: #3a2412;
+    --dark-footer-background-color: #735438;
+
+    --form-background-color: #f8f8f8;
+    --input-color: #f1f1f1;
+
+    --dark-form-background-color: #3c3a38;
 }
 
 /* Reset styles for elements */
@@ -27,7 +34,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    
     text-decoration: none;
     font-family: "IBM Plex Serif", serif;
     font-size: 1rem;
@@ -36,12 +42,15 @@
 body {
     background-color: var(--main-background-color);
     color: var(--text-color);
-    height: 100vh;
+    height: 100%;
 }
 
 body.dark {
     --text-color: var(--dark-text-color);
     --main-background-color: var(--dark-main-background-color);
+    --footer-background-color: var(--dark-footer-background-color);
+    --form-background-color: var(--dark-form-background-color);
+
 }
 
 header {
@@ -81,7 +90,7 @@ header nav a {
 }
 
 header nav a:hover {
-    color: var(--accent-color);
+    color: var(--a-accent-color);
 }
 
 header nav i {
@@ -89,10 +98,20 @@ header nav i {
     cursor: pointer;
 }
 
+#main-body{
+    min-height: fit-content;
+    flex:1;
+}
+
+main{
+    min-height: fit-content;
+    flex: 1;
+}
 /* Hero Section styles */
 .hero {
     position: relative;
     min-height: 100vh;
+    background: none;
 }
 
 .hero img {
@@ -119,6 +138,7 @@ header nav i {
     font-size: 2.875rem;
     font-weight: bold;
     margin-bottom: 1.25rem;
+    color: #f8f8f8;
 }
 
 .hero h1 {
@@ -139,6 +159,7 @@ header nav i {
     background: inherit;
     margin-bottom: 1.25rem;
     display: flex;
+    color: #f8f8f8;
 }
 
 .hero a {
@@ -157,12 +178,13 @@ header nav i {
 .hero-buttons a {
     display: inline-block;
     padding: 0.625rem 3.125rem;
-    background-color: var(--accent-color);
+    background-color: var(--a-accent-color);
     color: var(--main-background-color);
     border-radius: 0.3125rem;
     margin-right: 2.5rem;
     text-decoration: none;
     transition: background-color 0.3s ease-in-out;
+    color: white;
 }
 
 .hero-buttons a:hover {
@@ -173,7 +195,7 @@ header nav i {
     margin-right: 0;
 }
 
-/* Footer styles */
+
 footer {
     background-color: var(--footer-background-color);
     text-align: center;
@@ -186,7 +208,7 @@ footer p {
 }
 
 .aboutContainer {
-    background-color: #fce5c3;
+    background-color: var(--main-background-color);
     height: 83%;
     width: 60%;
     text-align: center;
@@ -197,13 +219,13 @@ footer p {
 
 .aboutTitle {
     margin-left: 20px;
-    background-color: #fce5c3;
+    background-color: var(--main-background-color);
     font-size: 3.2rem;
     text-align: left;
 }
 
 .aboutText {
-    background-color: #fce5c3;
+    background-color: var(--main-background-color);
     width: 80%;
     margin: auto;
     text-indent: 50px;
@@ -232,9 +254,10 @@ footer p {
 
 .resources-intro a {
     padding: 0.625rem 3.125rem;
-    background-color: var(--accent-color);
+    background-color: var(--a-accent-color);
     color: var(--main-background-color);
     border-radius: 0.3125rem;
     text-decoration: none;
     transition: background-color 0.3s ease-in-out;
+    color: white;
 }

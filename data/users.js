@@ -116,6 +116,7 @@ const updateUser = async (
     dob,
     phone,
     address,
+    image,
     agePreference,
     sizePreferenceMax,
     genderPreferenceM,
@@ -177,7 +178,7 @@ const updateUser = async (
         dob: dob,
         phone: phone,
         address: address,
-        img: oldUser.img,
+        img: image,
         dogPreferences: {
             agePreference: agePreference,
             sizePreferenceMax: sizePreferenceMax,
@@ -196,7 +197,7 @@ const updateUser = async (
     );
 
     if (updateInfo.modifiedCount === 0) {
-        throw `Could not update user with ID ${validatedId}`;
+        throw `Could not update user with ID ${validatedId}. You may have not changed any values.`;
     }
 
     return await getUser(validatedId);
@@ -331,6 +332,32 @@ const getUnseenDogs = async (userId, limit = 10) => {
         seenDogs.add(user.seenDogs[i]._id.toString());
     }
 
+
+    //need to convert DOB to years
+    function calculateAge(dob) {
+        const today = new Date();
+        dob = new Date(dob);
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDifference = today.getMonth() - dob.getMonth();
+        const dayDifference = today.getDate() - dob.getDate();
+    
+        if (
+            monthDifference < 0 ||
+            (monthDifference === 0 && today.getDate() < dob.getDate())
+        ) {
+            age--;
+        }
+    
+        if (age === 0) {
+            if (monthDifference === 0 && dayDifference < 30) {
+                return 0;
+            } else {
+                return 0;
+            }
+        } else {
+            return age;
+        }
+    }
     
     //get all the dogs, and check against the set.
     //add dogs to unseen dog list until either no more dogs at all or until limit is reached.
@@ -342,8 +369,8 @@ const getUnseenDogs = async (userId, limit = 10) => {
         }
         if(!seenDogs.has(allDogs[i]._id.toString())) {
             //account for user preferences
-            console.log(user.dogPreferences)
-            if( !user.dogPreferences.agePreference || user.dogPreferences.agePreference == null || user.dogPreferences.agePreference >= allDogs[i].age) {
+            //console.log('User Preference: ' + user.dogPreferences.agePreference, 'Dog Age: ' + allDogs[i].dob + " " + calculateAge(allDogs[i].dob))
+            if( !user.dogPreferences.agePreference || user.dogPreferences.agePreference == null || user.dogPreferences.agePreference >= calculateAge(allDogs[i].dob)) {
                 if(!user.dogPreferences.sizePreferenceMax || user.dogPreferences.sizePreferenceMax == null || user.dogPreferences.sizePreferenceMax >= allDogs[i].size) {
                     if(!user.dogPreferences.genderPreferenceF || user.dogPreferences.genderPreferenceF == null || (user.dogPreferences.genderPreferenceF == true && allDogs[i].gender != "F")) {
                         if(!user.dogPreferences.genderPreferenceM || user.dogPreferences.genderPreferenceM == null || (user.dogPreferences.genderPreferenceM == true && allDogs[i].gender != "M")) {

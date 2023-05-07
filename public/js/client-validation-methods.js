@@ -147,6 +147,26 @@ function checkAgePreferences(_var, varName) {
     return _var;
 }
 
+export function checkBoolean(bool, elmName) {
+    if (typeof bool !== "boolean") {
+        throw `${elmName} must be a boolean`;
+    }
+    return bool;
+}
+
+export function checkMaxPreference(max, elmName) {
+    try{
+    max = parseInt(max);
+    max = checkNumber(max, elmName);
+    if (max < 1) {
+        throw `${elmName} must be a valid preference above 0`;
+    }
+    return max;
+    }catch(e){
+        throw `${elmName} must be a valid preference above 0`;
+    }
+}
+
 let exportedMethods = {
     checkString,
     checkNumber,
@@ -159,6 +179,8 @@ let exportedMethods = {
     checkPhoneRegex,
     checkPetWeight,
     checkAgePreferences,
+    checkBoolean,
+    checkMaxPreference
 };
 
 export default exportedMethods;

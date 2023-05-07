@@ -12,24 +12,26 @@
             <div class="scroller-dog-info-header">
                 <h1 id="dog-name">{{dog.name}}</h1>
                 <h2 id="dog-breeds">{{dog.breeds}}</h2>
-                <h2 id="dog-age">{{dog.dob}} years</h2>
             </div>
             <div class="scroller-dog-info">
-                <p id="dog-description">{{dog.desc}}</p>
-            </div>
+                <p id="dog-description">{{dog.description}}</p>
+                <p id="dog-age">{{dog.age}}</p>
+                <p id="dog-distance">{{dog.distance}} miles away from you</p>
+            </div>  
         </div>
         <div class="scroller-interaction-container">
             <button
                 class="scroller-interaction-button like"
                 id="likeButton"
-            >♥</button>
+            >❤️</button>
             <button
                 class="scroller-interaction-button dislike"
                 id="dislikeButton"
-            >X</button>
+            >👎</button>
         </div>
-    </div>
-    <script>
+    </div>   
+</main>
+<script>
         let dogsData = JSON.parse('{{{dogs}}}');
 
         if(dogsData.length === 0) {
@@ -52,6 +54,16 @@
         let dogAge = document.getElementById("dog-age");
         let dogImage = document.getElementById("dog-image");
         let dogDescription = document.getElementById("dog-description"); 
+        let dogDistance = document.getElementById("dog-distance");
+
+        if(dogsData.length > 0){
+            dogName.textContent = dogsData[0].name;
+            dogBreeds.textContent = breedName(dogsData[0].breeds);
+            dogAge.textContent = dogsData[0].age;
+            dogImage.src = dogsData[0].img;
+            dogDescription.textContent = dogsData[0].description;
+            dogDistance.textContent = dogsData[0].distance;
+        }
         let dogId = "";
         let dogAcenterId = "";      
         if(dogsData.length > 0) {
@@ -73,8 +85,6 @@
             dogImage.src = dogsData[0].img;
             dogDescription.textContent = dogsData[0].description;
 
-
-
             function goBack() {
                 if (i === 0) {
                     i = dogsData.length - 1;
@@ -87,6 +97,8 @@
                 dogAge.textContent = dogsData[i].age;
                 dogImage.src = dogsData[i].img;
                 dogDescription.textContent = dogsData[i].description;
+                dogDistance.textContent = dogsData[i].distance;
+
             };
 
             function goForward(){
@@ -101,7 +113,8 @@
                     dogImage.src = dogsData[i].img;
                     dogDescription.textContent = dogsData[i].description;
                     dogId = dogsData[i]._id.toString();
-                    dogAcenterId = dogsData[i].acenterId.toString()
+                    dogAcenterId = dogsData[i].acenterId.toString();
+                    dogDistance.textContent = dogsData[i].distance;
                 }
             };
 
@@ -141,4 +154,3 @@
         }
 
     </script>
-</main>

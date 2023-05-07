@@ -4,6 +4,8 @@ import { acenterData, userData } from "../data/index.js";
 import * as validation from "../validation.js";
 import { redirectToScrollerIfLoggedIn } from "../middleware.js";
 import xss from "xss";
+import multer from "multer";
+import {v2 as cloudinary} from 'cloudinary';
 
 // *: Log In Page
 
@@ -39,7 +41,7 @@ router.route("/login").post(async (req, res) => {
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
         res.render("user-login", { error: e.toString(), title: "User Login", email: savedEmail });
-        console.log(e);
+        //console.log(e);
         return;
     }
 });
@@ -86,7 +88,7 @@ router.route("/signup").post(async (req, res) => {
         savedLastName = lastName;
 
         dob = validation.checkDate(dob, "User Date of Birth");
-        console.log(dob);
+        //console.log(dob);
         savedDob = dob;
 
         phone = validation.checkPhone(phone, "Phone Number");
@@ -144,7 +146,7 @@ router.route("/:id").get(async (req, res) => {
     console.log("GET /users/:id triggered with URL:", req.originalUrl);
 
     let id = req.params.id;
-    console.log(id);
+    //console.log(id);
     try {
         // Validate the id
         id = validation.checkId(id, "ID", "GET /users/:id");
@@ -185,7 +187,21 @@ router.route("/:id").delete(async (req, res) => {
 
 // TODO: PUT /users/:id - Update user by id
 
-router.route("/:id").put(async (req, res) => {
+let cloud_name = process.env.CLOUDINARY_CLOUD_NAME;
+let api_key = process.env.CLOUDINARY_API_KEY;
+let api_secret = process.env.CLOUDINARY_API_SECRET;
+cloudinary.config({
+    cloud_name: cloud_name,
+    api_key: api_key,
+    api_secret: api_secret,
+    secure: true
+});
+
+let upload = multer({
+    storage: multer.diskStorage({}),
+});
+
+router.put("/:id", upload.single('image'),async (req, res) => {
     // Validate the id
     let id = req.params.id;
 
@@ -199,6 +215,11 @@ router.route("/:id").put(async (req, res) => {
     let dob = xss(req.body.dob);
     let phone = xss(req.body.phone);
     let address = xss(req.body.address);
+    let image = null;
+
+    if (req.file && req.file.path){
+        image = req.file.path;
+    }
     let agePreference = xss(req.body.agePreference);
     let sizePreferenceMax = xss(req.body.sizePreferenceMax);
     let genderPreferenceM = xss(req.body.genderPreferenceM);
@@ -229,8 +250,6 @@ router.route("/:id").put(async (req, res) => {
         sizePreferenceMax = null;
     }
 
-    console.log(genderPreferenceF, genderPreferenceM)
-
     if(genderPreferenceF == undefined || genderPreferenceF == "" || genderPreferenceF == null){
         genderPreferenceF = false;
     }
@@ -246,7 +265,7 @@ router.route("/:id").put(async (req, res) => {
     }
 
 
-    console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address, 'agePreference: ' + agePreference, 'sizePreferenceMax: ' + sizePreferenceMax, "GenderPreferenceF: " + genderPreferenceF, "GenderPreferenceM: " + genderPreferenceM)
+    // console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address, 'agePreference: ' + agePreference, 'sizePreferenceMax: ' + sizePreferenceMax, "GenderPreferenceF: " + genderPreferenceF, "GenderPreferenceM: " + genderPreferenceM)
 
     try {
         id = validation.checkId(id, "ID", "PUT /users/:id");
@@ -265,6 +284,15 @@ router.route("/:id").put(async (req, res) => {
 
         address = validation.checkString(address, "Address");
 
+        let user = req.session.user;
+        if (!image){
+            image = user.img;
+        }
+        else {
+            let upload = await cloudinary.uploader.upload(image);
+            image = upload.secure_url;
+        }
+
         agePreference = validation.checkOptionalMaxPrefrence(agePreference, "Age Preference");
 
         sizePreferenceMax = validation.checkOptionalMaxPrefrence(sizePreferenceMax, "Size Preference");
@@ -272,6 +300,7 @@ router.route("/:id").put(async (req, res) => {
         genderPreferenceF = validation.checkBoolean(genderPreferenceF, "Gender F Preference");
 
         genderPreferenceM = validation.checkBoolean(genderPreferenceM, "Gender M Preference");
+        
     } catch (e) {
         return res.status(400).render("settings", {title: "Settings", error: e.toString(), user: req.session.user});
     }
@@ -286,6 +315,7 @@ router.route("/:id").put(async (req, res) => {
             dob,
             phone,
             address,
+            image,
             agePreference,
             sizePreferenceMax,
             genderPreferenceM,
@@ -382,4 +412,11 @@ router.route("/:id/dislike/:acenterId/:dogId").post(async (req, res) => {
     }
 });
 
+
+// *: Upload a profile picture
+
+router.route("/:id/uploadimage").post(async (req, res) => {
+    //print the file contents that were uploaded
+    console.log(req.file);
+});
 export default router;

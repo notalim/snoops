@@ -5,8 +5,9 @@ import { dirname } from "path";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import dotenv from "dotenv";
+import path from "path";
 import multer from "multer";
-import { userMiddleware, acenterMiddleware } from "./middleware.js";
+import { userMiddleware, acenterMiddleware, chatMiddleware } from "./middleware.js";
 
 // ? THIS IS FOR THE WEBSITE TO NOT CRASH WHEN THERE IS AN ERROR
 process.on("unhandledRejection", (reason, promise) => {
@@ -15,11 +16,11 @@ process.on("unhandledRejection", (reason, promise) => {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, './.env') });
 
 const app = express();
 
-import path from "path";
+
 
 const viewsDir = path.join(__dirname, "views");
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
@@ -44,9 +45,11 @@ app.use(
 
 const protectedUserRoutes = ["/settings", "/scroller"];
 const protectedAcenterRoutes = ["/ac-dashboard", "/ac-settings"];
+const protectedChatRoutes = [];
 
 app.use("/users", userMiddleware(protectedUserRoutes));
 app.use("/acenters", acenterMiddleware(protectedAcenterRoutes));
+app.use("/chats", chatMiddleware(protectedChatRoutes));
 
 app.use((req, res, next) => {
     if (req.session.user) {
@@ -67,44 +70,68 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/chats/user/:uid", (req, res, next) => {
-    
-    if(!req.session){
-        return res.redirect("/users/login-page");
-    }
-    if(!req.session.user){
-        return res.redirect("/users/login-page");
-    }
-    if(req.session.user._id !== req.params.uid){
-        return res.redirect("/404Page");
+// app.use("/chats/user/:uid", (req, res, next) => {
+//     if(!req.session){
+//         return res.redirect("/users/login-page");
+//     }
+//     if(!req.session.user){
+//         return res.redirect("/users/login-page");
+//     }
+//     if(req.session.user._id !== req.params.uid){
+//         return res.redirect("/404Page");
+//     }
+//     next();
+// });
+
+// app.use("/chats/user/:uid/:acid", (req, res, next) => {
+//     if(!req.xhr){
+//         return res.redirect("/404Page");
+//     }
+//     next();
+// });
+
+// app.use("/chats/acenter/:acid", (req, res, next) => {
+//     if(!req.session){
+//         return res.redirect("/acenters/login-page");
+//     }
+//     if(!req.session.acenter){
+//         return res.redirect("/acenters/login-page");
+//     }
+//     if(req.session.acenter._id !== req.params.acid){
+//         return res.redirect("/404Page");
+//     }
+//     next();
+// });
+
+// app.use("/chats/acenter/:acid/:uid", (req, res, next) => {
+//     if(!req.xhr){
+//         return res.redirect("/404Page");
+//     }
+//     next();
+// });
+
+app.use("/users", (req, res, next) => {
+    console.log(req.url)
+    if(req.url !== '/login-page' && req.url !== '/signup-page' && req.url !== '/login' && req.url !== '/signup'){
+        if(!req.session){
+            return res.redirect("/users/login-page");
+        }
+        if(!req.session.user){
+            return res.redirect("/users/login-page");
+        }
     }
     next();
 });
 
-app.use("/chats/user/:uid/:acid", (req, res, next) => {
-    if(!req.xhr){
-        return res.redirect("/404Page");
-    }
-    next();
-});
 
-app.use("/chats/acenter/:acid", (req, res, next) => {
-    
-    if(!req.session){
-        return res.redirect("/acenters/login-page");
-    }
-    if(!req.session.acenter){
-        return res.redirect("/acenters/login-page");
-    }
-    if(req.session.acenter._id !== req.params.acid){
-        return res.redirect("/404Page");
-    }
-    next();
-});
-
-app.use("/chats/acenter/:acid/:uid", (req, res, next) => {
-    if(!req.xhr){
-        return res.redirect("/404Page");
+app.use("/acenters", (req, res, next) => {
+    if(req.url !== '/login-page' && req.url !== '/signup-page' && req.url !== '/login' && req.url !== '/signup'){
+        if(!req.session){
+            return res.redirect("/acenters/login-page");
+        }
+        if(!req.session.acenter){
+            return res.redirect("/acenters/login-page");
+        }
     }
     next();
 });

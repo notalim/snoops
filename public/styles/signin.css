@@ -52,23 +52,23 @@
     border-radius: 5px;
     min-height: 2.5rem;
     width: 70%;
-    background-color: #fff;
+    background-color: var(--input-color);
     font-family: "Lora", serif;
     font-size: 16px;
 }
 
 .Loginh2{
-    background-color: #f8f8f8;
+    background-color: var(--form-background-color);
 }
 
 .login-form{
-    background-color: #f8f8f8;
+    background-color: var(--form-background-color);
     width: 60%;
 }
 
 .userInput, .acInput{
     display: block;
-    background-color: #f1f1f1;
+    background-color: var(--input-color);
     border-radius: 10px;
     width: 100%;
     padding: 10px 12px;
@@ -84,12 +84,12 @@
 
 
 .userLabel, .acLabel{
-    background-color: #f8f8f8;
+    background-color: var(--form-background-color);
     display: block;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: rgb(168, 168, 168);
+    color: #727272;
     margin-top: 5px;
 }
 
@@ -112,14 +112,15 @@
 
 .switchLogin{
     display: block;
-    background-color: #f8f8f8;
+    background-color: var(--form-background-color);
     text-align: center;
     text-decoration: solid;
-    color: grey;
+    color: #727272;
     margin-bottom: 10px;
     transition: 350ms;
 }
 
 .switchLogin:hover{
     color: #8ea8a8;
+    transform: scale(1.01);
 }
