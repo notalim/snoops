@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: fit-content;
 }
 
 .settingHeader, .likedDogsHeader {
@@ -23,7 +23,7 @@
     height: 100%;
     margin: 0 auto;
     width: 90%; 
-    min-height: 100vh;
+    min-height: fit-content;
     gap: 2rem;
 }
 
@@ -32,12 +32,14 @@
     border: 2px solid #633d1e;
     border-radius: 10px;
     background-color: #f8f8f8;
+    display: flex;
     min-height: fit-content;
     flex-direction: column;
 }
 
 .settingsContainer#user-settings {
     width: 30%;
+    overflow-y: scroll;
 }
 
 .settingsContainer.doggies {
@@ -124,8 +126,8 @@
     border: #633d1e 2px solid;
 }
 
-.SettingsSubmit{
-    display: block;
+.settingsSubmit{
+    display: flex;
     margin: auto;
     margin-top: 30px;
     margin-bottom: 20px;
