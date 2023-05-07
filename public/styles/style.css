@@ -18,8 +18,15 @@
     --a-accent-color: #0081a1;
     --accent-hover-color: #2b748e;
     --footer-background-color: #e8d5c4;
+
     --dark-text-color: #fff1dc;
     --dark-main-background-color: #3a2412;
+    --dark-footer-background-color: #735438;
+
+    --form-background-color: #f8f8f8;
+    --input-color: #f1f1f1;
+
+    --dark-form-background-color: #3c3a38;
 }
 
 /* Reset styles for elements */
@@ -27,7 +34,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    
     text-decoration: none;
     font-family: "IBM Plex Serif", serif;
     font-size: 1rem;
@@ -42,6 +48,9 @@ body {
 body.dark {
     --text-color: var(--dark-text-color);
     --main-background-color: var(--dark-main-background-color);
+    --footer-background-color: var(--dark-footer-background-color);
+    --form-background-color: var(--dark-form-background-color);
+
 }
 
 header {
@@ -199,7 +208,7 @@ footer p {
 }
 
 .aboutContainer {
-    background-color: #fce5c3;
+    background-color: var(--main-background-color);
     height: 83%;
     width: 60%;
     text-align: center;
@@ -210,13 +219,13 @@ footer p {
 
 .aboutTitle {
     margin-left: 20px;
-    background-color: #fce5c3;
+    background-color: var(--main-background-color);
     font-size: 3.2rem;
     text-align: left;
 }
 
 .aboutText {
-    background-color: #fce5c3;
+    background-color: var(--main-background-color);
     width: 80%;
     margin: auto;
     text-indent: 50px;

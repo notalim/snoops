@@ -73,10 +73,11 @@ router.get("/settings/:id", async (req, res) => {
             return res.redirect("/users/login-page");
         }
         if (userId !== requestedUserId) {
-            // Redirect to login page or show an error message
-            return res.status(403).json({
-                error: "You are not authorized to access this page.",
-            });
+            return res
+                .status(403)
+                .render("404Page", {
+                    error: "You are not authorized to access this page.",
+                });
         }
         const user = req.session.user;
 
