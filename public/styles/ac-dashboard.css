@@ -18,7 +18,7 @@
     height: 100%;
     margin: 0 auto;
     height: 80vh;
-    gap: 2rem; /* Add this line to set the gap between the form and posted dogs */
+    gap: 2rem; 
 }
 
 .ac-dashboard-main {

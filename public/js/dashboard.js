@@ -85,6 +85,9 @@ function openUpdateDogModal(card) {
     const dogAdoptionStatus =
         card.querySelector("p.adoptionStatus").textContent;
 
+    const deleteButton = dogModal.querySelector(".delete-dog-btn");
+    deleteButton.dataset.dogId = dogId;
+
     dogModal.querySelector("#dogUpdateName").value = dogName;
     dogModal.querySelector("#dogUpdateDob").value = dogDob;
 
@@ -162,6 +165,32 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    function deleteDog(dogId, adoptionCenterId) {
+        fetch(`/acenters/ac-dashboard/${adoptionCenterId}/dogs/${dogId}`, {
+            method: "DELETE",
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    console.error("Error deleting dog", response);
+                } else {
+                    // Reload the page to show the updated list of dogs
+                    location.reload();
+                }
+            })
+            .catch((error) => {
+                console.error("Error deleting dog:", error);
+            });
+    }
+
+    document.querySelectorAll(".delete-dog-btn").forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+            const dogId = event.target.dataset.dogId;
+            const adoptionCenterId = window.location.pathname.split("/")[3];
+            // console.log(dogId, adoptionCenterId);
+            deleteDog(dogId, adoptionCenterId);
+        });
+    });
+
     dogCards.forEach((card) => {
         card.addEventListener("click", function (event) {
             event.stopPropagation();
@@ -170,8 +199,9 @@ document.addEventListener("DOMContentLoaded", function () {
             openUpdateDogModal(card);
         });
     });
+
     const closeModal = document.querySelector(".update-dog-close");
-    
+
     closeModal.addEventListener("click", () => {
         document.querySelector("#update-dog-modal").style.display = "none";
     });

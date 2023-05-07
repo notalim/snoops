@@ -12,7 +12,14 @@
             </div>
             <form class = "login-form" id="ac-login-form" method="POST" action="/acenters/login">
                     <label class="acLabel" for="email">Email</label>
-                    <input class="acInput" type="email" id="email" name="email" required />
+                    <input 
+                        class="acInput" 
+                        type="email" 
+                        id="email" 
+                        name="email"
+                        placeholder="Email"
+                        required 
+                    />
 
                     <label class="acLabel" for="password">Password</label>
                     <input
@@ -20,10 +27,13 @@
                         type="password"
                         id="password"
                         name="password"
+                        placeholder="Password"
                         required
                     />
                 <button class="LoginSubmit" type="submit">Log in</button>
                 <a class="switchLogin" href="#" onclick="switchToUserLogin()">User Login</a>
+                <a class="switchLogin" href="#" onclick="switchToACSignup()">Create an Account</a>
+
             </form>
         </div>
     </div>
@@ -31,6 +41,8 @@
     <script>
         function switchToUserLogin() { window.location.href =
         "/users/login-page"; }
+        function switchToACSignup() { window.location.href =
+        "/acenters/signup-page"; }
     </script>
     <script type="module" src="/js/login-validation.js">
     </script>

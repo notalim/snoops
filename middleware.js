@@ -29,6 +29,7 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
     return (req, res, next) => {
         const isLoggedIn = req.session.acenter;
         const fullPath = req.baseUrl + req.path;
+        // console.log(fullPath);
         const isUserLoggedIn = req.session.user;
 
         if (
@@ -48,6 +49,50 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
             });
             return;
         }
+        next();
+    };
+};
+
+export const chatMiddleware = (protectedChatRoutes) => {
+    return (req, res, next) => {
+        //console.log(req.session, req.xhr);
+
+        const isUserLoggedIn = req.session.user;
+        const isAcenterLoggedIn = req.session.acenter;
+        const fullPath = req.baseUrl + req.path;
+
+        if (
+            protectedChatRoutes.some(
+                (route) => fullPath === "/chats" + route
+            ) &&
+            !isUserLoggedIn &&
+            !isAcenterLoggedIn
+        ) {
+            return res.redirect("/404Page");
+        }
+
+        if (
+            protectedChatRoutes.some((route) => fullPath === "/chats" + route)
+        ) {
+            if (!req.xhr) {
+                return res.redirect("/404Page");
+            }
+        }
+
+        if (isUserLoggedIn) {
+            if (req.path.split("/")[2] !== req.session.user._id) {
+                console.log("req.path.split('/')[2]: ", req.path.split("/")[2]);
+                console.log("req.session.user._id: ", req.session.user._id);
+                return res.redirect("/users/login-page");
+            }
+        }
+
+        if (isAcenterLoggedIn) {
+            if (req.path.split("/")[2] !== req.session.acenter._id) {
+                return res.redirect("/acenters/login-page");
+            }
+        }
+
         next();
     };
 };

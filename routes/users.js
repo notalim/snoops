@@ -41,7 +41,7 @@ router.route("/login").post(async (req, res) => {
         return res.redirect(`/users/scroller/${user._id}`);
     } catch (e) {
         res.render("user-login", { error: e.toString(), title: "User Login", email: savedEmail });
-        console.log(e);
+        //console.log(e);
         return;
     }
 });
@@ -88,7 +88,7 @@ router.route("/signup").post(async (req, res) => {
         savedLastName = lastName;
 
         dob = validation.checkDate(dob, "User Date of Birth");
-        console.log(dob);
+        //console.log(dob);
         savedDob = dob;
 
         phone = validation.checkPhone(phone, "Phone Number");
@@ -146,7 +146,7 @@ router.route("/:id").get(async (req, res) => {
     console.log("GET /users/:id triggered with URL:", req.originalUrl);
 
     let id = req.params.id;
-    console.log(id);
+    //console.log(id);
     try {
         // Validate the id
         id = validation.checkId(id, "ID", "GET /users/:id");
@@ -220,6 +220,10 @@ router.put("/:id", upload.single('image'),async (req, res) => {
     if (req.file && req.file.path){
         image = req.file.path;
     }
+    let agePreference = xss(req.body.agePreference);
+    let sizePreferenceMax = xss(req.body.sizePreferenceMax);
+    let genderPreferenceM = xss(req.body.genderPreferenceM);
+    let genderPreferenceF = xss(req.body.genderPreferenceF);
 
     if (email == undefined || email == "" || email == null) {
         email = xss(req.session.user.email);
@@ -239,7 +243,29 @@ router.put("/:id", upload.single('image'),async (req, res) => {
     if (address == undefined || address == "" || address == null) {
         address = xss(req.session.user.address);
     }
-    // console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address)
+    if(agePreference == undefined || agePreference == "" || agePreference == null){
+        agePreference = null;
+    }
+    if(sizePreferenceMax == undefined || sizePreferenceMax == "" || sizePreferenceMax == null){
+        sizePreferenceMax = null;
+    }
+
+    if(genderPreferenceF == undefined || genderPreferenceF == "" || genderPreferenceF == null){
+        genderPreferenceF = false;
+    }
+    if(genderPreferenceF != undefined && genderPreferenceF != false){
+        genderPreferenceF = true;
+    }
+
+    if(genderPreferenceM == undefined || genderPreferenceM == "" || genderPreferenceM == null){
+        genderPreferenceM = false;
+    }
+    if(genderPreferenceM != undefined && genderPreferenceM != false){
+        genderPreferenceM = true;
+    }
+
+
+    // console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address, 'agePreference: ' + agePreference, 'sizePreferenceMax: ' + sizePreferenceMax, "GenderPreferenceF: " + genderPreferenceF, "GenderPreferenceM: " + genderPreferenceM)
 
     try {
         id = validation.checkId(id, "ID", "PUT /users/:id");
@@ -267,6 +293,14 @@ router.put("/:id", upload.single('image'),async (req, res) => {
             image = upload.secure_url;
         }
 
+        agePreference = validation.checkOptionalMaxPrefrence(agePreference, "Age Preference");
+
+        sizePreferenceMax = validation.checkOptionalMaxPrefrence(sizePreferenceMax, "Size Preference");
+
+        genderPreferenceF = validation.checkBoolean(genderPreferenceF, "Gender F Preference");
+
+        genderPreferenceM = validation.checkBoolean(genderPreferenceM, "Gender M Preference");
+        
     } catch (e) {
         return res.status(400).render("settings", {title: "Settings", error: e.toString(), user: req.session.user});
     }
@@ -281,7 +315,11 @@ router.put("/:id", upload.single('image'),async (req, res) => {
             dob,
             phone,
             address,
-            image
+            image,
+            agePreference,
+            sizePreferenceMax,
+            genderPreferenceM,
+            genderPreferenceF
         );
 
         req.session.user = user;

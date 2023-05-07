@@ -68,7 +68,8 @@ export function checkName(name, varName) {
     if (name.split(" ").length > 1) {
         throw `${varName} must be a single word`;
     }
-    var regex = [/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g];
+    // no numbers and symbols are allowed in the regex
+    let regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?0-9]/g;
     if (name.replace(regex, "").length !== name.length) {
         throw `${varName} must not consist of special characters`;
     }
@@ -124,6 +125,25 @@ export function checkWebsite(website, elmName) {
         throw `${elmName} must be a valid URL`;
     }
     return website.trim();
+}
+
+export function checkBoolean(bool, elmName) {
+    if (typeof bool !== "boolean") {
+        throw `${elmName} must be a boolean`;
+    }
+    return bool;
+}
+
+export function checkOptionalMaxPrefrence(max, elmName) {
+    if(max === null){
+        return max;
+    }
+    max = parseInt(max);
+    max = checkNumber(max, elmName);
+    if (max < 1) {
+        throw `${elmName} must be a valid preference above 0`;
+    }
+    return max;
 }
 
 export function checkEmail(email, elmName) {

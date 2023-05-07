@@ -1,6 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import { acenterData, userData } from "../data/index.js";
+import { acenterData } from "../data/index.js";
+
 import * as validation from "../validation.js";
 import xss from "xss";
 import multer from "multer";
@@ -493,9 +494,9 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
     }
 });
 
-// TODO: DELETE /acenters/:id/dogs/:dogId - Delete dog for adoption center
+// TODO: DELETE /acenters/ac-dashboard/:id/dogs/:dogId - Delete dog for adoption center
 
-router.route("/:id/dogs/:dogId").delete(async (req, res) => {
+router.route("/ac-dashboard/:id/dogs/:dogId").delete(async (req, res) => {
     // Validate the id
     let id = req.params.id;
 
