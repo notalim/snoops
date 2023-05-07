@@ -111,6 +111,32 @@ app.use("/chats/acenter/:acid/:uid", (req, res, next) => {
     next();
 });
 
+app.use("/users", (req, res, next) => {
+    console.log(req.url)
+    if(req.url !== '/login-page' && req.url !== '/signup-page' && req.url !== '/login' && req.url !== '/signup'){
+        if(!req.session){
+            return res.redirect("/users/login-page");
+        }
+        if(!req.session.user){
+            return res.redirect("/users/login-page");
+        }
+    }
+    next();
+});
+
+
+app.use("/acenters", (req, res, next) => {
+    if(req.url !== '/login-page' && req.url !== '/signup-page' && req.url !== '/login' && req.url !== '/signup'){
+        if(!req.session){
+            return res.redirect("/acenters/login-page");
+        }
+        if(!req.session.acenter){
+            return res.redirect("/acenters/login-page");
+        }
+    }
+    next();
+});
+
 
 
 let storage = multer.diskStorage({
