@@ -154,7 +154,7 @@ export function checkBoolean(bool, elmName) {
     return bool;
 }
 
-export function checkMaxPrefrence(max, elmName) {
+export function checkMaxPreference(max, elmName) {
     try{
     max = parseInt(max);
     max = checkNumber(max, elmName);
@@ -180,7 +180,7 @@ let exportedMethods = {
     checkPetWeight,
     checkAgePreferences,
     checkBoolean,
-    checkMaxPrefrence
+    checkMaxPreference
 };
 
 export default exportedMethods;
