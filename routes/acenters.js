@@ -443,7 +443,7 @@ router.route("/:id/dogs/:dogId").get(async (req, res) => {
 
 // TODO: PUT /acenters/:id/dogs/:dogId - Update dog for adoption center
 
-router.route("/:id/dogs/:dogId").put(async (req, res) => {
+router.put("/:id/dogs/:dogId", upload.single('image'),async (req, res) => {
     // Validate the id
     let id = req.params.id;
 
@@ -452,9 +452,64 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
     // Decompose request body
     let name = xss(req.body.name);
     let dob = xss(req.body.dob);
-    let breeds = xss(req.body.breeds);
+    let breed1 = xss(req.body.breed1);
+    let breed2 = xss(req.body.breed2);
+    let breed3 = xss(req.body.breed3);
     let gender = xss(req.body.gender);
     let size = xss(req.body.size);
+    let adoptionStatus = xss(req.body.adoptionStatus);
+    let breeds = [];
+
+    let image = null;
+
+    if (req.file && req.file.path) {
+        image = req.file.path;
+    }
+
+    let oldDog = await acenterData.getDogFromAcenter(id,dogId);
+
+    if (name == undefined || name == "" || name == null) {
+        name = xss(oldDog.name);
+    }
+    if (dob == undefined || dob == "" || dob == null) {
+        dob = xss(oldDog.dob);
+    }
+    if (breed1 == undefined ||breed1 == "" || breed1 == null) {
+        if (oldDog.breeds.length > 0){
+            breed1 = xss(oldDog.breeds[0]);
+        } else{
+            breed1 = '';
+        }
+    }
+
+    if (breed2 == undefined ||breed2 == "" || breed2 == null) {
+        if (oldDog.breeds.length > 1){
+            breed2 = xss(oldDog.breeds[1]);
+        } else{
+            breed2 = '';
+        }
+    }
+
+    if (breed3 == undefined ||breed3 == "" || breed3 == null) {
+        if (oldDog.breeds.length > 2){
+            breed3 = xss(oldDog.breeds[2]);
+        } else{
+            breed3 = '';
+        }
+    }
+
+    if (gender == undefined || gender == "" || gender == null) {
+        gender = xss(oldDog.gender);
+
+    }
+
+    if (size == undefined || size == "" || size == null) {
+        size = xss(oldDog.size);
+    }
+
+    if (adoptionStatus == undefined || adoptionStatus == "" || adoptionStatus == null) {
+        adoptionStatus = xss(oldDog.adoptionStatus);
+    }
 
     try {
         // Validate the id
@@ -470,11 +525,31 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
 
         dob = validation.checkDate(dob, "Date of Birth");
 
+        if (breed1) {
+            breeds.push(breed1);
+        }
+        if (breed2) {
+            breeds.push(breed2);
+        }
+        if (breed3) {
+            breeds.push(breed3);
+        }
+
         breeds = validation.checkStringArray(breeds, "Breeds");
 
         gender = validation.checkGender(gender, "Gender");
 
         size = validation.checkPetWeight(size, "Weight");
+
+        adoptionStatus = validation.checkString(adoptionStatus, 'Adoption Status');
+
+        if (!image) {
+            image = oldDog.img;
+        } else {
+            let upload = await cloudinary.uploader.upload(image);
+            image = upload.secure_url;
+        }
+
     } catch (e) {
         return res.status(400).json({ error: e });
     }
@@ -486,7 +561,9 @@ router.route("/:id/dogs/:dogId").put(async (req, res) => {
             dob,
             breeds,
             gender,
-            size
+            size,
+            adoptionStatus,
+            image
         );
         return res.status(200).json([dog, { message: "Dog updated" }]);
     } catch (e) {

@@ -333,7 +333,9 @@ const updateDog = async (
     dogDOB,
     dogBreeds,
     dogGender,
-    dogSize
+    dogSize,
+    dogAdoptionStatus,
+    dogImage
 ) => {
     acenterId = validation.checkId(acenterId, "ID");
     dogId = validation.checkId(dogId, "ID");
@@ -366,6 +368,8 @@ const updateDog = async (
     // Check dogSize
     dogSize = validation.checkPetWeight(dogSize, "Dog size");
 
+    dogAdoptionStatus = validation.checkString(dogAdoptionStatus, "Dog Adoption Status");
+
     const updatedDog = {
         _id: new ObjectId(dogId),
         acenterId: new ObjectId(acenterId),
@@ -374,10 +378,10 @@ const updateDog = async (
         breeds: dogBreeds,
         gender: dogGender,
         size: dogSize,
-        img: oldDog.img,
+        img: dogImage,
         location: oldDog.location,
         description: oldDog.description,
-        adoptionStatus: oldDog.adoptionStatus,
+        adoptionStatus: dogAdoptionStatus,
     };
 
     const updatedInfo = await acenterCollection.updateOne(

@@ -172,12 +172,17 @@
                 <h2 class="update-dog-header">Update Dog Information</h2>
                 <form 
                     class="update-dog-form"
-                    action="/acenters/ac-dashboard/{{acenter._id}}"
                     id="updated-dog-form"
                     method="POST"
                     enctype="multipart/form-data"
                     data-id="{{acenter._id}}"
                 >
+                    <div id="errorUpdateModal" class="error">
+                        {{#if error}}
+                            {{error}}
+                        {{/if}}
+                    </div>
+
                     <div class="update-dog-form-left">
                         <img
                             src=""
@@ -234,12 +239,6 @@
                             placeholder="Weight in lbs"
                             required
                         />
-                        <textarea
-                            name="description"
-                            id="dogUpdateDescription"
-                            placeholder="Description"
-                            rows="4"
-                        ></textarea>
                         <select
                             name="adoptionStatus"
                             id="dogUpdateAdoptionStatus"
@@ -592,6 +591,111 @@
         createDogForm.addEventListener("submit", async function (event) {
             event.preventDefault();
             let error = document.getElementById("errorModal");
+            error.hidden = true;
+            let isValid = true;
+            try {
+
+                nameIn.value = clientValidation.checkName(nameIn.value, "Name");
+
+                dobIn.value = clientValidation.checkDate(
+                    dobIn.value,
+                    "Date of Birth",
+                    0,
+                    20
+                );
+                
+                dogBreed1In.value = clientValidation.checkString(
+                    dogBreed1In.value,
+                    "Breed 1"
+                );
+
+                if (dogBreed2In.value) {
+                    dogBreed2In.value = clientValidation.checkString(
+                        dogBreed2In.value,
+                        "Breed 2"
+                    );
+                }
+
+                if (dogBreed3In.value) {
+                    dogBreed3In.value = clientValidation.checkString(
+                        dogBreed3In.value,
+                        "Breed 3"
+                    );
+                }
+
+                if (isValid) {
+                    await submitForm();
+                }
+
+            } catch (e) {
+                event.preventDefault();
+                isValid = false;
+                error.hidden = false;
+                error.innerHTML = e;
+            }
+            
+        });
+    };
+    
+
+</script>
+
+<script type="module">
+    import clientValidation from "/js/client-validation-methods.js";
+
+    let updateDogForm = document.getElementById("update-dog-form");
+
+    let formData = new FormData($('#update-dog-form')[0]);
+
+    async function submitForm() {
+        $.ajax({
+            url: `/acenters/ac-dashboard/{{acenter._id}}`,
+            type: "PUT",
+            contentType: false,
+            processData: false,
+            cache: true,
+            data: formData,
+            success: function (data) {
+                // console.log(data);
+                let error = document.getElementById("errorUpdateModal");
+                if (error){
+                    error.remove();
+                }
+                window.location.reload();
+            },
+            error: function (err) {
+                // console.log(err);
+                let error = document.getElementById("errorUpdateModal");
+                if (error){
+                    error.remove();
+                }
+
+                let newError = document.createElement('p');
+                let container = document.getElementById('update-dog-modal');
+                let errorText = err;
+                newError.innerText = errorText;
+                newError.style.color = 'red';
+                newError.style.marginTop = '10px';
+                newError.style.textAlign = 'center';
+                container.appendChild(newError);
+            },
+        });
+    }
+
+    if (updateDogForm) {
+        let nameIn = document.getElementById("dogUpdateName");
+        let dobIn = document.getElementById("dogUpdateDob");
+        let dogBreed1In = document.getElementById("dogUpdateBreed1");
+        let dogBreed2In = document.getElementById("dogUpdateBreed2");
+        let dogBreed3In = document.getElementById("dogUpdateBreed3");
+        let genderIn = document.getElementById("dogUpdateGender");
+        let sizeIn = document.getElementById("dogUpdateSize");
+        let statusIn = document.getElementById('dogUpdateAdoptionStauts');
+
+        let error = document.getElementById("errorUpdateModal");
+
+        createDogForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
             error.hidden = true;
             let isValid = true;
             try {
