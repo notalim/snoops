@@ -22,7 +22,7 @@ export const userMiddleware = (protectedUserRoutes) => {
             protectedUserRoutes.some(
                 (route) => fullPath === "/users" + route
             ) &&
-            !isLoggedIn
+            !isLoggedIn 
         ) {
             res.redirect("/users/login-page");
             return;

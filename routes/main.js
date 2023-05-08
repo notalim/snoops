@@ -15,14 +15,6 @@ router.get("/", async (req, res) => {
     }
 });
 
-// // theme toggle
-// router.post("/theme", (req, res) => {
-//     console.log("POST /theme", req.body);
-//     req.session.theme = req.body.theme;
-//     res.sendStatus(200);
-//     return;
-// });
-
 router.get("/resources", function (req, res) {
     return res.render("resources");
 });

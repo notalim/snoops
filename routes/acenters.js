@@ -141,8 +141,7 @@ router.route("/signup").post(async (req, res) => {
     }
 });
 
-// *: GET /acenters - Get all adoption centers
-// ?: Do we remove it?
+// ?: GET /acenters - Get all adoption centers
 
 router.route("/").get(async (req, res) => {
     try {
@@ -153,7 +152,7 @@ router.route("/").get(async (req, res) => {
     }
 });
 
-// TODO: GET /acenters/:id - Get adoption center by id
+// ?: GET /acenters/:id - Get adoption center by id
 
 router.route("/:id").get(async (req, res) => {
     // Validate the id

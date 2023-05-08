@@ -7,7 +7,14 @@ import session from "express-session";
 import dotenv from "dotenv";
 import path from "path";
 import multer from "multer";
-import { userMiddleware, acenterMiddleware, chatMiddleware } from "./middleware.js";
+import cookieParser from "cookie-parser";
+
+
+import {
+    userMiddleware,
+    acenterMiddleware,
+    chatMiddleware,
+} from "./middleware.js";
 
 // ? THIS IS FOR THE WEBSITE TO NOT CRASH WHEN THERE IS AN ERROR
 process.on("unhandledRejection", (reason, promise) => {
@@ -16,11 +23,9 @@ process.on("unhandledRejection", (reason, promise) => {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, './.env') });
+dotenv.config({ path: path.resolve(__dirname, "./.env") });
 
 const app = express();
-
-
 
 const viewsDir = path.join(__dirname, "views");
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
@@ -33,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const staticDir = express.static(__dirname + "/public");
 app.use("/public", staticDir);
-
+app.use(cookieParser());
 app.use(
     session({
         name: "AwesomeWebApp",
@@ -42,14 +47,6 @@ app.use(
         resave: false,
     })
 );
-
-const protectedUserRoutes = ["/settings", "/scroller"];
-const protectedAcenterRoutes = ["/ac-dashboard", "/ac-settings"];
-const protectedChatRoutes = [];
-
-app.use("/users", userMiddleware(protectedUserRoutes));
-app.use("/acenters", acenterMiddleware(protectedAcenterRoutes));
-app.use("/chats", chatMiddleware(protectedChatRoutes));
 
 app.use((req, res, next) => {
     if (req.session.user) {
@@ -65,10 +62,19 @@ app.use((req, res, next) => {
             userType: "acenter",
         };
     }
-    // console.log(req.session.theme);
-
+    // console.log("Session object:", req.session);
+    res.locals.theme = req.cookies.theme || "light";
+    console.log("Middleware theme:", res.locals.theme);
     next();
 });
+
+const protectedUserRoutes = ["/settings", "/scroller"];
+const protectedAcenterRoutes = ["/ac-dashboard", "/ac-settings"];
+const protectedChatRoutes = [];
+
+app.use("/users", userMiddleware(protectedUserRoutes));
+app.use("/acenters", acenterMiddleware(protectedAcenterRoutes));
+app.use("/chats", chatMiddleware(protectedChatRoutes));
 
 // app.use("/chats/user/:uid", (req, res, next) => {
 //     if(!req.session){
@@ -123,7 +129,6 @@ app.use((req, res, next) => {
 //     next();
 // });
 
-
 // app.use("/acenters", (req, res, next) => {
 //     if(req.url !== '/login-page' && req.url !== '/signup-page' && req.url !== '/login' && req.url !== '/signup'){
 //         if(!req.session){
@@ -135,8 +140,6 @@ app.use((req, res, next) => {
 //     }
 //     next();
 // });
-
-
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
