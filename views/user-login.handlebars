@@ -1,29 +1,24 @@
 <main>
     <div class="signin-wrapper">
         <div class="graphic-image">
-            <img src="../assets/40444.jpg" alt="Graphic Image with dogs" />
+            <img src="../assets/40444.jpg" alt="Graphic Image with dogs" >
         </div>
         <div class="form-container signin-div">
             <h2 class="Loginh2">Log in</h2>
-            <div
-                id="error"
-                class="alert alert-danger"
-                style="display: none;"
-            ></div>
+            <div id="error" class="error">
+                {{#if error}}
+                    {{error}}
+                {{/if}}
+            </div>
             <form class = "login-form" id="login-form" method="POST" action="/users/login">
-                <div id="error" class="error">
-                    {{#if error}}
-                        {{error}}
-                    {{/if}}
-                </div>
 
                 <label class="userLabel" for="email">Email</label>
                 <input class="userInput" type="email" 
-                    id="email" name="email" value="{{email}}" placeholder="Email" required/>
+                    id="email" name="email" value="{{email}}" placeholder="Email" required>
 
                 <label class="userLabel" for="password">Password</label>
                 <input class="userInput" type="password" id="password"
-                        name="password" placeholder="Password" required/>
+                        name="password" placeholder="Password" required>
 
                 <button class="LoginSubmit" type="submit">Log in</button>
                 <a class="switchLogin" href="#" onclick="switchToAcLogin()">Adoption
