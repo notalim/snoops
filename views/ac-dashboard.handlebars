@@ -236,8 +236,8 @@
                             placeholder="Breed 3 (Optional)"
                         />
                         <select name="gender" id="dogUpdateGender">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
                         </select>
                         <input
                             type="number"
@@ -246,6 +246,7 @@
                             placeholder="Weight in lbs"
                             required
                         />
+                        <input type="hidden" id="hiddenDogId" name="hiddenDogId">
                         <select
                             name="adoptionStatus"
                             id="dogUpdateAdoptionStatus"
@@ -372,7 +373,7 @@
         dogModal.querySelector("#dogUpdateGender").value = dogGender;
         dogModal.querySelector("#dogUpdateSize").value = dogSize;
         dogModal.querySelector("#dogUpdateAdoptionStatus").value = dogAdoptionStatus;
-
+        dogModal.querySelector("#hiddenDogId").value = dogId;
         dogModal.style.display = "block";
     }
 
@@ -619,12 +620,14 @@
     import clientValidation from "/js/client-validation-methods.js";
 
     let updateDogForm = document.getElementById("update-dog-form");
+    
+    
 
-    let formData = new FormData($('#update-dog-form')[0]);
-
-    async function submitForm() {
+    async function submitForm(dogId) {
+        let formData = new FormData($('#update-dog-form')[0]);
+        console.log(formData);
         $.ajax({
-            url: `/acenters/ac-dashboard/{{acenter._id}}`,
+            url: `/acenters/{{acenter._id}}/dogs/${dogId}`,
             type: "PUT",
             contentType: false,
             processData: false,
@@ -704,7 +707,9 @@
                 }
 
                 if (isValid) {
-                    await submitForm();
+                    let dogIdIn = document.getElementById('hiddenDogId');
+                    let dogId = dogIdIn.value;
+                    await submitForm(dogId);
                 }
 
             } catch (e) {
