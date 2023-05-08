@@ -5,17 +5,12 @@
         </div>
         <div class="form-container signin-div">
             <h2 class="Loginh2">Log in</h2>
-            <div
-                id="error"
-                class="alert alert-danger"
-                style="display: none;"
-            ></div>
-            <form class = "login-form" id="login-form" method="POST" action="/users/login">
-                <div id="error" class="error">
+            <div id="error" class="error">
                     {{#if error}}
                         {{error}}
                     {{/if}}
-                </div>
+            </div>
+            <form class = "login-form" id="login-form" method="POST" action="/users/login">
 
                 <label class="userLabel" for="email">Email</label>
                 <input class="userInput" type="email" 
