@@ -524,6 +524,7 @@ router.put("/:id/dogs/:dogId", upload.single('image'),async (req, res) => {
         adoptionStatus = xss(oldDog.adoptionStatus);
     }
 
+    size = parseInt(size);
     try {
         // Validate the id
         id = validation.checkId(
@@ -536,7 +537,7 @@ router.put("/:id/dogs/:dogId", upload.single('image'),async (req, res) => {
         // Validate request body
         name = validation.checkString(name, "Name");
 
-        dob = validation.checkDate(dob, "Date of Birth");
+        dob = validation.checkDate(dob, "Date of Birth", 0, 20);
 
         if (breed1) {
             breeds.push(breed1);
