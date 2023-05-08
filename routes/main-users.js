@@ -53,7 +53,8 @@ router.get("/scroller/:id", async (req, res) => {
         });
 
         return res.render("scroller", {
-            dogs: JSON.stringify(dogsWithDistanceAndAge),
+            title: "Find your Friend!",
+            dogs: JSON.stringify(dogsWithDistanceAndAge)
         });
     } catch (error) {
         return res.status(500).json({ error: error.toString() });

@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
 // });
 
 router.get("/resources", function (req, res) {
-    return res.render("resources");
+    return res.render("resources", {title: "Resources"});
 });
 
 router.get("/about", async (req, res) => {
