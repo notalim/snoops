@@ -11,40 +11,40 @@
                 <img src="{{user.img}}" alt="{{user.firstName}} {{user.lastName}}" class="settingsImageDisplay">
 
                 <label class="settingsLabel" for="firstName">First Name</label>
-                <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
+                <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" >
 
                 <label class="settingsLabel" for="lastName">Last Name</label>
-                <input class="settingsInput" type="text" name="lastName" id="lastName" value="{{user.lastName}}" />
+                <input class="settingsInput" type="text" name="lastName" id="lastName" value="{{user.lastName}}" >
 
                 <label class="settingsLabel" for="email">Email</label>
-                <input class="settingsInput" type="email" name="email" id="email" value="{{user.email}}" />
+                <input class="settingsInput" type="email" name="email" id="email" value="{{user.email}}" >
 
                 <label class="settingsLabel" for="dob">Date of Birth</label>
-                <input class="settingsInput" type="date" name="dob" id="dob" value="{{user.dob}}" />
+                <input class="settingsInput" type="date" name="dob" id="dob" value="{{user.dob}}" >
 
                 <label class="settingsLabel" for="phone">Phone</label>
-                <input class="settingsInput" type="tel" name="phone" id="phone" value="{{user.phone}}" />
+                <input class="settingsInput" type="tel" name="phone" id="phone" value="{{user.phone}}" >
 
                 <label class="settingsLabel" for="address">Address</label>
-                <input class="settingsInput" type="text" name="address" id="address" value="{{user.address}}" />
+                <input class="settingsInput" type="text" name="address" id="address" value="{{user.address}}" >
 
                 <label class="settingsLabel" for="password">Password</label>
-                <input class="settingsInput" type="password" name="password" id="password"/>
+                <input class="settingsInput" type="password" name="password" id="password">
 
                 <label class="settingsLabel" for="image">Profile Picture</label>
-                <input class="settingsInput" type="file" name="image" id="image" accept=".jpeg,.png,.img"/>
+                <input class="settingsInput" type="file" name="image" id="image" accept=".jpeg,.png,.img">
 
                 <label class="settingsLabel" for="agePreference">Max Age Preference</label>
-                <input class="settingsInput" type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}"/>
+                <input class="settingsInput" type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}">
 
                 <label class="settingsLabel" for="sizePreferenceMax">Max Weight Preference</label>
-                <input class="settingsInput" type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}"/>
+                <input class="settingsInput" type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}">
 
                 <label class="settingsLabel" for="genderPreferenceM">Disallow Male Dogs?</label>
-                <input class="settingsInput" type="checkbox" id="genderPreferenceM" name="genderPreferenceM"/>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceM" name="genderPreferenceM">
 
                 <label class="settingsLabel" for="genderPreferenceF">Disallow Female Dogs?</label>
-                <input class="settingsInput" type="checkbox" id="genderPreferenceF" name="genderPreferenceF"/>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceF" name="genderPreferenceF">
 
                 <button class="settingsSubmit" type="submit">Save</button>
             </form>
@@ -55,7 +55,7 @@
                 {{#each user.likedDogs}}
                 <a href="/acenters/{{this.acenterId}}/dogs/{{this._id}}">
                     <div class="likedDog">
-                        <img src="{{this.img}}" alt="dog" />
+                        <img src="{{this.img}}" alt="dog" >
                         <p>{{this.name}}</p>
                     </div>
                 </a>
