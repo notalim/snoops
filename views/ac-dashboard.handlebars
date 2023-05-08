@@ -578,6 +578,7 @@
             let isValid = true;
             try {
 
+                
                 nameIn.value = clientValidation.checkName(nameIn.value, "Name");
 
                 dobIn.value = clientValidation.checkDate(
@@ -605,6 +606,10 @@
                         "Breed 3"
                     );
                 }
+
+                genderIn.value = clientValidation.checkGender(genderIn.value, 'Gender');
+
+                sizeIn.value = clientValidation.checkPetWeight(sizeIn.value, 'Size');
 
                 if (isValid) {
                     await submitForm();

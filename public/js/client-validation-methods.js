@@ -167,6 +167,14 @@ export function checkMaxPreference(max, elmName) {
     }
 }
 
+export function checkGender(gender, elmName) {
+    gender = checkString(gender, elmName);
+    if (!(gender === "M" || gender === "F")) {
+        throw `Invalid value for ${elmName}`;
+    }
+    return gender.trim();
+}
+
 let exportedMethods = {
     checkString,
     checkNumber,
@@ -180,7 +188,8 @@ let exportedMethods = {
     checkPetWeight,
     checkAgePreferences,
     checkBoolean,
-    checkMaxPreference
+    checkMaxPreference,
+    checkGender
 };
 
 export default exportedMethods;
