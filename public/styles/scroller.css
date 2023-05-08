@@ -50,14 +50,14 @@
     border-bottom: 1px solid var(--text-color);
 }
 
-.scroller-dog-info-header h1{
+.scroller-dog-info-header #dog-name{
     font-size: 2rem;
     font-weight: bold;
     color: var(--text-color);
     opacity: 0.7;
 }
 
-.scroller-dog-info-header h2{
+.scroller-dog-info-header #dog-breeds{
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--text-color);
