@@ -51,7 +51,6 @@ router.get("/scroller/:id", async (req, res) => {
                 age,
             };
         });
-
         return res.render("scroller", {
             title: "Find your Friend!",
             dogs: JSON.stringify(dogsWithDistanceAndAge)
