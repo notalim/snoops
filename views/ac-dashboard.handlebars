@@ -152,7 +152,6 @@
 
                     <label for="gender">Gender</label>
                     <select size="2" id="gender" name="gender" required>
-                        {{!-- stupid --}}
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </select>
@@ -196,7 +195,7 @@
                             alt="Dog Image"
                             id="dogUpdateImagePreview"
                         >
-                        <label for="dogUpdateImage">Dog Image</label>
+                        <label for="dogUpdateImage">Dog Image:</label>
                         <input 
                             type="file" 
                             name="image" 
@@ -254,6 +253,7 @@
                         >
                         <label for="dogUpdateAdoptionStatus">Gender:</label>
                         <input type="hidden" id="hiddenDogId" name="hiddenDogId">
+                        <label for="dogUpdateAdoptionStatus">Dog Status:</label>
                         <select
                             name="adoptionStatus"
                             id="dogUpdateAdoptionStatus"
@@ -577,7 +577,7 @@
         let sizeIn = document.getElementById("dogSize");
 
         let error = document.getElementById("errorModal");
-
+        
         createDogForm.addEventListener("submit", async function (event) {
             event.preventDefault();
             let error = document.getElementById("errorModal");
@@ -585,6 +585,7 @@
             let isValid = true;
             try {
 
+                
                 nameIn.value = clientValidation.checkName(nameIn.value, "Name");
 
                 dobIn.value = clientValidation.checkDate(
@@ -612,6 +613,10 @@
                         "Breed 3"
                     );
                 }
+
+                genderIn.value = clientValidation.checkGender(genderIn.value, 'Gender');
+
+                sizeIn.value = clientValidation.checkPetWeight(sizeIn.value, 'Size');
 
                 if (isValid) {
                     await submitForm();
