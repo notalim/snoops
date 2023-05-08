@@ -70,7 +70,7 @@
                     type="file" 
                     name="image"
                     id="image" 
-                    accept=".jpeg,.png,.HEIC,.img"
+                    accept=".jpeg,.png,.img"
                     style="margin-left: 1rem;"
                 />
 
@@ -201,7 +201,7 @@
                             type="file" 
                             name="image" 
                             id="dogUpdateImage" 
-                            accept=".jpeg,.png,.HEIC,.img"
+                            accept=".jpeg,.png,.img"
                         />
                     </div>
                     <div class="update-dog-form-right">
@@ -273,28 +273,6 @@
 <script type="module">
     import * as clientValidation from '/js/client-validation-methods.js';
     function calculateAge(dob) {
-        const today = new Date();
-        let age = today.getFullYear() - dob.getFullYear();
-        const monthDifference = today.getMonth() - dob.getMonth();
-        const dayDifference = today.getDate() - dob.getDate();
-
-        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
-            age--;
-        }
-
-        if (age === 0) {
-            const monthAge = today.getMonth() - dob.getMonth();
-            if (monthDifference === 0 && dayDifference < 30) {
-                return "Less than a month old";
-            } else {
-                return `${monthAge === 1 ? "1 month" : monthAge + " months"} old`;
-            }
-        } else {
-            return `${age === 1 ? "1 year" : age + " years"} old`;
-        }
-    } 
-    
-    /*function calculateAge(dob) {
         let today = new Date();
         let age = today.getFullYear() - dob.getFullYear();
         let monthDifference = today.getMonth() - dob.getMonth();
@@ -310,16 +288,16 @@
         }
 
         if (age === 0) {
-            let monthAge = today.getMonth() - dob.getMonth();
+            //let monthAge = today.getMonth() - dob.getMonth();
             if (monthDifference === 0 && dayDifference < 30) {
                 return "Less than a month old";
             } else {
-                return `${monthAge === 1 ? "1 month" : monthAge + " months"} old`;
+                return `${monthDifference === 1 ? "1 month" : monthDifference + " months"} old`;
             }
         } else {
             return `${age === 1 ? "1 year" : age + " years"} old`;
         }
-    } */
+    } 
 
     function getSizeGroup(size) {
         if (size >= 0 && size <= 24) {
