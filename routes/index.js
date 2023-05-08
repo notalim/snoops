@@ -8,16 +8,16 @@ import chatRoutes from "./chats.js"
 const constructorMethod = (app) => {
     app.use("/acenters", mainAcenterRoutes);
     app.use("/acenters", acenterRoutes);
+
     app.use("/users", mainUserRoutes);
     app.use("/users", userRoutes);
+
     app.use("/chats", chatRoutes);
 
-    
-    
     app.use("/", mainRoutes);
 
     app.use("*", (req, res) => {
-        return res.status(404).render("404Page");
+        return res.status(404).render("404Page", {title: "404 Page", error: "Page not found."});
     });
 };
 

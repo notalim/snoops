@@ -283,7 +283,8 @@ export async function getLatLong(address, elmName) {
     let res = await geocoder.geocode(address);
     let returnObj;
     if (!res || !res[0] || !res[0].latitude || !res[0].longitude) {
-        throw `${elmName} could not be found`;
+        throw `Your ${elmName} could not be found. Maybe try it in a different format?
+        \n Example: 1234 Main St, City`;
     } else {
         returnObj = { lat: res[0].latitude, long: res[0].longitude };
     }
