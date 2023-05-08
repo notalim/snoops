@@ -292,7 +292,33 @@
         } else {
             return `${age === 1 ? "1 year" : age + " years"} old`;
         }
-    }
+    } 
+    /*function calculateAge(dob) {
+        let today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        let monthDifference = today.getMonth() - dob.getMonth();
+        let dayDifference = today.getDate() - dob.getDate();
+
+        if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+            age--;
+            if (today.getMonth() === 0) {
+                monthDifference = 11;
+            } else {
+                monthDifference = 12 + monthDifference;
+            }
+        }
+
+        if (age === 0) {
+            let monthAge = today.getMonth() - dob.getMonth();
+            if (monthDifference === 0 && dayDifference < 30) {
+                return "Less than a month old";
+            } else {
+                return `${monthAge === 1 ? "1 month" : monthAge + " months"} old`;
+            }
+        } else {
+            return `${age === 1 ? "1 year" : age + " years"} old`;
+        }
+    } */
 
     function getSizeGroup(size) {
         if (size >= 0 && size <= 24) {
