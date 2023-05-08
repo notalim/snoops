@@ -565,9 +565,12 @@ router.put("/:id/dogs/:dogId", upload.single('image'),async (req, res) => {
             adoptionStatus,
             image
         );
-        return res.status(200).json([dog, { message: "Dog updated" }]);
+        
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, success: "Dog Updated!" });
     } catch (e) {
-        return res.status(500).json({ error: e });
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, error: e });
     }
 });
 
