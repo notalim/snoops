@@ -50,7 +50,7 @@ router.route("/user/:uid").get(async (req, res) => {
 
 // TODO: GET /acenter/:acid - Get All chats for aCenter with id sorted by most recent
 router.route("/acenter/:acid").get(async (req, res) => {
-    console.log(req.session);
+    // console.log(req.session);
     if(!req.session.acenter && req.session.acenter._id !== req.params.acid){
         return res.redirect("404Page");
     }
