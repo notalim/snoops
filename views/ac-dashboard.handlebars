@@ -6,7 +6,7 @@
                 src="{{acenter.img}}"
                 alt="Acenter Image"
                 class="acenter-image"
-            />
+            >
             <form
                 id="update-acenter"
                 class="acenter-info-form"
@@ -21,7 +21,7 @@
                     id="email"
                     value="{{acenter.email}}"
                     class="settingsInput"
-                />
+                >
                 <label for="name" class="settingsLabel">Name:</label>
                 <input
                     type="text"
@@ -29,9 +29,9 @@
                     id="name"
                     value="{{acenter.name}}"
                     class="settingsInput"
-                />
+                >
                 <label for="password" class="settingsLabel">Password:</label>
-                <input type="password" name="password" class="settingsInput"/>
+                <input id="password" type="password" name="password" class="settingsInput">
                 <label for="contactFirstName" class="settingsLabel">Contact First Name:</label>
                 <input
                     type="text"
@@ -39,7 +39,7 @@
                     id="contactFirstName"
                     value="{{acenter.contactFirstName}}"
                     class="settingsInput"
-                />
+                >
                 <label for="contactLastName" class="settingsLabel">Contact Last Name:</label>
                 <input
                     type="text"
@@ -47,7 +47,7 @@
                     id="contactLastName"
                     value="{{acenter.contactLastName}}"
                     class="settingsInput"
-                />
+                >
                 <label for="phone" class="settingsLabel">Phone:</label>
                 <input
                     type="tel"
@@ -55,7 +55,7 @@
                     id="phone"
                     value="{{acenter.phone}}"
                     class="settingsInput"
-                />
+                >
                 <label for="address" class="settingsLabel">Address:</label>
                 <input
                     type="text"
@@ -63,7 +63,7 @@
                     id="address"
                     value="{{acenter.address}}"
                     class="settingsInput"
-                />
+                >
 
                 <label for="image" class="settingsLabel">Profile Picture</label>
                 <input 
@@ -72,14 +72,14 @@
                     id="image" 
                     accept=".jpeg,.png,.img"
                     style="margin-left: 1rem;"
-                />
+                >
 
-                <input type="hidden" name="_method" value="PUT" />
+                <input type="hidden" name="_method" value="PUT" >
                 <input
                     type="submit"
                     value="Update Info"
                     class="update-info-btn"
-                />
+                >
             </form>
             <div class="error-message" hidden>Error: Invalid input</div>
         </div>
@@ -92,7 +92,6 @@
             >
                 {{#each dogs}}
                     <div
-                        id="dog-card"
                         class="dog-card"
                         data-dog-id="{{this._id}}"
                         data-dob="{{this.dob}}"
@@ -105,7 +104,7 @@
                             src="{{this.img}}"
                             alt="{{this.name}}"
                             class="dog-image"
-                        />
+                        >
                         <h4>{{this.name}}</h4>
                         {{#each this.breeds}}
                             {{! display the every breed separately }}
@@ -137,22 +136,22 @@
                         {{/if}}
                     </div>
                     <label for="dogName">Name</label>
-                    <input type="text" id="dogName" name="name" required />
+                    <input type="text" id="dogName" name="name" required >
 
                     <label for="dogDob">Date of Birth</label>
-                    <input type="date" id="dogDob" name="dob" required />
+                    <input type="date" id="dogDob" name="dob" required >
 
                     <label for="dogBreed1">Breed 1</label>
-                    <input type="text" id="dogBreed1" name="breed1" required />
+                    <input type="text" id="dogBreed1" name="breed1" required >
 
                     <label for="dogBreed2">Breed 2 (Optional)</label>
-                    <input type="text" id="dogBreed2" name="breed2" />
+                    <input type="text" id="dogBreed2" name="breed2" >
 
                     <label for="dogBreed3">Breed 3 (Optional)</label>
-                    <input type="text" id="dogBreed3" name="breed3" />
+                    <input type="text" id="dogBreed3" name="breed3" >
 
-                    <label for="dogGender">Gender</label>
-                    <select id="gender" name="gender" required>
+                    <label for="gender">Gender</label>
+                    <select size="2" id="gender" name="gender" required>
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </select>
@@ -164,7 +163,7 @@
                         name="size"
                         placeholder="Weight in lbs"
                         required
-                    />
+                    >
                     <button
                         type="submit"
                         class="create-dog-submit-btn"
@@ -195,58 +194,65 @@
                             src=""
                             alt="Dog Image"
                             id="dogUpdateImagePreview"
-                        />
-                        <label for="image">Dog Image</label>
+                        >
+                        <label for="dogUpdateImage">Dog Image:</label>
                         <input 
                             type="file" 
                             name="image" 
                             id="dogUpdateImage" 
                             accept=".jpeg,.png,.img"
-                        />
+                        >
                     </div>
                     <div class="update-dog-form-right">
+                        <label for="dogUpdateName">Name:</label>
                         <input
                             type="text"
                             name="name"
                             id="dogUpdateName"
                             placeholder="Name"
-                        />
+                        >
+                        <label for="dogUpdateDob">Date Of Birth:</label>
                         <input
                             type="date"
                             name="dob"
                             id="dogUpdateDob"
-                            placeholder="Date of Birth"
-                        />
+                        >
+                        <label for="dogUpdateBreed1">Breed 1:</label>
                         <input
                             type="text"
                             name="breed1"
                             id="dogUpdateBreed1"
                             placeholder="Breed 1"
-                        />
+                        >
+                        <label for="dogUpdateBreed2">Breed 2 (Optional):</label>
                         <input
                             type="text"
                             name="breed2"
                             id="dogUpdateBreed2"
                             placeholder="Breed 2 (Optional)"
-                        />
+                        >
+                        <label for="dogUpdateBreed3">Breed 3 (Optional):</label>
                         <input
                             type="text"
                             name="breed3"
                             id="dogUpdateBreed3"
                             placeholder="Breed 3 (Optional)"
-                        />
+                        >
+                        <label for="dogUpdateGender">Gender:</label>
                         <select name="gender" id="dogUpdateGender">
                             <option value="M">Male</option>
                             <option value="F">Female</option>
                         </select>
+                        <label for="dogUpdateSize">Weight:</label>
                         <input
                             type="number"
                             name="size"
                             id="dogUpdateSize"
                             placeholder="Weight in lbs"
                             required
-                        />
+                        >
                         <input type="hidden" id="hiddenDogId" name="hiddenDogId">
+                        <label for="dogUpdateAdoptionStatus">Dog Status:</label>
                         <select
                             name="adoptionStatus"
                             id="dogUpdateAdoptionStatus"
