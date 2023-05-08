@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
         } else if (acenterId) {
             return res.redirect("/ac-dashboard");
         }
-        return res.render("index");
+        return res.render("index", {title: "Snoops"});
     } catch (error) {
         return res.status(500).json({ error: error.toString() });
     }
