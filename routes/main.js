@@ -28,7 +28,7 @@ router.get("/resources", function (req, res) {
 });
 
 router.get("/about", async (req, res) => {
-    return res.render("about");
+    return res.render("about", {title: "About Snoops"});
 });
 
 export default router;
