@@ -196,7 +196,7 @@
                             alt="Dog Image"
                             id="dogUpdateImagePreview"
                         >
-                        <label for="image">Dog Image</label>
+                        <label for="dogUpdateImage">Dog Image</label>
                         <input 
                             type="file" 
                             name="image" 
@@ -205,39 +205,46 @@
                         >
                     </div>
                     <div class="update-dog-form-right">
+                        <label for="dogUpdateName">Name:</label>
                         <input
                             type="text"
                             name="name"
                             id="dogUpdateName"
                             placeholder="Name"
                         >
+                        <label for="dogUpdateDob">Date of Birth:</label>
                         <input
                             type="date"
                             name="dob"
                             id="dogUpdateDob"
                         >
+                        <label for="dogUpdateBreed1">Breed 1:</label>
                         <input
                             type="text"
                             name="breed1"
                             id="dogUpdateBreed1"
                             placeholder="Breed 1"
                         >
+                        <label for="dogUpdateBreed2">Breed 2 (Optional):</label>
                         <input
                             type="text"
                             name="breed2"
                             id="dogUpdateBreed2"
                             placeholder="Breed 2 (Optional)"
                         >
+                        <label for="dogUpdateBreed3">Breed 3 (Optional):</label>
                         <input
                             type="text"
                             name="breed3"
                             id="dogUpdateBreed3"
                             placeholder="Breed 3 (Optional)"
                         >
+                        <label for="dogUpdateGender">Gender:</label>
                         <select name="gender" id="dogUpdateGender">
                             <option value="M">Male</option>
                             <option value="F">Female</option>
                         </select>
+                        <label for="dogUpdateSize">Weight:</label>
                         <input
                             type="number"
                             name="size"
@@ -245,6 +252,7 @@
                             placeholder="Weight in lbs"
                             required
                         >
+                        <label for="dogUpdateAdoptionStatus">Gender:</label>
                         <input type="hidden" id="hiddenDogId" name="hiddenDogId">
                         <select
                             name="adoptionStatus"
