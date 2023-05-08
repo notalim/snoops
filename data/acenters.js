@@ -348,8 +348,6 @@ const updateDog = async (
     dogName = validation.checkString(dogName, "Dog name");
 
     // Check dogDOB
-    // ? Do we use Check Age or Check String?
-    // ? How do we store age?
     dogDOB = validation.checkDate(dogDOB, "Dog Date of Birth", 0, 20);
 
     // Check dogBreeds
@@ -395,6 +393,35 @@ const updateDog = async (
 
     return await getDogFromAcenter(acenterId, dogId);
 };
+
+// only updates the location of the dog
+
+const updateDogLocation = async (acenterId, dogId, newLocation) => {
+    acenterId = validation.checkId(acenterId, "ID");
+    dogId = validation.checkId(dogId, "ID");
+
+    // get the old dog info
+    let oldDog = await getDogFromAcenter(acenterId, dogId);
+
+    const updatedDog = {
+        ...oldDog,
+        location: newLocation,
+    }
+
+    const updatedInfo = await acenterCollection.updateOne(
+        { _id: new ObjectId(acenterId), "dogList._id": new ObjectId(dogId) },
+        { $set: { "dogList.$": updatedDog } }
+    );
+
+    if (updatedInfo.modifiedCount === 0) {
+        throw `Could not update dog with ID ${dogId} in adoption center with ID ${acenterId}`;
+    }
+
+    return await getDogFromAcenter(acenterId, dogId);
+}
+
+
+
 
 const deleteDog = async (acenterId, dogId) => {
     acenterId = validation.checkId(acenterId, "ID");
@@ -449,6 +476,7 @@ const exportedMethods = {
     getDogFromAcenter,
     dogExists,
     updateDog,
+    updateDogLocation,
     deleteDog,
     getAllDogsFromAllAcenters,
 };
