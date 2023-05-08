@@ -64,7 +64,7 @@ app.use((req, res, next) => {
     }
     // console.log("Session object:", req.session);
     res.locals.theme = req.cookies.theme || "light";
-    console.log("Middleware theme:", res.locals.theme);
+    // console.log("Middleware theme:", res.locals.theme);
     next();
 });
 

@@ -175,7 +175,7 @@ router.route("/:id").get(async (req, res) => {
     }
 });
 
-// TODO: PUT /acenters/:id - Update adoption center
+// *: PUT /acenters/:id - Update adoption center
 
 let cloud_name = process.env.CLOUDINARY_CLOUD_NAME;
 let api_key = process.env.CLOUDINARY_API_KEY;
@@ -282,6 +282,20 @@ router.put("/:id", upload.single("image"), async (req, res) => {
             address,
             image
         );
+
+        const dogs = await acenterData.getAllDogs(id);
+
+        // update location of every dog in the adoption center
+        // console.log("dogs: ", dogs);
+        // console.log("acenter: ", acenter);
+        // console.log("location: ", acenter.location);
+        for (let dog of dogs) {
+            await acenterData.updateDogLocation(
+                acenter._id.toString(),
+                dog._id.toString(),
+                acenter.location
+            );
+        }
 
         req.session.acenter = acenter;
         return res.status(200).json(acenter);
