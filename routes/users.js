@@ -129,61 +129,61 @@ router.route("/signup").post(async (req, res) => {
     }
 });
 
-// *: Get all users (GET /users)
+// ?: Get all users (GET /users)
 
-router.route("/").get(async (req, res) => {
-    try {
-        const users = await userData.getAllUsers();
-        return res.status(200).json(users);
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
+// router.route("/").get(async (req, res) => {
+//     try {
+//         const users = await userData.getAllUsers();
+//         return res.status(200).json(users);
+//     } catch (e) {
+//         return res.status(500).json({ error: e });
+//     }
+// });
 
-// *: Get user by id (GET /users/:id)
+// ?: Get user by id (GET /users/:id)
 
-router.route("/:id").get(async (req, res) => {
-    console.log("GET /users/:id triggered with URL:", req.originalUrl);
+// router.route("/:id").get(async (req, res) => {
+//     // console.log("GET /users/:id triggered with URL:", req.originalUrl);
 
-    let id = req.params.id;
-    //console.log(id);
-    try {
-        // Validate the id
-        id = validation.checkId(id, "ID", "GET /users/:id");
-    } catch (e) {
-        return res.status(400).json({ error: e });
-    }
+//     let id = req.params.id;
+//     //console.log(id);
+//     try {
+//         // Validate the id
+//         id = validation.checkId(id, "ID", "GET /users/:id");
+//     } catch (e) {
+//         return res.status(400).json({ error: e });
+//     }
 
-    try {
-        const user = await userData.getUser(req.params.id);
-        return res.status(200).render("user-info", {
-            user: user,
-            key: process.env.GOOGLE_MAP_API_KEY,
-        });
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
+//     try {
+//         const user = await userData.getUser(req.params.id);
+//         return res.status(200).render("user-info", {
+//             user: user,
+//             key: process.env.GOOGLE_MAP_API_KEY,
+//         });
+//     } catch (e) {
+//         return res.status(500).json({ error: e });
+//     }
+// });
 
-// TODO: DELETE /users/:id - Delete user by id
+// ?: DELETE /users/:id - Delete user by id
 
-router.route("/:id").delete(async (req, res) => {
-    // Validate the id
-    let id = req.params.id;
+// router.route("/:id").delete(async (req, res) => {
+//     // Validate the id
+//     let id = req.params.id;
 
-    try {
-        id = validation.checkId(id, "ID", "DELETE /users/:id");
-    } catch (e) {
-        return res.status(400).json({ error: e });
-    }
+//     try {
+//         id = validation.checkId(id, "ID", "DELETE /users/:id");
+//     } catch (e) {
+//         return res.status(400).json({ error: e });
+//     }
 
-    try {
-        const user = await userData.deleteUser(req.params.id);
-        return res.status(200).json(user);
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
+//     try {
+//         const user = await userData.deleteUser(req.params.id);
+//         return res.status(200).json(user);
+//     } catch (e) {
+//         return res.status(500).json({ error: e });
+//     }
+// });
 
 // TODO: PUT /users/:id - Update user by id
 
@@ -419,4 +419,5 @@ router.route("/:id/uploadimage").post(async (req, res) => {
     //print the file contents that were uploaded
     console.log(req.file);
 });
+
 export default router;

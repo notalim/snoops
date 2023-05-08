@@ -141,8 +141,7 @@ router.route("/signup").post(async (req, res) => {
     }
 });
 
-// *: GET /acenters - Get all adoption centers
-// ?: Do we remove it?
+// ?: GET /acenters - Get all adoption centers
 
 router.route("/").get(async (req, res) => {
     try {
@@ -153,7 +152,7 @@ router.route("/").get(async (req, res) => {
     }
 });
 
-// TODO: GET /acenters/:id - Get adoption center by id
+// ?: GET /acenters/:id - Get adoption center by id
 
 router.route("/:id").get(async (req, res) => {
     // Validate the id
@@ -176,7 +175,7 @@ router.route("/:id").get(async (req, res) => {
     }
 });
 
-// TODO: PUT /acenters/:id - Update adoption center
+// *: PUT /acenters/:id - Update adoption center
 
 let cloud_name = process.env.CLOUDINARY_CLOUD_NAME;
 let api_key = process.env.CLOUDINARY_API_KEY;
@@ -283,6 +282,20 @@ router.put("/:id", upload.single("image"), async (req, res) => {
             address,
             image
         );
+
+        const dogs = await acenterData.getAllDogs(id);
+
+        // update location of every dog in the adoption center
+        // console.log("dogs: ", dogs);
+        // console.log("acenter: ", acenter);
+        // console.log("location: ", acenter.location);
+        for (let dog of dogs) {
+            await acenterData.updateDogLocation(
+                acenter._id.toString(),
+                dog._id.toString(),
+                acenter.location
+            );
+        }
 
         req.session.acenter = acenter;
         return res.status(200).json(acenter);
@@ -511,6 +524,7 @@ router.put("/:id/dogs/:dogId", upload.single('image'),async (req, res) => {
         adoptionStatus = xss(oldDog.adoptionStatus);
     }
 
+    size = parseInt(size);
     try {
         // Validate the id
         id = validation.checkId(
@@ -523,7 +537,7 @@ router.put("/:id/dogs/:dogId", upload.single('image'),async (req, res) => {
         // Validate request body
         name = validation.checkString(name, "Name");
 
-        dob = validation.checkDate(dob, "Date of Birth");
+        dob = validation.checkDate(dob, "Date of Birth", 0, 20);
 
         if (breed1) {
             breeds.push(breed1);
@@ -565,9 +579,12 @@ router.put("/:id/dogs/:dogId", upload.single('image'),async (req, res) => {
             adoptionStatus,
             image
         );
-        return res.status(200).json([dog, { message: "Dog updated" }]);
+        
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, success: "Dog Updated!" });
     } catch (e) {
-        return res.status(500).json({ error: e });
+        const acenter = await acenterData.getAdoptionCenter(id);
+        return res.render("ac-dashboard", { acenter, error: e });
     }
 });
 
