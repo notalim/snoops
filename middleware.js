@@ -5,6 +5,20 @@ export const userMiddleware = (protectedUserRoutes) => {
         const isAcenterLoggedIn = req.session.acenter;
 
         if (
+            req.url !== "/login-page" &&
+            req.url !== "/signup-page" &&
+            req.url !== "/login" &&
+            req.url !== "/signup"
+        ) {
+            if (!req.session) {
+                return res.redirect("/users/login-page");
+            }
+            if (!req.session.user) {
+                return res.redirect("/users/login-page");
+            }
+        }
+
+        if (
             protectedUserRoutes.some(
                 (route) => fullPath === "/users" + route
             ) &&
@@ -31,6 +45,20 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
         const fullPath = req.baseUrl + req.path;
         // console.log(fullPath);
         const isUserLoggedIn = req.session.user;
+
+        if (
+            req.url !== "/login-page" &&
+            req.url !== "/signup-page" &&
+            req.url !== "/login" &&
+            req.url !== "/signup"
+        ) {
+            if (!req.session) {
+                return res.redirect("/acenters/login-page");
+            }
+            if (!req.session.acenter) {
+                return res.redirect("/acenters/login-page");
+            }
+        }
 
         if (
             protectedAcenterRoutes.some(
@@ -81,8 +109,8 @@ export const chatMiddleware = (protectedChatRoutes) => {
 
         if (isUserLoggedIn) {
             if (req.path.split("/")[2] !== req.session.user._id) {
-                console.log("req.path.split('/')[2]: ", req.path.split("/")[2]);
-                console.log("req.session.user._id: ", req.session.user._id);
+                // console.log("req.path.split('/')[2]: ", req.path.split("/")[2]);
+                // console.log("req.session.user._id: ", req.session.user._id);
                 return res.redirect("/users/login-page");
             }
         }
