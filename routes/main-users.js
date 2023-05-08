@@ -51,9 +51,9 @@ router.get("/scroller/:id", async (req, res) => {
                 age,
             };
         });
-
         return res.render("scroller", {
-            dogs: JSON.stringify(dogsWithDistanceAndAge),
+            title: "Find your Friend!",
+            dogs: JSON.stringify(dogsWithDistanceAndAge)
         });
     } catch (error) {
         return res.status(500).json({ error: error.toString() });
@@ -101,7 +101,7 @@ router.get("/settings/:id", async (req, res) => {
             }
             user.likedDogs = updatedLikedDogs;
         }
-        res.render("settings", { user });
+        res.render("settings", { title: "Settings", user });
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }
