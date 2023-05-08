@@ -31,7 +31,7 @@
                     class="settingsInput"
                 >
                 <label for="password" class="settingsLabel">Password:</label>
-                <input id="password" type="password" name="password" class="settingsInput"/>
+                <input id="password" type="password" name="password" class="settingsInput">
                 <label for="contactFirstName" class="settingsLabel">Contact First Name:</label>
                 <input
                     type="text"
@@ -74,7 +74,7 @@
                     style="margin-left: 1rem;"
                 >
 
-                <input type="hidden" name="_method" value="PUT" />
+                <input type="hidden" name="_method" value="PUT" >
                 <input
                     type="submit"
                     value="Update Info"
@@ -92,7 +92,6 @@
             >
                 {{#each dogs}}
                     <div
-                        id="dog-card"
                         class="dog-card"
                         data-dog-id="{{this._id}}"
                         data-dob="{{this.dob}}"
@@ -151,8 +150,8 @@
                     <label for="dogBreed3">Breed 3 (Optional)</label>
                     <input type="text" id="dogBreed3" name="breed3" >
 
-                    <label for="dogGender">Gender</label>
-                    <select id="gender" name="gender" required>
+                    <label for="gender">Gender</label>
+                    <select size="2" id="gender" name="gender" required>
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </select>
@@ -217,7 +216,6 @@
                             type="date"
                             name="dob"
                             id="dogUpdateDob"
-                            placeholder="Date of Birth"
                         >
                         <label for="dogUpdateBreed1">Breed 1:</label>
                         <input
