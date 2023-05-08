@@ -10,7 +10,7 @@ import {v2 as cloudinary} from 'cloudinary';
 // *: Log In Page
 
 router.route("/login-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
-    return res.render("user-login", {title: "Log In"});
+    return res.render("user-login", {title: "User Log In"});
 });
 
 // *: Log In User
@@ -49,7 +49,7 @@ router.route("/login").post(async (req, res) => {
 // *: Sign Up Page
 
 router.route("/signup-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
-    return res.render("user-signup");
+    return res.render("user-signup", {title: "User Signup"});
 });
 
 // *: Sign Up user (POST: Create user)
