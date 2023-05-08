@@ -175,6 +175,7 @@ export function checkGender(gender, elmName) {
     return gender.trim();
 }
 
+
 let exportedMethods = {
     checkString,
     checkNumber,
