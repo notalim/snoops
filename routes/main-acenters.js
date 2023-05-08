@@ -29,6 +29,7 @@ router.get("/ac-dashboard/:id", async (req, res) => {
 
         const dogs = await acenterData.getAllDogs(acenterId);
         return res.render("ac-dashboard", {
+            title: "Dashboard",
             acenter: req.session.acenter,
             dogs: dogs,
         });
