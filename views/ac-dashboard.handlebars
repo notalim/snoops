@@ -1,12 +1,12 @@
 <main>
     <div class="ac-wrapper">
         <div class="ac-dashboard-main">
-            <h2>Welcome, {{acenter.name}}</h2>
+            <h3 class="ac-posted">Welcome, {{acenter.name}}</h3>
             <img
                 src="{{acenter.img}}"
                 alt="Acenter Image"
                 class="acenter-image"
-            />
+            >
             <form
                 id="update-acenter"
                 class="acenter-info-form"
@@ -14,70 +14,77 @@
                 method="POST"
                 enctype="multipart/form-data"
             >
-                <label for="email">Email:</label>
+                <label for="email" class="settingsLabel">Email:</label>
                 <input
                     type="email"
                     name="email"
                     id="email"
                     value="{{acenter.email}}"
-                />
-                <label for="name">Name:</label>
+                    class="settingsInput"
+                >
+                <label for="name" class="settingsLabel">Name:</label>
                 <input
                     type="text"
                     name="name"
                     id="name"
                     value="{{acenter.name}}"
-                />
-                <label for="password">Password:</label>
-                <input type="password" name="password" />
-                <label for="contactFirstName">Contact First Name:</label>
+                    class="settingsInput"
+                >
+                <label for="password" class="settingsLabel">Password:</label>
+                <input id="password" type="password" name="password" class="settingsInput">
+                <label for="contactFirstName" class="settingsLabel">Contact First Name:</label>
                 <input
                     type="text"
                     name="contactFirstName"
                     id="contactFirstName"
                     value="{{acenter.contactFirstName}}"
-                />
-                <label for="contactLastName">Contact Last Name:</label>
+                    class="settingsInput"
+                >
+                <label for="contactLastName" class="settingsLabel">Contact Last Name:</label>
                 <input
                     type="text"
                     name="contactLastName"
                     id="contactLastName"
                     value="{{acenter.contactLastName}}"
-                />
-                <label for="phone">Phone:</label>
+                    class="settingsInput"
+                >
+                <label for="phone" class="settingsLabel">Phone:</label>
                 <input
                     type="tel"
                     name="phone"
                     id="phone"
                     value="{{acenter.phone}}"
-                />
-                <label for="address">Address:</label>
+                    class="settingsInput"
+                >
+                <label for="address" class="settingsLabel">Address:</label>
                 <input
                     type="text"
                     name="address"
                     id="address"
                     value="{{acenter.address}}"
-                />
+                    class="settingsInput"
+                >
 
-                <label for="image">Profile Picture</label>
+                <label for="image" class="settingsLabel">Profile Picture</label>
                 <input 
                     type="file" 
                     name="image"
                     id="image" 
-                    accept=".jpeg,.png,.HEIC,.img"
-                />
+                    accept=".jpeg,.png,.img"
+                    style="margin-left: 1rem;"
+                >
 
-                <input type="hidden" name="_method" value="PUT" />
+                <input type="hidden" name="_method" value="PUT" >
                 <input
                     type="submit"
                     value="Update Info"
                     class="update-info-btn"
-                />
+                >
             </form>
             <div class="error-message" hidden>Error: Invalid input</div>
         </div>
         <div class="ac-dashboard-dogs">
-            <h3>Here are your posted dogs:</h3>
+            <h3 class="ac-posted ac-posted-dogs">Here are your posted dogs:</h3>
             <div
                 class="dog-grid"
                 data-dob="{{this.dob}}"
@@ -85,7 +92,6 @@
             >
                 {{#each dogs}}
                     <div
-                        id="dog-card"
                         class="dog-card"
                         data-dog-id="{{this._id}}"
                         data-dob="{{this.dob}}"
@@ -98,7 +104,7 @@
                             src="{{this.img}}"
                             alt="{{this.name}}"
                             class="dog-image"
-                        />
+                        >
                         <h4>{{this.name}}</h4>
                         {{#each this.breeds}}
                             {{! display the every breed separately }}
@@ -130,22 +136,22 @@
                         {{/if}}
                     </div>
                     <label for="dogName">Name</label>
-                    <input type="text" id="dogName" name="name" required />
+                    <input type="text" id="dogName" name="name" required >
 
                     <label for="dogDob">Date of Birth</label>
-                    <input type="date" id="dogDob" name="dob" required />
+                    <input type="date" id="dogDob" name="dob" required >
 
                     <label for="dogBreed1">Breed 1</label>
-                    <input type="text" id="dogBreed1" name="breed1" required />
+                    <input type="text" id="dogBreed1" name="breed1" required >
 
                     <label for="dogBreed2">Breed 2 (Optional)</label>
-                    <input type="text" id="dogBreed2" name="breed2" />
+                    <input type="text" id="dogBreed2" name="breed2" >
 
                     <label for="dogBreed3">Breed 3 (Optional)</label>
-                    <input type="text" id="dogBreed3" name="breed3" />
+                    <input type="text" id="dogBreed3" name="breed3" >
 
-                    <label for="dogGender">Gender</label>
-                    <select id="gender" name="gender" required>
+                    <label for="gender">Gender</label>
+                    <select size="2" id="dogGender" name="gender" required>
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </select>
@@ -157,7 +163,7 @@
                         name="size"
                         placeholder="Weight in lbs"
                         required
-                    />
+                    >
                     <button
                         type="submit"
                         class="create-dog-submit-btn"
@@ -172,81 +178,89 @@
                 <h2 class="update-dog-header">Update Dog Information</h2>
                 <form 
                     class="update-dog-form"
-                    action="/acenters/ac-dashboard/{{acenter._id}}"
-                    id="updated-dog-form"
+                    id="update-dog-form"
                     method="POST"
                     enctype="multipart/form-data"
                     data-id="{{acenter._id}}"
                 >
+                    <div id="errorUpdateModal" class="error">
+                        {{#if error}}
+                            {{error}}
+                        {{/if}}
+                    </div>
+
                     <div class="update-dog-form-left">
+                        <label for="dogUpdateImage">Dog Image:</label>
                         <img
-                            src=""
+                            src="null"
                             alt="Dog Image"
                             id="dogUpdateImagePreview"
-                        />
-                        <label for="image">Dog Image</label>
+                            style="max-width: 50%;"
+                        >
                         <input 
                             type="file" 
                             name="image" 
                             id="dogUpdateImage" 
-                            accept=".jpeg,.png,.HEIC,.img"
-                        />
+                            accept=".jpeg,.png,.img"
+                        >
                     </div>
                     <div class="update-dog-form-right">
+                        <label for="dogUpdateName">Name:</label>
                         <input
                             type="text"
                             name="name"
                             id="dogUpdateName"
                             placeholder="Name"
-                        />
+                        >
+                        <label for="dogUpdateDob">Date Of Birth:</label>
                         <input
                             type="date"
                             name="dob"
                             id="dogUpdateDob"
-                            placeholder="Date of Birth"
-                        />
+                        >
+                        <label for="dogUpdateBreed1">Breed 1:</label>
                         <input
                             type="text"
                             name="breed1"
                             id="dogUpdateBreed1"
                             placeholder="Breed 1"
-                        />
+                        >
+                        <label for="dogUpdateBreed2">Breed 2 (Optional):</label>
                         <input
                             type="text"
                             name="breed2"
                             id="dogUpdateBreed2"
                             placeholder="Breed 2 (Optional)"
-                        />
+                        >
+                        <label for="dogUpdateBreed3">Breed 3 (Optional):</label>
                         <input
                             type="text"
                             name="breed3"
                             id="dogUpdateBreed3"
                             placeholder="Breed 3 (Optional)"
-                        />
+                        >
+                        <label for="dogUpdateGender">Gender:</label>
                         <select name="gender" id="dogUpdateGender">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
                         </select>
+                        <label for="dogUpdateSize">Weight:</label>
                         <input
                             type="number"
                             name="size"
                             id="dogUpdateSize"
                             placeholder="Weight in lbs"
                             required
-                        />
-                        <textarea
-                            name="description"
-                            id="dogUpdateDescription"
-                            placeholder="Description"
-                            rows="4"
-                        ></textarea>
+                        >
+                        <input type="hidden" id="hiddenDogId" name="hiddenDogId">
+                        <label for="dogUpdateAdoptionStatus">Dog Status:</label>
                         <select
                             name="adoptionStatus"
                             id="dogUpdateAdoptionStatus"
                         >
-                            <option value="available">Available</option>
-                            <option value="pending">Pending</option>
-                            <option value="adopted">Adopted</option>
+                            <option value="Available">Available</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Adopted">Adopted</option>
                         </select>
                         <button
                             class="delete-dog-btn"
@@ -266,26 +280,31 @@
 <script type="module">
     import * as clientValidation from '/js/client-validation-methods.js';
     function calculateAge(dob) {
-        const today = new Date();
+        let today = new Date();
         let age = today.getFullYear() - dob.getFullYear();
-        const monthDifference = today.getMonth() - dob.getMonth();
-        const dayDifference = today.getDate() - dob.getDate();
+        let monthDifference = today.getMonth() - dob.getMonth();
+        let dayDifference = today.getDate() - dob.getDate();
 
-        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+        if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
             age--;
+            if (today.getMonth() === 0) {
+                monthDifference = 11;
+            } else {
+                monthDifference = 12 + monthDifference;
+            }
         }
 
         if (age === 0) {
-            const monthAge = today.getMonth() - dob.getMonth();
+            //let monthAge = today.getMonth() - dob.getMonth();
             if (monthDifference === 0 && dayDifference < 30) {
                 return "Less than a month old";
             } else {
-                return `${monthAge === 1 ? "1 month" : monthAge + " months"} old`;
+                return `${monthDifference === 1 ? "1 month" : monthDifference + " months"} old`;
             }
         } else {
             return `${age === 1 ? "1 year" : age + " years"} old`;
         }
-    }
+    } 
 
     function getSizeGroup(size) {
         if (size >= 0 && size <= 24) {
@@ -342,12 +361,17 @@
 
         const dogName = card.querySelector("h4").textContent;
         const dogDob = card.dataset.dob;
-        const dogBreeds = card.dataset.breeds.split(", ");
+        //console.log(card.dataset.breeds);
+        const dogBreeds = card.dataset.breeds.split(",");
+        //console.log(dogBreeds);
         const dogGender = card.dataset.gender;
         const dogSize = card.dataset.size;
-        const dogDescription = card.querySelector("p.description").textContent;
+        //const dogDescription = card.querySelector("p.description").textContent;
         const dogAdoptionStatus =
             card.querySelector("p.adoptionStatus").textContent;
+
+        const deleteButton = dogModal.querySelector(".delete-dog-btn");
+        deleteButton.dataset.dogId = dogId;
 
         dogModal.querySelector("#dogUpdateName").value = dogName;
         dogModal.querySelector("#dogUpdateDob").value = dogDob;
@@ -362,10 +386,8 @@
         dogModal.querySelector("#dogUpdateImagePreview").src = dogImgSrc;
         dogModal.querySelector("#dogUpdateGender").value = dogGender;
         dogModal.querySelector("#dogUpdateSize").value = dogSize;
-        dogModal.querySelector("#dogUpdateDescription").value = dogDescription;
-        dogModal.querySelector("#dogUpdateAdoptionStatus").value =
-            dogAdoptionStatus;
-
+        dogModal.querySelector("#dogUpdateAdoptionStatus").value = dogAdoptionStatus;
+        dogModal.querySelector("#hiddenDogId").value = dogId;
         dogModal.style.display = "block";
     }
 
@@ -400,64 +422,31 @@
         setupAddDogCardEventListener(".add-dog-btn", "block");
         setupAddDogCardEventListener(".create-dog-close", "none");
 
-        /* let createDogForm = document.getElementById("create-dog-form");
-        if (createDogForm) {
-            let nameIn = document.getElementById("dogName");
-            let dobIn = document.getElementById("dogDob");
-            let dogBreed1In = document.getElementById("dogBreed1");
-            let dogBreed2In = document.getElementById("dogBreed2");
-            let dogBreed3In = document.getElementById("dogBreed3");
-            let genderIn = document.getElementById("dogGender");
-            let sizeIn = document.getElementById("dogSize");
-
-            let errorModal = document.getElementById("errorModal");
-            errorModal.hidden = true;
-
-            createDogForm.addEventListener("submit", (event) => {
-                event.preventDefault();
-                let isValid = true;
-                try {
-                    const breedsArray = getBreedsArray();
-                    console.log(breedsArray);
-                    //const breedsJson = JSON.stringify(breedsArray);
-                    const hiddenBreedsInput = document.createElement("input");
-                    hiddenBreedsInput.type = "hidden";
-                    hiddenBreedsInput.name = "breeds";
-                    hiddenBreedsInput.value = breedsArray;
-
-                    createDogForm.appendChild(hiddenBreedsInput);
-                    document.querySelector("#create-dog-modal").style.display =
-                        "none";
-                    //event.target.submit();
-                    //errorModal.hidden = false;
-                } catch (e) {
-                    isValid = false;
-                    errorModal.hidden = false;
-                    errorModal.innerHTML = e;
-                    
-                } */
-
-                /* if (isValid){
-                    console.log('hi');
-                    console.log($("#create-dog-form").serialize());
-                    $.ajax({
-                        url: `/acenters/ac-dashboard/{{acenter._id}}`,
-                        type: "POST",
-                        contentType: false,
-                        processData: false,
-                        cache: true,
-                        data: $("#create-dog-form").serialize(),
-                        success: function (data) {
-                            console.log(data);
-                        },
-                        error: function (err) {
-                            errorModal.hidden = false;
-                            errorModal.innerHTML = err;
-                        },
-                    });
-                } 
+        function deleteDog(dogId, adoptionCenterId) {
+        fetch(`/acenters/ac-dashboard/${adoptionCenterId}/dogs/${dogId}`, {
+            method: "DELETE",
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    console.error("Error deleting dog", response);
+                } else {
+                    // Reload the page to show the updated list of dogs
+                    location.reload();
+                }
+            })
+            .catch((error) => {
+                console.error("Error deleting dog:", error);
             });
-        }*/
+        }
+
+        document.querySelectorAll(".delete-dog-btn").forEach((btn) => {
+            btn.addEventListener("click", (event) => {
+                const dogId = event.target.dataset.dogId;
+                const adoptionCenterId = window.location.pathname.split("/")[3];
+                // console.log(dogId, adoptionCenterId);
+                deleteDog(dogId, adoptionCenterId);
+            });
+        });
 
         dogCards.forEach((card) => {
             card.addEventListener("click", function (event) {
@@ -588,7 +577,7 @@
         let sizeIn = document.getElementById("dogSize");
 
         let error = document.getElementById("errorModal");
-
+        
         createDogForm.addEventListener("submit", async function (event) {
             event.preventDefault();
             let error = document.getElementById("errorModal");
@@ -596,6 +585,7 @@
             let isValid = true;
             try {
 
+                
                 nameIn.value = clientValidation.checkName(nameIn.value, "Name");
 
                 dobIn.value = clientValidation.checkDate(
@@ -624,6 +614,10 @@
                     );
                 }
 
+                genderIn.value = clientValidation.checkGender(genderIn.value, 'Gender');
+
+                sizeIn.value = clientValidation.checkPetWeight(parseInt(sizeIn.value), 'Size');
+
                 if (isValid) {
                     await submitForm();
                 }
@@ -639,6 +633,119 @@
     };
     
 
+</script>
+
+<script type="module">
+    import clientValidation from "/js/client-validation-methods.js";
+
+    let updateDogForm = document.getElementById("update-dog-form");
+    
+    
+
+    async function submitForm(dogId) {
+        let formData = new FormData($('#update-dog-form')[0]);
+        console.log(formData);
+        $.ajax({
+            url: `/acenters/{{acenter._id}}/dogs/${dogId}`,
+            type: "PUT",
+            contentType: false,
+            processData: false,
+            cache: true,
+            data: formData,
+            success: function (data) {
+                // console.log(data);
+                let error = document.getElementById("errorUpdateModal");
+                if (error){
+                    error.remove();
+                }
+                window.location.reload();
+            },
+            error: function (err) {
+                // console.log(err);
+                let error = document.getElementById("errorUpdateModal");
+                if (error){
+                    error.remove();
+                }
+
+                let newError = document.createElement('p');
+                let container = document.getElementById('update-dog-modal');
+                let errorText = err;
+                newError.innerText = errorText;
+                newError.style.color = 'red';
+                newError.style.marginTop = '10px';
+                newError.style.textAlign = 'center';
+                container.appendChild(newError);
+            },
+        });
+    }
+
+    if (updateDogForm) {
+        let nameIn = document.getElementById("dogUpdateName");
+        let dobIn = document.getElementById("dogUpdateDob");
+        let dogBreed1In = document.getElementById("dogUpdateBreed1");
+        let dogBreed2In = document.getElementById("dogUpdateBreed2");
+        let dogBreed3In = document.getElementById("dogUpdateBreed3");
+        let genderIn = document.getElementById("dogUpdateGender");
+        let sizeIn = document.getElementById("dogUpdateSize");
+        let statusIn = document.getElementById('dogUpdateAdoptionStatus');
+
+        let error = document.getElementById("errorUpdateModal");
+
+        updateDogForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            error.hidden = true;
+            let isValid = true;
+            try {
+                //console.log(nameIn.value);
+                nameIn.value = clientValidation.checkName(nameIn.value, "Name");
+
+                dobIn.value = clientValidation.checkDate(
+                    dobIn.value,
+                    "Date of Birth",
+                    0,
+                    20
+                );
+                
+                dogBreed1In.value = clientValidation.checkString(
+                    dogBreed1In.value,
+                    "Breed 1"
+                );
+
+                if (dogBreed2In.value) {
+                    dogBreed2In.value = clientValidation.checkString(
+                        dogBreed2In.value,
+                        "Breed 2"
+                    );
+                }
+
+                if (dogBreed3In.value) {
+                    dogBreed3In.value = clientValidation.checkString(
+                        dogBreed3In.value,
+                        "Breed 3"
+                    );
+                }
+
+                genderIn.value = clientValidation.checkGender(genderIn.value, 'Gender');
+
+                sizeIn.value = clientValidation.checkPetWeight(parseInt(sizeIn.value), 'Size');
+
+                statusIn.value = clientValidation.checkAdoptionStatus(statusIn.value, 'Adoption Status');
+
+                if (isValid) {
+                    let dogIdIn = document.getElementById('hiddenDogId');
+                    let dogId = dogIdIn.value;
+                    await submitForm(dogId);
+                }
+
+            } catch (e) {
+                event.preventDefault();
+                isValid = false;
+                error.hidden = false;
+                error.innerHTML = e;
+            }
+            
+        });
+    };
 </script>
 
 

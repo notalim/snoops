@@ -6,12 +6,12 @@
     </div>
     <div class="scroller-dog-container" id="content">
         <div class="scroller-dog-image-container">
-            <img id="dog-image" src="{{dog.img}}" alt="{{dog.name}}" />
+            <img id="dog-image" src="{{dog.img}}" alt="{{dog.name}}" >
         </div>
         <div class="scroller-dog-info-container">
             <div class="scroller-dog-info-header">
-                <h1 id="dog-name">{{dog.name}}</h1>
-                <h2 id="dog-breeds">{{dog.breeds}}</h2>
+                <p id="dog-name">{{dog.name}}</p>
+                <p id="dog-breeds">{{dog.breeds}}</p>
             </div>
             <div class="scroller-dog-info">
                 <p id="dog-description">{{dog.description}}</p>
@@ -126,10 +126,10 @@
                     type: "POST",
                     data: "Love the dog!",
                     success: function (data) {
-                        console.log(data);
+                        // console.log(data);
                     },
                     error: function (err) {
-                        console.log(err);
+                        // console.log(err);
                     },
                 });
                 goForward();
@@ -143,10 +143,10 @@
                     type: "POST",
                     data: "Hate the dog!",
                     success: function (data) {
-                        console.log(data);
+                        // console.log(data);
                     },
                     error: function (err) {
-                        console.log(err);
+                        // console.log(err);
                     },
                 });
                 goForward();

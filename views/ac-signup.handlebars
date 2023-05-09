@@ -1,7 +1,7 @@
 <main>
     <div class="signup-wrapper">
         <div class="graphic-image">
-            <img src="/assets/40444.jpg" alt="Graphic Image with dogs" />
+            <img src="/assets/40444.jpg" alt="Graphic Image with dogs" >
         </div>
         <div class="form-container">
             <h2 class="Signuph2">Adoption Center Sign Up</h2>
@@ -14,10 +14,10 @@
             
 
                 <label class="acSULabel" for="email">Email</label>
-                <input class="acSUInput" id="email" type="email" name="email" placeholder="Email" value="{{email}}" required />
+                <input class="acSUInput" id="email" type="email" name="email" placeholder="Email" value="{{email}}" required >
                 
                 <label class="acSULabel" for="name">Name</label>
-                <input class="acSUInput"id="name" type="text" name="name" placeholder="Name" value="{{name}}" required />
+                <input class="acSUInput"id="name" type="text" name="name" placeholder="Name" value="{{name}}" required >
 
                 <label class="acSULabel" for="password">Password</label>
                 <input
@@ -27,7 +27,7 @@
                     name="password"
                     placeholder="Password"
                     required
-                />
+                >
 
                 <label class="acSULabel" for="firstName">Contact First Name</label>
                 <input
@@ -36,8 +36,9 @@
                     type="text"
                     name="contactFirstName"
                     placeholder="Contact First Name"
+                    value="{{contactFirstName}}"
                     required
-                />
+                >
 
                 <label class="acSULabel" for="lastName">Contact Last Name</label>
                 <input
@@ -46,8 +47,9 @@
                     type="text"
                     name="contactLastName"
                     placeholder="Contact Last Name"
+                    value="{{contactLastName}}"
                     required
-                />
+                >
 
                 <label class="acSULabel" for="phone">Phone</label>
                 <input 
@@ -56,20 +58,20 @@
                     type="tel" 
                     name="phone" 
                     placeholder="Phone Number" 
+                    value="{{phone}}"
                     required 
-                />
+                >
 
                 <label class="acSULabel" for="address">Address</label>
                 <textarea
                     class="acSUInput"
                     id="address"
                     name="address"
-                    value="{{address}}"
                     placeholder="Address"
                     required
                 ></textarea>
 
-                <input class="SignupSubmit" type="submit" value="Sign Up" />
+                <input class="SignupSubmit" type="submit" value="Sign Up" >
             </form>
             <div class="switchWrapper">
                 <a class="switchUserSignUp" href="#" onclick="switchToUserSignup()">User Signup</a>

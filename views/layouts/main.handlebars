@@ -2,30 +2,30 @@
 <html lang="en">
     <head>
         <title>{{title}}</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charset="utf-8" >
+        <meta name="viewport" content="width=device-width, initial-scale=1" >
         <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         ></script>
-        <link rel="stylesheet" href="/styles/style.css" />
-        <link rel="stylesheet" href="/styles/signin.css" />
-        <link rel="stylesheet" href="/styles/signup.css" />
-        <link rel="stylesheet" href="/styles/scroller.css" />
-        <link rel="stylesheet" href="/styles/settings.css" />
-        <link rel="stylesheet" href="/styles/chats.css" />
-        <link rel="stylesheet" href="/styles/modal.css" />
-        <link rel="stylesheet" href="/styles/ac-dashboard.css" />
-        <link rel="stylesheet" href="/styles/error.css" />
-        <link rel="stylesheet" href="/styles/404.css" />
-        <link rel="stylesheet" href="/styles/resources.css" />
+        <link rel="stylesheet" href="/styles/style.css" >
+        <link rel="stylesheet" href="/styles/signin.css" >
+        <link rel="stylesheet" href="/styles/signup.css" >
+        <link rel="stylesheet" href="/styles/scroller.css" >
+        <link rel="stylesheet" href="/styles/settings.css" >
+        <link rel="stylesheet" href="/styles/chats.css" >
+        <link rel="stylesheet" href="/styles/modal.css" >
+        <link rel="stylesheet" href="/styles/ac-dashboard.css" >
+        <link rel="stylesheet" href="/styles/error.css" >
+        <link rel="stylesheet" href="/styles/404.css" >
+        <link rel="stylesheet" href="/styles/resources.css" >
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
-        />
+        >
         <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-        />
+        >
 
     </head>
     <body class="main-page">
@@ -37,6 +37,7 @@
 
                         <li><a href="/users/settings/{{user._id}}">Hello,
                                 {{user.firstName}}!</a></li>
+                        <li><a href="/users/scroller/{{user._id}}">Find a dog!</a></li>      
                         <li><a href="/chats/user/{{user._id}}">Messages</a></li>
                         <li><a href="/users/logout">Log out</a></li>
                     {{else}}
@@ -58,15 +59,14 @@
                                 >Sign up</a></li>
                         {{/if}}{{/if}}
                     <li><a href="/resources">Resources</a></li>
-                    <li><a href="/about">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/about">About Snoops</a></li>
                     <li><i id="theme-toggle" class="fas fa-moon"></i></li>
                 </ul>
             </nav>
         </header>
-        <section id="main-body">
+        <div id="main-body">
             {{{body}}}
-        <section>
+        </div>
         <footer>
             <p>&copy; 2023 Snoops</p>
         </footer>

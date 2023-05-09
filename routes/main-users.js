@@ -53,6 +53,7 @@ router.get("/scroller/:id", async (req, res) => {
         });
 
         return res.render("scroller", {
+            title: "Find a Dog!",
             dogs: JSON.stringify(dogsWithDistanceAndAge),
         });
     } catch (error) {
@@ -101,7 +102,7 @@ router.get("/settings/:id", async (req, res) => {
             }
             user.likedDogs = updatedLikedDogs;
         }
-        res.render("settings", { user });
+        res.render("settings", {title: "Settings", user });
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }

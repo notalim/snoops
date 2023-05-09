@@ -11,7 +11,6 @@
 
 /* Reset styles for elements */
 :root {
-    /* Define base font size */
     font-size: 16px;
     --main-background-color: #fff1dc;
     --text-color: #3a2412;
@@ -29,7 +28,6 @@
     --dark-form-background-color: #3c3a38;
 }
 
-/* Reset styles for elements */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -50,7 +48,13 @@ body.dark {
     --main-background-color: var(--dark-main-background-color);
     --footer-background-color: var(--dark-footer-background-color);
     --form-background-color: var(--dark-form-background-color);
+}
 
+body.light {
+    --text-color: var(--text-color);
+    --main-background-color: var(--main-background-color);
+    --footer-background-color: var(--footer-background-color);
+    --form-background-color: var(--form-background-color);
 }
 
 header {
@@ -112,6 +116,7 @@ main{
     position: relative;
     min-height: 100vh;
     background: none;
+    background-color: #3a2412;
 }
 
 .hero img {

@@ -9,26 +9,18 @@ router.get("/", async (req, res) => {
         } else if (acenterId) {
             return res.redirect("/ac-dashboard");
         }
-        return res.render("index");
+        return res.render("index", {title: "Snoops!"});
     } catch (error) {
         return res.status(500).json({ error: error.toString() });
     }
 });
 
-// // theme toggle
-// router.post("/theme", (req, res) => {
-//     console.log("POST /theme", req.body);
-//     req.session.theme = req.body.theme;
-//     res.sendStatus(200);
-//     return;
-// });
-
 router.get("/resources", function (req, res) {
-    return res.render("resources");
+    return res.render("resources", {title: "Resources"});
 });
 
 router.get("/about", async (req, res) => {
-    return res.render("about");
+    return res.render("about", {title: "About Snoops"});
 });
 
 export default router;

@@ -7,42 +7,44 @@
                         {{error}}
                     {{/if}}
             </div>
-            <form id="update-user" method="POST" enctype="multipart/form-data>
+            <form id="update-user" method="POST" enctype="multipart/form-data">
+                <img src="{{user.img}}" alt="{{user.firstName}} {{user.lastName}}" class="settingsImageDisplay">
+
                 <label class="settingsLabel" for="firstName">First Name</label>
-                <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" />
+                <input class="settingsInput" type="text" name="firstName" id="firstName" value="{{user.firstName}}" >
 
                 <label class="settingsLabel" for="lastName">Last Name</label>
-                <input class="settingsInput" type="text" name="lastName" id="lastName" value="{{user.lastName}}" />
+                <input class="settingsInput" type="text" name="lastName" id="lastName" value="{{user.lastName}}" >
 
                 <label class="settingsLabel" for="email">Email</label>
-                <input class="settingsInput" type="email" name="email" id="email" value="{{user.email}}" />
+                <input class="settingsInput" type="email" name="email" id="email" value="{{user.email}}" >
 
                 <label class="settingsLabel" for="dob">Date of Birth</label>
-                <input class="settingsInput" type="date" name="dob" id="dob" value="{{user.dob}}" />
+                <input class="settingsInput" type="date" name="dob" id="dob" value="{{user.dob}}" >
 
                 <label class="settingsLabel" for="phone">Phone</label>
-                <input class="settingsInput" type="tel" name="phone" id="phone" value="{{user.phone}}" />
+                <input class="settingsInput" type="tel" name="phone" id="phone" value="{{user.phone}}" >
 
                 <label class="settingsLabel" for="address">Address</label>
-                <input class="settingsInput" type="text" name="address" id="address" value="{{user.address}}" />
+                <input class="settingsInput" type="text" name="address" id="address" value="{{user.address}}" >
 
                 <label class="settingsLabel" for="password">Password</label>
-                <input class="settingsInput" type="password" name="password" id="password"/>
+                <input class="settingsInput" type="password" name="password" id="password">
 
                 <label class="settingsLabel" for="image">Profile Picture</label>
-                <input class="settingsInput" type="file" name="image" id="image" accept=".jpeg,.png,.HEIC,.img"/>
+                <input class="settingsInput imgInput" type="file" name="image" id="image" accept=".jpeg,.png,.img">
 
                 <label class="settingsLabel" for="agePreference">Max Age Preference</label>
-                <input class="settingsInput" type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}"/>
+                <input class="settingsInput" type="number" min="0" name="agePreference" id="agePreference" value="{{user.dogPreferences.agePreference}}">
 
                 <label class="settingsLabel" for="sizePreferenceMax">Max Weight Preference</label>
-                <input class="settingsInput" type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}"/>
+                <input class="settingsInput" type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}">
 
                 <label class="settingsLabel" for="genderPreferenceM">Disallow Male Dogs?</label>
-                <input class="settingsInput" type="checkbox" id="genderPreferenceM" name="genderPreferenceM"/>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceM" name="genderPreferenceM">
 
                 <label class="settingsLabel" for="genderPreferenceF">Disallow Female Dogs?</label>
-                <input class="settingsInput" type="checkbox" id="genderPreferenceF" name="genderPreferenceF"/>
+                <input class="settingsInput" type="checkbox" id="genderPreferenceF" name="genderPreferenceF">
 
                 <button class="settingsSubmit" type="submit">Save</button>
             </form>
@@ -51,25 +53,112 @@
             <h2 class="likedDogsHeader">Your Liked Dogs</h2>
             <div class="likedDogs">
                 {{#each user.likedDogs}}
-                <a href="/acenters/{{this.acenterId}}/dogs/{{this._id}}">
+                <!--<a href="/acenters/{{this.acenterId}}/dogs/{{this._id}}">-->
+                <a onclick={openModal(event)}                         
+                    data-dog-id="{{this._id}}"
+                    data-acenter-id="{{this.acenterId}}"
+                    data-name="Name: {{this.name}}"
+                    data-dob="DOB: {{this.dob}}"
+                    data-size="Size (lbs): {{this.size}}"
+                    data-gender="Gender: {{this.gender}}"
+                    data-breeds="Breeds: {{this.breeds}}"
+                    data-img="{{this.img}}"
+                    data-userId="{{user._id}}"
+                    class="likedDogLinkButton"
+                >
                     <div class="likedDog">
-                        <img src="{{this.img}}" alt="dog" />
+                        <img src="{{this.img}}" alt="dog" >
                         <p>{{this.name}}</p>
                     </div>
                 </a>
                 {{/each}}
             </div>
         </div>
-    </div>
-    
-    <img src="{{user.img}}" alt="{{user.firstName}} {{user.lastName}}">
 
+
+
+        <div id="dog-modal" class="modal" 
+            data-acenterId=""
+            data-userId=""
+        >
+            <div class="update-dog-modal-content">
+                <span class="update-dog-close" onclick="closeModal()">&times;</span>
+                <h2 class="update-dog-header">Dog Information</h2>
+                <div class="settings-modal-info-container">
+                    <img src="" alt="dog" id="dog-img" class="settings-dog-modal-image">
+                    <div class="settings-dog-info-container">
+                        <h3 id="dog-name">Name</h3>
+                        <h3 id="dog-dob">DOB</h3>
+                        <h3 id="dog-size">Size</h3>
+                        <h3 id="dog-gender">Gender</h3>
+                        <h3 id="dog-breeds">Breeds</h3>
+                        <button class="settingsSubmit" onclick={startChat()}>Start Chatting</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
+
+<script>
+
+    function openModal(info) {
+        let dogInfo = info.currentTarget.dataset;
+        console.log(dogInfo);
+
+        let dogCard = document.getElementById("dog-modal");
+
+        dogCard.setAttribute("data-acenterId", dogInfo.acenterId);
+        dogCard.setAttribute("data-userId", "{{user._id}}");
+
+        let dogImg = document.getElementById("dog-img");
+        dogImg.src = dogInfo.img;
+
+        let dogName = document.getElementById("dog-name");
+        dogName.innerHTML = dogInfo.name;
+
+        let dogDob = document.getElementById("dog-dob");
+        dogDob.innerHTML = dogInfo.dob;
+
+        let dogSize = document.getElementById("dog-size");
+        dogSize.innerHTML = dogInfo.size;
+
+        let dogGender = document.getElementById("dog-gender");
+        dogGender.innerHTML = dogInfo.gender;
+
+        let dogBreeds = document.getElementById("dog-breeds");
+        let dogBreedsArray = dogInfo.breeds;
+        dogBreeds.innerHTML = dogBreedsArray;
+
+        dogCard.style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("dog-modal").style.display = "none";
+    }
+
+    function startChat(){
+        let info = document.getElementById("dog-modal").dataset;
+        let acenterid = info.acenterid;
+        let userid = info.userid;
+
+        (function ($) {
+            $.ajax({
+                method: 'POST',
+                url: `/chats/${userid}/${acenterid}`,
+                error: function (err) {
+                    if(err.status === 409){
+                        alert("You already have a chat with this adoption center!");
+                    } 
+                }
+            })
+        })(window.jQuery);
+    }
+</script>
 
 <!-- <script type="module" src="/js/user-update-validation.js"></script> -->
 <script type="module">
     //check if checkboxes need to be checked
-    console.log({{user.dogPreferences.genderPreferenceF}})
     if({{user.dogPreferences.genderPreferenceF}} != null && {{user.dogPreferences.genderPreferenceF}} === true){
         $("#genderPreferenceF").prop("checked", true)
     }

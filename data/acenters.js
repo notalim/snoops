@@ -333,7 +333,9 @@ const updateDog = async (
     dogDOB,
     dogBreeds,
     dogGender,
-    dogSize
+    dogSize,
+    dogAdoptionStatus,
+    dogImage
 ) => {
     acenterId = validation.checkId(acenterId, "ID");
     dogId = validation.checkId(dogId, "ID");
@@ -346,9 +348,7 @@ const updateDog = async (
     dogName = validation.checkString(dogName, "Dog name");
 
     // Check dogDOB
-    // ? Do we use Check Age or Check String?
-    // ? How do we store age?
-    dogDOB = validation.checkDate(dogDOB, "Dog Date of Birth");
+    dogDOB = validation.checkDate(dogDOB, "Dog Date of Birth", 0, 20);
 
     // Check dogBreeds
     dogBreeds = validation.checkStringArray(dogBreeds, "Dog breeds");
@@ -366,6 +366,8 @@ const updateDog = async (
     // Check dogSize
     dogSize = validation.checkPetWeight(dogSize, "Dog size");
 
+    dogAdoptionStatus = validation.checkString(dogAdoptionStatus, "Dog Adoption Status");
+
     const updatedDog = {
         _id: new ObjectId(dogId),
         acenterId: new ObjectId(acenterId),
@@ -374,10 +376,10 @@ const updateDog = async (
         breeds: dogBreeds,
         gender: dogGender,
         size: dogSize,
-        img: oldDog.img,
+        img: dogImage,
         location: oldDog.location,
         description: oldDog.description,
-        adoptionStatus: oldDog.adoptionStatus,
+        adoptionStatus: dogAdoptionStatus,
     };
 
     const updatedInfo = await acenterCollection.updateOne(
@@ -391,6 +393,28 @@ const updateDog = async (
 
     return await getDogFromAcenter(acenterId, dogId);
 };
+
+// only updates the location of the dog
+
+const updateDogLocation = async (acenterId, dogId, newLocation) => {
+    acenterId = validation.checkId(acenterId, "ID");
+    dogId = validation.checkId(dogId, "ID");
+
+    // get the old dog info
+    let oldDog = await getDogFromAcenter(acenterId, dogId);
+
+    const updatedDog = {
+        ...oldDog,
+        location: newLocation,
+    }
+
+    const updatedInfo = await acenterCollection.updateOne(
+        { _id: new ObjectId(acenterId), "dogList._id": new ObjectId(dogId) },
+        { $set: { "dogList.$": updatedDog } }
+    );
+
+    return await getDogFromAcenter(acenterId, dogId);
+}
 
 const deleteDog = async (acenterId, dogId) => {
     acenterId = validation.checkId(acenterId, "ID");
@@ -445,6 +469,7 @@ const exportedMethods = {
     getDogFromAcenter,
     dogExists,
     updateDog,
+    updateDogLocation,
     deleteDog,
     getAllDogsFromAllAcenters,
 };
