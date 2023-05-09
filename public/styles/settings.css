@@ -142,6 +142,7 @@
 
 .settingsSubmit{
     display: flex;
+    cursor: pointer;
     margin: auto;
     margin-top: 30px;
     margin-bottom: 20px;
@@ -155,4 +156,32 @@
     border-right: none;
     border-left-width: 1px;
 
+}
+
+.likedDogLinkButton{
+    transition: 350ms;
+}
+
+.likedDogLinkButton:hover{
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+.settings-modal-info-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.settings-dog-modal-image{
+    max-width: 50%;
+    height: auto;
+    
+}
+
+.settings-dog-info-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
