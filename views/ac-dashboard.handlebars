@@ -1,7 +1,7 @@
 <main>
     <div class="ac-wrapper">
         <div class="ac-dashboard-main">
-            <h2>Welcome, {{acenter.name}}</h2>
+            <h3 class="ac-posted">Welcome, {{acenter.name}}</h3>
             <img
                 src="{{acenter.img}}"
                 alt="Acenter Image"
@@ -84,7 +84,7 @@
             <div class="error-message" hidden>Error: Invalid input</div>
         </div>
         <div class="ac-dashboard-dogs">
-            <h3>Here are your posted dogs:</h3>
+            <h3 class="ac-posted ac-posted-dogs">Here are your posted dogs:</h3>
             <div
                 class="dog-grid"
                 data-dob="{{this.dob}}"
