@@ -102,7 +102,7 @@ router.get("/settings/:id", async (req, res) => {
             }
             user.likedDogs = updatedLikedDogs;
         }
-        res.render("settings", { user });
+        res.render("settings", {title: "Settings", user });
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }

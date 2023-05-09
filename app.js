@@ -70,51 +70,51 @@ app.use((req, res, next) => {
 
 const protectedUserRoutes = ["/settings", "/scroller"];
 const protectedAcenterRoutes = ["/ac-dashboard", "/ac-settings"];
-const protectedChatRoutes = [];
+const protectedChatRoutes = [`/chats/user/`, "/chats/acenter/"];
 
 app.use("/users", userMiddleware(protectedUserRoutes));
 app.use("/acenters", acenterMiddleware(protectedAcenterRoutes));
-app.use("/chats", chatMiddleware(protectedChatRoutes));
+//app.use("/chats", chatMiddleware(protectedChatRoutes));
 
-// app.use("/chats/user/:uid", (req, res, next) => {
-//     if(!req.session){
-//         return res.redirect("/users/login-page");
-//     }
-//     if(!req.session.user){
-//         return res.redirect("/users/login-page");
-//     }
-//     if(req.session.user._id !== req.params.uid){
-//         return res.redirect("/404Page");
-//     }
-//     next();
-// });
+app.use("/chats/user/:uid", (req, res, next) => {
+    if(!req.session){
+        return res.redirect("/users/login-page");
+    }
+    if(!req.session.user){
+        return res.redirect("/users/login-page");
+    }
+    if(req.session.user._id !== req.params.uid){
+        return res.redirect("/404Page");
+    }
+    next();
+});
 
-// app.use("/chats/user/:uid/:acid", (req, res, next) => {
-//     if(!req.xhr){
-//         return res.redirect("/404Page");
-//     }
-//     next();
-// });
+app.use("/chats/user/:uid/:acid", (req, res, next) => {
+    if(!req.xhr){
+        return res.redirect("/404Page");
+    }
+    next();
+});
 
-// app.use("/chats/acenter/:acid", (req, res, next) => {
-//     if(!req.session){
-//         return res.redirect("/acenters/login-page");
-//     }
-//     if(!req.session.acenter){
-//         return res.redirect("/acenters/login-page");
-//     }
-//     if(req.session.acenter._id !== req.params.acid){
-//         return res.redirect("/404Page");
-//     }
-//     next();
-// });
+app.use("/chats/acenter/:acid", (req, res, next) => {
+    if(!req.session){
+        return res.redirect("/acenters/login-page");
+    }
+    if(!req.session.acenter){
+        return res.redirect("/acenters/login-page");
+    }
+    if(req.session.acenter._id !== req.params.acid){
+        return res.redirect("/404Page");
+    }
+    next();
+});
 
-// app.use("/chats/acenter/:acid/:uid", (req, res, next) => {
-//     if(!req.xhr){
-//         return res.redirect("/404Page");
-//     }
-//     next();
-// });
+app.use("/chats/acenter/:acid/:uid", (req, res, next) => {
+    if(!req.xhr){
+        return res.redirect("/404Page");
+    }
+    next();
+});
 
 // app.use("/users", (req, res, next) => {
 //     console.log(req.url)

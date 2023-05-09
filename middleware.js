@@ -88,17 +88,23 @@ export const chatMiddleware = (protectedChatRoutes) => {
         const isUserLoggedIn = req.session.user;
         const isAcenterLoggedIn = req.session.acenter;
         const fullPath = req.baseUrl + req.path;
-
-        if (
-            protectedChatRoutes.some(
-                (route) => fullPath === "/chats" + route
-            ) &&
-            !isUserLoggedIn &&
-            !isAcenterLoggedIn
-        ) {
-            return res.redirect("/404Page");
+        console.log(`${isUserLoggedIn} ${isAcenterLoggedIn} ${fullPath}`);
+        console.log(protectedChatRoutes.some(
+            (route) => 
+            console.log(route)
+            //fullPath === "/chats" + route
+        ))
+        if(!isUserLoggedIn && !isAcenterLoggedIn){
+            return res.redirect("/users/login-page");
         }
-
+        // if (!isUserLoggedIn &&
+        //     !isAcenterLoggedIn &&
+        //     protectedChatRoutes.some(
+        //         (route) => fullPath === "/chats" + route
+        //     )
+        // ) {
+        //     return res.redirect("/404Page");
+        // }
         if (
             protectedChatRoutes.some((route) => fullPath === "/chats" + route)
         ) {
@@ -106,21 +112,17 @@ export const chatMiddleware = (protectedChatRoutes) => {
                 return res.redirect("/404Page");
             }
         }
-
         if (isUserLoggedIn) {
             if (req.path.split("/")[2] !== req.session.user._id) {
-                // console.log("req.path.split('/')[2]: ", req.path.split("/")[2]);
-                // console.log("req.session.user._id: ", req.session.user._id);
-                return res.redirect("/users/login-page");
+                return res.redirect("/404Page");
             }
         }
-
         if (isAcenterLoggedIn) {
             if (req.path.split("/")[2] !== req.session.acenter._id) {
                 return res.redirect("/acenters/login-page");
             }
         }
-
+        console.log("here");
         next();
     };
 };

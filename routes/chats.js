@@ -18,7 +18,9 @@ import xss from 'xss';
 
 // TODO: GET /user/:uid - Get All chats for user with id sorted by most recent
 router.route("/user/:uid").get(async (req, res) => {
-    
+    if(!req.session.user && req.session.user._id !== req.params.uid){
+        return res.redirect("404Page");
+    }
     let id;
     try{
         id = validation.checkId(req.params.uid);
@@ -42,7 +44,7 @@ router.route("/user/:uid").get(async (req, res) => {
                 );
             }
         });
-        return res.status(200).render("user-chats", {chats: sorted});
+        return res.status(200).render("user-chats", {title: "Messages", chats: sorted});
     } catch (e) {
         return res.status(500).render("no-chats", {error: e});
     }
@@ -76,7 +78,7 @@ router.route("/acenter/:acid").get(async (req, res) => {
                 );
             }
         });
-        return res.status(200).render("ac-chats", {chats: sorted});
+        return res.status(200).render("ac-chats", {title: "Messages", chats: sorted});
     } catch (e) {
         return res.status(500).render("no-chats", {error: e});
     }
@@ -86,18 +88,23 @@ router.route("/acenter/:acid").get(async (req, res) => {
 router.route("/user/:uid/:acid").get(async (req, res) => {
     let uid;
     let acid;
+    console.log(`${req.session.user._id} ${req.params.uid}`)
+    if(!req.session.user && req.session.user._id !== req.params.uid){
+        return res.redirect("404Page");
+    }
     try{
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
     }catch(e){
-        return res.status(400).render("no-chats", {error: e})
+        return res.status(400).render("404Page", {error: e})
     }
     try {
         const chat = await chatData.getChat(uid, acid);
         return res.status(200).json(chat);
     } catch (e) {
         //might throw diff page
-        return res.status(500).render("no-chats", {error: e});
+        console.log("here2")
+        return res.status(500).render("404Page", {error: e});
     }
 });
 
@@ -105,19 +112,21 @@ router.route("/user/:uid/:acid").get(async (req, res) => {
 router.route("/acenter/:acid/:uid").get(async (req, res) => {
     let uid;
     let acid;
-
+    if(!req.session.acenter && req.session.acenter._id !== req.params.acid){
+        return res.redirect("404Page");
+    }
     try{
         uid = validation.checkId(req.params.uid);
         acid = validation.checkId(req.params.acid);
     }catch(e){
-        return res.status(400).render("no-chats", {error: e});
+        return res.status(400).render("404Page", {error: e});
     }
     try {
         const chat = await chatData.getChat(uid, acid);
         return res.status(200).json(chat);
     } catch (e) {
         //might throw diff page
-        return res.status(500).render("no-chats", {error: e});
+        return res.status(500).render("404Page", {error: e});
     }
 });
 
