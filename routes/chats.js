@@ -220,7 +220,7 @@ router.route("/:uid/:acid").post(async (req, res) => {
     } catch (e) {
         try {
             const newChat = await chatData.createChat(uid, acid);
-            return res.status(200).redirect("user-chats", { Chat: newChat });
+            return res.redirect(200, `/chats/user/${uid}`);
         } catch (e) {
             return res.status(500).json({ error: e });
         }
