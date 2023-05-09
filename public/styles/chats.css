@@ -2,7 +2,7 @@
     float: left;
     min-height: 90vh;
     width: 100%;
-    background-color: #f8f8f8;
+    background-color: var(--form-background-color);
     box-shadow: inset 0px 0px 3px black;
 }
 .all-chats{
@@ -127,6 +127,7 @@
 }
 
 .senderMessage{
+    color: #3a2412;
     display: inline-block;
     width: fit-content;
     height: fit-content;
@@ -144,6 +145,7 @@
 }
 
 .receiverMessage{
+    color: #3a2412;
     display: inline-block;
     text-align: left;
     width: fit-content; 
