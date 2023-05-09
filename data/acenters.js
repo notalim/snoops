@@ -416,7 +416,6 @@ const updateDogLocation = async (acenterId, dogId, newLocation) => {
     return await getDogFromAcenter(acenterId, dogId);
 }
 
-
 const deleteDog = async (acenterId, dogId) => {
     acenterId = validation.checkId(acenterId, "ID");
     dogId = validation.checkId(dogId, "ID");

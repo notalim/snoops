@@ -151,7 +151,7 @@
                     <input type="text" id="dogBreed3" name="breed3" >
 
                     <label for="gender">Gender</label>
-                    <select size="2" id="gender" name="gender" required>
+                    <select size="2" id="dogGender" name="gender" required>
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </select>
@@ -615,7 +615,7 @@
 
                 genderIn.value = clientValidation.checkGender(genderIn.value, 'Gender');
 
-                sizeIn.value = clientValidation.checkPetWeight(sizeIn.value, 'Size');
+                sizeIn.value = clientValidation.checkPetWeight(parseInt(sizeIn.value), 'Size');
 
                 if (isValid) {
                     await submitForm();
