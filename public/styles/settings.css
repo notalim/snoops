@@ -93,7 +93,7 @@
     display: block;
     font-size: large;
     margin-bottom: 2px; 
-    color: #6f6f6f;
+    color: var(--label-color);
 }
 
 #update-user{
