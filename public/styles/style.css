@@ -62,6 +62,8 @@ body.light {
     --main-background-color: var(--main-background-color);
     --footer-background-color: var(--footer-background-color);
     --form-background-color: var(--form-background-color);
+    --label-color: var(--label-color);
+    --error-color: var(--error-color);
 }
 
 header {
