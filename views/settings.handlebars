@@ -142,12 +142,16 @@
         let acenterid = info.acenterid;
         let userid = info.userid;
 
-        let requestConfig = {
-            method: 'POST',
-            url: `/chats/${userid}/${acenterid}`
-        };
         (function ($) {
-            $.ajax(requestConfig)
+            $.ajax({
+                method: 'POST',
+                url: `/chats/${userid}/${acenterid}`,
+                error: function (err) {
+                    if(err.status === 409){
+                        alert("You already have a chat with this adoption center!");
+                    } 
+                }
+            })
         })(window.jQuery);
     }
 </script>

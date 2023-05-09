@@ -213,7 +213,7 @@ router.route("/:uid/:acid").post(async (req, res) => {
 
     try {
         const chat = await chatData.getChat(uid, acid);
-        return res.status(400).json({
+        return res.status(409).json({
             foundChat: chat,
             Message: "Chat already exist",
         });
