@@ -421,8 +421,6 @@ const updateDogLocation = async (acenterId, dogId, newLocation) => {
 }
 
 
-
-
 const deleteDog = async (acenterId, dogId) => {
     acenterId = validation.checkId(acenterId, "ID");
     dogId = validation.checkId(dogId, "ID");

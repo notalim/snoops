@@ -368,6 +368,12 @@ const getUnseenDogs = async (userId, limit = 10) => {
             break;
         }
         if(!seenDogs.has(allDogs[i]._id.toString())) {
+            // if adoption status is unavilable, skil
+
+            if(allDogs[i].adoptionStatus == "Unavailable") {
+                continue;
+            }
+
             //account for user preferences
             //console.log('User Preference: ' + user.dogPreferences.agePreference, 'Dog Age: ' + allDogs[i].dob + " " + calculateAge(allDogs[i].dob))
             if( !user.dogPreferences.agePreference || user.dogPreferences.agePreference == null || user.dogPreferences.agePreference >= calculateAge(allDogs[i].dob)) {
