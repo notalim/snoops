@@ -84,7 +84,7 @@
 }
 
 .error-message {
-    color: red;
+    color: var(--error-color);
     margin-top: 1rem;
 }
 

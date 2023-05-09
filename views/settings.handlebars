@@ -104,7 +104,7 @@
 
     function openModal(info) {
         let dogInfo = info.currentTarget.dataset;
-        console.log(dogInfo);
+        //console.log(dogInfo);
 
         let dogCard = document.getElementById("dog-modal");
 
@@ -241,7 +241,7 @@
                 }
                 
                 if(addressIn.value){
-                    addressIn.value = clientValidation.checkString(
+                    addressIn.value = clientValidation.(
                         addressIn.value,
                         "Address"
                     );
@@ -266,7 +266,14 @@
                     throw 'Gender Preferences MUST be of type checkbox.'
                 }
                 error.hidden = false;
+                
+                } catch (e) {
+                event.preventDefault();
+                error.hidden = false;
+                error.innerHTML = e;
+            }
 
+            //console.log("form submitted");
                 let formData = new FormData($('#update-user')[0]);
 
                 $.ajax({
@@ -277,7 +284,7 @@
                     cache: true,
                     data: formData,
                     success: function (data) {
-                        console.log(data);
+                        //console.log(data);
 
                         let successMessage = document.getElementById("success");
                         if (successMessage) {
@@ -301,8 +308,8 @@
                     },
                     error: function (err) {
                         let data = $("#update-user").serialize();
-                        console.log(err);
-                        console.log(data);
+                        // console.log(err);
+                        // console.log(data);
 
                         let errorMessage = document.getElementById("error");
                         if (errorMessage) {
@@ -320,33 +327,13 @@
                             errorText = errorText.message
                         }
                         error.innerText = errorText;
-                        error.style.color = "red";
+                        error.style.color = "var(--error-color)";
                         error.style.marginTop = "10px";
                         error.style.textAlign = "center";
                         error.id = "error";
                         container.appendChild(error);
                     }
                 });
-
-                //if the user has uploaded a new image, send it to the server separately
-                /*if($("#image").val()){
-                    $.ajax({
-                        url: '/user/{{user._id}}/uploadimage',
-                        type: "POST",
-                        data: document.getElementById("image").value,
-                        success: function(data){
-                            console.log(data);
-                        },
-                        error: function(err){
-                            console.log(err);
-                        }
-                    });
-                }*/
-            } catch (e) {
-                event.preventDefault();
-                error.hidden = false;
-                error.innerHTML = e;
-            }
         });
     }
 </script>
