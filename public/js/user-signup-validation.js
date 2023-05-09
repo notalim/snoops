@@ -36,7 +36,7 @@ if (signupForm) {
 
             dobIn.value = clientValidation.checkDate(
                 dobIn.value,
-                "User",
+                "Date of Birth",
                 18,
                 120
             );
