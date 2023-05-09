@@ -4,6 +4,10 @@ export const userMiddleware = (protectedUserRoutes) => {
         const fullPath = req.baseUrl + req.path;
         const isAcenterLoggedIn = req.session.acenter;
 
+        // if (!req.xhr) {
+        //     return res.redirect("/404Page");
+        // }
+
         if (
             req.url !== "/login-page" &&
             req.url !== "/signup-page" &&
@@ -43,19 +47,22 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
     return (req, res, next) => {
         const isLoggedIn = req.session.acenter;
         const fullPath = req.baseUrl + req.path;
-        // console.log(fullPath);
         const isUserLoggedIn = req.session.user;
+        // console.log("Full path:", fullPath);
+        // console.log("Is acenter logged in:", isLoggedIn);
 
         if (
-            req.url !== "/login-page" &&
-            req.url !== "/signup-page" &&
             req.url !== "/login" &&
-            req.url !== "/signup"
+            req.url !== "/signup" &&
+            req.url !== "/login-page" &&
+            req.url !== "/signup-page"
         ) {
             if (!req.session) {
+                // console.log("No session found");
                 return res.redirect("/acenters/login-page");
             }
             if (!req.session.acenter) {
+                // console.log("No acenter found in session");
                 return res.redirect("/acenters/login-page");
             }
         }
@@ -66,20 +73,24 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
             ) &&
             !isLoggedIn
         ) {
+            // console.log("Protected route and not logged in");
             res.redirect("/acenters/login-page");
             return;
         }
 
         if (isUserLoggedIn) {
+            // console.log("User is logged in");
             res.status(404).render("404Page", {
                 title: "404 Page",
                 error: "You are already logged in as a user.",
             });
             return;
         }
+        // console.log("Continuing to next middleware");
         next();
     };
 };
+
 
 export const chatMiddleware = (protectedChatRoutes) => {
     return (req, res, next) => {
@@ -88,7 +99,7 @@ export const chatMiddleware = (protectedChatRoutes) => {
         const isUserLoggedIn = req.session.user;
         const isAcenterLoggedIn = req.session.acenter;
         const fullPath = req.baseUrl + req.path;
-        console.log(`${isUserLoggedIn} ${isAcenterLoggedIn} ${fullPath}`);
+        // console.log(`${isUserLoggedIn} ${isAcenterLoggedIn} ${fullPath}`);
         console.log(protectedChatRoutes.some(
             (route) => 
             console.log(route)
@@ -141,3 +152,17 @@ export const redirectToScrollerIfLoggedIn = () => {
         next();
     };
 };
+
+export function requireAcenterLogin(req, res, next) {
+    if (!req.session.acenter) {
+        return res.redirect("/acenters/login-page");
+    }
+    next();
+}
+
+export function requireUserLogin(req, res, next) {
+    if (!req.session.user) {
+        return res.redirect("/users/login-page");
+    }
+    next();
+}

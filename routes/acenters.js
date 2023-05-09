@@ -1,11 +1,12 @@
 import { Router } from "express";
 const router = Router();
 import { acenterData } from "../data/index.js";
-
 import * as validation from "../validation.js";
 import xss from "xss";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
+
+import { requireAcenterLogin } from "../middleware.js";
 
 // *: Adoption center Log In Page
 
@@ -18,7 +19,12 @@ router.route("/login-page").get(async (req, res) => {
 
 // *: Adoption center Log In
 
-router.route("/login").post(async (req, res) => {
+router.route("/login").get(requireAcenterLogin, (req, res) => {
+        res.render("ac-login", {
+            title: "Adoption Center Login",
+        });
+    })
+    .post(async (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
@@ -62,7 +68,12 @@ router.get("/signup-page", (req, res) => {
 
 // *: Sign up (Create) adoption center (POST /acenters)
 
-router.route("/signup").post(async (req, res) => {
+router.route("/signup").get(requireAcenterLogin, (req, res) => {
+        res.render("ac-login", {
+            title: "Adoption Center Login",
+        });
+    })
+    .post(async (req, res) => {
     // Decompose request body
     let email = xss(req.body.email);
     let name = xss(req.body.name);
