@@ -87,9 +87,9 @@ function checkPassword(password, elmName) {
 
 function checkEmailRegex(email, elmName) {
     email = checkString(email, elmName);
-    let regex = /[a-z|A-Z|0-9|_|.|-]+@[a-z|A-Z|0-9|-]+.[a-z]{2,}/;
+    let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let emailCheck = regex.test(email);
-    if (!emailCheck) throw `${elmName} invalid`;
+    if (!emailCheck) throw `The ${elmName} is invalid`;
     return email.trim().toLowerCase();
 }
 
