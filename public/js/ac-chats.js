@@ -26,7 +26,12 @@ for(let chat of chats){
 
         let requestConfig = {
             method: 'GET',
-            url: `/chats/acenter/${acidText}/${uidText}`
+            url: `/chats/acenter/${acidText}/${uidText}`,
+            error: function(err){
+                if(err.status === 400 || err.status === 404 || err.status === 500){
+                    window.location.href = "/404Page";
+                }
+            }
         };
         (function ($) {
             $.ajax(requestConfig).then(function (responseMessage){
@@ -126,7 +131,12 @@ sendMessage.addEventListener("click", (event) => {
         contentType: 'application/json',
         data: JSON.stringify({
             message: chatText,
-        })
+        }),
+        error: function(err){
+            if(err.status === 400 || err.status === 404 || err.status === 500){
+                window.location.href = "/404Page";
+            }
+        }
     };
     (function($){
         $.ajax(requestConfig).then(function (responseMessage) {
@@ -188,7 +198,12 @@ function getMessageAjax(){
 
     let requestConfig = {
         method: 'GET',
-        url: `/chats/acenter/${acidText}/${uidText}`
+        url: `/chats/acenter/${acidText}/${uidText}`,
+        error: function(err){
+            if(err.status === 400 || err.status === 404 || err.status === 500){
+                window.location.href = "/404Page";
+            }
+        }
     };
     (function ($) {
         $.ajax(requestConfig).then(function (responseMessage){
