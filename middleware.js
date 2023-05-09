@@ -4,6 +4,10 @@ export const userMiddleware = (protectedUserRoutes) => {
         const fullPath = req.baseUrl + req.path;
         const isAcenterLoggedIn = req.session.acenter;
 
+        if (!req.xhr) {
+            return res.redirect("/404Page");
+        }
+
         if (
             req.url !== "/login-page" &&
             req.url !== "/signup-page" &&
@@ -45,6 +49,11 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
         const fullPath = req.baseUrl + req.path;
         // console.log(fullPath);
         const isUserLoggedIn = req.session.user;
+        console.log(req.url);
+
+        if (!req.xhr) {
+            return res.redirect("/404Page");
+        }
 
         if (
             req.url !== "/login-page" &&
@@ -59,6 +68,7 @@ export const acenterMiddleware = (protectedAcenterRoutes) => {
                 return res.redirect("/acenters/login-page");
             }
         }
+        // console.log("gay");
 
         if (
             protectedAcenterRoutes.some(

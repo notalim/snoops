@@ -139,6 +139,17 @@ function checkPetWeight(_var, varName) {
     return _var;
 }
 
+function checkBreed(_var, varName) {
+    let breedWords = _var.split(" ");
+    for (let word of breedWords) {
+        if (word.length < 2) {
+            throw `${varName} must be at least 2 characters`;
+        }
+        word = checkName(word, varName);
+    }
+    return _var;
+}
+
 function checkAgePreferences(_var, varName) {
     checkNumber(_var, varName);
     if (_var <= 0 || _var > 20) {
@@ -200,6 +211,7 @@ let exportedMethods = {
     checkBoolean,
     checkMaxPreference,
     checkGender,
+    checkBreed,
     checkAdoptionStatus
 };
 
