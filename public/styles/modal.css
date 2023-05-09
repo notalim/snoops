@@ -21,7 +21,7 @@
 }
 
 .create-dog-close {
-    color: #aaaaaa;
+    color: var(--label-color);
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -29,7 +29,7 @@
 
 .create-dog-close:hover,
 .create-dog-close:focus {
-    color: #000;
+    color: var(--accent-hover-color);
     text-decoration: none;
     cursor: pointer;
 }
@@ -61,7 +61,7 @@
 }
 
 .create-dog-submit-btn {
-    background-color: var(--accent-color);
+    background-color: var(--accent-hover-color);
     color: white;
     padding: 12px 20px;
     margin: 8px 0;
@@ -71,7 +71,7 @@
 }
 
 .create-dog-submit-btn:hover {
-    background-color: var(--accent-hover-color);
+    background-color: var(--accent-color);
 }
 
 .update-dog-modal-content {
