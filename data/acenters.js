@@ -413,13 +413,8 @@ const updateDogLocation = async (acenterId, dogId, newLocation) => {
         { $set: { "dogList.$": updatedDog } }
     );
 
-    if (updatedInfo.modifiedCount === 0) {
-        throw `Could not update dog with ID ${dogId} in adoption center with ID ${acenterId}`;
-    }
-
     return await getDogFromAcenter(acenterId, dogId);
 }
-
 
 const deleteDog = async (acenterId, dogId) => {
     acenterId = validation.checkId(acenterId, "ID");
