@@ -1,7 +1,7 @@
 <main>
     <div class="ac-wrapper">
         <div class="ac-dashboard-main">
-            <h2>Welcome, {{acenter.name}}</h2>
+            <h3 class="ac-posted">Welcome, {{acenter.name}}</h3>
             <img
                 src="{{acenter.img}}"
                 alt="Acenter Image"
@@ -84,7 +84,7 @@
             <div class="error-message" hidden>Error: Invalid input</div>
         </div>
         <div class="ac-dashboard-dogs">
-            <h3>Here are your posted dogs:</h3>
+            <h3 class="ac-posted ac-posted-dogs">Here are your posted dogs:</h3>
             <div
                 class="dog-grid"
                 data-dob="{{this.dob}}"
@@ -258,9 +258,9 @@
                             name="adoptionStatus"
                             id="dogUpdateAdoptionStatus"
                         >
-                            <option value="available">Available</option>
-                            <option value="pending">Pending</option>
-                            <option value="adopted">Adopted</option>
+                            <option value="Available">Available</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Adopted">Adopted</option>
                         </select>
                         <button
                             class="delete-dog-btn"
@@ -724,6 +724,12 @@
                         "Breed 3"
                     );
                 }
+
+                genderIn.value = clientValidation.checkGender(genderIn.value, 'Gender');
+
+                sizeIn.value = clientValidation.checkPetWeight(parseInt(sizeIn.value), 'Size');
+
+                statusIn.value = clientValidation.checkAdoptionStatus(statusIn.value, 'Adoption Status');
 
                 if (isValid) {
                     let dogIdIn = document.getElementById('hiddenDogId');

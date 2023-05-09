@@ -29,9 +29,9 @@
 
 .settingsContainer {
     justify-content: center;
-    border: 2px solid #633d1e;
+    border: 2px solid var(--text-color);
     border-radius: 10px;
-    background-color: #f8f8f8;
+    background-color: var(--form-background-color);
     display: flex;
     min-height: fit-content;
     flex-direction: column;
@@ -60,7 +60,7 @@
 
 .settingsInput{
     display: block;
-    background-color: #f1f1f1;
+    background-color: var(--input-color);
     border-radius: 3px;
     width: 100%;
     padding: 5px 10px;
@@ -71,6 +71,10 @@
     border-bottom: 2px solid rgb(168, 168, 168);
     width: 80%;
     margin: 0 auto;
+}
+
+.imgInput {
+    color: var(--dark-main-background-color);
 }
 
 .settingsImageDisplay{
@@ -85,7 +89,6 @@
 
 .settingsLabel{
     margin-top: 10px;
-    background-color: #f1f1f1;
     background-color: transparent; 
     display: block;
     font-size: large;
@@ -136,7 +139,7 @@
     height: 100%;
     object-fit: fill;
     border-radius: 16px;
-    border: #633d1e 2px solid;
+    border: var(--text-color) 2px solid;
 }
 
 .settingsSubmit{
@@ -147,9 +150,9 @@
     margin-bottom: 20px;
     border-radius: 20px;
     padding: 3px 30px;
-    background-color: #8fe1ff;
-    border-bottom-color: #69d6fd;
-    border-left-color: #69d6fd;
+    background-color: #b9d9dd;
+    border-bottom-color: #a5c0c4;
+    border-left-color: #a5c0c4;
     border-width: 2px;
     border-top: none;
     border-right: none;

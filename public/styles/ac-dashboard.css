@@ -24,11 +24,18 @@
     border: solid 1px var(--text-color);
     border-radius: 10px;
     width: 30%;
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: fit-content;
+}
+
+.ac-posted {
+    margin: 0 auto;
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 .acenter-image {
