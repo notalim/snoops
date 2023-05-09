@@ -118,9 +118,9 @@ main{
 /* Hero Section styles */
 .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 90vh;
     background: none;
-    background-color: var(--main-background-color)
+    background-color: #8e6e00;
 }
 
 .hero img {
