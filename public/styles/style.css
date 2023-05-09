@@ -28,6 +28,9 @@
 
     --dark-form-background-color: #3c3a38;
     --dark-label-color: #c2c2c2;
+
+    --error-color: red;
+    --dark-error-color: rgb(249, 117, 117);
 }
 
 * {
@@ -51,6 +54,7 @@ body.dark {
     --footer-background-color: var(--dark-footer-background-color);
     --form-background-color: var(--dark-form-background-color);
     --label-color: var(--dark-label-color);
+    --error-color: var(--dark-error-color);
 }
 
 body.light {
