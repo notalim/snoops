@@ -108,6 +108,7 @@ header nav i {
 #main-body{
     min-height: fit-content;
     flex:1;
+    box-shadow: inset 0px 0px 2px rgb(0, 0, 0);
 }
 
 main{
@@ -217,19 +218,21 @@ footer p {
 
 .aboutContainer {
     background-color: var(--main-background-color);
-    height: 83%;
+    height: 83vh;
     width: 60%;
     text-align: center;
     margin: auto;
     margin-bottom: 10px;
     border-radius: 10px;
+    box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.1);
 }
 
 .aboutTitle {
-    margin-left: 20px;
+    margin-left: 10%;
     background-color: var(--main-background-color);
     font-size: 3.2rem;
     text-align: left;
+    padding-top: 25px;
 }
 
 .aboutText {
@@ -240,6 +243,7 @@ footer p {
     margin-top: 50px;
     font-size: 1.3rem;
     text-align: left;
+    line-height: 1.8rem;
 }
 
 .aboutSplitter {
