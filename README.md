@@ -4,6 +4,29 @@ Snoops is a Tinder-like application for people who are ready to adopt a new frie
 
 Users are able to create one of two different types of accounts: adopter and adoption center. An adoption center can post and manage their own dog listings, and an adopter can browse the dog listings.
 
+## How to use
+
+### Adoption Center Perspective
+
+As an adoption center, you can create an account by selecting the "Adoption Center" option on the registration page. Once registered, you can:
+
+1. Log in to your account.
+2. Add a new dog to your listings by providing the necessary information such as name, breed, age, size, gender, and a photo.
+3. Edit or delete existing dog listings.
+4. Update your adoption center's information, including contact details and address.
+5. Manage the adoption status of each dog, such as changing their status to "Available", "Adopted", or "Pending".
+
+### User Perspective
+
+As a user looking to adopt a dog, you can create an account by selecting the "Adopter" option on the registration page. Once registered, you can:
+
+1. Log in to your account.
+2. Browse available dogs by swiping through the listings.
+3. Filter dogs based on your preferences, such as breed, age, size, and gender.
+4. View detailed information about a dog.
+5. Save dogs to your favorites list for future reference.
+Contact the adoption center to initiate the adoption process.
+
 ## Technologies Used
 
 - JavaScript
@@ -31,7 +54,7 @@ or
 ```
 $ node app.js
 ```
-To seed the database:
+**To seed the database:**
 ```
 $ npm run seed
 ```
@@ -43,14 +66,8 @@ Test the main Tinder algo:
 ```
 $ npm run algo-test
 ```
-Test the Users data fuctions:
-```
-$ npm run users-test
-```
-Test the Adoption centers data fuctions:
-```
-$ npm run acenters-test
-```
+
+
 
 ## Contributing
 
