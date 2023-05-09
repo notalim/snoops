@@ -33,6 +33,13 @@ if (signupForm) {
                 lastNameIn.value,
                 "Last Name"
             );
+
+            dobIn.value = clientValidation.checkDate(
+                dobIn.value,
+                "User",
+                18,
+                120
+            );
             
             phoneIn.value = clientValidation.checkPhoneRegex(
                 phoneIn.value,
