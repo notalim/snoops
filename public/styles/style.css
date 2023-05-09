@@ -24,8 +24,10 @@
 
     --form-background-color: #f8f8f8;
     --input-color: #f1f1f1;
+    --label-color: #727272;
 
     --dark-form-background-color: #3c3a38;
+    --dark-label-color: #c2c2c2;
 }
 
 * {
@@ -48,6 +50,7 @@ body.dark {
     --main-background-color: var(--dark-main-background-color);
     --footer-background-color: var(--dark-footer-background-color);
     --form-background-color: var(--dark-form-background-color);
+    --label-color: var(--dark-label-color);
 }
 
 body.light {
@@ -116,7 +119,7 @@ main{
     position: relative;
     min-height: 100vh;
     background: none;
-    background-color: #3a2412;
+    background-color: var(--main-background-color)
 }
 
 .hero img {
