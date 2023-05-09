@@ -211,7 +211,7 @@
     display: inline;
     position: relative;
     left: 39%;
-    background-color: #f8f8f8;
+    background-color: var(--form-background-color);
     text-decoration: solid;
     color: var(--label-color);
     transition: 350ms;
