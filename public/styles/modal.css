@@ -66,7 +66,7 @@
     padding: 12px 20px;
     margin: 8px 0;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
 }
 
@@ -113,15 +113,18 @@
 .update-dog-form input[type="text"],
 .update-dog-form input[type="date"],
 .update-dog-form input[type="number"],
-.update-dog-form input[type="file"],
 .update-dog-form select {
     width: 80%;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin: auto;
     display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: none;
+    border-bottom: 2px solid rgb(168, 168, 168);
+    border-left: 1px solid rgb(220, 220, 220);
+    border-radius: 10px;
     box-sizing: border-box;
+    margin-bottom: 15px;
+    box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.1);
 }
 
 .update-dog-submit-btn {
@@ -152,4 +155,45 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 90%;
+}
+
+.update-dog-form-left label{
+    display: block;
+}
+
+.update-dog-form-left img{
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.update-dog-form-left input{
+    display: block;
+    margin: auto;
+    width: 80%;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.update-dog-form label{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.delete-dog-btn{
+    margin: auto;
+    width: 60%;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid black;
+    transition: 350ms;
+}
+
+.delete-dog-btn:hover{
+    background-color: rgb(170, 170, 170);
 }
