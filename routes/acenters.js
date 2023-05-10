@@ -137,6 +137,7 @@ router.route("/signup").get(requireAcenterLogin, (req, res) => {
             phone,
             address
         );
+        req.session.acenter = acenter;
         return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
         return res.render("ac-signup", {
