@@ -18,14 +18,13 @@ As an adoption center, you can create an account by selecting the "Adoption Cent
 
 ### User Perspective
 
-As a user looking to adopt a dog, you can create an account by selecting the "Adopter" option on the registration page. Once registered, you can:
+As a user looking to adopt a dog, you can create an account by selecting the "User Signup" option on the registration page. Once registered, you can:
 
 1. Log in to your account.
 2. Browse available dogs by swiping through the listings.
 3. In order to filter dogs based on your preferences, go to your settings page by clicking on the heading that   says "Hello, (Your Name)!". This is where you can update your preferences such as breed, age, size, and gender.
-4. View detailed information about a dog.
-5. Save dogs to your favorites list for future reference.
-Contact the adoption center to initiate the adoption process.
+4. Click on a dog to view detailed information about a dog.
+5. Click on a dog and then click "start chatting" to create a chat between you and that adoption center.
 
 ## Technologies Used
 
@@ -34,6 +33,8 @@ Contact the adoption center to initiate the adoption process.
 - Handlebars
 - Node.js
 - MongoDB
+- JQuery
+
 
 ## Getting Started
 
