@@ -85,7 +85,7 @@
                 <span class="update-dog-close" onclick="closeModal()">&times;</span>
                 <h2 class="update-dog-header">Dog Information</h2>
                 <div class="settings-modal-info-container">
-                    <img src="Text" alt="dog" id="dog-img" class="settings-dog-modal-image">
+                    <img src="" alt="dog" id="dog-img" class="settings-dog-modal-image">
                     <div class="settings-dog-info-container">
                         <h3 id="dog-name">Name</h3>
                         <h3 id="dog-dob">DOB</h3>
@@ -212,7 +212,7 @@
                 }
 
 
-                if(email.value){
+                if(emailAddressIn.value){
                     emailAddressIn.value = clientValidation.checkEmailRegex(
                         emailAddressIn.value,
                         "Email Address"
@@ -241,7 +241,7 @@
                 }
                 
                 if(addressIn.value){
-                    addressIn.value = clientValidation.(
+                    addressIn.value = clientValidation.checkString(
                         addressIn.value,
                         "Address"
                     );
@@ -266,14 +266,8 @@
                     throw 'Gender Preferences MUST be of type checkbox.'
                 }
                 error.hidden = false;
-                
-                } catch (e) {
-                event.preventDefault();
-                error.hidden = false;
-                error.innerHTML = e;
-            }
 
-            //console.log("form submitted");
+            console.log("form submitted");
                 let formData = new FormData($('#update-user')[0]);
 
                 $.ajax({
@@ -334,6 +328,11 @@
                         container.appendChild(error);
                     }
                 });
+                  } catch (e) {
+                event.preventDefault();
+                error.hidden = false;
+                error.innerHTML = e;
+            }
         });
     }
 </script>
