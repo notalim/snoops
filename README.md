@@ -8,7 +8,7 @@ Users are able to create one of two different types of accounts: adopter and ado
 
 ### Adoption Center Perspective
 
-As an adoption center, you can create an account by selecting the "Adoption Center" option on the registration page. Once registered, you can:
+As an adoption center, you can create an account by selecting the "Adoption Center Signup" option on the registration page. Once registered, you can:
 
 1. Log in to your account.
 2. Add a new dog to your listings by providing the necessary information such as name, breed, age, size, gender, and a photo.
@@ -22,7 +22,7 @@ As a user looking to adopt a dog, you can create an account by selecting the "Ad
 
 1. Log in to your account.
 2. Browse available dogs by swiping through the listings.
-3. Filter dogs based on your preferences, such as breed, age, size, and gender.
+3. In order to filter dogs based on your preferences, go to your settings page by clicking on the heading that   says "Hello, (Your Name)!". This is where you can update your preferences such as breed, age, size, and gender.
 4. View detailed information about a dog.
 5. Save dogs to your favorites list for future reference.
 Contact the adoption center to initiate the adoption process.
