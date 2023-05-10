@@ -11,6 +11,9 @@ router.get("/ac-dashboard/:id", async (req, res) => {
     if (!req.session.acenter) {
         return res.redirect("/acenters/login-page");
     }
+    if (!req.params.id) {
+        return res.redirect(`/ac-dashboard/${req.session.acenter._id}`);
+    }
     // console.log(req.session.acenter);
 
     try {

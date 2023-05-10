@@ -90,7 +90,7 @@ let center2dog3 = {
 };
 
 let center3dog1 = {
-    name: "Mr. Dog",
+    name: "Doggernaut",
     dob: "2020-05-05",
     breeds: ["Doberman", "Pitbull"],
     gender: "M",
@@ -98,7 +98,7 @@ let center3dog1 = {
 };
 
 let center3dog2 = {
-    name: "Miss Dog",
+    name: "Doglette",
     dob: "2021-07-02",
     breeds: ["Poodle", "Terrier"],
     gender: "F",

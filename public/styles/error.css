@@ -1,7 +1,7 @@
 #error {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.3);
-    color: red;
+    /* background-color: rgba(255, 255, 255, 0.3); */
+    color: var(--error-color);
     font-weight: bold;
     margin-top: 1rem;
 }

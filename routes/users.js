@@ -5,56 +5,77 @@ import * as validation from "../validation.js";
 import { redirectToScrollerIfLoggedIn } from "../middleware.js";
 import xss from "xss";
 import multer from "multer";
-import {v2 as cloudinary} from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
+
+import { requireUserLogin } from "../middleware.js";
 
 // *: Log In Page
 
 router.route("/login-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
-    return res.render("user-login", {title: "User Login"});
+    return res.render("user-login", { title: "User Login" });
 });
 
 // *: Log In User
 
-router.route("/login").post(async (req, res) => {
-    // Decompose request body
-    let email = xss(req.body.email);
-    let password = xss(req.body.password);
-    let savedEmail;
-
-    // console.log("got email and password: ", email, password);
-
-    try {
-        email = validation.checkEmail(email, "Email");
-        savedEmail = email;
-    } catch (e) {
-        return res.status(400).render("user-login", {
-            error: e.toString(),
-            title: "User Log In",
-            email: savedEmail,
+router
+    .route("/login")
+    .get(requireUserLogin, (req, res) => {
+        res.render("user-login", {
+            title: "User Login",
         });
-    }
+    })
+    .post(async (req, res) => {
+        if (req.session.user) {
+            return res.redirect(`/users/scroller/${req.session.user._id}`);
+        }
+        // Decompose request body
+        let email = xss(req.body.email);
+        let password = xss(req.body.password);
+        let savedEmail;
 
-    try {
-        const user = await userData.loginUser(email, password);
-        req.session.user = user;
-        // console.log(user);
-        return res.redirect(`/users/scroller/${user._id}`);
-    } catch (e) {
-        res.render("user-login", { error: e.toString(), title: "User Login", email: savedEmail });
-        //console.log(e);
-        return;
-    }
-});
+        // console.log("got email and password: ", email, password);
+
+        try {
+            email = validation.checkEmail(email, "Email");
+            savedEmail = email;
+        } catch (e) {
+            return res.status(400).render("user-login", {
+                error: e.toString(),
+                title: "User Log In",
+                email: savedEmail,
+            });
+        }
+
+        try {
+            const user = await userData.loginUser(email, password);
+            req.session.user = user;
+            // console.log(user);
+            return res.redirect(`/users/scroller/${user._id}`);
+        } catch (e) {
+            res.render("user-login", {
+                error: e.toString(),
+                title: "User Login",
+                email: savedEmail,
+            });
+            //console.log(e);
+            return;
+        }
+    });
 
 // *: Sign Up Page
 
 router.route("/signup-page").get(redirectToScrollerIfLoggedIn(), (req, res) => {
-    return res.render("user-signup", {title: "User Signup"});
+    return res.render("user-signup", { title: "User Signup" });
 });
 
 // *: Sign Up user (POST: Create user)
 
-router.route("/signup").post(async (req, res) => {
+router.route("/signup").get(requireUserLogin, (req, res) => {
+        res.render("user-login", {
+            title: "User Login",
+        });
+    })
+    .post(async (req, res) => {
     // check if the user's already logged in
     if (req.session.user) {
         return res.redirect(`/users/scroller/${user._id}`);
@@ -125,7 +146,10 @@ router.route("/signup").post(async (req, res) => {
     } catch (error) {
         return res
             .status(500)
-            .render("user-signup", { error: error.toString(), title: "Sign Up" });
+            .render("user-signup", {
+                error: error.toString(),
+                title: "Sign Up",
+            });
     }
 });
 
@@ -194,14 +218,14 @@ cloudinary.config({
     cloud_name: cloud_name,
     api_key: api_key,
     api_secret: api_secret,
-    secure: true
+    secure: true,
 });
 
 let upload = multer({
     storage: multer.diskStorage({}),
 });
 
-router.put("/:id", upload.single('image'),async (req, res) => {
+router.put("/:id", upload.single("image"), async (req, res) => {
     // Validate the id
     let id = req.params.id;
 
@@ -217,7 +241,7 @@ router.put("/:id", upload.single('image'),async (req, res) => {
     let address = xss(req.body.address);
     let image = null;
 
-    if (req.file && req.file.path){
+    if (req.file && req.file.path) {
         image = req.file.path;
     }
     let agePreference = xss(req.body.agePreference);
@@ -243,27 +267,42 @@ router.put("/:id", upload.single('image'),async (req, res) => {
     if (address == undefined || address == "" || address == null) {
         address = xss(req.session.user.address);
     }
-    if(agePreference == undefined || agePreference == "" || agePreference == null){
+    if (
+        agePreference == undefined ||
+        agePreference == "" ||
+        agePreference == null
+    ) {
         agePreference = null;
     }
-    if(sizePreferenceMax == undefined || sizePreferenceMax == "" || sizePreferenceMax == null){
+    if (
+        sizePreferenceMax == undefined ||
+        sizePreferenceMax == "" ||
+        sizePreferenceMax == null
+    ) {
         sizePreferenceMax = null;
     }
 
-    if(genderPreferenceF == undefined || genderPreferenceF == "" || genderPreferenceF == null){
+    if (
+        genderPreferenceF == undefined ||
+        genderPreferenceF == "" ||
+        genderPreferenceF == null
+    ) {
         genderPreferenceF = false;
     }
-    if(genderPreferenceF != undefined && genderPreferenceF != false){
+    if (genderPreferenceF != undefined && genderPreferenceF != false) {
         genderPreferenceF = true;
     }
 
-    if(genderPreferenceM == undefined || genderPreferenceM == "" || genderPreferenceM == null){
+    if (
+        genderPreferenceM == undefined ||
+        genderPreferenceM == "" ||
+        genderPreferenceM == null
+    ) {
         genderPreferenceM = false;
     }
-    if(genderPreferenceM != undefined && genderPreferenceM != false){
+    if (genderPreferenceM != undefined && genderPreferenceM != false) {
         genderPreferenceM = true;
     }
-
 
     // console.log('Email: ' + email, 'Password: ' + password, 'fName: ' +firstName, 'lName: ' + lastName, 'dob: ' + dob, 'phone: '+ phone, 'address: ' + address, 'agePreference: ' + agePreference, 'sizePreferenceMax: ' + sizePreferenceMax, "GenderPreferenceF: " + genderPreferenceF, "GenderPreferenceM: " + genderPreferenceM)
 
@@ -285,24 +324,40 @@ router.put("/:id", upload.single('image'),async (req, res) => {
         address = validation.checkString(address, "Address");
 
         let user = req.session.user;
-        if (!image){
+        if (!image) {
             image = user.img;
-        }
-        else {
+        } else {
             let upload = await cloudinary.uploader.upload(image);
             image = upload.secure_url;
         }
 
-        agePreference = validation.checkOptionalMaxPrefrence(agePreference, "Age Preference");
+        agePreference = validation.checkOptionalMaxPrefrence(
+            agePreference,
+            "Age Preference"
+        );
 
-        sizePreferenceMax = validation.checkOptionalMaxPrefrence(sizePreferenceMax, "Size Preference");
+        sizePreferenceMax = validation.checkOptionalMaxPrefrence(
+            sizePreferenceMax,
+            "Size Preference"
+        );
 
-        genderPreferenceF = validation.checkBoolean(genderPreferenceF, "Gender F Preference");
+        genderPreferenceF = validation.checkBoolean(
+            genderPreferenceF,
+            "Gender F Preference"
+        );
 
-        genderPreferenceM = validation.checkBoolean(genderPreferenceM, "Gender M Preference");
-        
+        genderPreferenceM = validation.checkBoolean(
+            genderPreferenceM,
+            "Gender M Preference"
+        );
     } catch (e) {
-        return res.status(400).render("settings", {title: "Settings", error: e.toString(), user: req.session.user});
+        return res
+            .status(400)
+            .render("settings", {
+                title: "Settings",
+                error: e.toString(),
+                user: req.session.user,
+            });
     }
 
     try {
@@ -355,12 +410,11 @@ router.route("/:id/like/:acenterId/:dogId").post(async (req, res) => {
 
     try {
         const user = await userData.likeDog(id, acenterId, dogId);
-        if(user.success){
+        if (user.success) {
             req.session.user = user.newUser;
             return res.status(200).json(user.success);
-        }
-        else{
-            return res.status(403).json({error: 'Invalid Request'});
+        } else {
+            return res.status(403).json({ error: "Invalid Request" });
         }
     } catch (e) {
         return res.status(500).json({ error: e });
@@ -376,11 +430,7 @@ router.route("/:id/dislike/:acenterId/:dogId").post(async (req, res) => {
     let acenterId = xss(req.params.acenterId);
 
     try {
-        id = validation.checkId(
-            id, 
-            "ID", 
-            "POST /users/:id/dislike/:dogId"
-        );
+        id = validation.checkId(id, "ID", "POST /users/:id/dislike/:dogId");
 
         dogId = validation.checkId(
             dogId,
@@ -393,25 +443,22 @@ router.route("/:id/dislike/:acenterId/:dogId").post(async (req, res) => {
             "Animal Center ID",
             "POST /users/:id/dislike/:dogId"
         );
-
     } catch (e) {
         return res.status(400).json({ error: e });
     }
 
     try {
         const user = await userData.swipeLeft(id, acenterId, dogId);
-        if(user.success){
+        if (user.success) {
             req.session.user = user.newUser;
             return res.status(200).json(user.success);
-        }
-        else{
-            return res.status(403).json({error: 'Invalid Request'});
+        } else {
+            return res.status(403).json({ error: "Invalid Request" });
         }
     } catch (e) {
         return res.status(500).json({ error: e });
     }
 });
-
 
 // *: Upload a profile picture
 

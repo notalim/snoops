@@ -87,9 +87,9 @@ function checkPassword(password, elmName) {
 
 function checkEmailRegex(email, elmName) {
     email = checkString(email, elmName);
-    let regex = /[a-z|A-Z|0-9|_|.|-]+@[a-z|A-Z|0-9|-]+.[a-z]{2,}/;
+    let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let emailCheck = regex.test(email);
-    if (!emailCheck) throw `${elmName} invalid`;
+    if (!emailCheck) throw `The ${elmName} is invalid`;
     return email.trim().toLowerCase();
 }
 
@@ -135,6 +135,17 @@ function checkPetWeight(_var, varName) {
     _var = parseFloat(parseFloat(_var).toFixed(1)); // Round to 1 decimal point and parse back to float
     if (_var < 1 || _var > 180) {
         throw new Error(`${varName} must be a valid weight`);
+    }
+    return _var;
+}
+
+function checkBreed(_var, varName) {
+    let breedWords = _var.split(" ");
+    for (let word of breedWords) {
+        if (word.length < 2) {
+            throw `${varName} must be at least 2 characters`;
+        }
+        word = checkName(word, varName);
     }
     return _var;
 }
@@ -200,6 +211,7 @@ let exportedMethods = {
     checkBoolean,
     checkMaxPreference,
     checkGender,
+    checkBreed,
     checkAdoptionStatus
 };
 

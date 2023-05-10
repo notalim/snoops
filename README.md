@@ -4,6 +4,28 @@ Snoops is a Tinder-like application for people who are ready to adopt a new frie
 
 Users are able to create one of two different types of accounts: adopter and adoption center. An adoption center can post and manage their own dog listings, and an adopter can browse the dog listings.
 
+## How to use
+
+### Adoption Center Perspective
+
+As an adoption center, you can create an account by selecting the "Adoption Center Signup" option on the registration page. Once registered, you can:
+
+1. Log in to your account.
+2. Add a new dog to your listings by providing the necessary information such as name, breed, age, size, gender, and a photo.
+3. Edit or delete existing dog listings.
+4. Update your adoption center's information, including contact details and address.
+5. Manage the adoption status of each dog, such as changing their status to "Available", "Adopted", or "Pending".
+
+### User Perspective
+
+As a user looking to adopt a dog, you can create an account by selecting the "User Signup" option on the registration page. Once registered, you can:
+
+1. Log in to your account.
+2. Browse available dogs by swiping through the listings.
+3. In order to filter dogs based on your preferences, go to your settings page by clicking on the heading that   says "Hello, (Your Name)!". This is where you can update your preferences such as breed, age, size, and gender.
+4. Click on a dog to view detailed information about a dog.
+5. Click on a dog and then click "start chatting" to create a chat between you and that adoption center.
+
 ## Technologies Used
 
 - JavaScript
@@ -11,6 +33,8 @@ Users are able to create one of two different types of accounts: adopter and ado
 - Handlebars
 - Node.js
 - MongoDB
+- JQuery
+
 
 ## Getting Started
 
@@ -31,7 +55,7 @@ or
 ```
 $ node app.js
 ```
-To seed the database:
+**To seed the database:**
 ```
 $ npm run seed
 ```
@@ -43,14 +67,8 @@ Test the main Tinder algo:
 ```
 $ npm run algo-test
 ```
-Test the Users data fuctions:
-```
-$ npm run users-test
-```
-Test the Adoption centers data fuctions:
-```
-$ npm run acenters-test
-```
+
+
 
 ## Contributing
 

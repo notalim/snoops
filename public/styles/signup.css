@@ -156,7 +156,7 @@
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #727272;
+    color: var(--label-color);
     margin-top: 5px;
     width: 40%;
 }
@@ -188,7 +188,7 @@
     right: 31%;
     background-color: var(--form-background-color);
     text-decoration: solid;
-    color: #727272;
+    color: var(--label-color);
     transition: 350ms;
 }
 
@@ -198,7 +198,7 @@
     right: 24%;
     background-color: var(--form-background-color);
     text-decoration: solid;
-    color: #727272;
+    color: var(--label-color);
     transition: 350ms;
 }
 
@@ -211,9 +211,9 @@
     display: inline;
     position: relative;
     left: 39%;
-    background-color: #f8f8f8;
+    background-color: var(--form-background-color);
     text-decoration: solid;
-    color: #727272;
+    color: var(--label-color);
     transition: 350ms;
 }
 
@@ -223,7 +223,7 @@
     left: 18%;
     background-color: var(--form-background-color);
     text-decoration: solid;
-    color: #727272;
+    color: var(--label-color);
     transition: 350ms;
 }
 

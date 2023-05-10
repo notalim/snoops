@@ -24,6 +24,7 @@
     border: solid 1px var(--text-color);
     border-radius: 10px;
     width: 30%;
+    background-color: var(--form-background-color);
     /* display: flex; */
     flex-direction: column;
     align-items: center;
@@ -36,6 +37,11 @@
     margin-top: 10px;
     justify-content: center;
     align-items: center;
+    margin-bottom: 15px;
+}
+
+.ac-dashboard-main h2{
+    text-align: center;
 }
 
 .acenter-image {
@@ -43,6 +49,8 @@
     height: auto;
     object-fit: cover;
     border-radius: 10px;
+    display: block;
+    margin: auto;
 }
 
 .acenter-info-form {
@@ -76,11 +84,12 @@
 }
 
 .error-message {
-    color: red;
+    color: var(--error-color);
     margin-top: 1rem;
 }
 
 .ac-dashboard-dogs {
+    background-color: var(--form-background-color);
     border: solid 1px var(--text-color);
     border-radius: 10px;
     width: 70%;

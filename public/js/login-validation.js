@@ -19,6 +19,7 @@ if (loginForm) {
             event.target.submit();
             error.hidden = false;
         } catch (e) {
+            // console.log("kys");
             event.preventDefault();
             error.hidden = false;
             error.innerHTML = e;

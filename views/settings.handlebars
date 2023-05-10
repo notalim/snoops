@@ -41,10 +41,10 @@
                 <input class="settingsInput" type="number" min="0" name="sizePreferenceMax" id="sizePreferenceMax" value="{{user.dogPreferences.sizePreferenceMax}}">
 
                 <label class="settingsLabel" for="genderPreferenceM">Disallow Male Dogs?</label>
-                <input class="settingsInput" type="checkbox" id="genderPreferenceM" name="genderPreferenceM">
+                <input class="settingsInput" type="checkbox" id="genderPreferenceM" name="genderPreferenceM" style="box-shadow: none;">
 
                 <label class="settingsLabel" for="genderPreferenceF">Disallow Female Dogs?</label>
-                <input class="settingsInput" type="checkbox" id="genderPreferenceF" name="genderPreferenceF">
+                <input class="settingsInput" type="checkbox" id="genderPreferenceF" name="genderPreferenceF" style="box-shadow: none;">
 
                 <button class="settingsSubmit" type="submit">Save</button>
             </form>
@@ -85,7 +85,7 @@
                 <span class="update-dog-close" onclick="closeModal()">&times;</span>
                 <h2 class="update-dog-header">Dog Information</h2>
                 <div class="settings-modal-info-container">
-                    <img src="" alt="dog" id="dog-img" class="settings-dog-modal-image">
+                    <img src="placeholder" alt="dog" id="dog-img" class="settings-dog-modal-image">
                     <div class="settings-dog-info-container">
                         <h3 id="dog-name">Name</h3>
                         <h3 id="dog-dob">DOB</h3>
@@ -104,7 +104,7 @@
 
     function openModal(info) {
         let dogInfo = info.currentTarget.dataset;
-        console.log(dogInfo);
+        //console.log(dogInfo);
 
         let dogCard = document.getElementById("dog-modal");
 
@@ -146,6 +146,9 @@
             $.ajax({
                 method: 'POST',
                 url: `/chats/${userid}/${acenterid}`,
+                success: function(data){
+                    window.location.href = `/chats/user/${userid}`;
+                },
                 error: function (err) {
                     if(err.status === 409){
                         alert("You already have a chat with this adoption center!");
@@ -209,7 +212,7 @@
                 }
 
 
-                if(email.value){
+                if(emailAddressIn.value){
                     emailAddressIn.value = clientValidation.checkEmailRegex(
                         emailAddressIn.value,
                         "Email Address"
@@ -264,6 +267,7 @@
                 }
                 error.hidden = false;
 
+            console.log("form submitted");
                 let formData = new FormData($('#update-user')[0]);
 
                 $.ajax({
@@ -274,7 +278,7 @@
                     cache: true,
                     data: formData,
                     success: function (data) {
-                        console.log(data);
+                        //console.log(data);
 
                         let successMessage = document.getElementById("success");
                         if (successMessage) {
@@ -298,8 +302,8 @@
                     },
                     error: function (err) {
                         let data = $("#update-user").serialize();
-                        console.log(err);
-                        console.log(data);
+                        // console.log(err);
+                        // console.log(data);
 
                         let errorMessage = document.getElementById("error");
                         if (errorMessage) {
@@ -317,29 +321,14 @@
                             errorText = errorText.message
                         }
                         error.innerText = errorText;
-                        error.style.color = "red";
+                        error.style.color = "var(--error-color)";
                         error.style.marginTop = "10px";
                         error.style.textAlign = "center";
                         error.id = "error";
                         container.appendChild(error);
                     }
                 });
-
-                //if the user has uploaded a new image, send it to the server separately
-                /*if($("#image").val()){
-                    $.ajax({
-                        url: '/user/{{user._id}}/uploadimage',
-                        type: "POST",
-                        data: document.getElementById("image").value,
-                        success: function(data){
-                            console.log(data);
-                        },
-                        error: function(err){
-                            console.log(err);
-                        }
-                    });
-                }*/
-            } catch (e) {
+                  } catch (e) {
                 event.preventDefault();
                 error.hidden = false;
                 error.innerHTML = e;

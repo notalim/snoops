@@ -26,10 +26,16 @@ let chats = document.getElementsByClassName("chat");
 
                 let requestConfig = {
                     method: 'GET',
-                    url: `/chats/user/${uidText}/${acidText}`
+                    url: `/chats/user/${uidText}/${acidText}`,
+                    error: function(err){
+                        if(err.status === 400 || err.status === 404 || err.status === 500){
+                            window.location.href = "/404Page";
+                        }
+                    }
                 };
                 (function ($) {
                     $.ajax(requestConfig).then(function (responseMessage){
+
                         let messages = responseMessage.messages;
                         for(let message of messages){
                             if(message.senderId === uidText){
@@ -122,7 +128,12 @@ let chats = document.getElementsByClassName("chat");
                 contentType: 'application/json',
                 data: JSON.stringify({
                     message: chatText,
-                })
+                }),
+                error: function(err){
+                    if(err.status === 400 || err.status === 404 || err.status === 500){
+                        window.location.href = "/404Page";
+                    }
+                }
             };
             (function($){
                 $.ajax(requestConfig).then(function (responseMessage) {
@@ -181,7 +192,12 @@ let chats = document.getElementsByClassName("chat");
 
             let requestConfig = {
                 method: 'GET',
-                url: `/chats/user/${uidText}/${acidText}`
+                url: `/chats/user/${uidText}/${acidText}`,
+                error: function(err){
+                    if(err.status === 400 || err.status === 404 || err.status === 500){
+                        window.location.href = "/404Page";
+                    }
+                }
             };
             (function ($) {
                 $.ajax(requestConfig).then(function (responseMessage){

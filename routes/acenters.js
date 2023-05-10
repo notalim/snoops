@@ -1,11 +1,12 @@
 import { Router } from "express";
 const router = Router();
 import { acenterData } from "../data/index.js";
-
 import * as validation from "../validation.js";
 import xss from "xss";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
+
+import { requireAcenterLogin } from "../middleware.js";
 
 // *: Adoption center Log In Page
 
@@ -18,7 +19,12 @@ router.route("/login-page").get(async (req, res) => {
 
 // *: Adoption center Log In
 
-router.route("/login").post(async (req, res) => {
+router.route("/login").get(requireAcenterLogin, (req, res) => {
+        res.render("ac-login", {
+            title: "Adoption Center Login",
+        });
+    })
+    .post(async (req, res) => {
     if (req.session.acenterId) {
         return res.redirect("/acenters/ac-dashboard");
     }
@@ -62,7 +68,12 @@ router.get("/signup-page", (req, res) => {
 
 // *: Sign up (Create) adoption center (POST /acenters)
 
-router.route("/signup").post(async (req, res) => {
+router.route("/signup").get(requireAcenterLogin, (req, res) => {
+        res.render("ac-login", {
+            title: "Adoption Center Login",
+        });
+    })
+    .post(async (req, res) => {
     // Decompose request body
     let email = xss(req.body.email);
     let name = xss(req.body.name);
@@ -126,6 +137,7 @@ router.route("/signup").post(async (req, res) => {
             phone,
             address
         );
+        req.session.acenter = acenter;
         return res.redirect(`/acenters/ac-dashboard/${acenter._id}`);
     } catch (e) {
         return res.render("ac-signup", {
@@ -143,37 +155,37 @@ router.route("/signup").post(async (req, res) => {
 
 // ?: GET /acenters - Get all adoption centers
 
-router.route("/").get(async (req, res) => {
-    try {
-        const acenters = await acenterData.getAllAdoptionCenters();
-        return res.status(200).json(acenters);
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
+// router.route("/").get(async (req, res) => {
+//     try {
+//         const acenters = await acenterData.getAllAdoptionCenters();
+//         return res.status(200).json(acenters);
+//     } catch (e) {
+//         return res.status(500).json({ error: e });
+//     }
+// });
 
 // ?: GET /acenters/:id - Get adoption center by id
 
-router.route("/:id").get(async (req, res) => {
-    // Validate the id
-    let id = req.params.id;
-    try {
-        id = validation.checkId(id, "ID", "GET /acenters/:id");
-    } catch (e) {
-        return res.status(400).json({ error: e });
-    }
+// router.route("/:id").get(async (req, res) => {
+//     // Validate the id
+//     let id = req.params.id;
+//     try {
+//         id = validation.checkId(id, "ID", "GET /acenters/:id");
+//     } catch (e) {
+//         return res.status(400).json({ error: e });
+//     }
 
-    try {
-        const acenter = await acenterData.getAdoptionCenter(req.params.id);
+//     try {
+//         const acenter = await acenterData.getAdoptionCenter(req.params.id);
 
-        return res.status(200).render("acenter-info", {
-            acenter: acenter,
-            key: process.env.GOOGLE_MAP_API_KEY,
-        });
-    } catch (e) {
-        return res.status(500).json({ error: e });
-    }
-});
+//         return res.status(200).render("acenter-info", {
+//             acenter: acenter,
+//             key: process.env.GOOGLE_MAP_API_KEY,
+//         });
+//     } catch (e) {
+//         return res.status(500).json({ error: e });
+//     }
+// });
 
 // *: PUT /acenters/:id - Update adoption center
 
