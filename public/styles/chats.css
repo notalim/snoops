@@ -177,7 +177,7 @@
 .receiverMessageTime{
     display: inline-block;
     font-size: x-small;
-    color: #555555;
+    color: var(--label-color);
     margin-left: 3px;
     max-width: 70px;
     position: relative;
